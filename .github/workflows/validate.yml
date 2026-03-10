@@ -1,0 +1,160 @@
+name: validate
+
+on:
+  push:
+    branches:
+      - main
+      - feat/**
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_full:
+        description: "Run full validation lane for the real hosts"
+        required: false
+        type: boolean
+        default: false
+  schedule:
+    # Weekday full-lane confidence run on main (UTC).
+    - cron: "0 12 * * 1-5"
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs_only: ${{ steps.compute.outputs.docs_only || steps.default.outputs.docs_only }}
+    steps:
+      - name: Default Docs-Only Output
+        id: default
+        run: echo "docs_only=false" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect Changed Paths
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+            non_docs:
+              - '**'
+              - '!docs/**'
+
+      - name: Compute Docs-Only
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        id: compute
+        run: |
+          if [ "${{ steps.filter.outputs.docs }}" = "true" ] && [ "${{ steps.filter.outputs.non_docs }}" = "false" ]; then
+            echo "docs_only=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  docs-drift-only:
+    if: (github.event_name == 'push' || github.event_name == 'pull_request') && needs.changes.outputs.docs_only == 'true'
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Docs Drift
+        run: |
+          ./scripts/check-docs-drift.sh
+
+  lint-structure:
+    if: needs.changes.outputs.docs_only != 'true'
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: Install CI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Structure Gates
+        run: |
+          ./scripts/check-changed-files-quality.sh
+          ./scripts/run-validation-gates.sh structure
+
+  predator-eval-build:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run_full == 'true')
+    runs-on: ubuntu-latest
+    needs: lint-structure
+    timeout-minutes: 90
+    concurrency:
+      group: validate-full-predator-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: Install CI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Predator Validation Gates
+        run: |
+          ./scripts/run-validation-gates.sh predator
+
+  aurelius-eval:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run_full == 'true')
+    runs-on: ubuntu-latest
+    needs: lint-structure
+    timeout-minutes: 60
+    concurrency:
+      group: validate-full-aurelius-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: Install CI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Aurelius Validation Gates
+        run: |
+          ./scripts/run-validation-gates.sh aurelius

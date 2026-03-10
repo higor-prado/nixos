@@ -1,0 +1,6 @@
+# Private host networking values (LAN DNS, internal domains, local routes).
+{ ... }:
+{
+  # Example:
+  # services.resolved.settings.Resolve.DNS = [ "X.X.X.X" ];
+}

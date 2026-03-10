@@ -1,0 +1,4 @@
+^(\./)?scripts/check-repo-public-safety\.sh:
+^(\./)?scripts/public-safety-allowlist\.txt:
+^(\./)?modules/users/higorprado\.nix:
+^(\./)?docs/for-agents/002-den-architecture\.md:

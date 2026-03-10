@@ -1,0 +1,6 @@
+# Private theme/wallpaper/avatar paths.
+{ ... }:
+{
+  # Example:
+  # home.sessionVariables.WALLPAPER_DIR = "$HOME/Pictures/Wallpapers";
+}

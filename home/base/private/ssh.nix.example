@@ -1,0 +1,10 @@
+# Private SSH hosts, identity paths, LAN endpoints.
+{ ... }:
+{
+  # Example:
+  # programs.ssh.matchBlocks.myhost = {
+  #   hostname = "HOST_OR_IP";
+  #   user = "me";
+  #   identityFile = "~/.ssh/id_ed25519";
+  # };
+}

@@ -1,0 +1,6 @@
+# Private host service overrides (tokens/URLs/host-local endpoints).
+{ ... }:
+{
+  # Example:
+  # services.someService.settings.endpoint = "http://internal-host.local";
+}

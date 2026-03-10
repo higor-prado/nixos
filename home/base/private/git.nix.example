@@ -1,0 +1,8 @@
+# Private git identity (keep name/email out of tracked files).
+{ ... }:
+{
+  programs.git.settings.user = {
+    name = "Your Name";
+    email = "you@example.com";
+  };
+}

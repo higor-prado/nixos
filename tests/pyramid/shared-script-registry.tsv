@@ -1,0 +1,21 @@
+script	category	purpose
+scripts/audit-system-up-to-date.sh	shared-aux	optional local audit/report generator for repo drift and safety checks
+scripts/check-changed-files-quality.sh	shared-aux	targeted shell/script hygiene check for changed files
+scripts/check-config-contracts.sh	gate-check	config contract gate invoked by run-validation-gates.sh
+scripts/check-declarative-paths.sh	audit-leaf	audit-only leaf check for declarative path drift
+scripts/check-dendritic-host-onboarding-contracts.sh	gate-check	host onboarding contract gate invoked by run-validation-gates.sh
+scripts/check-desktop-capability-usage.sh	gate-check	structure gate invoked by run-validation-gates.sh
+scripts/check-desktop-composition-matrix.sh	gate-check	desktop composition eval gate invoked by run-validation-gates.sh
+scripts/check-docs-drift.sh	gate-check	documentation drift gate invoked by run-validation-gates.sh
+scripts/check-extension-contracts.sh	gate-check	extension contract gate invoked by run-validation-gates.sh
+scripts/check-extension-simulations.sh	gate-check	extension simulation gate invoked by run-validation-gates.sh
+scripts/check-flake-pattern.sh	gate-check	flake wiring gate invoked by run-validation-gates.sh
+scripts/check-flake-tracked.sh	audit-leaf	audit-only leaf check for tracked flake consistency
+scripts/check-nix-deprecations.sh	audit-leaf	audit-only leaf check for deprecated Nix usage
+scripts/check-option-declaration-boundary.sh	gate-check	option declaration gate invoked by run-validation-gates.sh
+scripts/check-repo-public-safety.sh	audit-leaf	audit leaf and publish-safety check for tracked repo content
+scripts/check-runtime-smoke.sh	shared-aux	predator-scoped local runtime smoke helper retained outside the canonical shared gate runner
+scripts/check-validation-source-of-truth.sh	gate-check	validation-source gate invoked by run-validation-gates.sh
+scripts/new-host-skeleton.sh	shared-aux	shared host onboarding generator validated by fixture test and extension contracts
+scripts/report-maintainability-kpis.sh	shared-aux	shared KPI/report helper for tooling-size and repo-health tracking
+scripts/run-validation-gates.sh	gate-runner	canonical shared validation entrypoint

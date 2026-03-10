@@ -1,0 +1,12 @@
+# Copy to ./private.nix (untracked) and adjust as needed.
+# Keep this file import-only to avoid a messy private override layer.
+{ ... }:
+{
+  imports = [
+    ./private/env.nix
+    ./private/git.nix
+    ./private/paths.nix
+    ./private/ssh.nix
+    ./private/theme-paths.nix
+  ];
+}

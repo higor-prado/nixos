@@ -1,0 +1,10 @@
+# Copy to ./private.nix (untracked) and adjust as needed.
+# Keep this file import-only to avoid a messy private override layer.
+{ ... }:
+{
+  imports = [
+    ./private/networking.nix
+    ./private/services.nix
+    ./private/hardware-local.nix
+  ];
+}

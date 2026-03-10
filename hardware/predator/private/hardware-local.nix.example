@@ -1,0 +1,6 @@
+# Private machine-specific hardware details that should stay untracked.
+{ ... }:
+{
+  # Example:
+  # boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/...";
+}

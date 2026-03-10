@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "failPatterns": [
+    {
+      "id": "L001",
+      "pattern": "dsearch.service: Failed with result 'exit-code'",
+      "owner": "repo-maintainers",
+      "reason": "Known hard regression signal"
+    },
+    {
+      "id": "L002",
+      "pattern": "Configuration file /etc/systemd/user/dsearch.service is marked executable",
+      "owner": "repo-maintainers",
+      "reason": "Known packaging regression signal"
+    }
+  ],
+  "warningThresholds": [
+    {
+      "id": "L101",
+      "pattern": "Realtime error: Could not get pidns",
+      "defaultMax": 400,
+      "envOverride": "RUNTIME_SMOKE_PORTAL_PIDNS_WARN_MAX",
+      "owner": "repo-maintainers",
+      "expiresOn": "2026-06-30"
+    },
+    {
+      "id": "L102",
+      "pattern": "A backend call failed: Inhibiting other than idle not supported",
+      "defaultMax": 80,
+      "envOverride": "RUNTIME_SMOKE_PORTAL_INHIBIT_WARN_MAX",
+      "owner": "repo-maintainers",
+      "expiresOn": "2026-06-30"
+    },
+    {
+      "id": "L103",
+      "pattern": "wp-state: failed to create directory /var/empty/.local/state/wireplumber",
+      "defaultMax": 20,
+      "envOverride": "RUNTIME_SMOKE_WPSTATE_WARN_MAX",
+      "owner": "repo-maintainers",
+      "expiresOn": "2026-09-30"
+    },
+    {
+      "id": "L104",
+      "pattern": "gkr-pam: unable to locate daemon control file",
+      "defaultMax": 10,
+      "envOverride": "RUNTIME_SMOKE_GKR_WARN_MAX",
+      "owner": "repo-maintainers",
+      "expiresOn": "2026-09-30"
+    },
+    {
+      "id": "L105",
+      "pattern": "error setting IPv4 forwarding to '1': Resource temporarily unavailable",
+      "defaultMax": 10,
+      "envOverride": "RUNTIME_SMOKE_NM_P2P_WARN_MAX",
+      "owner": "repo-maintainers",
+      "expiresOn": "2026-09-30"
+    }
+  ]
+}

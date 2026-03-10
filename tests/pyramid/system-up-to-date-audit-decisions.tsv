@@ -1,0 +1,7 @@
+decision_id	source_doc	rule	expected_pattern	severity_if_broken	condition
+D001	AGENTS.md	Repo scripts should stay shared/reproducible; host-specific ops belong outside tracked scripts/	No personal host identifiers or machine-local runtime probes in shared scripts	high	always
+D002	docs/for-agents/005-validation-gates.md	Mandatory validation gates must remain documented and runnable	flake metadata + eval stateVersion + build home.path + build system.toplevel	high	always
+D003	docs/for-agents/004-private-safety.md	Public safety gate must detect sensitive/path leakage	No unallowlisted local paths/private IP/personal email/tokens	high	always
+D004	AGENTS.md	Mutable copy-once files can intentionally diverge	Parity checks must distinguish mutable drift from hard failures	medium	always
+D005	AGENTS.md	Shared validation scripts should avoid single-host hardcoding unless explicitly host-scoped	Avoid fixed host/profile identifiers unless explicitly scoped to a host workflow	medium	always
+D006	scripts/audit-system-up-to-date.sh	Emacs checks excluded for this audit	Skip emacs-specific findings	low	exclude_emacs

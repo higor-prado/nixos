@@ -1,0 +1,6 @@
+# Private filesystem paths that differ across machines/users.
+{ ... }:
+{
+  # Example:
+  # xdg.userDirs.extraConfig.XDG_PROJECTS_DIR = "$HOME/Code";
+}

@@ -1,0 +1,3 @@
+# One regex per line. Lines starting with "#" are comments.
+# Known upstream warning from external flake inputs:
+xorg\.libxcb.*renamed to 'libxcb'
