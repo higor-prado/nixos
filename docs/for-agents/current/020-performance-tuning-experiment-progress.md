@@ -2,7 +2,7 @@
 
 ## Status
 
-Planned
+In progress
 
 ## Related Plan
 
@@ -38,6 +38,25 @@ Planned
   - boot/session readiness: `35%`
   - eval/build throughput: `15%`
   - runtime desktop health: gate only, not scored
+
+### Slice 1
+
+- added branch-local harness under `experiments/perf-tuning/`
+- added:
+  - `README.md`
+  - `run-baseline.sh`
+  - `run-benchmarks.sh`
+  - `.gitignore` for local benchmark output
+- kept the experiment output in `experiments/perf-tuning/results/`, outside the
+  shared repo `scripts/` surface
+- validation run:
+  - `bash -n experiments/perf-tuning/run-benchmarks.sh experiments/perf-tuning/run-baseline.sh`
+  - `./scripts/check-docs-drift.sh`
+  - `bash scripts/check-changed-files-quality.sh`
+- diff result:
+  - no system or HM closure change; experiment tooling only
+- commit:
+  - pending
 
 ## Final State
 
