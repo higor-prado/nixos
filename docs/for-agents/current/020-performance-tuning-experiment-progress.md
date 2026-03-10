@@ -143,6 +143,54 @@ In progress
   - CPU pressure
   - memory pressure
 - commit:
+  - `269e838` `chore(perf): extend targeted runtime benchmarks`
+
+### Slice 5
+
+- captured the first valid baseline with the extended runtime signal suite at:
+  - `experiments/perf-tuning/results/baseline-with-vm-valid-20260310`
+- valid baseline highlights:
+  - runtime health: `pass`
+  - CPU pressure: `35046.57` bogo ops/s
+  - VM pressure: `1256149.34` bogo ops/s
+  - boot/session still dominated by `NetworkManager-wait-online` and Docker on
+    the path to `graphical.target`, but that path likely intersects local
+    networking expectations outside the tracked surface
+- next safe hypothesis selected:
+  - test only `vm.swappiness = 1` (from `10`)
+- reason:
+  - it directly targets the memory-pressure benchmark
+  - it does not conflict with `linuwu-sense`
+  - it does not require changing thermal/power ownership
+- commit:
+  - pending
+
+### Slice 6
+
+- tested the `vm.swappiness = 1` hypothesis against the valid baseline with VM
+  pressure included
+- after benchmark:
+  - `experiments/perf-tuning/results/after-swappiness-1-20260310`
+- result summary:
+  - runtime health: still `pass`
+  - boot/session: unchanged
+  - CPU pressure:
+    - baseline: `35046.57` bogo ops/s
+    - after: `35187.85` bogo ops/s
+    - tiny improvement, not meaningful
+  - VM pressure:
+    - baseline: `1256149.34` bogo ops/s
+    - after: `1255359.97` bogo ops/s
+    - slight regression (`-0.063%`)
+  - eval/build throughput:
+    - no meaningful improvement
+- decision:
+  - reject the tuning and revert to `vm.swappiness = 10`
+- reason:
+  - the weighted model prioritizes targeted runtime signals
+  - the memory-focused probe did not improve
+  - no compensating gain elsewhere justified keeping the change
+- commit:
   - pending
 
 ## Final State
