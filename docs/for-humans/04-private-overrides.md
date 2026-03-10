@@ -10,7 +10,9 @@ Real-world settings that must never be committed:
 
 ## Location
 
-Each host and `home/base/` has a gitignored private override entry point:
+Each host and the tracked home base support gitignored private override entry
+points. The tracked example files show the expected shape without requiring the
+real private files to exist in the repo:
 
 ```
 hardware/predator/private.nix        # host-level private config

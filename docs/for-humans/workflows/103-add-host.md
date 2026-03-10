@@ -82,16 +82,14 @@ If a feature needs host-owned semantic selections, declare those directly in
 the host context. Example:
 
 ```nix
-let
-  llmAgentsPkgs = inputs.llm-agents.packages.${system} or { };
-  llmAgents = {
-    homePackages = with llmAgentsPkgs; [ claude-code codex ];
-    systemPackages = [ ];
-  };
-in {
+{
   den.hosts.x86_64-linux.<host-name> = {
     users.higorprado = { };
-    inherit inputs customPkgs llmAgents;
+    inherit inputs customPkgs;
+    llmAgents = {
+      homePackages = with inputs.llm-agents.packages.${system}; [ claude-code codex ];
+      systemPackages = [ ];
+    };
   };
 }
 ```
