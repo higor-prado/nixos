@@ -193,6 +193,48 @@ In progress
 - commit:
   - pending
 
+### Slice 7
+
+- selected the next swappiness-side experiment:
+  - `vm.swappiness = 30`
+- reason:
+  - `1` was worse than `10`, but that does not prove `10` is the best point
+  - this slice explores the other direction with a still-plausible desktop/zram
+    value
+- expected interpretation:
+  - if `30` does not improve the memory-pressure benchmark, the swappiness line
+    is probably not worth exploring further right now
+- commit:
+  - pending
+
+### Slice 8
+
+- tested the `vm.swappiness = 30` hypothesis against the same valid baseline
+- after benchmark:
+  - `experiments/perf-tuning/results/after-swappiness-30-20260310`
+- result summary:
+  - runtime health: still `pass`
+  - boot/session: unchanged
+  - CPU pressure:
+    - baseline: `35046.57` bogo ops/s
+    - after: `34951.83` bogo ops/s
+    - tiny regression
+  - VM pressure:
+    - baseline: `1256149.34` bogo ops/s
+    - after: `1253972.15` bogo ops/s
+    - tiny regression
+  - eval/build throughput:
+    - no meaningful improvement
+- decision:
+  - reject the tuning and revert to `vm.swappiness = 10`
+- reason:
+  - the measured deltas were effectively noise and did not justify a permanent
+    config change
+  - this is enough evidence to stop exploring the immediate swappiness axis for
+    now
+- commit:
+  - pending
+
 ## Final State
 
 - experiment not started yet
