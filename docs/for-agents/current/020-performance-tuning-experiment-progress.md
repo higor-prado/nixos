@@ -56,6 +56,42 @@ In progress
 - diff result:
   - no system or HM closure change; experiment tooling only
 - commit:
+  - `a133de1` `chore(perf): add benchmark harness`
+
+### Slice 2
+
+- adjusted the harness after the first run:
+  - reduced eval/build repetitions from `5` to `3` to keep iteration cost
+    practical
+  - changed the automated runtime health gate to
+    `./scripts/check-runtime-smoke.sh --allow-non-graphical`
+- reason:
+  - the branch-local runner does not inherit a graphical shell environment, so
+    the raw smoke invocation produced a false negative
+  - the current desktop topology also does not activate
+    `xdg-desktop-portal-gtk.service`, so strict backend expectations are not a
+    good automation default
+- captured corrected baseline at:
+  - `experiments/perf-tuning/results/baseline-20260310-182750`
+- baseline summary:
+  - eval drvPath: `21.023s`
+  - HM build: `12.132s`
+  - system build: `21.150s`
+  - boot/session: `22.880s` total, `7.930s` userspace to `graphical.target`
+  - runtime health gate: `pass`
+  - targeted runtime:
+    - governor: `powersave`
+    - `stress-ng` cpu bogo ops/s: `34909.14`
+    - `stress-ng` emitted an explicit note that `performance` governor may
+      improve results
+- next hypothesis selected:
+  - test `powerManagement.cpuFreqGovernor = "performance"` on `predator`
+    without changing any other tuning knob in the same slice
+- validation run:
+  - `experiments/perf-tuning/run-baseline.sh`
+- diff result:
+  - no Nix closure diff; measurement-only slice
+- commit:
   - pending
 
 ## Final State
