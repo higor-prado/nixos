@@ -57,16 +57,15 @@ assert_contains() {
 }
 
 assert_contains "Legend: [declared] in inventory"
-assert_contains "directories: 2"
-assert_contains "files:       2"
-assert_contains "total:       4"
-assert_contains "[persisted]"
+assert_contains "### Inside default candidate scan"
+assert_contains "### Outside default candidate scan"
+assert_contains "[declared ]"
 assert_contains "${tmpdir}/etc/machine-id"
+assert_contains "[persisted]"
 assert_contains "[children ]"
 assert_contains "${tmpdir}/etc/ssh"
 assert_contains "[candidate ]"
 assert_contains "${tmpdir}/var/lib/systemd"
-assert_contains "## Declared paths outside default candidate scan"
 assert_contains "${tmpdir}/etc/ssh/ssh_host_ed25519_key"
 
 log_ok "$scope" "fixture coverage for persistence report passed"

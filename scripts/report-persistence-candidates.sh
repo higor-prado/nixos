@@ -90,7 +90,7 @@ print_status_line() {
   local color_prefix="$2"
   local size="$3"
   local path="$4"
-  printf '%b[%s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
+  printf '%b[%-9s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
 }
 
 report_candidate_section() {
@@ -122,22 +122,29 @@ report_candidate_section() {
 }
 
 report_declared_inventory() {
-  local dir_count file_count total_count
-  dir_count="$(jq 'length' "${tmp_json}.dirs")"
-  file_count="$(jq 'length' "${tmp_json}.files")"
-  total_count="${#persisted_paths[@]}"
-  printf '## Declared persisted inventory\n'
-  printf 'directories: %s\n' "$dir_count"
-  printf 'files:       %s\n' "$file_count"
-  printf 'total:       %s\n' "$total_count"
-  printf '\n'
-}
-
-report_unlisted_declared() {
   local -n listed_paths_ref=$1
-  local printed=0
   local path
-  printf '## Declared paths outside default candidate scan\n'
+  local printed_inside=0
+  local printed_outside=0
+  printf '## Declared persisted inventory\n'
+  printf '### Inside default candidate scan\n'
+  for path in "${persisted_paths[@]}"; do
+    if [ -z "${listed_paths_ref[$path]:-}" ]; then
+      continue
+    fi
+    local size="0"
+    if [ -e "$path" ] && ! is_store_symlink "$path"; then
+      size="$(path_size_kib "$path")"
+    fi
+    print_status_line "declared" "$blue" "$size" "$path"
+    printed_inside=1
+  done
+  if [ "$printed_inside" -eq 0 ]; then
+    printf '(none)\n'
+  fi
+  printf '\n'
+
+  printf '### Outside default candidate scan\n'
   for path in "${persisted_paths[@]}"; do
     if [ -n "${listed_paths_ref[$path]:-}" ]; then
       continue
@@ -146,10 +153,10 @@ report_unlisted_declared() {
     if [ -e "$path" ] && ! is_store_symlink "$path"; then
       size="$(path_size_kib "$path")"
     fi
-    print_status_line "declared  " "$blue" "$size" "$path"
-    printed=1
+    print_status_line "declared" "$blue" "$size" "$path"
+    printed_outside=1
   done
-  if [ "$printed" -eq 0 ]; then
+  if [ "$printed_outside" -eq 0 ]; then
     printf '(none)\n'
   fi
   printf '\n'
@@ -166,8 +173,6 @@ record_listed_paths() {
 
 printf 'Legend: [declared] in inventory, [persisted] candidate path itself is declared, [children] child paths are declared, [candidate] not declared\n\n'
 
-report_declared_inventory
-
 etc_candidates=(
   "${etc_root}/machine-id" \
   "${etc_root}/NetworkManager/system-connections" \
@@ -175,6 +180,8 @@ etc_candidates=(
   "${etc_root}/adjtime"
 )
 record_listed_paths "${etc_candidates[@]}"
+
+report_declared_inventory listed_candidate_paths
 
 report_candidate_section "Non-store-managed /etc candidates" "${etc_candidates[@]}"
 
@@ -199,7 +206,5 @@ read -r -a root_owned_candidates <<<"${root_owned_candidate_list}"
 record_listed_paths "${root_owned_candidates[@]}"
 
 report_candidate_section "Writable root-owned candidates" "${root_owned_candidates[@]}"
-
-report_unlisted_declared listed_candidate_paths
 
 log_ok "$scope" "reported candidate root-state paths for host '${host}' using persistence root '${persistence_root}'"
