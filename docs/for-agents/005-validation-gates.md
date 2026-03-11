@@ -73,6 +73,8 @@ Current documented shared auxiliary tools:
   - shared KPI/report helper for script count, LOC, and repo-health snapshots
 - `check-changed-files-quality.sh`
   - targeted shell/script hygiene check used during script-heavy refactors
+- `report-persistence-candidates.sh`
+  - diagnostic helper that compares likely root-state candidates against the declared predator persistence inventory
 
 ## Validation layers
 

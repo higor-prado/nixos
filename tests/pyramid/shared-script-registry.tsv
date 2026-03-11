@@ -17,5 +17,6 @@ scripts/check-repo-public-safety.sh	audit-leaf	audit leaf and publish-safety che
 scripts/check-runtime-smoke.sh	shared-aux	predator-scoped local runtime smoke helper retained outside the canonical shared gate runner
 scripts/check-validation-source-of-truth.sh	gate-check	validation-source gate invoked by run-validation-gates.sh
 scripts/new-host-skeleton.sh	shared-aux	shared host onboarding generator validated by fixture test and extension contracts
+scripts/report-persistence-candidates.sh	shared-aux	diagnostic helper that compares live root-state candidates against the declared predator persistence inventory
 scripts/report-maintainability-kpis.sh	shared-aux	shared KPI/report helper for tooling-size and repo-health tracking
 scripts/run-validation-gates.sh	gate-runner	canonical shared validation entrypoint

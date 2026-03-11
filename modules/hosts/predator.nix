@@ -119,6 +119,7 @@ in
         };
         imports = [
           inputs.disko.nixosModules.disko
+          inputs.impermanence.nixosModules.impermanence
           inputs.niri.nixosModules.niri
           inputs.dms.nixosModules.dank-material-shell
           inputs.dms.nixosModules.greeter

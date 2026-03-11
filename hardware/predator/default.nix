@@ -15,6 +15,7 @@
     ./overlays.nix
     ./packages.nix
     ./performance.nix
+    ./impermanence.nix
   ]
   ++ lib.optional (builtins.pathExists ./private.nix) ./private.nix;
 

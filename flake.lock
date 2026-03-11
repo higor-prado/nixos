@@ -95,11 +95,11 @@
     },
     "den": {
       "locked": {
-        "lastModified": 1773187119,
-        "narHash": "sha256-uAm7krbbxAk9+XpDabEN7DyMUT/7wEnv8HaCB7AUbHQ=",
+        "lastModified": 1773225864,
+        "narHash": "sha256-kVI9NFRjY+8EngDyLKFzkQRgduIXxFeM/6W7kZ43pgo=",
         "owner": "vic",
         "repo": "den",
-        "rev": "ba7ab0634b2ea4c8cb75a4ce7fd36f0454fca39a",
+        "rev": "fb7b43f016cde20bd77311444e1dfee7929a6e19",
         "type": "github"
       },
       "original": {
@@ -136,11 +136,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1773172600,
-        "narHash": "sha256-+1PGuJ0FS9OEEU1TU04A1octrrbZveLp+WytscS2vYg=",
+        "lastModified": 1773198001,
+        "narHash": "sha256-wuqIc5rfKCKQGbK+qwZ+5SRfYy1v4LzjRlyeQi/pLpY=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "9417edac8df6453d7eeda4c913b34762839c538e",
+        "rev": "2ce888581f9f0a71d6bc5bfc8b6043dcb8d0d4f9",
         "type": "github"
       },
       "original": {
@@ -300,6 +300,25 @@
         "type": "github"
       }
     },
+    "impermanence": {
+      "inputs": {
+        "home-manager": [],
+        "nixpkgs": []
+      },
+      "locked": {
+        "lastModified": 1769548169,
+        "narHash": "sha256-03+JxvzmfwRu+5JafM0DLbxgHttOQZkUtDWBmeUkN8Y=",
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "rev": "7b1d382faf603b6d264f58627330f9faa5cba149",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
     "import-tree": {
       "locked": {
         "lastModified": 1772999353,
@@ -363,11 +382,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1773158563,
-        "narHash": "sha256-VPvwW74LAdRnq0aFxft8aSn3dyX7cR4/y34orO1ey0g=",
+        "lastModified": 1773201098,
+        "narHash": "sha256-yq35qMKDHyMdVlhGfR5BojbjniY2cY9XYmiILeCf1Xc=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "1b5bb4ebc886e51cc581eadd7926a47961951a1b",
+        "rev": "8578734bf5087a1ca45033c2ec8e1a2228f9b95c",
         "type": "github"
       },
       "original": {
@@ -550,11 +569,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773180950,
-        "narHash": "sha256-2wIflSIvmpvZzWbf36KJVwi9zh8usnVA/49Q7lnq/AU=",
+        "lastModified": 1773190543,
+        "narHash": "sha256-Ee2PixyAjG1lWwLADd9RUgengLwcVznzynU+/TZUQ5c=",
         "owner": "mierak",
         "repo": "rmpc",
-        "rev": "d5b277d1c2524d14a4185e60afa1357d9f8b03d2",
+        "rev": "6cf7aa0f68f02cd78f7232355fc5b57b772583bd",
         "type": "github"
       },
       "original": {
@@ -574,6 +593,7 @@
         "flake-aspects": "flake-aspects",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
+        "impermanence": "impermanence",
         "import-tree": "import-tree",
         "keyrs": "keyrs",
         "llm-agents": "llm-agents",

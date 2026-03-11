@@ -15,6 +15,12 @@
 
     import-tree.url = "github:vic/import-tree";
 
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "";
+      inputs.home-manager.follows = "";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
