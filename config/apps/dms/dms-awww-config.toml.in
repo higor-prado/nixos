@@ -1,0 +1,13 @@
+[general]
+log_level = "info"
+auto_detect_monitors = true
+debounce_ms = 100
+
+[awww]
+enabled = true
+
+[matugen]
+enabled = false
+default_scheme = "scheme-tonal-spot"
+# Derived from the tracked DMS package used by Home Manager
+shell_dir = "@DMS_SHELL_DIR@"

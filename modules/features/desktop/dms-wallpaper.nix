@@ -2,20 +2,6 @@
 {
   den.aspects.dms-wallpaper = den.lib.parametric {
     includes = [
-      (den.lib.take.exactly (
-        { host, ... }:
-        {
-          nixos =
-            { pkgs, ... }:
-            {
-              environment.systemPackages = [
-                (pkgs.writeShellScriptBin "awww" ''exec ${pkgs.swww}/bin/swww "$@"'')
-                (pkgs.writeShellScriptBin "awww-daemon" ''exec ${pkgs.swww}/bin/swww-daemon "$@"'')
-                host.customPkgs.dms-awww
-              ];
-            };
-        }
-      ))
       (
         { host, user, ... }:
         {
@@ -24,6 +10,7 @@
             let
               mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
               dmsPackage = host.inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell;
+              dmsAwwwConfigTemplate = builtins.readFile ../../../config/apps/dms/dms-awww-config.toml.in;
               awww = pkgs.writeShellScriptBin "awww" ''exec ${pkgs.swww}/bin/swww "$@"'';
               runDmsAwww = pkgs.writeShellApplication {
                 name = "run-dms-awww";
@@ -36,34 +23,24 @@
                   ${builtins.readFile ../../../config/apps/dms/run-dms-awww.sh}
                 '';
               };
-              provisionDmsAwwwConfig = ''
-                $DRY_RUN_CMD mkdir -p "$HOME/.config/dms-awww"
-                $DRY_RUN_CMD cat > "$HOME/.config/dms-awww/config.toml" << EOF2
-[general]
-log_level = "info"
-auto_detect_monitors = true
-debounce_ms = 100
-
-[awww]
-enabled = true
-
-[matugen]
-enabled = true
-default_scheme = "scheme-tonal-spot"
-# Derived from the tracked DMS package used by Home Manager
-shell_dir = "${dmsPackage}/share/quickshell/dms"
-EOF2
-                $DRY_RUN_CMD chmod 644 "$HOME/.config/dms-awww/config.toml"
-              '';
             in
             {
-              home.activation.provisionDmsAwwwConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] provisionDmsAwwwConfig;
+              home.packages = [
+                awww
+                host.customPkgs.dms-awww
+              ];
               home.activation.provisionDmsSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
                 mutableCopy.mkCopyOnce {
                   source = ../../../config/apps/dms/settings.json;
                   target = "$HOME/.config/DankMaterialShell/settings.json";
                 }
               );
+              xdg.configFile."dms-awww/config.toml".text = ''
+                ${lib.replaceStrings
+                  [ "@DMS_SHELL_DIR@" ]
+                  [ "${dmsPackage}/share/quickshell/dms" ]
+                  dmsAwwwConfigTemplate}
+              '';
               systemd.user.services = {
                 awww-daemon = {
                   Unit = {

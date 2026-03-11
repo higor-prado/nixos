@@ -24,5 +24,7 @@
   # Keep rationale in comments next to each path when needed.
   ignored = [
     "/root" # root is not used as a working environment on this host
+    "/var/lib/logrotate.status"
+    "/var/lib/tpm2-udev-trigger"
   ];
 }
