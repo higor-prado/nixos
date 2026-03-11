@@ -57,9 +57,11 @@ assert_contains() {
 }
 
 assert_contains "Legend: [declared] in inventory"
-assert_contains "[declared  ]"
-assert_contains "${tmpdir}/etc/machine-id"
+assert_contains "directories: 2"
+assert_contains "files:       2"
+assert_contains "total:       4"
 assert_contains "[persisted]"
+assert_contains "${tmpdir}/etc/machine-id"
 assert_contains "[children ]"
 assert_contains "${tmpdir}/etc/ssh"
 assert_contains "[candidate ]"

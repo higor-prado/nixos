@@ -122,20 +122,14 @@ report_candidate_section() {
 }
 
 report_declared_inventory() {
-  local printed=0
-  local path
+  local dir_count file_count total_count
+  dir_count="$(jq 'length' "${tmp_json}.dirs")"
+  file_count="$(jq 'length' "${tmp_json}.files")"
+  total_count="${#persisted_paths[@]}"
   printf '## Declared persisted inventory\n'
-  for path in "${persisted_paths[@]}"; do
-    local size="0"
-    if [ -e "$path" ] && ! is_store_symlink "$path"; then
-      size="$(path_size_kib "$path")"
-    fi
-    print_status_line "declared  " "$blue" "$size" "$path"
-    printed=1
-  done
-  if [ "$printed" -eq 0 ]; then
-    printf '(none)\n'
-  fi
+  printf 'directories: %s\n' "$dir_count"
+  printf 'files:       %s\n' "$file_count"
+  printf 'total:       %s\n' "$total_count"
   printf '\n'
 }
 
