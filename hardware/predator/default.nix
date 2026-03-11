@@ -16,7 +16,9 @@
     ./packages.nix
     ./performance.nix
     ./impermanence.nix
+    ./root-reset.nix
   ]
+  ++ lib.optional (builtins.pathExists ./private/auth.nix) ./private/auth.nix
   ++ lib.optional (builtins.pathExists ./private.nix) ./private.nix;
 
   # Host role (contract signal for validation scripts)

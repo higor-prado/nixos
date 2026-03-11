@@ -1,3 +1,4 @@
+{ ... }:
 let
   inventory = import ./_persistence-inventory.nix;
 in

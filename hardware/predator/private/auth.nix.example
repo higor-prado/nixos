@@ -1,0 +1,6 @@
+# Copy to ./auth.nix (untracked) when the host uses local password login.
+# Keep the password hash outside the repo and point NixOS at the persisted file.
+{ ... }:
+{
+  users.users.${config.username}.hashedPasswordFile = "/persist/secrets/${config.username}-password-hash";
+}

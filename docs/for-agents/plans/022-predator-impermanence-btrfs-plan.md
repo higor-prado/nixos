@@ -28,6 +28,8 @@ These rules are mandatory for whoever executes this plan.
 3. `impermanence` centralizes what persists.
    - features continue to define services and packages
    - the predator persistence module defines the persisted files/directories
+   - keep the predator persistence module declarative and close to upstream `impermanence` usage
+   - do not keep permanent bootstrap or migration hacks in activation scripts after the first rollout
 
 4. `aurelius` is out of scope.
    - nothing in this plan should leak predator-only persistence assumptions into shared features
@@ -114,6 +116,26 @@ These should be declared centrally in the predator persistence module and backed
 - `/var/lib/systemd/random-seed`
   - preserve entropy seed across boots
 
+### Password/login state
+
+Do not persist `/etc/shadow` through `impermanence`.
+
+Reason:
+- the `impermanence` upstream does not document `/etc/shadow` as a supported persisted file
+- the `predator` rollout already proved this breaks `update-users-groups.pl` during activation with:
+  - `rename: Device or resource busy`
+
+The supported design here is:
+- keep `/etc/shadow` ephemeral
+- provide the user password through standard NixOS user options
+- for this repo, the private host override must use:
+  - `users.users.${config.username}.hashedPasswordFile = "/persist/secrets/${config.username}-password-hash";`
+
+This keeps the hash:
+- outside the repo
+- persistent across root resets
+- compatible with normal NixOS user activation
+
 ### Persist only if the workflow exists
 
 - `/var/lib/containers/storage`
@@ -191,6 +213,36 @@ The intended model is:
   - `/home`
   - `/boot`
 
+### Why This Is Not The README Snippet Verbatim
+
+The upstream `impermanence` README shows Btrfs root reset with:
+
+- `boot.initrd.postResumeCommands = '' ... ''`
+
+That exact form does not work on `predator`, because this host uses:
+
+- `boot.initrd.systemd.enable = true`
+
+On this host, NixOS rejects `boot.initrd.postResumeCommands` with a build-time
+assertion and requires equivalent logic under:
+
+- `boot.initrd.systemd.services`
+
+That means the upstream Btrfs reset pattern must be adapted into an initrd
+systemd unit here.
+
+There is one more initrd-specific detail:
+
+- the first systemd-unit implementation failed at boot with
+  `mount: command not found`
+
+The correct fix is not a permanent pile of absolute paths. The correct fix is to
+use the stage-1 tool mechanism NixOS already provides:
+
+- `boot.initrd.systemd.initrdBin = [ ... ]`
+
+and keep the service script itself using normal command names.
+
 ## Risks To Handle Explicitly
 
 ### Risk 1: Boot failure if `/persist` is missing
@@ -238,6 +290,22 @@ Use this order:
 5. add Btrfs root-reset wiring
 6. test reboot
 7. test hibernate/resume later
+
+## First-Migration Rule
+
+`impermanence` does not migrate existing root state for you.
+
+For the first time a new path is added to `environment.persistence`, the correct workflow is:
+
+1. pre-seed the target under `/persist` manually
+2. for file-backed persisted paths, remove the live root copy before activation if needed
+3. activate the config
+4. reboot to confirm the persisted mount now owns that path
+
+This migration procedure is operational, not architectural:
+- it should be documented
+- it may use one-shot/manual commands
+- it should not remain as a permanent activation hack in the live module
 
 ## Phases
 

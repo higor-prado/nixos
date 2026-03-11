@@ -76,11 +76,44 @@ Planned
 
 ### Pending
 
-- Btrfs root-reset wiring is not started yet
-- reboot validation is not started yet
+- Btrfs root-reset wiring is implemented locally but not committed yet
+- reboot validation found the `root-reset` service did not actually run:
+  - `journalctl -b` showed `root-reset.service` failed with `mount: command not found`
+  - `@old-roots` was not created on the Btrfs top level
+- first-activation persistence migration also exposed a design issue:
+  - keeping bootstrap seeding in activation scripts is effective as a one-off rescue tool
+  - but it is the wrong steady-state design for this repo
+- the live module is therefore being refactored back to the clean upstream pattern:
+  - declarative `environment.persistence`
+  - Btrfs root reset
+  - manual/documented pre-seeding for newly added persisted paths
+- the reason the root-reset implementation looks more explicit than the upstream
+  README snippet is now documented:
+  - upstream uses `boot.initrd.postResumeCommands`
+  - `predator` uses `boot.initrd.systemd.enable = true`
+  - NixOS rejects `postResumeCommands` in systemd stage-1, so the reset must be
+    implemented as `boot.initrd.systemd.services.root-reset`
+  - the first unit failed at boot with `mount: command not found`
+  - the refined fix is to use `boot.initrd.systemd.initrdBin`, which is the
+    proper NixOS stage-1 pattern for bringing binaries into initrd systemd
+    services
 
 ## Final State
 
 - execution in progress
 - safe pre-root-reset slices are implemented
-- root-reset and reboot verification remain pending
+- root-reset was attempted but failed in initrd due to missing absolute binary paths
+- next slice is:
+  - fix `root-reset`
+  - remove permanent bootstrap migration logic
+  - re-test reboot
+
+### Password state finding
+
+- upstream `impermanence` does not document or special-case `/etc/shadow`
+- trying to persist `/etc/shadow` on `predator` broke activation in `update-users-groups.pl` with:
+  - `rename: Device or resource busy`
+- the steady-state fix is:
+  - keep `/etc/shadow` out of the persistence inventory
+  - source the local password via an untracked private override using `hashedPasswordFile`
+  - store the actual hash in `/persist/secrets/higorprado-password-hash`
