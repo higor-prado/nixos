@@ -90,7 +90,7 @@ print_status_line() {
   local color_prefix="$2"
   local size="$3"
   local path="$4"
-  printf '%b[%-9s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
+  printf '%b[%-10s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
 }
 
 report_candidate_section() {
