@@ -49,21 +49,20 @@ PERSISTENCE_ROOT_OWNED_CANDIDATES="$tmpdir/root $tmpdir/srv $tmpdir/opt" \
 
 assert_contains() {
   local pattern="$1"
-  if ! rg -q --fixed-strings "$pattern" "$output_file"; then
+  if ! rg -q --fixed-strings -- "$pattern" "$output_file"; then
     log_fail "$scope" "missing expected pattern: $pattern"
     sed -n '1,220p' "$output_file" >&2
     exit 1
   fi
 }
 
+assert_contains "------------------------------------------------------------"
 assert_contains "Legend:"
-assert_contains "[declared  ]        - KiB  in inventory"
 assert_contains "[persisted ]        - KiB  candidate path itself is declared"
 assert_contains "[children  ]        - KiB  child paths are declared"
 assert_contains "[candidate ]        - KiB  not declared"
 assert_contains "### Inside default candidate scan"
 assert_contains "### Outside default candidate scan"
-assert_contains "[declared  ]"
 assert_contains "${tmpdir}/etc/machine-id"
 assert_contains "[persisted ]"
 assert_contains "[children  ]"

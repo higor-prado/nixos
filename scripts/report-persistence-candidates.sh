@@ -49,8 +49,8 @@ color() {
 
 green="$(color '32')"
 yellow="$(color '33')"
-blue="$(color '34')"
-cyan="$(color '36')"
+red="$(color '31')"
+neutral="$(color '37')"
 reset="$(color '0')"
 
 is_persisted_path() {
@@ -93,6 +93,12 @@ print_status_line() {
   printf '%b[%-10s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
 }
 
+print_neutral_line() {
+  local size="$1"
+  local path="$2"
+  printf '%b%8s KiB%b  %s\n' "$neutral" "$size" "$reset" "$path"
+}
+
 report_candidate_section() {
   local title="$1"
   shift
@@ -109,9 +115,9 @@ report_candidate_section() {
     if is_persisted_path "$path"; then
       print_status_line "persisted" "$green" "$size" "$path"
     elif has_persisted_descendant "$path"; then
-      print_status_line "children " "$cyan" "$size" "$path"
+      print_status_line "children " "$yellow" "$size" "$path"
     else
-      print_status_line "candidate " "$yellow" "$size" "$path"
+      print_status_line "candidate " "$red" "$size" "$path"
     fi
     printed=1
   done
@@ -136,7 +142,7 @@ report_declared_inventory() {
     if [ -e "$path" ] && ! is_store_symlink "$path"; then
       size="$(path_size_kib "$path")"
     fi
-    print_status_line "declared" "$blue" "$size" "$path"
+    print_neutral_line "$size" "$path"
     printed_inside=1
   done
   if [ "$printed_inside" -eq 0 ]; then
@@ -153,7 +159,7 @@ report_declared_inventory() {
     if [ -e "$path" ] && ! is_store_symlink "$path"; then
       size="$(path_size_kib "$path")"
     fi
-    print_status_line "declared" "$blue" "$size" "$path"
+    print_neutral_line "$size" "$path"
     printed_outside=1
   done
   if [ "$printed_outside" -eq 0 ]; then
@@ -171,13 +177,6 @@ record_listed_paths() {
   done
 }
 
-printf 'Legend:\n'
-print_status_line "declared  " "$blue" "-" "in inventory"
-print_status_line "persisted " "$green" "-" "candidate path itself is declared"
-print_status_line "children  " "$cyan" "-" "child paths are declared"
-print_status_line "candidate " "$yellow" "-" "not declared"
-printf '\n'
-
 etc_candidates=(
   "${etc_root}/machine-id" \
   "${etc_root}/NetworkManager/system-connections" \
@@ -187,6 +186,7 @@ etc_candidates=(
 record_listed_paths "${etc_candidates[@]}"
 
 report_declared_inventory listed_candidate_paths
+printf '%s\n\n' '------------------------------------------------------------'
 
 report_candidate_section "Non-store-managed /etc candidates" "${etc_candidates[@]}"
 
@@ -211,5 +211,12 @@ read -r -a root_owned_candidates <<<"${root_owned_candidate_list}"
 record_listed_paths "${root_owned_candidates[@]}"
 
 report_candidate_section "Writable root-owned candidates" "${root_owned_candidates[@]}"
+
+printf '%s\n' '------------------------------------------------------------'
+printf 'Legend:\n'
+print_status_line "persisted " "$green" "-" "candidate path itself is declared"
+print_status_line "children  " "$yellow" "-" "child paths are declared"
+print_status_line "candidate " "$red" "-" "not declared"
+printf '\n'
 
 log_ok "$scope" "reported candidate root-state paths for host '${host}' using persistence root '${persistence_root}'"
