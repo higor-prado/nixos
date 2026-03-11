@@ -9,14 +9,18 @@ enter_repo_root "${BASH_SOURCE[0]}"
 scope="persist-candidates"
 host="${1:-predator}"
 persistence_root="${2:-/persist}"
+inventory_file="${PERSISTENCE_INVENTORY_FILE:-${REPO_ROOT}/hardware/${host}/_persistence-inventory.nix}"
+etc_root="${PERSISTENCE_ETC_ROOT:-/etc}"
+var_lib_root="${PERSISTENCE_VAR_LIB_ROOT:-/var/lib}"
+root_owned_candidate_list="${PERSISTENCE_ROOT_OWNED_CANDIDATES:-/root /srv /opt}"
 
 require_cmds "$scope" nix jq du find readlink sort
 
 tmp_json="$(mktemp_file_scoped "$scope")"
 trap 'rm -f "$tmp_json"' EXIT
 
-nix eval --json --file "${REPO_ROOT}/hardware/${host}/_persistence-inventory.nix" directories >"${tmp_json}.dirs"
-nix eval --json --file "${REPO_ROOT}/hardware/${host}/_persistence-inventory.nix" files >"${tmp_json}.files"
+nix eval --json --file "${inventory_file}" directories >"${tmp_json}.dirs"
+nix eval --json --file "${inventory_file}" files >"${tmp_json}.files"
 
 declare -A persisted=()
 declare -a persisted_paths=()
@@ -46,11 +50,25 @@ color() {
 green="$(color '32')"
 yellow="$(color '33')"
 blue="$(color '34')"
+cyan="$(color '36')"
 reset="$(color '0')"
 
 is_persisted_path() {
   local path="$1"
   [ -n "${persisted[$path]:-}" ]
+}
+
+has_persisted_descendant() {
+  local path="$1"
+  local persisted_path
+  for persisted_path in "${persisted_paths[@]}"; do
+    case "$persisted_path" in
+      "$path"/*)
+        return 0
+        ;;
+    esac
+  done
+  return 1
 }
 
 is_store_symlink() {
@@ -90,6 +108,8 @@ report_candidate_section() {
     [ "$size" -gt 0 ] || continue
     if is_persisted_path "$path"; then
       print_status_line "persisted" "$green" "$size" "$path"
+    elif has_persisted_descendant "$path"; then
+      print_status_line "children " "$cyan" "$size" "$path"
     else
       print_status_line "candidate " "$yellow" "$size" "$path"
     fi
@@ -150,36 +170,38 @@ record_listed_paths() {
   done
 }
 
-etc_candidates=(
-  /etc/machine-id \
-  /etc/NetworkManager/system-connections \
-  /etc/ssh \
-  /etc/adjtime
-)
-record_listed_paths "${etc_candidates[@]}"
+printf 'Legend: [declared] in inventory, [persisted] candidate path itself is declared, [children] child paths are declared, [candidate] not declared\n\n'
 
 report_declared_inventory
+
+etc_candidates=(
+  "${etc_root}/machine-id" \
+  "${etc_root}/NetworkManager/system-connections" \
+  "${etc_root}/ssh" \
+  "${etc_root}/adjtime"
+)
+record_listed_paths "${etc_candidates[@]}"
 
 report_candidate_section "Non-store-managed /etc candidates" "${etc_candidates[@]}"
 
 varlib_candidates=()
 while IFS= read -r path; do
   case "$path" in
-    /var/lib/AccountsService|/var/lib/NetworkManager|/var/lib/fwupd|/var/lib/upower|/var/lib/nixos)
+    "${var_lib_root}/AccountsService"|\
+    "${var_lib_root}/NetworkManager"|\
+    "${var_lib_root}/fwupd"|\
+    "${var_lib_root}/upower"|\
+    "${var_lib_root}/nixos")
       continue
       ;;
   esac
   varlib_candidates+=("$path")
-done < <(find /var/lib -mindepth 1 -maxdepth 1 -printf '%p\n' 2>/dev/null | sort)
+done < <(find "${var_lib_root}" -mindepth 1 -maxdepth 1 -printf '%p\n' 2>/dev/null | sort)
 record_listed_paths "${varlib_candidates[@]}"
 
 report_candidate_section "Top-level /var/lib candidates" "${varlib_candidates[@]}"
 
-root_owned_candidates=(
-  /root \
-  /srv \
-  /opt
-)
+read -r -a root_owned_candidates <<<"${root_owned_candidate_list}"
 record_listed_paths "${root_owned_candidates[@]}"
 
 report_candidate_section "Writable root-owned candidates" "${root_owned_candidates[@]}"
