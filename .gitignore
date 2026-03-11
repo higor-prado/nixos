@@ -39,3 +39,4 @@ home/*/private/*.nix
 !home/*/private/*.nix.example
 .nvimlog
 **/.claude/
+.codex/

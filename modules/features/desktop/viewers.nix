@@ -25,11 +25,11 @@
         ];
 
         mkMimeMap =
-          mimeTypes: desktopId:
+          mimeTypes: desktopIds:
           builtins.listToAttrs (
             map (mime: {
               name = mime;
-              value = [ desktopId ];
+              value = if builtins.isList desktopIds then desktopIds else [ desktopIds ];
             }) mimeTypes
           );
 

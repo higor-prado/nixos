@@ -5,6 +5,7 @@
       { ... }:
       {
         xdg.enable = true;
+        xdg.mimeApps.enable = true;
         xdg.userDirs = {
           enable = true;
           desktop = "$HOME/Desktop";
