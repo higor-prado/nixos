@@ -21,9 +21,12 @@ trap 'rm -f "$tmp_json"' EXIT
 
 nix eval --json --file "${inventory_file}" directories >"${tmp_json}.dirs"
 nix eval --json --file "${inventory_file}" files >"${tmp_json}.files"
+nix eval --impure --json --expr "let inv = import ${inventory_file}; in inv.ignored or []" >"${tmp_json}.ignored"
 
 declare -A persisted=()
 declare -a persisted_paths=()
+declare -A ignored=()
+declare -a ignored_paths=()
 while IFS= read -r path; do
   [ -n "$path" ] || continue
   persisted["$path"]=1
@@ -34,6 +37,12 @@ done < <(
     jq -r '.[] | if type == "string" then . else .file end' "${tmp_json}.files"
   } | sort -u
 )
+
+while IFS= read -r path; do
+  [ -n "$path" ] || continue
+  ignored["$path"]=1
+  ignored_paths+=("$path")
+done < <(jq -r '.[]' "${tmp_json}.ignored" | sort -u)
 
 use_color=0
 if [ -t 1 ] && [ "${NO_COLOR:-}" != "1" ]; then
@@ -51,6 +60,7 @@ green="$(color '32')"
 yellow="$(color '33')"
 red="$(color '31')"
 neutral="$(color '37')"
+gray="$(color '90')"
 reset="$(color '0')"
 
 is_persisted_path() {
@@ -69,6 +79,11 @@ has_persisted_descendant() {
     esac
   done
   return 1
+}
+
+is_ignored_path() {
+  local path="$1"
+  [ -n "${ignored[$path]:-}" ]
 }
 
 is_store_symlink() {
@@ -90,6 +105,10 @@ print_status_line() {
   local color_prefix="$2"
   local size="$3"
   local path="$4"
+  if [ "$color_prefix" = "$gray" ]; then
+    printf '%b[%-10s] %8s KiB  %s%b\n' "$color_prefix" "$status" "$size" "$path" "$reset"
+    return
+  fi
   printf '%b[%-10s]%b %8s KiB  %s\n' "$color_prefix" "$status" "$reset" "$size" "$path"
 }
 
@@ -112,7 +131,9 @@ report_candidate_section() {
     local size
     size="$(path_size_kib "$path")"
     [ "$size" -gt 0 ] || continue
-    if is_persisted_path "$path"; then
+    if is_ignored_path "$path"; then
+      print_status_line "ignored   " "$gray" "$size" "$path"
+    elif is_persisted_path "$path"; then
       print_status_line "persisted" "$green" "$size" "$path"
     elif has_persisted_descendant "$path"; then
       print_status_line "children " "$yellow" "$size" "$path"
@@ -217,6 +238,7 @@ printf 'Legend:\n'
 print_status_line "persisted " "$green" "-" "candidate path itself is declared"
 print_status_line "children  " "$yellow" "-" "child paths are declared"
 print_status_line "candidate " "$red" "-" "not declared"
+print_status_line "ignored   " "$gray" "-" "intentionally ignored for now"
 printf '\n'
 
 log_ok "$scope" "reported candidate root-state paths for host '${host}' using persistence root '${persistence_root}'"
