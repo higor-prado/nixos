@@ -171,7 +171,12 @@ record_listed_paths() {
   done
 }
 
-printf 'Legend: [declared] in inventory, [persisted] candidate path itself is declared, [children] child paths are declared, [candidate] not declared\n\n'
+printf 'Legend:\n'
+print_status_line "declared  " "$blue" "-" "in inventory"
+print_status_line "persisted " "$green" "-" "candidate path itself is declared"
+print_status_line "children  " "$cyan" "-" "child paths are declared"
+print_status_line "candidate " "$yellow" "-" "not declared"
+printf '\n'
 
 etc_candidates=(
   "${etc_root}/machine-id" \

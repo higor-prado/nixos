@@ -56,7 +56,11 @@ assert_contains() {
   fi
 }
 
-assert_contains "Legend: [declared] in inventory"
+assert_contains "Legend:"
+assert_contains "[declared  ]        - KiB  in inventory"
+assert_contains "[persisted ]        - KiB  candidate path itself is declared"
+assert_contains "[children  ]        - KiB  child paths are declared"
+assert_contains "[candidate ]        - KiB  not declared"
 assert_contains "### Inside default candidate scan"
 assert_contains "### Outside default candidate scan"
 assert_contains "[declared  ]"
