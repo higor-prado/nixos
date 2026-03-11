@@ -37,6 +37,10 @@ cat >"$tmpdir/inventory.nix" <<EOF
     "${tmpdir}/etc/machine-id"
     "${tmpdir}/etc/ssh/ssh_host_ed25519_key"
   ];
+
+  ignored = [
+    "${tmpdir}/root"
+  ];
 }
 EOF
 
@@ -61,6 +65,7 @@ assert_contains "Legend:"
 assert_contains "[persisted ]        - KiB  candidate path itself is declared"
 assert_contains "[children  ]        - KiB  child paths are declared"
 assert_contains "[candidate ]        - KiB  not declared"
+assert_contains "[ignored   ]        - KiB  intentionally ignored for now"
 assert_contains "### Inside default candidate scan"
 assert_contains "### Outside default candidate scan"
 assert_contains "${tmpdir}/etc/machine-id"
@@ -69,6 +74,8 @@ assert_contains "[children  ]"
 assert_contains "${tmpdir}/etc/ssh"
 assert_contains "[candidate ]"
 assert_contains "${tmpdir}/var/lib/systemd"
+assert_contains "[ignored   ]"
+assert_contains "${tmpdir}/root"
 assert_contains "${tmpdir}/etc/ssh/ssh_host_ed25519_key"
 
 log_ok "$scope" "fixture coverage for persistence report passed"
