@@ -61,17 +61,13 @@
           lua-language-server
           stylua
           nil
-          nixpkgs-fmt
-          statix
           taplo
 
-          # JS/TS/JSON/YAML/Bash language servers
+          # JS/TS/JSON/Bash language servers
           vtsls
           vscode-js-debug
           nodePackages.typescript
-          nodePackages."markdownlint-cli2"
           nodePackages.vscode-langservers-extracted
-          nodePackages.yaml-language-server
           nodePackages.bash-language-server
 
           # Rust
@@ -87,7 +83,6 @@
           # Common format/lint helpers
           marksman
           shfmt
-          shellcheck
         ];
 
         systemd.user.services.nvim-runtime-cleanup = {

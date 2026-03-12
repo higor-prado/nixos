@@ -3,6 +3,10 @@
 -- Adapters: Python (debugpy), Lua (local-lua-debugger-vscode via node), JS/TS (pwa-node).
 return {
   {
+    "jay-babu/mason-nvim-dap.nvim",
+    enabled = false,
+  },
+  {
     "tomblind/local-lua-debugger-vscode",
     ft = "lua",
     build = "npm install --no-fund --no-audit && npm run build",

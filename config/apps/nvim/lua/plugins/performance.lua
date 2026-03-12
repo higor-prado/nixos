@@ -1,12 +1,5 @@
 -- Neovim performance monitoring
 return {
-  -- Profile plugin load time
-  {
-    "dstein64/vim-startuptime",
-    cmd = "StartupTime",
-    enabled = false,  -- Disable by default, enable when needed
-  },
-
   -- Lazy.nvim profiling commands
   {
     "folke/noice.nvim",

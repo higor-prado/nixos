@@ -1,25 +1,18 @@
--- LSP configuration. All servers are Nix-managed (mason = false).
--- Mason is present but disabled for auto-install — servers come from Nix packages.
+-- LSP configuration. All servers are Nix-managed.
+-- Disable Mason integrations entirely so LazyVim extras do not reintroduce
+-- installer state that diverges from the Nix-managed toolchain.
 -- ts_ls is disabled in favour of vtsls for TypeScript/JavaScript.
 return {
   {
     "mason-org/mason.nvim",
-    opts = {
-      PATH = "append",
-      ensure_installed = {},
-    },
-    config = function(_, opts)
-      require("mason").setup(opts)
-    end,
+    enabled = false,
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    optional = true,
     enabled = false,
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    optional = true,
     enabled = false,
   },
   {
