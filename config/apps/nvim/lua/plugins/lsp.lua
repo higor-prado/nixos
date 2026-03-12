@@ -42,14 +42,6 @@ return {
       opts.setup = opts.setup or {}
       opts.servers = opts.servers or {}
 
-      for name, server_opts in pairs(opts.servers) do
-        if server_opts == true then
-          opts.servers[name] = { mason = false }
-        elseif type(server_opts) == "table" and server_opts.mason == nil then
-          server_opts.mason = false
-        end
-      end
-
       local previous_all = opts.setup["*"]
       opts.setup["*"] = function(server, server_opts)
         if type(previous_all) == "function" and previous_all(server, server_opts) then
@@ -88,7 +80,6 @@ return {
 
       -- Nix language support with nil
       opts.servers["nil"] = opts.servers["nil"] or {
-        mason = false,
         cmd = { "nil" },
         filetypes = { "nix" },
       }
