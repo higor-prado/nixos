@@ -140,13 +140,8 @@ return {
 
       -- JavaScript / TypeScript launch configurations.
       for _, ft in ipairs({ "javascript", "javascriptreact", "typescript", "typescriptreact" }) do
-        dap.configurations[ft] = dap.configurations[ft] or {}
-        -- Clear any existing configurations that might use ts-node
-        dap.configurations[ft] = {}
-        if not vim.iter(dap.configurations[ft]):any(function(cfg)
-          return cfg.name == "Node: current file"
-        end) then
-          table.insert(dap.configurations[ft], {
+        dap.configurations[ft] = {
+          {
             type = "pwa-node",
             request = "launch",
             name = "Node: current file",
@@ -157,28 +152,27 @@ return {
             console = "integratedTerminal",
             -- Use Node.js built-in TypeScript support (no ts-node needed)
             runtimeExecutable = "node",
-          })
-        end
+          },
+        }
       end
 
-      -- Final safety net: ensure at least one Lua config exists.
-      local lua_cfg = {
-        type = "lua-local",
-        request = "launch",
-        name = "Lua: current file",
-        cwd = "${workspaceFolder}",
-        program = {
-          lua = "lua",
-          file = "${file}",
-        },
-        args = {},
-      }
-      for _, ft in ipairs({ "lua", "luau" }) do
-        dap.configurations[ft] = dap.configurations[ft] or {}
-        if not vim.iter(dap.configurations[ft]):any(function(cfg)
+      -- Keep `luau` aligned with the Lua debugger only when the adapter exists.
+      if dap.adapters["lua-local"] then
+        dap.configurations.luau = dap.configurations.luau or {}
+        if not vim.iter(dap.configurations.luau):any(function(cfg)
           return cfg.name == "Lua: current file"
         end) then
-          table.insert(dap.configurations[ft], vim.deepcopy(lua_cfg))
+          table.insert(dap.configurations.luau, {
+            type = "lua-local",
+            request = "launch",
+            name = "Lua: current file",
+            cwd = "${workspaceFolder}",
+            program = {
+              lua = "lua",
+              file = "${file}",
+            },
+            args = {},
+          })
         end
       end
 
