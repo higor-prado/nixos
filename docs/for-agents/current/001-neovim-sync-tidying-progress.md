@@ -245,6 +245,32 @@ Diff result:
 Commit:
 - included in `refactor(neovim): drop treesitter spec pin`
 
+### Slice 11
+
+- removed the stale `luasnip` completion source from [config/apps/nvim/lua/plugins/autocomplete.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/autocomplete.lua)
+- kept the rest of the completion customization intact:
+  - Copilot completion source
+  - LSP, buffer, and path sources
+  - `<Tab>` / `<S-Tab>` snippet navigation through Neovim's native `vim.snippet` API
+- this was classified as dead config because the resolved plugin graph does not include `LuaSnip` or `cmp_luasnip`, so a `luasnip` cmp source entry had no corresponding provider in the live setup
+
+Validation:
+- temporary-config resolved plugin graph confirms `LuaSnip = false` and `cmp_luasnip = false`
+- temporary-config merged `nvim-cmp` source list is now:
+  - `copilot`
+  - `nvim_lsp`
+  - `buffer`
+  - `path`
+- `./scripts/run-validation-gates.sh`
+- `./scripts/check-repo-public-safety.sh`
+
+Diff result:
+- the tracked completion config no longer advertises a snippet source with no live provider plugin
+- completion source ordering and native snippet keymaps remain intact
+
+Commit:
+- included in `refactor(neovim): remove stale cmp source`
+
 ## Final State
 
 - first cleanup slice completed and validated
