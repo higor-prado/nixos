@@ -190,7 +190,34 @@ Diff result:
 - Neovim no longer emits a startup timing notification on every `VimEnter`
 
 Commit:
-- not committed
+- `a30ee87 refactor(neovim): remove startup instrumentation`
+
+### Slice 9
+
+- reconciled [config/apps/nvim/lazy-lock.json](/home/higorprado/nixos/config/apps/nvim/lazy-lock.json) with the resolved plugin graph from a temporary synced config
+- removed confirmed stale lock entries for disabled Mason plugins:
+  - `mason.nvim`
+  - `mason-lspconfig.nvim`
+  - `mason-nvim-dap.nvim`
+- added lock entries for active plugins that were previously missing from the tracked lockfile:
+  - `local-lua-debugger-vscode`
+  - `markdown-preview.nvim`
+  - `neotest-golang`
+  - `nvim-dap-go`
+  - `render-markdown.nvim`
+- intentionally kept `rustaceanvim` in the lockfile because it is conditionally enabled by the Rust toolchain being available in PATH, so the temporary baseline environment alone is not enough proof that it is stale
+
+Validation:
+- temporary-config headless Neovim resolved plugin graph still starts cleanly: `startup-ok`
+- temporary-config diff between resolved plugin keys and tracked lockfile keys becomes empty after the lockfile update
+- `nix build --no-link --print-out-paths path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+
+Diff result:
+- tracked Lazy lock metadata now matches the live repo-managed plugin graph, excluding intentionally conditional Rust support
+
+Commit:
+- included in `refactor(neovim): reconcile lazy lockfile`
 
 ## Final State
 
