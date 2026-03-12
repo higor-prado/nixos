@@ -128,10 +128,36 @@ Diff result:
 Commit:
 - included in `refactor(neovim): tidy synced config`
 
+### Slice 6
+
+- simplified [config/apps/nvim/lua/plugins/lsp.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/lsp.lua) by removing the now-redundant loop that injected `mason = false` into every server config
+- removed the redundant `mason = false` field from the explicit `nil` server entry
+- kept the parts that still materially affect runtime behavior:
+  - binary-aware `opts.setup["*"]`
+  - Python interpreter selection
+  - `ts_ls` disable
+  - `vtsls` enable and filetypes
+  - explicit `nil` server wiring
+
+Validation:
+- temporary-config merged LSP probe still shows:
+  - `nil` server with explicit `cmd` and `filetypes`
+  - `ts_ls.enabled = false`
+  - `vtsls.enabled = true`
+  - expected `opts.setup` keys remain active
+- `nix build --no-link --print-out-paths path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+
+Diff result:
+- one Mason-era mutation layer removed from the tracked LSP config without changing the merged active server shape
+
+Commit:
+- not committed
+
 ## Final State
 
 - first cleanup slice completed and validated
 - swap files remain enabled by user preference; the tracked config does not override `swapfile`
 - remaining audit work:
-  - deeper plugin override cleanup in [config/apps/nvim/lua/plugins](/home/higorprado/nixos/config/apps/nvim/lua/plugins), especially high-risk DAP/LSP defensive code
+  - deeper plugin override cleanup in [config/apps/nvim/lua/plugins](/home/higorprado/nixos/config/apps/nvim/lua/plugins), especially the remaining DAP defensive code
   - review of whether [config/apps/nvim/lazyvim.json](/home/higorprado/nixos/config/apps/nvim/lazyvim.json) still includes extras whose value no longer justifies the inherited complexity
