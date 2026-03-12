@@ -219,6 +219,32 @@ Diff result:
 Commit:
 - included in `refactor(neovim): reconcile lazy lockfile`
 
+### Slice 10
+
+- removed the undocumented inline `commit` pin from [config/apps/nvim/lua/plugins/treesitter.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/treesitter.lua)
+- kept the actual runtime Treesitter behavior overrides intact:
+  - extra parsers for `bash`, `regex`, and `rust`
+  - `jsonc` filtered out from `ensure_installed`
+  - `auto_install = false`
+  - `jsonc` kept in `ignore_install`
+- this restores a single source of truth for plugin versions by letting [lazy-lock.json](/home/higorprado/nixos/config/apps/nvim/lazy-lock.json) own the Treesitter revision instead of an extra inline pin
+
+Validation:
+- temporary-config headless Neovim probe shows the resolved `nvim-treesitter` spec no longer carries an inline `commit`
+- temporary-config headless Neovim probe still reports the expected Treesitter overrides:
+  - `ensure_installed = { "bash", "regex", "rust" }`
+  - `auto_install = false`
+  - `ignore_install = { "jsonc" }`
+- `./scripts/run-validation-gates.sh`
+- `./scripts/check-repo-public-safety.sh`
+
+Diff result:
+- the tracked config no longer duplicates Treesitter version selection outside [lazy-lock.json](/home/higorprado/nixos/config/apps/nvim/lazy-lock.json)
+- runtime Treesitter parser/install behavior is unchanged
+
+Commit:
+- included in `refactor(neovim): drop treesitter spec pin`
+
 ## Final State
 
 - first cleanup slice completed and validated
