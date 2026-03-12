@@ -301,6 +301,30 @@ Diff result:
 Commit:
 - included in `refactor(neovim): drop redundant ts lsp override`
 
+### Slice 13
+
+- removed the local [rcarriga/nvim-dap-ui](/home/higorprado/nixos/config/apps/nvim/lua/plugins/dap.lua) override block from [config/apps/nvim/lua/plugins/dap.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/dap.lua)
+- kept the local DAP customizations that still materially differ from upstream:
+  - Mason disable
+  - `local-lua-debugger-vscode`
+  - Nix-managed adapter command selection
+  - Python, Lua, and JS/TS adapter/configuration wiring
+- this was classified as redundant config because the imported LazyVim `dap.core` extra already configures the DAP UI open/close listeners upstream
+
+Validation:
+- temporary-config runtime probe after loading `nvim-dap` and `nvim-dap-ui` shows:
+  - upstream `dapui_config` listeners still exist for `event_initialized`, `event_terminated`, and `event_exited`
+  - local Lua, Python, and JavaScript adapter/configuration wiring still resolves
+- `./scripts/run-validation-gates.sh`
+- `./scripts/check-repo-public-safety.sh`
+
+Diff result:
+- the tracked DAP config no longer duplicates DAP UI listener registration already provided by the imported extra
+- local Nix-managed adapter wiring remains intact
+
+Commit:
+- included in `refactor(neovim): drop redundant dap ui hook`
+
 ## Final State
 
 - first cleanup slice completed and validated

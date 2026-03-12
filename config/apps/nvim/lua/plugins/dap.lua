@@ -12,27 +12,6 @@ return {
     build = "npm install --no-fund --no-audit && npm run build",
   },
   {
-    "rcarriga/nvim-dap-ui",
-    optional = true,
-    opts = function(_, opts)
-      opts = opts or {}
-      local dap = require("dap")
-      local dapui = require("dapui")
-
-      dap.listeners.after.event_initialized["dapui_auto_open"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui_auto_open"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_auto_open"] = function()
-        dapui.close()
-      end
-
-      return opts
-    end,
-  },
-  {
     "mfussenegger/nvim-dap",
     optional = true,
     opts = function(_, opts)
