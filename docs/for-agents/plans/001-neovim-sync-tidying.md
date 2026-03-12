@@ -1,5 +1,9 @@
 # Neovim Sync Tidying
 
+## Status
+
+Paused pending behavior decisions
+
 ## Goal
 
 Tidy the tracked Neovim sync setup so the repo keeps only configuration and Nix wiring that is still actively used, while preserving the current `config/apps/nvim -> ~/.config/nvim` sync model and avoiding behavior regressions in the existing editor workflow.
@@ -24,10 +28,10 @@ Out of scope:
 - [modules/features/dev/editor-neovim.nix](/home/higorprado/nixos/modules/features/dev/editor-neovim.nix) enables `programs.neovim` and syncs [config/apps/nvim](/home/higorprado/nixos/config/apps/nvim) into `$HOME/.config/nvim` via `home.activation.syncNvimConfig`.
 - The sync hook uses `rsync -a --delete`, so tracked files present under [config/apps/nvim](/home/higorprado/nixos/config/apps/nvim) are authoritative for the runtime tree.
 - The synced tree is a LazyVim-style layout with [config/apps/nvim/init.lua](/home/higorprado/nixos/config/apps/nvim/init.lua), [config/apps/nvim/lua/config/lazy.lua](/home/higorprado/nixos/config/apps/nvim/lua/config/lazy.lua), and plugin overrides under [config/apps/nvim/lua/plugins](/home/higorprado/nixos/config/apps/nvim/lua/plugins).
-- At least two files look like template scaffolding: [config/apps/nvim/lua/config/autocmds.lua](/home/higorprado/nixos/config/apps/nvim/lua/config/autocmds.lua) and [config/apps/nvim/lua/config/keymaps.lua](/home/higorprado/nixos/config/apps/nvim/lua/config/keymaps.lua).
-- [config/apps/nvim/README.md](/home/higorprado/nixos/config/apps/nvim/README.md) and [config/apps/nvim/LICENSE](/home/higorprado/nixos/config/apps/nvim/LICENSE) appear to be starter-template carryover, but they need explicit classification before removal.
-- The Nix feature also owns a Neovim runtime cleanup service/timer and a sizeable `home.packages` tool list; both may contain historical leftovers.
+- Confirmed dead/template remnants, stale lockfile entries, duplicated Treesitter pinning, and several redundant Lua overrides have already been removed in validated slices.
+- The Nix feature still owns a Neovim runtime cleanup service/timer and a curated `home.packages` tool list; the clearly dead package leftovers were already pruned.
 - The worktree is already dirty outside this task, including [config/apps/nvim/lua/plugins/core.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/core.lua) and [flake.lock](/home/higorprado/nixos/flake.lock), so cleanup must avoid reverting unrelated user changes.
+- Remaining candidates are no longer obvious dead code; they are behavior choices around completion, LSP, DAP, language extras, and profiling ergonomics.
 
 ## Desired End State
 
@@ -36,6 +40,7 @@ Out of scope:
 - Obvious template remnants and disabled or duplicate config are removed.
 - The sync behavior still produces a working `~/.config/nvim` tree and does not regress the current editor workflow.
 - Validation artifacts show only intentional changes.
+- Any remaining tracked Neovim code is either kept by explicit behavior choice or removed in a follow-up plan.
 
 ## Phases
 
@@ -169,3 +174,4 @@ Commit target:
 - [modules/features/dev/editor-neovim.nix](/home/higorprado/nixos/modules/features/dev/editor-neovim.nix) and [config/apps/nvim](/home/higorprado/nixos/config/apps/nvim) no longer carry confirmed dead code from earlier setup experiments
 - required Nix validation and repo safety checks pass after the cleanup
 - the active progress log records the slices, validations, and any remaining follow-up work
+- if behavior-driven follow-up remains, the plan status makes that explicit instead of implying more dead-code cleanup is still underway

@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress
+Paused pending behavior decisions
 
 ## Related Plan
 
@@ -327,8 +327,23 @@ Commit:
 
 ## Final State
 
-- first cleanup slice completed and validated
+- validated cleanup slices through Slice 13 are committed
+- the Neovim sync tree and Nix wiring no longer carry the confirmed dead code found during this audit
 - swap files remain enabled by user preference; the tracked config does not override `swapfile`
-- remaining audit work:
-  - review of remaining Neovim bring-up customizations for actual current value versus inherited LazyVim behavior
-  - review of whether [config/apps/nvim/lazyvim.json](/home/higorprado/nixos/config/apps/nvim/lazyvim.json) still includes extras whose value no longer justifies the inherited complexity
+- committed cleanup slices completed during this plan:
+  - `121c759 refactor(neovim): tidy synced config`
+  - `0bd32fa refactor(neovim): simplify lsp overrides`
+  - `092109e refactor(neovim): simplify lsp and dap overrides`
+  - `a30ee87 refactor(neovim): remove startup instrumentation`
+  - `801ae98 refactor(neovim): reconcile lazy lockfile`
+  - `703aa20 refactor(neovim): drop treesitter spec pin`
+  - `0731626 refactor(neovim): remove stale cmp source`
+  - `bcca659 refactor(neovim): drop redundant ts lsp override`
+  - `f441b5f refactor(neovim): drop redundant dap ui hook`
+- remaining follow-up is behavior review, not confirmed dead-code removal:
+  - [config/apps/nvim/lua/plugins/autocomplete.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/autocomplete.lua)
+  - [config/apps/nvim/lua/plugins/lsp.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/lsp.lua)
+  - [config/apps/nvim/lua/plugins/dap.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/dap.lua)
+  - [config/apps/nvim/lua/plugins/rust.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/rust.lua)
+  - [config/apps/nvim/lua/plugins/performance.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/performance.lua)
+  - [config/apps/nvim/lazyvim.json](/home/higorprado/nixos/config/apps/nvim/lazyvim.json)
