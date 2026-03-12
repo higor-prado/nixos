@@ -271,6 +271,36 @@ Diff result:
 Commit:
 - included in `refactor(neovim): remove stale cmp source`
 
+### Slice 12
+
+- removed the redundant local TypeScript server override block from [config/apps/nvim/lua/plugins/lsp.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/lsp.lua)
+- kept the local LSP customizations that still materially differ from upstream:
+  - binary-aware `opts.setup["*"]`
+  - project Python interpreter injection for `pyright` / `basedpyright`
+  - explicit `nil` server wiring
+- this was classified as dead/redundant config because the imported LazyVim TypeScript extra already disables `ts_ls` and configures `vtsls`, and its filetype list is more complete than the local override
+
+Validation:
+- temporary-config runtime probe inside a fake TypeScript project shows:
+  - `vtsls` still resolves through the imported LazyVim TypeScript extra
+  - `vtsls.filetypes` now includes the fuller upstream list:
+    - `javascript`
+    - `javascriptreact`
+    - `javascript.jsx`
+    - `typescript`
+    - `typescriptreact`
+    - `typescript.tsx`
+  - local `nil` server wiring remains available
+- `./scripts/run-validation-gates.sh`
+- `./scripts/check-repo-public-safety.sh`
+
+Diff result:
+- the tracked LSP config no longer restates TypeScript defaults already provided by the imported extra
+- the resulting TypeScript filetype coverage is more complete than before
+
+Commit:
+- included in `refactor(neovim): drop redundant ts lsp override`
+
 ## Final State
 
 - first cleanup slice completed and validated

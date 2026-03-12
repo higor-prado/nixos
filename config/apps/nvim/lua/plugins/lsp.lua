@@ -66,18 +66,6 @@ return {
         end
       end
 
-      -- Prefer vtsls and keep filetypes aligned with Neovim defaults.
-      opts.servers.ts_ls = opts.servers.ts_ls or {}
-      opts.servers.ts_ls.enabled = false
-      opts.servers.vtsls = opts.servers.vtsls or {}
-      opts.servers.vtsls.enabled = true
-      opts.servers.vtsls.filetypes = {
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-      }
-
       -- Nix language support with nil
       opts.servers["nil"] = opts.servers["nil"] or {
         cmd = { "nil" },
