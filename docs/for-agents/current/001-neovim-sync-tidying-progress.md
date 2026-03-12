@@ -152,12 +152,34 @@ Diff result:
 - one Mason-era mutation layer removed from the tracked LSP config without changing the merged active server shape
 
 Commit:
-- not committed
+- included in `refactor(neovim): simplify lsp and dap overrides`
+
+### Slice 7
+
+- simplified [config/apps/nvim/lua/plugins/dap.lua](/home/higorprado/nixos/config/apps/nvim/lua/plugins/dap.lua) without changing the resulting active DAP configurations:
+  - replaced the JS/TS reset-and-reinsert loop with a direct singleton assignment for each filetype
+  - narrowed the Lua fallback so it only provisions the `luau` config when the `lua-local` adapter actually exists
+- kept the runtime behavior unchanged for the active temp-config DAP tables
+
+Validation:
+- temporary-config headless Neovim probe after `lazy.load({ plugins = { "nvim-dap" } })` still shows the same active configurations for:
+  - `lua`
+  - `luau`
+  - `javascript`
+  - `typescript`
+- `nix build --no-link --print-out-paths path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+
+Diff result:
+- DAP config is simpler while preserving the merged active adapter/configuration shape
+
+Commit:
+- included in `refactor(neovim): simplify lsp and dap overrides`
 
 ## Final State
 
 - first cleanup slice completed and validated
 - swap files remain enabled by user preference; the tracked config does not override `swapfile`
 - remaining audit work:
-  - deeper plugin override cleanup in [config/apps/nvim/lua/plugins](/home/higorprado/nixos/config/apps/nvim/lua/plugins), especially the remaining DAP defensive code
+  - review of remaining Neovim bring-up customizations for actual current value versus inherited LazyVim behavior
   - review of whether [config/apps/nvim/lazyvim.json](/home/higorprado/nixos/config/apps/nvim/lazyvim.json) still includes extras whose value no longer justifies the inherited complexity
