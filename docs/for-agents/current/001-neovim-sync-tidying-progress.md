@@ -176,6 +176,22 @@ Diff result:
 Commit:
 - included in `refactor(neovim): simplify lsp and dap overrides`
 
+### Slice 8
+
+- removed the startup-time notification from [config/apps/nvim/init.lua](/home/higorprado/nixos/config/apps/nvim/init.lua)
+- classified it as leftover bring-up/performance instrumentation rather than core editor behavior
+
+Validation:
+- temporary-config headless Neovim startup: `startup-ok`
+- `nix build --no-link --print-out-paths path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+
+Diff result:
+- Neovim no longer emits a startup timing notification on every `VimEnter`
+
+Commit:
+- not committed
+
 ## Final State
 
 - first cleanup slice completed and validated
