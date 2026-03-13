@@ -92,9 +92,18 @@ In the live repo, `den._.define-user` now owns `name`, `home`,
 `home.username`, and `home.homeDirectory`; the user aspect keeps only the
 repo-specific primary group wiring plus HM state/imports.
 
-Den's HM integration is provided by two upstream den modules (under `~/git/den/modules/aspects/provides/home-manager/`):
-- **hm-os** — auto-imports the HM NixOS module when a host has users with `homeManager` class
-- **hm-integration** — forwards aspect `.homeManager` classes to `home-manager.users.<userName>`
+Den's HM integration is currently provided by den's upstream Home Manager
+integration module,
+which does two things when a host has users with `classes = [ "homeManager" ]`:
+- extends `den.schema.host` with the `home-manager.enable` and `home-manager.module` options
+- activates `den.ctx.hm-host` / `den.ctx.hm-user` so each aspect's `.homeManager`
+  class is forwarded into `home-manager.users.<userName>`
+
+After the March 13, 2026 `den` change (`4bdcb63`), host-to-user OS reentry is
+no longer implicit. If a host aspect needs to run again with `{ host, user }`
+at the OS layer, that is now an explicit opt-in via `den._.bidirectional`.
+Tracked repo features should prefer the narrowest correct context instead of
+depending on bidirectional reentry by default.
 
 ## Host composition
 
@@ -196,7 +205,7 @@ For host-aware Home Manager config, use the same den parametric pattern:
 ```nix
 den.aspects.my-feature = den.lib.parametric {
   includes = [
-    ({ host, user, ... }: {
+    ({ host, ... }: {
       homeManager = { ... }: {
         home.packages = host.llmAgents.homePackages;
       };
@@ -238,6 +247,10 @@ den.aspects.my-feature = den.lib.parametric {
   ];
 }
 ```
+
+Only use `{ host, user, ... }` when the fragment is genuinely user-specific.
+If the HM config is generic across all HM users on the host and does not need
+host data, prefer owned `homeManager = { ... }: { ... };` on the aspect.
 
 ## Module auto-discovery boundary
 

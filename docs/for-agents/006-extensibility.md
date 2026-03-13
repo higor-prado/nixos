@@ -31,7 +31,7 @@
 {
   den.aspects.my-feature = den.lib.parametric {
     includes = [
-      ({ host, user, ... }: {
+      ({ host, ... }: {
         nixos = { ... }: {
           # NixOS config
         };
@@ -43,6 +43,9 @@
   };
 }
 ```
+
+Use `{ host, user, ... }` only when the logic is actually user-specific. If the
+HM fragment does not need `user`, do not widen the context shape.
 
 When a feature needs host-specific package choice, prefer semantic host data
 like `host.llmAgents.homePackages` or `host.desktopPackages.niri` over probing

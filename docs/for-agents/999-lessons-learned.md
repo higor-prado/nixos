@@ -35,3 +35,4 @@
 31. Speculative parameterization options should exist only when multiple real values are supported. A single-value enum option is architectural noise.
 32. Do not build a repo-local `config.host.*` or HM `_module.args.host` bridge. Use den parametric includes and capture `{ host, ... }` directly where host-aware logic is needed.
 33. For system-owned user services that only need per-user overrides, prefer Home Manager drop-ins via `xdg.configFile."systemd/user/<unit>.service.d/override.conf"` instead of redefining partial `systemd.user.services.<name>` units in HM.
+34. After den's March 13, 2026 bidirectional change, do not assume host aspects implicitly re-run with `{ host, user }` at the OS layer. Use `den._.bidirectional` only when that reentry is explicitly wanted, and otherwise keep HM/NixOS fragments on the narrowest correct context shape.

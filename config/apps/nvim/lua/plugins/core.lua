@@ -1,11 +1,11 @@
 return {
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin-mocha",
+    {
+        "LazyVim/LazyVim",
+        opts = {
+            colorscheme = "catppuccin-mocha",
+        },
     },
-  },
-  {
-    { "RRethy/base16-nvim", enabled = false },
-  },
+    {
+        { "RRethy/base16-nvim", enabled = false },
+    },
 }
