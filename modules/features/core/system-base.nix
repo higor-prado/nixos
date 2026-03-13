@@ -1,16 +1,6 @@
 { den, ... }:
 {
   den.aspects.system-base = den.lib.parametric {
-    includes = [
-      ({ user, ... }: {
-        nixos.users.users.${user.userName}.extraGroups = [
-          "video"
-          "audio"
-          "input"
-        ];
-      })
-    ];
-
     nixos =
       { ... }:
       {

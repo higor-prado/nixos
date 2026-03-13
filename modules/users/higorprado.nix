@@ -8,7 +8,22 @@
       den._.define-user
       den._.primary-user
       (den._.user-shell "fish")  # programs.fish.enable + shell at OS and HM level
+      den._.mutual-provider
     ];
+
+    provides.predator =
+      { user, ... }:
+      {
+        nixos.users.users.${user.userName}.extraGroups = [
+          "video"
+          "audio"
+          "input"
+          "docker"
+          "rfkill"
+          "uinput"
+          "linuwu_sense"
+        ];
+      };
 
     nixos =
       { ... }:

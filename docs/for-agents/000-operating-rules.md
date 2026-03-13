@@ -19,9 +19,10 @@ or other locations.
 Tracked hosts must declare their safe fallback user under
 `den.hosts.<system>.<host>.users` in the host module. `custom.user.name` is a
 derived compatibility bridge that may still be `mkForce`-overridden in private
-files. Tracked feature modules should prefer den `{ host, user }` context and
-must not treat `custom.user.name` as a general feature API. Never hardcode real
-usernames in tracked files.
+files. Tracked feature modules should prefer the narrowest correct den context
+shape: owned `homeManager` when no host/user data is needed, `{ host }` when
+only host data is needed, and `{ host, user }` only for genuinely user-specific
+logic. Never hardcode real usernames in tracked files.
 
 ## 4. Validation gates must pass
 

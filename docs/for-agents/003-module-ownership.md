@@ -28,9 +28,11 @@
 4. **`environment.systemPackages` not in `hardware/<name>/default.nix`** — use
    software profile/pack overrides instead.
 
-5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer den `{ host, user }`
-   context or user aspects. `custom.user.name` is compatibility-only, not the
-   default feature wiring path.
+5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer the narrowest
+   correct den context shape or user aspects: owned `homeManager` when no
+   host/user data is needed, `{ host }` for host-aware logic, and `{ host, user }`
+   only when the logic is genuinely user-specific. `custom.user.name` is
+   compatibility-only, not the default feature wiring path.
 
 6. **`openssh.authorizedKeys.keys` not tracked** — must be in an untracked private override file (see the tracked `*.nix.example` files for shape).
 
