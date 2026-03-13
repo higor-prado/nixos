@@ -28,19 +28,9 @@ node_modules/
 *.backup
 
 # Private local overrides (never commit real files)
-hardware/predator/private.nix
-hardware/predator/private/*.nix
-!hardware/predator/private/*.nix.example
-hardware/aurelius/private.nix
-hardware/aurelius/private/*.nix
-!hardware/aurelius/private/*.nix.example
-home/*/private.nix
-home/*/private/*.nix
-!home/*/private/*.nix.example
-private/*.nix
-private/*/*.nix
-!private/*.nix.example
-!private/*/*.nix.example
+private/**/*.nix
+!private/**/*.nix.example
+
 .nvimlog
 **/.claude/
 .codex/

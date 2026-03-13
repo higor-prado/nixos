@@ -10,19 +10,19 @@ Real-world settings that must never be committed:
 
 ## Location
 
-Each host and the tracked home base support gitignored private override entry
-points. The tracked example files show the expected shape without requiring the
-real private files to exist in the repo:
+All private overrides now live under one top-level `private/` root. The tracked
+example files show the expected shape without requiring the real private files
+to exist in the repo:
 
 ```
-hardware/predator/private.nix        # host-level private config
-private/higorprado.nix               # home-manager private config
+private/hosts/predator/default.nix   # host-level private config
+private/users/higorprado/default.nix # home-manager private config
 ```
 
 Tracked example files show the expected shape without real values:
 
-- `hardware/predator/private.nix.example`
-- `private/higorprado.nix.example`
+- `private/hosts/predator/default.nix.example`
+- `private/users/higorprado/default.nix.example`
 
 ## Priority
 
@@ -35,8 +35,8 @@ config needs one selected local operator account.
 
 ## Gitignore
 
-The `.gitignore` patterns `private/*.nix`, `private/*/*.nix`, and `hardware/*/private.nix`
-ensure private files are never accidentally committed.
+The `.gitignore` patterns for `private/users/**` and `private/hosts/**` ensure
+private files are never accidentally committed.
 
 ## Safety
 

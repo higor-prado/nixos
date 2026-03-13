@@ -1,0 +1,10 @@
+# Copy to ./default.nix (untracked) and adjust as needed.
+# Keep this file import-only to avoid a messy private override layer.
+{ ... }:
+{
+  imports = [
+    ./networking.nix
+    ./services.nix
+    ./hardware-local.nix
+  ];
+}

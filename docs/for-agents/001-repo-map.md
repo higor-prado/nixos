@@ -82,8 +82,11 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## private/
 
-- higorprado.nix (gitignored) — personal home-manager overrides
-- higorprado/ (gitignored) — modular private config (env, git, paths, ssh, theme-paths)
+- `private/users/higorprado/default.nix.example` (tracked) — shape for the gitignored Home Manager override entry point at the same path without `.example`
+- `private/users/higorprado/*.nix.example` (tracked) — shapes for modular user-private config (env, git, paths, ssh, theme-paths)
+- `private/hosts/predator/default.nix.example` (tracked) — shape for the predator host-private entry point at the same path without `.example`
+- `private/hosts/predator/auth.nix.example` (tracked) — shape for the predator host-private auth override
+- `private/hosts/aurelius/default.nix.example` (tracked) — shape for the aurelius host-private entry point at the same path without `.example`
 
 ## lib/
 

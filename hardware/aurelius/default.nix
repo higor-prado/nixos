@@ -4,7 +4,7 @@
     ./hardware-configuration.nix
     ./disko.nix
   ]
-  ++ lib.optional (builtins.pathExists ./private.nix) ./private.nix;
+  ++ lib.optional (builtins.pathExists ../../private/hosts/aurelius/default.nix) ../../private/hosts/aurelius/default.nix;
 
   # Host role (contract signal for validation scripts)
   custom.host.role = "server";

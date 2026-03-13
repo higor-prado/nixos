@@ -4,7 +4,7 @@ Hard constraints. Follow these exactly.
 
 ## 1. Never commit private data
 
-Files matching `home/*/private.nix`, `hardware/*/private.nix` are gitignored.
+Files under `private/users/*/` and `private/hosts/*/` are gitignored.
 Do not read, create, or reference them in tracked files.
 Run `./scripts/check-repo-public-safety.sh` before committing.
 

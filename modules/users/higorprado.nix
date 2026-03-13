@@ -41,7 +41,8 @@
       {
         home.stateVersion = "25.11";
 
-        imports = lib.optional (builtins.pathExists ../../private/higorprado.nix) ../../private/higorprado.nix;
+        imports = lib.optional (builtins.pathExists ../../private/users/higorprado/default.nix)
+          ../../private/users/higorprado/default.nix;
       };
   };
 }

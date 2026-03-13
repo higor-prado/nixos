@@ -9,7 +9,7 @@
         programs.lazygit.enable = true;
         programs.yazi = {
           enable = true;
-          # Override shellWrapperName in private.nix if needed (default: "yy")
+          # Override shellWrapperName in your private user override if needed.
           shellWrapperName = "yy";
         };
         programs.zellij.enable = true;

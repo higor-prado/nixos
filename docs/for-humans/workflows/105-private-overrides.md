@@ -3,7 +3,7 @@
 ## Set your real username
 
 In the gitignored host private override entry point. For shape, see
-`hardware/aurelius/private.nix.example`:
+`private/hosts/aurelius/default.nix.example`:
 
 ```nix
 { lib, ... }:
@@ -28,7 +28,7 @@ users.users.your-real-username.openssh.authorizedKeys.keys = [
 ## Home-manager private config
 
 In the gitignored home private override entry point (imported if it exists).
-For shape, see `private/higorprado.nix.example`:
+For shape, see `private/users/higorprado/default.nix.example`:
 
 ```nix
 { ... }:

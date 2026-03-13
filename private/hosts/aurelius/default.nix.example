@@ -1,4 +1,4 @@
-# Copy to ./private.nix (untracked) and adjust with Aurelius-specific access policy.
+# Copy to ./default.nix (untracked) and adjust with Aurelius-specific access policy.
 { config, lib, ... }:
 let
   userName = config.custom.user.name;

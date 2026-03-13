@@ -4,7 +4,7 @@
     homeManager =
       { ... }:
       {
-        # Default TERMINAL; override in private.nix via home.sessionVariables.TERMINAL
+        # Default TERMINAL; override in your private user override if needed.
         home.sessionVariables.TERMINAL = "foot";
       };
   };

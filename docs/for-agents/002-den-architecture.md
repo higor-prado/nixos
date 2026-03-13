@@ -82,7 +82,9 @@ den.hosts.x86_64-linux.predator.users.higorprado.classes = [ "homeManager" ];
     };
     homeManager = { lib, ... }: {
       home.stateVersion = "25.11";
-      imports = lib.optional (builtins.pathExists ../../private/higorprado.nix) ../../private/higorprado.nix;
+      imports =
+        lib.optional (builtins.pathExists ../../private/users/higorprado/default.nix)
+          ../../private/users/higorprado/default.nix;
     };
   };
 }
@@ -139,10 +141,12 @@ uses and wires the host-specific hardware config:
 
 ## private/ directory
 
-`private/` holds gitignored per-user home-manager overrides:
-- `private/higorprado.nix` (gitignored) — entry point imported by `modules/users/higorprado.nix`
-- `private/higorprado/` (gitignored) — modular private config (env, git, paths, ssh, theme-paths)
-- `private/higorprado.nix.example` (tracked) — shows the expected shape
+`private/` is the unified root for gitignored private overrides:
+- `private/users/higorprado/default.nix.example` (tracked) — shape for the user-private entry point imported by `modules/users/higorprado.nix`
+- `private/users/higorprado/*.nix.example` (tracked) — shapes for modular user-private config (env, git, paths, ssh, theme-paths)
+- `private/hosts/predator/default.nix.example` and `private/hosts/aurelius/default.nix.example` (tracked) — shapes for the host-private entry points imported by the corresponding hardware owners
+- `private/hosts/predator/auth.nix.example` (tracked) — shape for the optional predator host-private auth override
+- the real gitignored files use the same paths without the `.example` suffix
 
 Generic helper functions used by tracked modules live under `lib/`, including:
 - `lib/mutable-copy.nix` — utility for mutable config provisioning, used by features

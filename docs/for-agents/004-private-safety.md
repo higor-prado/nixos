@@ -2,10 +2,10 @@
 
 ## Never read or track these files
 
-- `home/*/private.nix`
-- `home/*/private/*.nix`
-- `hardware/*/private.nix`
-- `hardware/*/private/*.nix`
+- `private/users/*/*.nix`
+- `private/users/*/*/*.nix`
+- `private/hosts/*/*.nix`
+- `private/hosts/*/*/*.nix`
 
 These are gitignored and contain real usernames, SSH keys, and personal paths.
 
@@ -24,7 +24,7 @@ Tracked host modules declare their tracked user under
 `den.hosts.<system>.<host>.users`. In this personal repo, the generator and the
 tracked real hosts use the canonical `higorprado` user aspect by default.
 `custom.user.name` is derived from that sole declared host user by default. The
-real username may still be set in `hardware/<host>/private.nix` with
+real username may still be set in `private/hosts/<host>/default.nix` with
 `lib.mkForce` when needed.
 
 Compatibility-only consumers may still reference the bridge dynamically:

@@ -18,8 +18,8 @@
     ./impermanence.nix
     ./root-reset.nix
   ]
-  ++ lib.optional (builtins.pathExists ./private/auth.nix) ./private/auth.nix
-  ++ lib.optional (builtins.pathExists ./private.nix) ./private.nix;
+  ++ lib.optional (builtins.pathExists ../../private/hosts/predator/auth.nix) ../../private/hosts/predator/auth.nix
+  ++ lib.optional (builtins.pathExists ../../private/hosts/predator/default.nix) ../../private/hosts/predator/default.nix;
 
   # Host role (contract signal for validation scripts)
   custom.host.role = "desktop";
