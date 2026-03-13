@@ -27,7 +27,7 @@
 23. `den._.define-user`, `den._.primary-user`, and `den._.user-shell "<shell>"` should own canonical user definition, primary-user groups, and shell wiring in tracked user aspects.
 24. New files under `modules/` must be `git add`-ed before `nix eval` — den's import-tree only sees git-tracked files.
 25. Do not mirror feature inclusion into dedicated `custom.<feature>.enable` booleans just for validation. Prefer checking real configuration state or declared topology directly.
-26. Generic helpers belong in root `lib/`, not in subtrees like `home/base/lib/`.
+26. Generic helpers belong in root `lib/`, not in subtrees like `private/` or former `home/base/lib/`.
 27. Root `hosts/` was retired in favor of `hardware/` for machine-specific files; `modules/hosts/` is the den composition layer.
 28. Host ownership contract: `hardware/<host>/default.nix` owns `custom.host.role`, while `modules/hosts/<host>.nix` must declare at least one tracked host user under `den.hosts.<system>.<host>.users`. `custom.user.name` is only a narrowed compatibility bridge.
 29. Desktop composition baseline duplication is intentional explicitness per den philosophy. Each composition owns its complete baseline for clarity.

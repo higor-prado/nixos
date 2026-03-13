@@ -28,7 +28,7 @@ users.users.your-real-username.openssh.authorizedKeys.keys = [
 ## Home-manager private config
 
 In the gitignored home private override entry point (imported if it exists).
-For shape, see `home/base/private.nix.example`:
+For shape, see `private/higorprado.nix.example`:
 
 ```nix
 { ... }:

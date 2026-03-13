@@ -27,7 +27,7 @@ modules. Den handles:
 | `modules/desktops/` | Desktop compositions (which features together) |
 | `modules/hosts/` | Which features each host has |
 | `hardware/<name>/` | Hardware, disks, boot — machine-specific only |
-| `home/base/` | Home-manager base settings |
+| `private/` | Private overrides (gitignored) |
 
 ## Private config, never in git
 

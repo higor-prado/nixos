@@ -59,7 +59,7 @@ legacy_host_selector_field="desktop""Profile"
 legacy_modules_root="modules/pro""files"
 legacy_desktop_selector_dir="${legacy_modules_root}/desktop"
 
-if rg -n --glob '*.nix' "$legacy_desktop_selector_pattern" hardware modules home flake.nix >/dev/null; then
+if rg -n --glob '*.nix' "$legacy_desktop_selector_pattern" hardware modules flake.nix >/dev/null; then
   report_fail "legacy desktop selector assignment must not exist after desktop feature-owned cutover"
 fi
 
@@ -79,9 +79,7 @@ if [[ -e "${legacy_modules_root}/default.nix" || -d "$legacy_desktop_selector_di
   report_fail "legacy desktop selector layer must be removed after desktop host-composition cutover"
 fi
 
-if [[ -e home/base/desktop/pack-registry.nix ]]; then
-  report_fail "home/base/desktop/pack-registry.nix must be removed after concrete desktop composition cutover"
-fi
+# Legacy stub removed — home/base/ no longer exists.
 
 mapfile -t host_dirs < <(
   find hardware -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u

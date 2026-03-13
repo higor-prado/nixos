@@ -8,7 +8,7 @@ cd "$repo_root"
 forbidden_regex='(/usr/local/bin|%h/\.local/bin|~\/\.local/bin|/home/[^"[:space:]]*/\.local/bin|%h/\.cargo/bin|~\/\.cargo/bin|/home/[^"[:space:]]*/\.cargo/bin)'
 
 matches="$(
-  rg -n --glob '*.nix' "$forbidden_regex" hardware modules home pkgs 2>/dev/null || true
+  rg -n --glob '*.nix' "$forbidden_regex" hardware modules pkgs 2>/dev/null || true
 )"
 
 if [ -n "$matches" ]; then

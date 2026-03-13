@@ -26,7 +26,7 @@
       { lib, ... }:
       let
         mutableCopy = import ../../lib/mutable-copy.nix { inherit lib; };
-        helpers = import ../../lib/_helpers.nix { inherit lib; };
+        helpers = import ../../lib/_helpers.nix;
         portalExecPath = helpers.portalExecPath;
       in
       {

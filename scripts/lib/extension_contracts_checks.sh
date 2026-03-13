@@ -22,7 +22,7 @@ extc_check_assignment_scope() {
     if ! "$checker" "$file"; then
       "$fail_fn" "${label} assignment outside contract: ${line}"
     fi
-  done < <(rg -n --glob '*.nix' "$pattern" hardware modules home flake.nix || true)
+  done < <(rg -n --glob '*.nix' "$pattern" hardware modules flake.nix || true)
 }
 
 extc_check_set_sync() {

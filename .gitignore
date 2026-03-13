@@ -37,6 +37,10 @@ hardware/aurelius/private/*.nix
 home/*/private.nix
 home/*/private/*.nix
 !home/*/private/*.nix.example
+private/*.nix
+private/*/*.nix
+!private/*.nix.example
+!private/*/*.nix.example
 .nvimlog
 **/.claude/
 .codex/

@@ -57,7 +57,7 @@ resolve_reference() {
 
   # Nix module shorthand: look in common module directories.
   if [[ "$ref" == *.nix ]]; then
-    for module_dir in modules/features modules/desktops modules/hosts modules/lib home/base; do
+    for module_dir in modules/features modules/desktops modules/hosts modules/lib modules/users; do
       if [ -e "$module_dir/$ref" ]; then
         return 0
       fi
