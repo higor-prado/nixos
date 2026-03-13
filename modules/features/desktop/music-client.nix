@@ -3,7 +3,7 @@
   den.aspects.music-client = den.lib.parametric {
     includes = [
       (
-        { host, user, ... }:
+        { host, ... }:
         {
           homeManager =
             { config, pkgs, ... }:

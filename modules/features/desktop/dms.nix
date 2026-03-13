@@ -1,23 +1,29 @@
 { den, ... }:
+let
+  dmsCommonSettings = {
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+    enableSystemMonitoring = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+    enableClipboardPaste = true;
+  };
+in
 {
   den.aspects.dms = den.lib.parametric {
+    homeManager.programs.dank-material-shell =
+      {
+        enable = true;
+      }
+      // dmsCommonSettings;
+
     includes = [
       (den.lib.take.exactly (
-        { host, user, ... }:
-        let
-          dmsCommonSettings = {
-            systemd = {
-              enable = true;
-              restartIfChanged = true;
-            };
-            enableSystemMonitoring = true;
-            enableVPN = true;
-            enableDynamicTheming = true;
-            enableAudioWavelength = true;
-            enableCalendarEvents = true;
-            enableClipboardPaste = true;
-          };
-        in
+        { host, ... }:
         {
           nixos =
             { config, lib, ... }:
@@ -38,14 +44,6 @@
                 configFiles = [ "${homeDir}/.config/DankMaterialShell/settings.json" ];
               };
             };
-
-          homeManager = {
-            programs.dank-material-shell =
-              {
-                enable = true;
-              }
-              // dmsCommonSettings;
-          };
         }
       ))
     ];
