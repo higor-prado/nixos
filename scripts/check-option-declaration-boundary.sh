@@ -24,7 +24,7 @@ is_allowed() {
   return 1
 }
 
-matches="$(rg -n --glob '*.nix' '^\s*options\.' modules home || true)"
+matches="$(rg -n --glob '*.nix' '^\s*options\.' modules || true)"
 
 if [[ -z "$matches" ]]; then
   echo "[option-boundary] ok: no option declarations found"

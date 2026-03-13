@@ -11,7 +11,7 @@ require_cmd "desktop-composition" "rg"
 legacy_selector_pattern='custom\.desktop\.'
 legacy_selector_pattern+='profile|custom\.desktop\.capabilities|desktop'
 legacy_selector_pattern+='Profile'
-matches="$(rg -n --glob '*.nix' "$legacy_selector_pattern" modules home hardware || true)"
+matches="$(rg -n --glob '*.nix' "$legacy_selector_pattern" modules hardware || true)"
 
 if [[ -n "$matches" ]]; then
   echo "[desktop-composition] fail: legacy desktop selector references found in active Nix code"

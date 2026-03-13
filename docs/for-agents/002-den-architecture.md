@@ -82,7 +82,7 @@ den.hosts.x86_64-linux.predator.users.higorprado.classes = [ "homeManager" ];
     };
     homeManager = { lib, ... }: {
       home.stateVersion = "25.11";
-      imports = lib.optional (builtins.pathExists ../../home/base/private.nix) ../../home/base/private.nix;
+      imports = lib.optional (builtins.pathExists ../../private/higorprado.nix) ../../private/higorprado.nix;
     };
   };
 }
@@ -137,16 +137,15 @@ uses and wires the host-specific hardware config:
 }
 ```
 
-## home/base/ directory
+## private/ directory
 
-`home/base/` is a utility directory retained for:
-- the tracked example `home/base/private.nix.example`, which shows the shape of the gitignored home override entry point imported by `modules/users/higorprado.nix`
-- the gitignored `home/base/private/` directory for additional user-specific overrides
+`private/` holds gitignored per-user home-manager overrides:
+- `private/higorprado.nix` (gitignored) — entry point imported by `modules/users/higorprado.nix`
+- `private/higorprado/` (gitignored) — modular private config (env, git, paths, ssh, theme-paths)
+- `private/higorprado.nix.example` (tracked) — shows the expected shape
 
 Generic helper functions used by tracked modules live under `lib/`, including:
 - `lib/mutable-copy.nix` — utility for mutable config provisioning, used by features
-
-The former `default.nix` NixOS wrapper in this directory was deleted; HM framework settings live in `modules/features/core/home-manager-settings.nix`.
 
 ## Host context propagation
 

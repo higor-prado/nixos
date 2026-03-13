@@ -16,13 +16,13 @@ real private files to exist in the repo:
 
 ```
 hardware/predator/private.nix        # host-level private config
-home/base/private.nix                # home-manager private config
+private/higorprado.nix               # home-manager private config
 ```
 
 Tracked example files show the expected shape without real values:
 
 - `hardware/predator/private.nix.example`
-- `home/base/private.nix.example`
+- `private/higorprado.nix.example`
 
 ## Priority
 
@@ -35,7 +35,7 @@ config needs one selected local operator account.
 
 ## Gitignore
 
-The `.gitignore` patterns `home/*/private.nix` and `hardware/*/private.nix`
+The `.gitignore` patterns `private/*.nix`, `private/*/*.nix`, and `hardware/*/private.nix`
 ensure private files are never accidentally committed.
 
 ## Safety

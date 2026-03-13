@@ -10,7 +10,7 @@
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings (useGlobalPkgs, extraSpecialArgs, sharedModules) |
 | `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
-| `home/base/private.nix.example` | Tracked example for the gitignored local user override entry point imported by the user aspect |
+| `private/higorprado.nix.example` | Tracked example for the gitignored local user override entry point imported by the user aspect |
 | `modules/features/core/user-context.nix` | `custom.user.name` contract |
 | `modules/features/core/host-contracts.nix` | `custom.host.role` contract |
 

@@ -26,7 +26,7 @@
       {
         home.stateVersion = "25.11";
 
-        imports = lib.optional (builtins.pathExists ../../home/base/private.nix) ../../home/base/private.nix;
+        imports = lib.optional (builtins.pathExists ../../private/higorprado.nix) ../../private/higorprado.nix;
       };
   };
 }

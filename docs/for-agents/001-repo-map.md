@@ -10,7 +10,7 @@ modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host
 modules/den.nix     den flake module import
 modules/lib/        module/den internals (currently den-host-context.nix)
-home/base/          private overrides (gitignored)
+private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix, primary-tracked-user.nix)
 pkgs/               custom packages
@@ -31,20 +31,20 @@ docs/for-agents/archive/ archived plans and log tracks
 
 **Shell / Terminal**
 - `shell/fish.nix` — fish shell + zoxide + abbreviations
-- `shell/default-terminal.nix` — TERMINAL env var
+- `shell/terminal.nix` — TERMINAL env var
 - `shell/starship.nix` — starship prompt
-- `shell/tmux.nix` — tmux with tmux-cpu plugin
-- `shell/terminal-emulators.nix` — foot, ghostty, kitty, alacritty, wezterm
+- `shell/terminal-tmux.nix` — tmux with tmux-cpu plugin
+- `shell/terminals.nix` — foot, ghostty, kitty, alacritty, wezterm
 - `shell/git-gh.nix` — git + gh CLI config
 - `shell/cli-base.nix` — essential CLI tools
 - `shell/tui-tools.nix` — bundled TUI ergonomics (lazygit, lazydocker, yazi, zellij)
-- `shell/htop-config.nix` — htop config
+- `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
 - `desktop/niri.nix` — Niri Wayland compositor
 - `desktop/dms.nix` — Dank Material Shell greeter
 - `desktop/dms-wallpaper.nix` — DMS wallpaper management
-- `desktop/xdg-user-dirs.nix`, `desktop/gui-apps.nix`, `desktop/viewers.nix`, `desktop/gnome-keyring.nix`
+- `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/theme.nix` — public theme composition
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
@@ -57,7 +57,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `dev/editor-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon
 - `dev/editor-zed.nix` — Zed editor
 - `dev/dev-tools.nix`, `dev/dev-devenv.nix`
-- `dev/toolchains.nix`, `dev/docs-tools.nix`
+- `dev/packages-toolchains.nix`, `dev/packages-docs-tools.nix`
 - `dev/llm-agents.nix` — host-owned LLM/code-agent package selections
 
 **System**
@@ -80,10 +80,10 @@ docs/for-agents/archive/ archived plans and log tracks
 - `den-host-context.nix` — schema extension for den host context (`inputs`,
   `customPkgs`, semantic `llmAgents`)
 
-## home/base/
+## private/
 
-- private.nix (gitignored) — personal home-manager overrides
-- private/ (gitignored) — modular private config
+- higorprado.nix (gitignored) — personal home-manager overrides
+- higorprado/ (gitignored) — modular private config (env, git, paths, ssh, theme-paths)
 
 ## lib/
 

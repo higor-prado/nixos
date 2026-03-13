@@ -34,8 +34,6 @@ in
       terminal
       git-gh
       core-user-packages
-      audio
-      bluetooth
       tailscale
       maintenance
       packages-system-tools

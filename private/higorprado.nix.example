@@ -1,0 +1,12 @@
+# Copy to ./higorprado.nix (untracked) and adjust as needed.
+# Keep this file import-only to avoid a messy private override layer.
+{ ... }:
+{
+  imports = [
+    ./higorprado/env.nix
+    ./higorprado/git.nix
+    ./higorprado/paths.nix
+    ./higorprado/ssh.nix
+    ./higorprado/theme-paths.nix
+  ];
+}

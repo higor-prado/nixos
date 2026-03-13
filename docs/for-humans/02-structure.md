@@ -6,7 +6,7 @@ modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host (includes + host nixos config)
 modules/den.nix     den flake module import
 modules/lib/        module/den internals (currently den-host-context.nix)
-home/base/          private overrides
+private/            private overrides
 lib/                generic helper functions reused by tracked modules
 hardware/<name>/       hardware, disko, boot, overlays (host-specific)
 pkgs/               custom packages (linuwu-sense, etc.)

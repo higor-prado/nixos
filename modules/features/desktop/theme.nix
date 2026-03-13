@@ -1,6 +1,6 @@
 { den, ... }:
 {
-  den.aspects.theme = den.lib.parametric {
+  den.aspects.theme = {
     includes = with den.aspects; [
       themeBase
       themeZen

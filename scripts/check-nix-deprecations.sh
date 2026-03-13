@@ -16,7 +16,7 @@ fail=0
 for item in "${checks[@]}"; do
   pattern="${item%%|*}"
   note="${item#*|}"
-  matches="$(rg -n --glob '*.nix' "$pattern" hardware modules home pkgs flake.nix 2>/dev/null || true)"
+  matches="$(rg -n --glob '*.nix' "$pattern" hardware modules pkgs flake.nix 2>/dev/null || true)"
   if [ -n "$matches" ]; then
     echo "[deprecations] fail: $note"
     printf '%s\n' "$matches"

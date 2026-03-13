@@ -69,7 +69,7 @@ Commit target:
 ### Phase 2: Narrow HM-Only Host Contexts
 
 Targets:
-- [modules/features/desktop/gui-apps.nix](/home/higorprado/nixos/modules/features/desktop/gui-apps.nix)
+- [modules/features/desktop/desktop-apps.nix](/home/higorprado/nixos/modules/features/desktop/desktop-apps.nix)
 - [modules/features/desktop/dms-wallpaper.nix](/home/higorprado/nixos/modules/features/desktop/dms-wallpaper.nix)
 - [modules/features/desktop/theme-zen.nix](/home/higorprado/nixos/modules/features/desktop/theme-zen.nix)
 - [modules/features/desktop/music-client.nix](/home/higorprado/nixos/modules/features/desktop/music-client.nix)

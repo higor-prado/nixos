@@ -1,5 +1,4 @@
-{ lib, ... }:
-rec {
+{
   # Standard portal exec PATH for systemd user services
   portalExecPath =
     "%h/.nix-profile/bin:"

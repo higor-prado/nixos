@@ -83,7 +83,7 @@ Findings:
     - `aurelius` has non-empty `llmAgents.systemPackages`
   - Host-wide NixOS package wiring should not be coupled to HM user fan-out.
 - Medium-priority alignment cleanups:
-  - [modules/features/desktop/gui-apps.nix](/home/higorprado/nixos/modules/features/desktop/gui-apps.nix)
+  - [modules/features/desktop/desktop-apps.nix](/home/higorprado/nixos/modules/features/desktop/desktop-apps.nix)
   - [modules/features/desktop/dms-wallpaper.nix](/home/higorprado/nixos/modules/features/desktop/dms-wallpaper.nix)
   - [modules/features/desktop/theme-zen.nix](/home/higorprado/nixos/modules/features/desktop/theme-zen.nix)
   - [modules/features/desktop/music-client.nix](/home/higorprado/nixos/modules/features/desktop/music-client.nix)
