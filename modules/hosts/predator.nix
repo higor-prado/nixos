@@ -85,9 +85,6 @@ in
       terminal-tmux
       dev-tools
       dev-devenv
-      ({ user, ... }: {
-        nixos.users.users.${user.userName}.extraGroups = [ "linuwu_sense" ];
-      })
     ];
 
     nixos =

@@ -184,32 +184,64 @@ den.hosts.x86_64-linux.predator = {
 };
 ```
 
-Feature aspects that need host context receive it through den parametric
-includes:
+Feature aspects that need host context should usually stay as plain aspect
+attrsets and receive host context through parametric `includes` entries:
 
 ```nix
-den.aspects.my-feature = den.lib.parametric {
+den.aspects.my-feature = {
   includes = [
-  ({ host, ... }: {
+    ({ host, ... }: {
       nixos = { ... }: {
         environment.systemPackages = [ host.customPkgs.foo ];
       };
     })
   ];
-}
+};
 ```
 
-For host-aware Home Manager config, use the same den parametric pattern:
+For host-aware Home Manager config, use the same shape:
 
 ```nix
-den.aspects.my-feature = den.lib.parametric {
+den.aspects.my-feature = {
   includes = [
     ({ host, ... }: {
       homeManager = { ... }: {
         home.packages = host.llmAgents.homePackages;
       };
     })
-  })
+  ];
+};
+```
+
+Only reach for explicit `den.lib.parametric` wrappers when you need to tighten
+dispatch semantics beyond the default aspect functor behavior.
+
+When the host/user relationship is explicit rather than generic, prefer den
+pair-routing through `provides` and batteries such as `den._.mutual-provider`
+over host-name conditionals inside shared logic:
+
+```nix
+den.aspects.higorprado = {
+  includes = [
+    den._.mutual-provider
+  ];
+
+  provides.predator = { user, ... }: {
+    nixos.users.users.${user.userName}.extraGroups = [ "linuwu_sense" ];
+  };
+};
+```
+
+For ordinary shared host-aware config, keep using parametric includes:
+
+```nix
+den.aspects.my-feature = {
+  includes = [
+    ({ host, ... }: {
+      homeManager = { config, lib, pkgs, ... }: {
+        # Use both host context and HM module args
+      };
+    })
   ];
 }
 ```
@@ -230,20 +262,6 @@ in
     users.higorprado.classes = [ "homeManager" ];
     inherit inputs customPkgs llmAgents;
   };
-}
-```
-
-If a Home Manager fragment also needs standard HM args (`config`, `lib`, `pkgs`), receive them inside the nested HM module function:
-
-```nix
-den.aspects.my-feature = den.lib.parametric {
-  includes = [
-    ({ host, ... }: {
-      homeManager = { config, lib, pkgs, ... }: {
-        # Use both host context and HM module args
-      };
-    })
-  ];
 }
 ```
 

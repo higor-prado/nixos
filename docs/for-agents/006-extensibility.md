@@ -13,7 +13,7 @@
 ```nix
 { den, ... }:
 {
-  den.aspects.my-feature = den.lib.parametric {
+  den.aspects.my-feature = {
     includes = [
       ({ host, ... }: {
         nixos = { ... }: {
@@ -29,7 +29,7 @@
 ```nix
 { den, ... }:
 {
-  den.aspects.my-feature = den.lib.parametric {
+  den.aspects.my-feature = {
     includes = [
       ({ host, ... }: {
         nixos = { ... }: {
@@ -46,6 +46,10 @@
 
 Use `{ host, user, ... }` only when the logic is actually user-specific. If the
 HM fragment does not need `user`, do not widen the context shape.
+
+Use explicit `provides.<target>` plus a routing battery such as
+`den._.mutual-provider` when the logic belongs to one specific host/user pair,
+instead of embedding host-name conditionals inside shared aspects.
 
 When a feature needs host-specific package choice, prefer semantic host data
 like `host.llmAgents.homePackages` or `host.desktopPackages.niri` over probing
