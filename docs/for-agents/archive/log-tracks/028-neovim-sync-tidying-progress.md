@@ -6,7 +6,7 @@ Paused pending behavior decisions
 
 ## Related Plan
 
-- [001-neovim-sync-tidying.md](/home/higorprado/nixos/docs/for-agents/plans/001-neovim-sync-tidying.md)
+- [026-neovim-sync-tidying-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/026-neovim-sync-tidying-plan.md)
 
 ## Baseline
 

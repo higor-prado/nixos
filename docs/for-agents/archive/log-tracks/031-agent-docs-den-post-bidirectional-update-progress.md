@@ -6,7 +6,7 @@ Completed
 
 ## Related Plan
 
-- [004-agent-docs-den-post-bidirectional-update.md](/home/higorprado/nixos/docs/for-agents/plans/004-agent-docs-den-post-bidirectional-update.md)
+- [029-agent-docs-den-post-bidirectional-update-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/029-agent-docs-den-post-bidirectional-update-plan.md)
 
 ## Baseline
 

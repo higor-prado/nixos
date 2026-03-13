@@ -6,8 +6,8 @@ Completed
 
 ## Related Plan
 
-- [002-dms-home-manager-option-fix.md](/home/higorprado/nixos/docs/for-agents/plans/002-dms-home-manager-option-fix.md)
-- [003-den-philosophy-alignment-refactors.md](/home/higorprado/nixos/docs/for-agents/plans/003-den-philosophy-alignment-refactors.md)
+- [027-dms-home-manager-option-fix-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/027-dms-home-manager-option-fix-plan.md)
+- [028-den-philosophy-alignment-refactors-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/028-den-philosophy-alignment-refactors-plan.md)
 
 ## Baseline
 
@@ -101,4 +101,4 @@ Findings:
 
 - The repo now has a validated DMS fix that matches den's current philosophy.
 - The remaining repo-wide work is mostly context narrowing, with one real architectural follow-up in `llm-agents.nix`.
-- A comprehensive execution plan for that follow-up work exists at [003-den-philosophy-alignment-refactors.md](/home/higorprado/nixos/docs/for-agents/plans/003-den-philosophy-alignment-refactors.md).
+- A comprehensive execution plan for that follow-up work exists at [028-den-philosophy-alignment-refactors-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/028-den-philosophy-alignment-refactors-plan.md).

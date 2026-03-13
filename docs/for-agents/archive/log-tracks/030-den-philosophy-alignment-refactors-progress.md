@@ -6,7 +6,7 @@ Completed
 
 ## Related Plan
 
-- [003-den-philosophy-alignment-refactors.md](/home/higorprado/nixos/docs/for-agents/plans/003-den-philosophy-alignment-refactors.md)
+- [028-den-philosophy-alignment-refactors-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/028-den-philosophy-alignment-refactors-plan.md)
 
 ## Baseline
 
