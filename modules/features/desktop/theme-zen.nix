@@ -3,7 +3,7 @@
   den.aspects.themeZen = den.lib.parametric {
     includes = [
       (
-        { host, user, ... }:
+        { host, ... }:
         {
           homeManager =
             { lib, pkgs, ... }:

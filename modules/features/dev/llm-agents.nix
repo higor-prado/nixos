@@ -1,9 +1,9 @@
 { den, ... }:
 {
-  den.aspects.llm-agents = den.lib.parametric.exactly {
+  den.aspects.llm-agents = den.lib.parametric {
     includes = [
       (
-        { host, user, ... }:
+        { host, ... }:
         {
           nixos = {
             environment.systemPackages = host.llmAgents.systemPackages;
