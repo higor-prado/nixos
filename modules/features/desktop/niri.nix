@@ -30,6 +30,7 @@
               userName = trackedUser.primaryTrackedUserName host;
               system = pkgs.stdenv.hostPlatform.system;
               niriPackage = host.inputs.niri.packages.${system}.niri-unstable;
+              xwaylandSatellitePackage = host.inputs.niri.packages.${system}.xwayland-satellite-unstable;
               niriStandaloneSession = config.custom.niri.standaloneSession;
               sessionPriority = if niriStandaloneSession then 100 else 2000;
               sessionCommand = if niriStandaloneSession then "${niriPackage}/bin/niri --session" else "/run/current-system/sw/bin/true";
@@ -53,6 +54,10 @@
                   enable = true;
                   package = niriPackage;
                 };
+
+                environment.systemPackages = [
+                  xwaylandSatellitePackage
+                ];
               };
             };
         }

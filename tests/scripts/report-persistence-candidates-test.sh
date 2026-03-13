@@ -16,6 +16,8 @@ mkdir -p \
   "$tmpdir/etc/NetworkManager/system-connections" \
   "$tmpdir/var/lib/docker" \
   "$tmpdir/var/lib/systemd" \
+  "$tmpdir/var/cache/steam" \
+  "$tmpdir/var/tmp/steam" \
   "$tmpdir/root" \
   "$tmpdir/srv" \
   "$tmpdir/opt"
@@ -24,6 +26,8 @@ printf 'machine\n' >"$tmpdir/etc/machine-id"
 printf 'ssh-key\n' >"$tmpdir/etc/ssh/ssh_host_ed25519_key"
 printf 'journal-state\n' >"$tmpdir/var/lib/systemd/state"
 printf 'docker-state\n' >"$tmpdir/var/lib/docker/state"
+printf 'shader-cache\n' >"$tmpdir/var/cache/steam/state"
+printf 'tmp-state\n' >"$tmpdir/var/tmp/steam/state"
 printf 'root-state\n' >"$tmpdir/root/state"
 
 cat >"$tmpdir/inventory.nix" <<EOF
@@ -48,6 +52,8 @@ output_file="$tmpdir/report.out"
 PERSISTENCE_INVENTORY_FILE="$tmpdir/inventory.nix" \
 PERSISTENCE_ETC_ROOT="$tmpdir/etc" \
 PERSISTENCE_VAR_LIB_ROOT="$tmpdir/var/lib" \
+PERSISTENCE_VAR_CACHE_ROOT="$tmpdir/var/cache" \
+PERSISTENCE_VAR_TMP_ROOT="$tmpdir/var/tmp" \
 PERSISTENCE_ROOT_OWNED_CANDIDATES="$tmpdir/root $tmpdir/srv $tmpdir/opt" \
   bash scripts/report-persistence-candidates.sh predator /persist >"$output_file"
 
@@ -74,6 +80,10 @@ assert_contains "[children  ]"
 assert_contains "${tmpdir}/etc/ssh"
 assert_contains "[candidate ]"
 assert_contains "${tmpdir}/var/lib/systemd"
+assert_contains "## Top-level /var/cache candidates"
+assert_contains "${tmpdir}/var/cache/steam"
+assert_contains "## Top-level /var/tmp candidates"
+assert_contains "${tmpdir}/var/tmp/steam"
 assert_contains "[ignored   ]"
 assert_contains "${tmpdir}/root"
 assert_contains "${tmpdir}/etc/ssh/ssh_host_ed25519_key"

@@ -12,6 +12,8 @@ persistence_root="${2:-/persist}"
 inventory_file="${PERSISTENCE_INVENTORY_FILE:-${REPO_ROOT}/hardware/${host}/_persistence-inventory.nix}"
 etc_root="${PERSISTENCE_ETC_ROOT:-/etc}"
 var_lib_root="${PERSISTENCE_VAR_LIB_ROOT:-/var/lib}"
+var_cache_root="${PERSISTENCE_VAR_CACHE_ROOT:-/var/cache}"
+var_tmp_root="${PERSISTENCE_VAR_TMP_ROOT:-/var/tmp}"
 root_owned_candidate_list="${PERSISTENCE_ROOT_OWNED_CANDIDATES:-/root /srv /opt}"
 
 require_cmds "$scope" nix jq du find readlink sort
@@ -227,6 +229,27 @@ done < <(find "${var_lib_root}" -mindepth 1 -maxdepth 1 -printf '%p\n' 2>/dev/nu
 record_listed_paths "${varlib_candidates[@]}"
 
 report_candidate_section "Top-level /var/lib candidates" "${varlib_candidates[@]}"
+
+cache_candidates=()
+while IFS= read -r path; do
+  cache_candidates+=("$path")
+done < <(find "${var_cache_root}" -mindepth 1 -maxdepth 1 -printf '%p\n' 2>/dev/null | sort)
+record_listed_paths "${cache_candidates[@]}"
+
+report_candidate_section "Top-level /var/cache candidates" "${cache_candidates[@]}"
+
+vartmp_candidates=()
+while IFS= read -r path; do
+  case "$path" in
+    "${var_tmp_root}/systemd-private-"*)
+      continue
+      ;;
+  esac
+  vartmp_candidates+=("$path")
+done < <(find "${var_tmp_root}" -mindepth 1 -maxdepth 1 -printf '%p\n' 2>/dev/null | sort)
+record_listed_paths "${vartmp_candidates[@]}"
+
+report_candidate_section "Top-level /var/tmp candidates" "${vartmp_candidates[@]}"
 
 read -r -a root_owned_candidates <<<"${root_owned_candidate_list}"
 record_listed_paths "${root_owned_candidates[@]}"

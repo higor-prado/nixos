@@ -56,6 +56,7 @@ in
       keyrs
       media-cava
       media-tools
+      gaming
       ssh
       terminal
       starship

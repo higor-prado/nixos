@@ -26,5 +26,8 @@
     "/root" # root is not used as a working environment on this host
     "/var/lib/logrotate.status"
     "/var/lib/tpm2-udev-trigger"
+    "/var/lib/lastlog"
+    "/var/cache/fwupd"
+    "/var/cache/man"
   ];
 }
