@@ -44,10 +44,6 @@
                     mountpoint = "/persist";
                     mountOptions = [ "compress=zstd" "noatime" ];
                   };
-                  "@swap" = {
-                    mountpoint = "/swap";
-                    mountOptions = [ "compress=no" "noatime" ];
-                  };
                 };
               };
             };

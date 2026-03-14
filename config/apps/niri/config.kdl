@@ -250,5 +250,7 @@ debug {
 }
 
 
-// Load the selected desktop experience overlay from ~/.config/niri/custom.kdl.
+// Load Home Manager-generated Niri settings first, then the selected desktop
+// experience overlay from ~/.config/niri/custom.kdl.
+include "hm.kdl"
 include "custom.kdl"

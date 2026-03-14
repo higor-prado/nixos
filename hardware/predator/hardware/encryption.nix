@@ -1,10 +1,5 @@
 { ... }:
 {
-  # Hibernation via btrfs swapfile on @swap subvolume inside cryptroot
-  swapDevices = [ { device = "/swap/swapfile"; } ];
-  boot.resumeDevice = "/dev/mapper/cryptroot";
-  boot.kernelParams = [ "resume_offset=25463616" ];
-
   boot.initrd.systemd.enable = true;
   boot.initrd.systemd.tpm2.enable = true;
 

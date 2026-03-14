@@ -18,7 +18,7 @@
   # NixOS equivalent: explicit sysctl + ananicy-cpp
   boot.kernel.sysctl = {
     # ── Memory management ──
-    "vm.swappiness" = 10;
+    "vm.swappiness" = 180;
     "vm.vfs_cache_pressure" = 50;
     "vm.dirty_ratio" = 10;
     "vm.dirty_background_ratio" = 5;
@@ -56,7 +56,10 @@
     package = pkgs.ananicy-cpp;
     rulesProvider = pkgs.ananicy-rules-cachyos;
     extraRules = [
-      { name = "keyrs"; type = "LowLatency_RT"; }
+      {
+        name = "keyrs";
+        type = "LowLatency_RT";
+      }
     ];
   };
 

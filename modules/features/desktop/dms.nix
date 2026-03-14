@@ -2,8 +2,7 @@
 let
   dmsCommonSettings = {
     systemd = {
-      enable = true;
-      restartIfChanged = true;
+      enable = false;
     };
     enableSystemMonitoring = true;
     enableVPN = true;
@@ -15,11 +14,10 @@ let
 in
 {
   den.aspects.dms = den.lib.parametric {
-    homeManager.programs.dank-material-shell =
-      {
-        enable = true;
-      }
-      // dmsCommonSettings;
+    homeManager.programs.dank-material-shell = {
+      enable = true;
+    }
+    // dmsCommonSettings;
 
     includes = [
       (den.lib.take.exactly (
