@@ -95,11 +95,11 @@
     },
     "den": {
       "locked": {
-        "lastModified": 1773434407,
-        "narHash": "sha256-jhjXT3iMIre2eg9sfjhO4qiQ0ccutJVRiY+L7+opw9Y=",
+        "lastModified": 1773446380,
+        "narHash": "sha256-Bm+V/HP3OGdmG+NnsgQTi5SEpmouJBVaZESUjBBFEc0=",
         "owner": "vic",
         "repo": "den",
-        "rev": "cc198ca3a98f590273c69b6ecc2dab722805729e",
+        "rev": "ae6a59acba4e3729dc5055e12003b533aee12aae",
         "type": "github"
       },
       "original": {
@@ -382,11 +382,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1773412360,
-        "narHash": "sha256-d6FY3t40JRc3nNZUu40rhfcMrOlVQeXGjUvzG/l0G8M=",
+        "lastModified": 1773459162,
+        "narHash": "sha256-QdrMe4cftS8ALHB2+DTNOZIkw+rqddm5lcsAhm/voqk=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "a638ae24d87ea4bb42f57416c0b3c75d980e810d",
+        "rev": "64d8585ea7ba1a88b1afa82a89bdd10d4c894f45",
         "type": "github"
       },
       "original": {
@@ -429,11 +429,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1773433102,
-        "narHash": "sha256-0q2Uz4oNTX0+dIpN3zV2HLMHI8NOoRDwScatBS1v8ng=",
+        "lastModified": 1773495003,
+        "narHash": "sha256-b+vJrKIa9gjkrqkpo1EOYFzQbnFP03pvMt/iQYcWlLU=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "20f866c7416799ebf5b88b07c9d32c6a440e825d",
+        "rev": "d08b016324c959bc6e1e8e98ad1607fb32575f1a",
         "type": "github"
       },
       "original": {
@@ -524,11 +524,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1773282481,
-        "narHash": "sha256-b/GV2ysM8mKHhinse2wz+uP37epUrSE+sAKXy/xvBY4=",
+        "lastModified": 1773389992,
+        "narHash": "sha256-wvfdLLWJ2I9oEpDd9PfMA8osfIZicoQ5MT1jIwNs9Tk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fe416aaedd397cacb33a610b33d60ff2b431b127",
+        "rev": "c06b4ae3d6599a672a6210b7021d699c351eebda",
         "type": "github"
       },
       "original": {
@@ -569,11 +569,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773349923,
-        "narHash": "sha256-axwqboHZ0YMFC4PL1qxtB5pHOukPo476mXUXdcjr4kE=",
+        "lastModified": 1773448953,
+        "narHash": "sha256-Wd0hmEbqsigcMiwPycUSSPJ6KIbkwS4qBuOiSl79LEU=",
         "owner": "mierak",
         "repo": "rmpc",
-        "rev": "4301b3a8503238ac570b5ce0135b8f817648ee15",
+        "rev": "e3f69e28ab3452afa04d61773a14c14bc37c8e7c",
         "type": "github"
       },
       "original": {

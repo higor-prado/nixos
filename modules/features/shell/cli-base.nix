@@ -5,7 +5,10 @@
       { pkgs, ... }:
       {
         programs.fzf.enable = true;
-        programs.btop.enable = true;
+        programs.btop = {
+          enable = true;
+          package = pkgs.btop-cuda;
+        };
         programs.bottom.enable = true;
 
         home.packages = with pkgs; [
