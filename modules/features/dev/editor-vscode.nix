@@ -39,14 +39,14 @@
             ];
 
             userSettings = {
-              "terminal.integrated.fontFamily" = "'JetBrains Mono Nerd Font Mono'";
+              "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
               "terminal.integrated.lineHeight" = 1.0;
-              "terminal.integrated.fontLigatures.enabled" = true;
+              "terminal.integrated.fontLigatures" = true;
               "terminal.integrated.fontWeightBold" = "bold";
 
-              "editor.fontFamily" =
-                "'JetBrains Mono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace, 'JetBrains Mono'";
-              "editor.fontSize" = 16;
+              "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace";
+              "editor.fontSize" = 14;
+              "editor.fontLigatures" = true;
               "editor.minimap.enabled" = false;
               "diffEditor.ignoreTrimWhitespace" = false;
 

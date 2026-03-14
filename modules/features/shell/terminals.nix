@@ -2,7 +2,12 @@
 {
   den.aspects.terminals = {
     homeManager =
-      { config, lib, pkgs, ... }:
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
       let
         footTheme =
           let
@@ -17,7 +22,7 @@
           enable = true;
           settings = {
             main = {
-              font = "JetBrains Mono Nerd Font Mono:size=12";
+              font = "JetBrainsMono Nerd Font Mono:size=12";
               term = "xterm-256color";
               include = lib.mkForce "${footTheme}";
               pad = "8x8 center-when-maximized-and-fullscreen";
@@ -28,16 +33,18 @@
         programs.ghostty = {
           enable = true;
           settings = {
-            "font-family" = "JetBrains Mono Nerd Font Mono";
+            "font-family" = "JetBrainsMono Nerd Font Mono";
             "font-size" = 12;
             "font-thicken" = false;
+            "window-padding-x" = 6;
+            "window-padding-y" = 6;
           };
         };
 
         programs.kitty = {
           enable = true;
           font = {
-            name = "JetBrains Mono Nerd Font Mono";
+            name = "JetBrainsMono Nerd Font Mono";
             size = 12;
           };
           settings = {
@@ -66,7 +73,7 @@
             };
             font = {
               normal = {
-                family = "JetBrains Mono Nerd Font Mono";
+                family = "JetBrainsMono Nerd Font Mono";
                 style = "Regular";
               };
               size = 12;
@@ -85,7 +92,7 @@
 
             dofile(catppuccin_plugin).apply_to_config(config, catppuccin_config)
 
-            config.font = wezterm.font("JetBrains Mono Nerd Font Mono")
+            config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
             config.font_size = 12
             config.color_scheme_dirs = { "/usr/share/wezterm/colors" }
 
