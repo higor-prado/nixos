@@ -28,7 +28,8 @@ docs/for-agents/archive/ archived plans and log tracks
 - `core/host-contracts.nix` — `custom.host.role` contract
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
-- `core/nix-settings.nix` — nix daemon settings
+- `core/nix-settings.nix` — nix daemon settings (universal: max-jobs, store optimization, numtide cache, nh)
+- `core/nix-settings-desktop.nix` — desktop-only substituters (catppuccin, zed-industries, devenv, nixpkgs-python)
 - `core/home-manager-settings.nix` — HM framework settings
 - `core/server-base.nix` — server policy aspect (mutableUsers, no autologin, no docs, SSH hardening)
 

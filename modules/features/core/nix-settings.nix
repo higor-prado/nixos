@@ -32,18 +32,7 @@
           trusted-public-keys = [
             "cache.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
           ];
-          extra-substituters = [
-            "https://devenv.cachix.org"
-            "https://nixpkgs-python.cachix.org"
-            "https://catppuccin.cachix.org"
-            "https://zed-industries.cachix.org"
-          ];
-          extra-trusted-public-keys = [
-            "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-            "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU="
-            "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
-            "zed-industries.cachix.org-1:fgVpvtdF+ssrgP1lB6EusuR3uM6bNcncWduKxri3u6Y="
-          ];
+          narinfo-cache-negative-ttl = 0;
         };
 
         # nh — easy Nix command wrapper with automatic generation management

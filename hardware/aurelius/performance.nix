@@ -22,6 +22,14 @@
     "net.ipv4.tcp_slow_start_after_idle" = 0;
     # PMTUD probing — avoids MTU blackholes on upstream routers
     "net.ipv4.tcp_mtu_probing" = 1;
+    # Connection queue depth — handle burst SYN traffic
+    "net.ipv4.tcp_max_syn_backlog" = 4096;
+    # NIC receive queue — absorb packet bursts before kernel processing
+    "net.core.netdev_max_backlog" = 4096;
+    # Reuse TIME_WAIT sockets for new outgoing connections (safe with timestamps on)
+    "net.ipv4.tcp_tw_reuse" = 1;
+    # Expand ephemeral port range (default: 32768–60999)
+    "net.ipv4.ip_local_port_range" = "1024 65535";
 
     # File descriptor headroom
     "fs.file-max" = 2097152;

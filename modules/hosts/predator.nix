@@ -28,6 +28,7 @@ in
 
   den.aspects.predator = den.lib.parametric {
     includes = with den.aspects; [
+      # System
       home-manager-settings
       networking-resolved
       networking-avahi
@@ -36,44 +37,61 @@ in
       docker
       podman
       maintenance-smartd
+      upower
+
+      # Packages
       packages-fonts
       packages-system-tools
       packages-toolchains
       packages-docs-tools
+
+      # Nix
+      nix-settings-desktop
+
+      # Backup & agents
       backup-service
       llm-agents
+
+      # Shell & prompt
       fish
       git-gh
       keyrs
+      starship
+      tui-tools
+      terminal-tmux
+
+      # Media & gaming
       media-cava
       media-tools
       gaming
+
+      # Remote & secrets
       ssh
-      starship
+      gnome-keyring
+
+      # Desktop
       theme
-      tui-tools
       desktop-dms-on-niri
       niri
       dms
       dms-wallpaper
       fcitx5
-      gnome-keyring
       nautilus
       desktop-base
       desktop-apps
       desktop-viewers
       wayland-tools
+      xwayland
+
+      # Dev & editors
       monitoring-tools
       music-client
-      upower
-      xwayland
       core-user-packages
       editor-neovim
       editor-vscode
       editor-emacs
       editor-zed
       terminals
-      terminal-tmux
       dev-tools
       dev-devenv
     ];

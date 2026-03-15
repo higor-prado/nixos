@@ -30,9 +30,13 @@
     "vm.compaction_proactiveness" = 20;
     # Transparent hugepages — better for dev/gaming workloads
     "vm.page-cluster" = 0; # Don't read-ahead swap pages (ZRAM is random-access)
+    # Proton/Wine requires ≥524288; VSCode, Electron, JVM apps also benefit
+    "vm.max_map_count" = 2097152;
 
     # ── Scheduler ──
     "kernel.sched_autogroup_enabled" = 1;
+    # NMI watchdog generates periodic interrupts causing latency spikes; irrelevant on desktop
+    "kernel.nmi_watchdog" = 0;
 
     # ── Network performance ──
     # BBR congestion control (better than CachyOS default cubic)
@@ -84,7 +88,11 @@
   # ══════════════════════════════════════════════
   # CachyOS uses intel_pstate with powersave governor (HWP handles boost).
   # NixOS default is ondemand via acpi-cpufreq. Force intel_pstate to match.
-  boot.kernelParams = [ "intel_pstate=active" ];
+  boot.kernelParams = [
+    "intel_pstate=active"
+    # THP only for apps that explicitly request them — gaming and JVM gains without always-mode latency cost
+    "transparent_hugepage=madvise"
+  ];
   powerManagement.cpuFreqGovernor = "powersave"; # intel_pstate HWP handles boost
 
   # ══════════════════════════════════════════════
