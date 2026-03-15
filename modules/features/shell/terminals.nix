@@ -51,7 +51,7 @@
             scrollback_lines = 10000;
             enable_audio_bell = false;
             background_opacity = "1.0";
-            cursor_blink_interval = 0;
+            cursor_blink_interval = 0.5;
             tab_bar_style = "powerline";
             window_padding_width = 8;
           };
