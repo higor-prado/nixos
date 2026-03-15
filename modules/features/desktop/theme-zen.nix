@@ -1,6 +1,6 @@
 { den, ... }:
 {
-  den.aspects.themeZen = den.lib.parametric {
+  den.aspects.theme-zen = den.lib.parametric {
     includes = [
       (
         { host, ... }:

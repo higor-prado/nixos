@@ -1,6 +1,6 @@
 { den, ... }:
 {
-  den.aspects.themeBase = den.lib.parametric {
+  den.aspects.theme-base = den.lib.parametric {
     homeManager =
       { pkgs, ... }:
       let

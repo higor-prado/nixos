@@ -29,8 +29,8 @@ in
   den.aspects.predator = den.lib.parametric {
     includes = with den.aspects; [
       home-manager-settings
-      networkingResolved
-      networkingAvahi
+      networking-resolved
+      networking-avahi
       audio
       bluetooth
       docker

@@ -1,6 +1,6 @@
 { ... }:
 {
-  den.aspects.networkingResolved.nixos =
+  den.aspects.networking-resolved.nixos =
     { ... }:
     {
       networking.networkmanager.dns = "systemd-resolved";
