@@ -326,9 +326,11 @@ den.aspects.my-feature = den.lib.parametric {
 };
 ```
 
-Current examples: `niri.nix` (`host.inputs.niri.nixosModules.niri`),
-`dms.nix` (`host.inputs.dms.nixosModules.*`),
-`keyrs.nix` (`host.inputs.keyrs.nixosModules.default`).
+Current examples: `modules/features/desktop/niri.nix`
+(`host.inputs.niri.nixosModules.niri`),
+`modules/features/desktop/dms.nix` (`host.inputs.dms.nixosModules.*`),
+`modules/features/system/keyrs.nix`
+(`host.inputs.keyrs.nixosModules.default`).
 
 This keeps host files clean — `modules/hosts/<name>.nix` only lists aspect
 names in `includes` and does not repeat upstream module imports that the
