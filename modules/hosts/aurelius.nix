@@ -9,7 +9,7 @@ let
   llmAgentsPkgs = inputs.llm-agents.packages.${system} or { };
   llmAgents = {
     homePackages = [ ];
-    systemPackages = with llmAgentsPkgs; [ openclaw ];
+    systemPackages = [ ];
   };
 in
 {
