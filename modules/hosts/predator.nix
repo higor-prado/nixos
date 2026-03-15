@@ -28,24 +28,13 @@ in
 
   den.aspects.predator = den.lib.parametric {
     includes = with den.aspects; [
-      den._.hostname
-      user-context
-      host-contracts
       home-manager-settings
-      system-base
-      networking
       networkingResolved
       networkingAvahi
-      security
-      keyboard
-      nixpkgs-settings
-      nix-settings
       audio
       bluetooth
       docker
       podman
-      tailscale
-      maintenance
       maintenance-smartd
       packages-fonts
       packages-system-tools

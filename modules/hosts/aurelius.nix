@@ -21,21 +21,11 @@ in
 
   den.aspects.aurelius = {
     includes = with den.aspects; [
-      den._.hostname
-      user-context
-      host-contracts
-      system-base
-      networking
-      security
-      keyboard
-      nixpkgs-settings
-      nix-settings
+      server-base
       fish
       ssh
       git-gh
       core-user-packages
-      tailscale
-      maintenance
       packages-system-tools
       packages-server-tools
       llm-agents
@@ -53,16 +43,6 @@ in
             nauc = "nh clean all";
             nauct = "systemctl status nh-clean.timer --no-pager";
           };
-          # Server policy (moved from hardware default.nix)
-          custom.ssh.settings = {
-            PermitRootLogin = "no";
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-          };
-          # Server-specific overrides against desktop-oriented shared defaults.
-          users.mutableUsers = true;
-          services.getty.autologinUser = null;
-          documentation.enable = false;
         };
         imports = [
           inputs.disko.nixosModules.disko

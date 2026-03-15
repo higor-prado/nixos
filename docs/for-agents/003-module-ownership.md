@@ -45,4 +45,5 @@ When creating a new feature module:
 - [ ] No `mkIf` for role/context checks — feature inclusion in a host IS the condition
 - [ ] `mkIf` only for actual NixOS option value checks (e.g. `lib.mkIf config.services.foo.enable`)
 - [ ] Custom options declared by the narrow owner module or the feature that reads them
-- [ ] Added to host `includes` list in `modules/hosts/<host>.nix`
+- [ ] If universal (must be on every host): add to `den.default.includes` in `modules/features/core/den-defaults.nix`
+- [ ] If host-specific: add to that host's `includes` list in `modules/hosts/<host>.nix`
