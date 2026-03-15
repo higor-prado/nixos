@@ -132,5 +132,5 @@ hardware/
 boot.nix                 GRUB+EFI boot loader
 overlays.nix             khal, dsearch fixes
 packages.nix             predator-specific packages
-performance.nix          OOM, sysctl, ananicy, smartd, CPU governor, nix daemon scheduling
+performance.nix          OOM, sysctl, ananicy, CPU governor, nix daemon scheduling
 ```

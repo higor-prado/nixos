@@ -6,17 +6,12 @@ let
     pkgs = inputs.nixpkgs.legacyPackages.${system};
     inherit inputs;
   };
-  llmAgentsPkgs = inputs.llm-agents.packages.${system} or { };
-  llmAgents = {
-    homePackages = [ ];
-    systemPackages = [ ];
-  };
 in
 {
   den.hosts.aarch64-linux.aurelius = {
     # Den-level context for parametric aspects
     users.higorprado = { };
-    inherit inputs customPkgs llmAgents;
+    inherit inputs customPkgs;
   };
 
   den.aspects.aurelius = {
@@ -28,7 +23,6 @@ in
       core-user-packages
       packages-system-tools
       packages-server-tools
-      llm-agents
     ];
 
     nixos =

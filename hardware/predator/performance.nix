@@ -32,6 +32,10 @@
     "vm.page-cluster" = 0; # Don't read-ahead swap pages (ZRAM is random-access)
     # Proton/Wine requires ≥524288; VSCode, Electron, JVM apps also benefit
     "vm.max_map_count" = 2097152;
+    # Suppress kswapd boost after reclaim (unnecessary overhead with ZRAM)
+    "vm.watermark_boost_factor" = 0;
+    # Widen low/high watermark gap — reduces kswapd wakeups under transient pressure
+    "vm.watermark_scale_factor" = 125;
 
     # ── Scheduler ──
     "kernel.sched_autogroup_enabled" = 1;
@@ -73,14 +77,6 @@
         type = "LowLatency_RT";
       }
     ];
-  };
-
-  # ══════════════════════════════════════════════
-  # SSD Health Monitoring
-  # ══════════════════════════════════════════════
-  services.smartd = {
-    enable = true;
-    autodetect = true;
   };
 
   # ══════════════════════════════════════════════
