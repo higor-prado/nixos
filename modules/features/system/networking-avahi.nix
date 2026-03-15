@@ -1,6 +1,6 @@
 { ... }:
 {
-  den.aspects.networkingAvahi.nixos =
+  den.aspects.networking-avahi.nixos =
     { ... }:
     {
       # mDNS for hostname.local resolution

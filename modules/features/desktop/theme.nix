@@ -2,8 +2,8 @@
 {
   den.aspects.theme = {
     includes = with den.aspects; [
-      themeBase
-      themeZen
+      theme-base
+      theme-zen
     ];
   };
 }
