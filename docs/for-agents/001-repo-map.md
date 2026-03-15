@@ -26,17 +26,17 @@ docs/for-agents/archive/ archived plans and log tracks
 - `core/user-context.nix` — `custom.user.name` contract
 - `core/host-contracts.nix` — `custom.host.role` contract
 - `core/system-base.nix` — base NixOS system config
+- `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — nix daemon settings
 - `core/home-manager-settings.nix` — HM framework settings
 
 **Shell / Terminal**
 - `shell/fish.nix` — fish shell + zoxide + abbreviations
-- `shell/terminal.nix` — TERMINAL env var
 - `shell/starship.nix` — starship prompt
 - `shell/terminal-tmux.nix` — tmux with tmux-cpu plugin
-- `shell/terminals.nix` — foot, ghostty, kitty, alacritty, wezterm
+- `shell/terminals.nix` — foot, ghostty, kitty, alacritty, wezterm; sets TERMINAL=kitty
 - `shell/git-gh.nix` — git + gh CLI config
-- `shell/cli-base.nix` — essential CLI tools
+- `shell/core-user-packages.nix` — essential CLI tools (fzf, btop, vim, curl, ripgrep, etc.)
 - `shell/tui-tools.nix` — bundled TUI ergonomics (lazygit, lazydocker, yazi, zellij)
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
@@ -65,8 +65,8 @@ docs/for-agents/archive/ archived plans and log tracks
 - `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
 - `system/docker.nix`, `system/podman.nix`, `system/keyrs.nix`
 - `system/keyboard.nix`, `system/upower.nix`
-- `system/maintenance.nix`, `system/backup-service.nix`
-- `system/filesystem-tools.nix`, `system/server-cli-tools.nix`
+- `system/maintenance.nix` (fstrim, universal SSD trim), `system/maintenance-smartd.nix` (smartd health monitoring, desktop-only), `system/backup-service.nix`
+- `system/packages-system-tools.nix`, `system/server-cli-tools.nix`
 
 ## modules/desktops/
 

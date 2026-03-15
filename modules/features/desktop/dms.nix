@@ -31,6 +31,11 @@ in
               homeDir = config.users.users.${userName}.home;
             in
             {
+              imports = [
+                host.inputs.dms.nixosModules.dank-material-shell
+                host.inputs.dms.nixosModules.greeter
+              ];
+
               home-manager.sharedModules = [ host.inputs.dms.homeModules.dank-material-shell ];
 
               programs.dsearch.enable = true;

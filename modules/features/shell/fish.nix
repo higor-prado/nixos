@@ -10,10 +10,6 @@ let
   };
 
   homeManagerOnlyAbbrs = {
-    dps = "docker ps";
-    dpsa = "docker ps -a";
-    di = "docker images";
-    dex = "docker exec -it";
     pym = "python -m";
     gs = "git status";
     gd = "git diff";
@@ -29,18 +25,6 @@ let
     ga = "git add";
     gc = "git commit";
     gb = "git branch";
-    emacs = "emacsclient -c -a ''";
-    e = "emacsclient -c -a ''";
-    tf = "switch-terminal foot";
-    tg = "switch-terminal ghostty";
-    tk = "switch-terminal kitty";
-    ta = "switch-terminal alacritty";
-    tw = "switch-terminal wezterm";
-    claude = "claude";
-    cc = "claude";
-    opencode = "opencode";
-    oc = "opencode";
-    crush = "crush";
   };
 in
 {
@@ -96,64 +80,6 @@ in
                 builtin cd -- "$cwd"
               end
               rm -f -- "$tmp"
-            end
-
-            function switch-terminal
-              set terminal $argv[1]
-              if test -z "$terminal"
-                echo "Usage: switch-terminal <foot|ghostty|kitty|alacritty|wezterm>"
-                return 1
-              end
-
-              switch $terminal
-                case foot ghostty kitty alacritty wezterm
-                  set -gx TERMINAL $terminal
-                  echo "Default terminal set to: $terminal"
-                  echo "Run '$terminal' to launch"
-                case '*'
-                  echo "Unknown terminal: $terminal"
-                  echo "Available: foot, ghostty, kitty, alacritty, wezterm"
-                  return 1
-              end
-            end
-
-            function ai
-              set agent $argv[1]
-              set dir (pwd)
-
-              if test -z "$agent"
-                echo "Available AI agents:"
-                echo "  claude, cc  - Claude Code"
-                echo "  opencode, oc - OpenCode"
-                echo "  crush       - Crush AI"
-                return 0
-              end
-
-              switch $agent
-                case claude cc
-                  cd $dir && claude
-                case opencode oc
-                  cd $dir && opencode
-                case crush
-                  cd $dir && crush
-                case '*'
-                  echo "Unknown agent: $agent"
-                  ai
-              end
-            end
-
-            set --export BUN_INSTALL "$HOME/.bun"
-            if test -d "$BUN_INSTALL/bin"
-              fish_add_path "$BUN_INSTALL/bin"
-            end
-
-            set --export npm_config_prefix "$HOME/.npm-packages"
-            if test -d "$HOME/.npm-packages/bin"
-              fish_add_path "$HOME/.npm-packages/bin"
-            end
-
-            if test -d "$HOME/.config/emacs/bin"
-              fish_add_path "$HOME/.config/emacs/bin"
             end
           '';
         };

@@ -18,6 +18,8 @@
           '';
       in
       {
+        home.sessionVariables.TERMINAL = "kitty";
+
         programs.foot = {
           enable = true;
           settings = {

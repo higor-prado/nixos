@@ -38,6 +38,7 @@ in
       networkingAvahi
       security
       keyboard
+      nixpkgs-settings
       nix-settings
       audio
       bluetooth
@@ -45,6 +46,7 @@ in
       podman
       tailscale
       maintenance
+      maintenance-smartd
       packages-fonts
       packages-system-tools
       packages-toolchains
@@ -58,7 +60,6 @@ in
       media-tools
       gaming
       ssh
-      terminal
       starship
       theme
       tui-tools
@@ -118,10 +119,6 @@ in
         imports = [
           inputs.disko.nixosModules.disko
           inputs.impermanence.nixosModules.impermanence
-          inputs.niri.nixosModules.niri
-          inputs.dms.nixosModules.dank-material-shell
-          inputs.dms.nixosModules.greeter
-          inputs.keyrs.nixosModules.default
           ../../hardware/predator/default.nix
         ];
       };

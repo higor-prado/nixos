@@ -28,10 +28,10 @@ in
       networking
       security
       keyboard
+      nixpkgs-settings
       nix-settings
       fish
       ssh
-      terminal
       git-gh
       core-user-packages
       tailscale
@@ -42,7 +42,7 @@ in
     ];
 
     nixos =
-      { lib, ... }:
+      { ... }:
       {
         config = {
           # Host-specific fish abbreviations (moved from hardware default.nix)
@@ -63,7 +63,6 @@ in
           users.mutableUsers = true;
           services.getty.autologinUser = null;
           documentation.enable = false;
-          services.smartd.enable = lib.mkForce false;
         };
         imports = [
           inputs.disko.nixosModules.disko

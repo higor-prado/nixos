@@ -21,6 +21,17 @@
           socketActivation.enable = true;
         };
 
+        programs.fish.shellAbbrs = {
+          emacs = "emacsclient -c -a ''";
+          e = "emacsclient -c -a ''";
+        };
+
+        programs.fish.interactiveShellInit = ''
+          if test -d "$HOME/.config/emacs/bin"
+            fish_add_path "$HOME/.config/emacs/bin"
+          end
+        '';
+
         xdg.desktopEntries.emacs = {
           name = "Emacs";
           genericName = "Text Editor";

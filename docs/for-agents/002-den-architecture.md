@@ -273,6 +273,34 @@ Only use `{ host, user, ... }` when the fragment is genuinely user-specific.
 If the HM config is generic across all HM users on the host and does not need
 host data, prefer owned `homeManager = { ... }: { ... };` on the aspect.
 
+## Self-contained feature imports
+
+When a feature is parametric and captures `{ host, ... }`, it can declare its own
+NixOS module imports inside the parametric nixos block. This makes the feature
+self-contained — the host composition only lists the aspect name, not the
+upstream NixOS module import:
+
+```nix
+den.aspects.my-feature = den.lib.parametric {
+  includes = [
+    ({ host, ... }: {
+      nixos = { ... }: {
+        imports = [ host.inputs.upstream.nixosModules.default ];
+        # feature config that depends on the imported module
+      };
+    })
+  ];
+};
+```
+
+Current examples: `niri.nix` (`host.inputs.niri.nixosModules.niri`),
+`dms.nix` (`host.inputs.dms.nixosModules.*`),
+`keyrs.nix` (`host.inputs.keyrs.nixosModules.default`).
+
+This keeps host files clean — `modules/hosts/<name>.nix` only lists aspect
+names in `includes` and does not repeat upstream module imports that the
+feature already owns.
+
 ## Module auto-discovery boundary
 
 Den auto-discovers `modules/**/*.nix`. Files starting with `_` are excluded:

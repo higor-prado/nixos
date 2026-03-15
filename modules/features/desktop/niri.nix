@@ -43,6 +43,8 @@
               };
             in
             {
+              imports = [ host.inputs.niri.nixosModules.niri ];
+
               config = {
                 services.greetd.settings.default_session.command = lib.mkOverride sessionPriority sessionCommand;
                 services.greetd.settings.default_session.user = lib.mkOverride sessionPriority userName;
