@@ -17,10 +17,6 @@
 
         # NixOS state version
         system.stateVersion = "25.11";
-
-        zramSwap.enable = true;
-        zramSwap.memoryPercent = 100;
-        zramSwap.algorithm = "zstd";
       };
   };
 }
