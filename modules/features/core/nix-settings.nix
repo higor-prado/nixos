@@ -22,6 +22,7 @@
       {
         # Nix package manager settings
         nix.settings = {
+          max-jobs = "auto";
           experimental-features = [
             "nix-command"
             "flakes"

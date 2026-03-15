@@ -40,6 +40,10 @@
     "net.ipv4.tcp_congestion_control" = "bbr";
     "net.core.somaxconn" = 8192;
     "net.ipv4.tcp_fastopen" = 3; # Enable TCP Fast Open (client + server)
+    # Don't re-throttle throughput after idle (helps Tailscale, SSH, HTTP keep-alives)
+    "net.ipv4.tcp_slow_start_after_idle" = 0;
+    # PMTUD probing — avoids MTU blackholes on WiFi and upstream routers
+    "net.ipv4.tcp_mtu_probing" = 1;
 
     # ── inotify limits (critical for dev tools) ──
     # neovim, vscode, webpack, vite, etc. all need high limits
@@ -82,6 +86,14 @@
   # NixOS default is ondemand via acpi-cpufreq. Force intel_pstate to match.
   boot.kernelParams = [ "intel_pstate=active" ];
   powerManagement.cpuFreqGovernor = "powersave"; # intel_pstate HWP handles boost
+
+  # ══════════════════════════════════════════════
+  # Nix Daemon Scheduling
+  # ══════════════════════════════════════════════
+  # Run nix-daemon at idle CPU/IO priority so builds never preempt desktop processes.
+  # Stronger guarantee than ananicy-cpp niceness alone (uses systemd cgroup scheduling).
+  nix.daemonCPUSchedPolicy = "idle";
+  nix.daemonIOSchedClass = "idle";
 
   # Note: power-profiles-daemon is disabled in system.nix
   # Note: thermald is disabled in system.nix (conflicts with linuwu-sense)

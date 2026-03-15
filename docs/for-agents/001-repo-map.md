@@ -54,7 +54,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `desktop/wayland-tools.nix`, `desktop/xwayland.nix`, `desktop/fcitx5.nix`
 
 **Dev / Editors / LLM**
-- `dev/editor-neovim.nix` — Neovim + LSP packages + nvim config sync
+- `dev/editor-neovim.nix` — Neovim + LSP packages + nvim config sync; nixos block sets PAM fd/process limits for LSP socket creation
 - `dev/editor-vscode.nix` — VS Code with extensions
 - `dev/editor-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon
 - `dev/editor-zed.nix` — Zed editor
@@ -131,5 +131,5 @@ hardware/
 boot.nix                 GRUB+EFI boot loader
 overlays.nix             khal, dsearch fixes
 packages.nix             predator-specific packages
-performance.nix          OOM, sysctl, ananicy, smartd, CPU governor
+performance.nix          OOM, sysctl, ananicy, smartd, CPU governor, nix daemon scheduling
 ```
