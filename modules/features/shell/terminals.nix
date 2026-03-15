@@ -50,6 +50,7 @@
             size = 12;
           };
           settings = {
+            term = "xterm-256color";
             scrollback_lines = 10000;
             enable_audio_bell = false;
             background_opacity = "1.0";
