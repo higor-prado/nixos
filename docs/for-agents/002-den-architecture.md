@@ -107,10 +107,41 @@ at the OS layer, that is now an explicit opt-in via `den._.bidirectional`.
 Tracked repo features should prefer the narrowest correct context instead of
 depending on bidirectional reentry by default.
 
+## Universal aspects — `den.default`
+
+`den.default.includes` lists aspects that are injected into **every** host
+unconditionally. This is the canonical mechanism for repo-wide invariants —
+aspects that must be present regardless of host role.
+
+Declared in `modules/features/core/den-defaults.nix`:
+
+```nix
+{ den, ... }:
+{
+  den.default.includes = with den.aspects; [
+    den._.hostname
+    user-context
+    host-contracts
+    system-base
+    networking
+    security
+    keyboard
+    nixpkgs-settings
+    nix-settings
+    maintenance
+    tailscale
+  ];
+}
+```
+
+Host files must not re-list these. Only host-specific or role-specific aspects
+belong in the host's own `includes`.
+
 ## Host composition
 
 A host aspect (`modules/hosts/<name>.nix`) declares which features the host
-uses and wires the host-specific hardware config:
+uses and wires the host-specific hardware config. Universal aspects arrive via
+`den.default` and must not be repeated:
 
 ```nix
 { den, inputs, ... }:
@@ -119,10 +150,9 @@ uses and wires the host-specific hardware config:
 
   den.aspects.<name> = {
     includes = with den.aspects; [
-      user-context
-      host-contracts
+      # Only host-specific aspects here.
+      # Universal aspects (hostname, networking, security, …) come from den.default.
       home-manager-settings
-      system-base
       fish
       terminal
       editor-neovim
@@ -138,6 +168,9 @@ uses and wires the host-specific hardware config:
   };
 }
 ```
+
+Server hosts add `server-base` to their includes for server-specific policy
+(mutableUsers, no autologin, no documentation, SSH hardening).
 
 ## private/ directory
 

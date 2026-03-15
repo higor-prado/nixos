@@ -23,12 +23,14 @@ docs/for-agents/archive/ archived plans and log tracks
 ## modules/features/ — category layout
 
 **Core**
+- `core/den-defaults.nix` — `den.default.includes` for universal aspects injected into every host
 - `core/user-context.nix` — `custom.user.name` contract
 - `core/host-contracts.nix` — `custom.host.role` contract
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — nix daemon settings
 - `core/home-manager-settings.nix` — HM framework settings
+- `core/server-base.nix` — server policy aspect (mutableUsers, no autologin, no docs, SSH hardening)
 
 **Shell / Terminal**
 - `shell/fish.nix` — fish shell + zoxide + abbreviations
@@ -66,7 +68,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `system/docker.nix`, `system/podman.nix`, `system/keyrs.nix`
 - `system/keyboard.nix`, `system/upower.nix`
 - `system/maintenance.nix` (fstrim, universal SSD trim), `system/maintenance-smartd.nix` (smartd health monitoring, desktop-only), `system/backup-service.nix`
-- `system/packages-system-tools.nix`, `system/server-cli-tools.nix`
+- `system/packages-system-tools.nix`, `system/packages-server-tools.nix`
 
 ## modules/desktops/
 
