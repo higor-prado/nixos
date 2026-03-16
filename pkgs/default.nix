@@ -13,4 +13,5 @@ in
 
   # Upstream flake packages
   rmpc = inputs.rmpc.packages.${system}.default;
+  spotatui = inputs.spotatui.packages.${system}.default;
 }
