@@ -44,4 +44,12 @@
 40. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a `server-base` aspect, not inline in a host's `nixos` block. Host files should be pure composition lists.
 41. Under `den._.bidirectional`, a host-aspect's `includes` functions fire with BOTH `{host}` and `{host,user}` contexts. Use `den.lib.perHost ({ host }:)` for nixos-only includes and `den.lib.take.atLeast ({ host, user }:)` for homeManager-only includes. Never bare `{ host, ... }:` in host-aspect includes — it fires in both contexts, duplicating NixOS options and packages. `den.lib.parametric` is required whenever an aspect has context-dependent `includes`; do not omit it.
 42. A local den clone (e.g. `~/git/den`) may be behind the version pinned in flake.lock. Before auditing den APIs or searching den source, do `git -C ~/git/den pull` (or fetch the remote) to bring it up to date, OR use the pinned nix store source directly: `nix flake metadata . --json | jq -r '.locks.nodes.den.path'` gives the store path. Never assume the local clone matches what the flake actually uses.
-43. **The agent is responsible for the whole repo, not only the changes it is currently making.** When a validation gate, test, or eval reveals a failure — even one that predates the current task — do NOT silently label it "pre-existing" and proceed. Stop, surface it to the human ("I found this failure, is it known? Should I fix it now or track it separately?"), and wait for explicit direction before continuing. Do not fix it unilaterally (that would be out-of-scope refactoring), but equally do not pretend it is not there.
+
+---
+> ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
+> **The agent is responsible for the whole repo, not only the changes it is currently making.**
+> When a validation gate, test, or eval reveals a failure — even one that predates the current
+> task — do **NOT** silently label it "pre-existing" and proceed.
+> **Stop. Surface it to the human. Ask: "I found this failure — is it known? Fix it now or track it separately?"**
+> Wait for explicit direction. Do not fix it unilaterally (out-of-scope), but do not pretend it is not there either.
+---
