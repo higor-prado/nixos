@@ -9,6 +9,7 @@
       den._.primary-user
       (den._.user-shell "fish")  # programs.fish.enable + shell at OS and HM level
       den._.mutual-provider
+      den._.bidirectional
     ];
 
     provides.predator =

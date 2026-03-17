@@ -1,4 +1,4 @@
-{ ... }:
+{ den, ... }:
 let
   baseAbbrs = {
     l = "eza -alh";
@@ -29,24 +29,24 @@ let
 in
 {
   den.aspects.fish = {
-    nixos =
-      {
-        config,
-        lib,
-        ...
-      }:
-      {
-        options.custom.fish.hostAbbreviationOverrides = lib.mkOption {
-          type = lib.types.attrsOf lib.types.str;
-          default = { };
-          description = "Host-scoped Fish abbreviations merged into the active Fish surface.";
-        };
+    includes = [
+      (den.lib.perHost {
+        nixos =
+          { config, lib, ... }:
+          {
+            options.custom.fish.hostAbbreviationOverrides = lib.mkOption {
+              type = lib.types.attrsOf lib.types.str;
+              default = { };
+              description = "Host-scoped Fish abbreviations merged into the active Fish surface.";
+            };
 
-        config = {
-          # System-level abbrs: base + host-specific overrides
-          programs.fish.shellAbbrs = baseAbbrs // config.custom.fish.hostAbbreviationOverrides;
-        };
-      };
+            config = {
+              # System-level abbrs: base + host-specific overrides
+              programs.fish.shellAbbrs = baseAbbrs // config.custom.fish.hostAbbreviationOverrides;
+            };
+          };
+      })
+    ];
 
     homeManager =
       { ... }:

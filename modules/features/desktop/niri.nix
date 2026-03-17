@@ -1,20 +1,18 @@
 { den, ... }:
 {
   den.aspects.niri = den.lib.parametric {
-    nixos =
-      {
-        lib,
-        ...
-      }:
-      {
-        options.custom.niri.standaloneSession = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Run Niri as a standalone session (greetd launches niri directly) instead of via DMS.";
-        };
-      };
-
     includes = [
+      (den.lib.perHost {
+        nixos =
+          { lib, ... }:
+          {
+            options.custom.niri.standaloneSession = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = "Run Niri as a standalone session (greetd launches niri directly) instead of via DMS.";
+            };
+          };
+      })
       (den.lib.take.exactly (
         { host, ... }:
         {

@@ -2,8 +2,8 @@
 {
   den.aspects.keyrs = den.lib.parametric {
     includes = [
-      (
-        { host, ... }:
+      (den.lib.take.exactly (
+        { host }:
         {
           nixos =
             { ... }:
@@ -14,7 +14,7 @@
               services.keyrs.enable = true;
             };
         }
-      )
+      ))
     ];
   };
 }

@@ -94,20 +94,21 @@ in
       terminals
       dev-tools
       dev-devenv
+      (den.lib.perHost {
+        nixos =
+          { ... }:
+          {
+            config = {
+              environment.systemPackages = [ customPkgs.predator-tui ];
+            };
+            imports = [
+              inputs.disko.nixosModules.disko
+              inputs.impermanence.nixosModules.impermanence
+              ../../hardware/predator/default.nix
+            ];
+          };
+      })
     ];
-
-    nixos =
-      { ... }:
-      {
-        config = {
-          environment.systemPackages = [ customPkgs.predator-tui ];
-        };
-        imports = [
-          inputs.disko.nixosModules.disko
-          inputs.impermanence.nixosModules.impermanence
-          ../../hardware/predator/default.nix
-        ];
-      };
 
     provides.higorprado =
       { ... }:
