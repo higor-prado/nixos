@@ -65,6 +65,8 @@ pipeline only, never at bare host level):
 }
 ```
 
+`den.lib.perUser` is the canonical alias for the homeManager case: `den.lib.perUser ({ host, user }: ...)` is equivalent to `take.atLeast` and more readable.
+
 For both — split into two includes (see `modules/features/dev/llm-agents.nix`).
 
 **Never** use bare `{ host, ... }:` or `{ host }:` inside `includes` — they fire in both

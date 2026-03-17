@@ -10,6 +10,9 @@ scripts/check-docs-drift.sh	gate-check	documentation drift gate invoked by run-v
 scripts/check-extension-contracts.sh	gate-check	extension contract gate invoked by run-validation-gates.sh
 scripts/check-feature-aspect-name-match.sh	gate-check	structure gate enforcing lesson 36: feature file name must match defined aspect name
 scripts/check-extension-simulations.sh	gate-check	extension simulation gate invoked by run-validation-gates.sh
+scripts/check-bare-host-in-includes.sh	gate-check	structure gate enforcing den.lib wrapping for host lambdas in includes (lesson: bidirectionality)
+scripts/check-feature-role-conditionals.sh	gate-check	structure gate enforcing lesson 13: mkIf custom.host.role forbidden in modules/features/
+scripts/check-flake-inputs-used.sh	gate-check	structure gate enforcing lesson 20: no unused flake inputs
 scripts/check-flake-pattern.sh	gate-check	flake wiring gate invoked by run-validation-gates.sh
 scripts/check-flake-tracked.sh	audit-leaf	audit-only leaf check for tracked flake consistency
 scripts/check-nix-deprecations.sh	audit-leaf	audit-only leaf check for deprecated Nix usage

@@ -18,6 +18,9 @@ run_check_script() {
 
 run_structure_gates() {
   echo "[validation-gates] structure gates"
+  run_check_script "check-bare-host-in-includes.sh"
+  run_check_script "check-feature-role-conditionals.sh"
+  run_check_script "check-flake-inputs-used.sh"
   run_check_script "check-desktop-capability-usage.sh"
   run_check_script "check-option-declaration-boundary.sh"
   run_check_script "check-flake-pattern.sh"
