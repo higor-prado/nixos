@@ -2,8 +2,8 @@
 {
   den.aspects.llm-agents = den.lib.parametric {
     includes = [
-      (
-        { host, ... }:
+      (den.lib.take.atLeast (
+        { host, user }:
         {
           nixos = {
             environment.systemPackages = host.llmAgents.systemPackages;
@@ -13,7 +13,7 @@
             home.packages = host.llmAgents.homePackages;
           };
         }
-      )
+      ))
     ];
   };
 }

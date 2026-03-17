@@ -2,8 +2,8 @@
 {
   den.aspects.dms-wallpaper = den.lib.parametric {
     includes = [
-      (
-        { host, ... }:
+      (den.lib.take.atLeast (
+        { host, user }:
         {
           homeManager =
             { lib, pkgs, ... }:
@@ -103,7 +103,7 @@
               };
             };
         }
-      )
+      ))
     ];
   };
 }

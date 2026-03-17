@@ -1,6 +1,6 @@
-{ den, ... }:
+{ ... }:
 {
-  den.aspects.bluetooth = den.lib.parametric {
+  den.aspects.bluetooth = {
     nixos =
       { ... }:
       {

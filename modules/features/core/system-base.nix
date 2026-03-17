@@ -1,6 +1,6 @@
-{ den, ... }:
+{ ... }:
 {
-  den.aspects.system-base = den.lib.parametric {
+  den.aspects.system-base = {
     nixos =
       { ... }:
       {

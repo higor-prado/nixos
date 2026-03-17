@@ -2,8 +2,8 @@
 {
   den.aspects.theme-zen = den.lib.parametric {
     includes = [
-      (
-        { host, ... }:
+      (den.lib.take.atLeast (
+        { host, user }:
         {
           homeManager =
             { lib, pkgs, ... }:
@@ -37,7 +37,7 @@
               '';
             };
         }
-      )
+      ))
     ];
   };
 }

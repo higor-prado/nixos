@@ -2,8 +2,8 @@
 {
   den.aspects.desktop-apps = den.lib.parametric {
     includes = [
-      (
-        { host, ... }:
+      (den.lib.take.atLeast (
+        { host, user }:
         {
           homeManager =
             { pkgs, ... }:
@@ -73,7 +73,7 @@
               };
             };
         }
-      )
+      ))
     ];
   };
 }

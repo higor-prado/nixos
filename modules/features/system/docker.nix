@@ -1,6 +1,6 @@
-{ den, ... }:
+{ ... }:
 {
-  den.aspects.docker = den.lib.parametric {
+  den.aspects.docker = {
     nixos =
       { ... }:
       {
