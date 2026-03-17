@@ -4,7 +4,7 @@
 0. Write important lessons you learned in `999-lessons-learned.md`.
 1. Keep lessons short and direct.
 2. Never modify private override files unless explicitly asked.
-3. Never switch a host through hidden desktop selector options or force a concrete desktop composition without explicit request.
+3. Never force a concrete desktop composition on a host without explicit request.
 4. Keep risky changes in small, reversible slices.
 5. Validate runtime behavior, not only successful builds or evals.
 6. Confirm rollback path before applying login, session, or display-manager changes.
@@ -35,15 +35,14 @@
 31. Speculative parameterization options should exist only when multiple real values are supported. A single-value enum option is architectural noise.
 32. Do not build a repo-local `config.host.*` or HM `_module.args.host` bridge. Use den parametric includes and capture `{ host, ... }` directly where host-aware logic is needed.
 33. For system-owned user services that only need per-user overrides, prefer Home Manager drop-ins via `xdg.configFile."systemd/user/<unit>.service.d/override.conf"` instead of redefining partial `systemd.user.services.<name>` units in HM.
-34. After den's March 13, 2026 bidirectional change, do not assume host aspects implicitly re-run with `{ host, user }` at the OS layer. Use `den._.bidirectional` only when that reentry is explicitly wanted, and otherwise keep HM/NixOS fragments on the narrowest correct context shape.
-35. `nixpkgs.config.allowUnfree` and other `nixpkgs.config` settings belong in a dedicated `core/nixpkgs-settings.nix` feature, not as a side-effect of a hardware file. Hardware files can be refactored or removed; policy settings must be independently traceable.
-36. Feature file names should match the aspect name they define. The aspect name is the public API used in host `includes` lists; a mismatched filename creates confusion when cross-referencing includes against the filesystem.
-37. Split bundle features when hosts need different subsets. A feature that bundles fstrim + smartd requires a `mkForce` override on servers with no physical disks. Separate features (`modules/features/system/maintenance.nix` for fstrim, `modules/features/system/maintenance-smartd.nix` for smartd) let host inclusion be the condition, eliminating the only reason for `mkForce` in the codebase.
-38. When a feature is parametric and captures `{ host, ... }`, declare `imports = [host.inputs.X.nixosModules.Y]` inside the parametric nixos block rather than in the host file. This makes the feature self-contained and keeps host composition limited to aspect names in `includes`.
-39. Use `den.default.includes` (declared in `modules/features/core/den-defaults.nix`) for aspects that must be present on every host. Do not repeat them in individual host `includes` lists.
-40. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a `server-base` aspect, not inline in a host's `nixos` block. Host files should be pure composition lists.
-41. Under `den._.bidirectional`, a host-aspect's `includes` functions fire with BOTH `{host}` and `{host,user}` contexts. Use `den.lib.perHost ({ host }:)` for nixos-only includes and `den.lib.take.atLeast ({ host, user }:)` for homeManager-only includes. Never bare `{ host, ... }:` in host-aspect includes — it fires in both contexts, duplicating NixOS options and packages. `den.lib.parametric` is required whenever an aspect has context-dependent `includes`; do not omit it.
-42. A local den clone (e.g. `~/git/den`) may be behind the version pinned in flake.lock. Before auditing den APIs or searching den source, do `git -C ~/git/den pull` (or fetch the remote) to bring it up to date, OR use the pinned nix store source directly: `nix flake metadata . --json | jq -r '.locks.nodes.den.path'` gives the store path. Never assume the local clone matches what the flake actually uses.
+34. `nixpkgs.config.allowUnfree` and other `nixpkgs.config` settings belong in a dedicated `core/nixpkgs-settings.nix` feature, not as a side-effect of a hardware file. Hardware files can be refactored or removed; policy settings must be independently traceable.
+35. Feature file names should match the aspect name they define. The aspect name is the public API used in host `includes` lists; a mismatched filename creates confusion when cross-referencing includes against the filesystem.
+36. Split bundle features when hosts need different subsets. A feature that bundles fstrim + smartd requires a `mkForce` override on servers with no physical disks. Separate features let host inclusion be the condition, eliminating the only reason for `mkForce` in the codebase.
+37. When a feature is parametric and captures `{ host, ... }`, declare `imports = [host.inputs.X.nixosModules.Y]` inside the parametric nixos block rather than in the host file. This makes the feature self-contained and keeps host composition limited to aspect names in `includes`.
+38. Use `den.default.includes` (declared in `modules/features/core/den-defaults.nix`) for aspects that must be present on every host. Do not repeat them in individual host `includes` lists.
+39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a `server-base` aspect, not inline in a host's `nixos` block. Host files should be pure composition lists.
+40. Under `den._.bidirectional`, a host-aspect's `includes` fire in BOTH `{host}` and `{host,user}` contexts — use it only when re-entry into the OS layer with user context is explicitly wanted. For nixos-only includes use `den.lib.perHost ({ host }:)`; for homeManager-only includes use `den.lib.perUser ({ host, user }:)` (canonical alias) or `den.lib.take.atLeast`. Never use bare `{ host, ... }:` in includes — it fires in both contexts, silently duplicating NixOS config. `den.lib.parametric` is required whenever an aspect has context-dependent `includes`.
+41. A local den clone (e.g. `~/git/den`) may be behind the version pinned in flake.lock. Before auditing den APIs or searching den source, do `git -C ~/git/den pull` or use the pinned store path directly: `nix flake metadata . --json | jq -r '.locks.nodes.den.path'`. Never assume the local clone matches what the flake actually uses.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
