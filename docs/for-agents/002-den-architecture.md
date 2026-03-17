@@ -221,37 +221,66 @@ den.hosts.x86_64-linux.predator = {
 };
 ```
 
-Feature aspects that need host context should usually stay as plain aspect
-attrsets and receive host context through parametric `includes` entries:
+Feature aspects that need host context use `den.lib.parametric` with `includes` entries.
+Choose the correct dispatch guard based on what the include sets:
 
 ```nix
-den.aspects.my-feature = {
+# For nixos config that needs host.* — use perHost (fires only in {host} context):
+den.aspects.my-feature = den.lib.parametric {
   includes = [
-    ({ host, ... }: {
-      nixos = { ... }: {
-        environment.systemPackages = [ host.customPkgs.foo ];
-      };
-    })
+    (den.lib.perHost (
+      { host }:
+      {
+        nixos = { ... }: {
+          environment.systemPackages = [ host.customPkgs.foo ];
+        };
+      }
+    ))
+  ];
+};
+
+# For homeManager config that needs host.* — use take.atLeast with {host,user}
+# (fires only in {host,user} context, never at bare host level):
+den.aspects.my-feature = den.lib.parametric {
+  includes = [
+    (den.lib.take.atLeast (
+      { host, user }:
+      {
+        homeManager = { pkgs, ... }: {
+          home.packages = host.llmAgents.homePackages;
+        };
+      }
+    ))
+  ];
+};
+
+# For config that needs BOTH host-level nixos AND user-level homeManager — split includes:
+den.aspects.my-feature = den.lib.parametric {
+  includes = [
+    (den.lib.perHost ({ host }: { nixos.environment.systemPackages = host.customPkgs.tools; }))
+    (den.lib.take.atLeast ({ host, user }: { homeManager.home.packages = host.customPkgs.extras; }))
   ];
 };
 ```
 
-For host-aware Home Manager config, use the same shape:
+### Bidirectional dispatch rules
 
-```nix
-den.aspects.my-feature = {
-  includes = [
-    ({ host, ... }: {
-      homeManager = { ... }: {
-        home.packages = host.llmAgents.homePackages;
-      };
-    })
-  ];
-};
-```
+Under `den._.bidirectional`, a host aspect's `includes` functions are called with BOTH
+`{host}` (host pipeline) and `{host,user}` (user pipeline) contexts. To control which
+context a function fires in:
 
-Only reach for explicit `den.lib.parametric` wrappers when you need to tighten
-dispatch semantics beyond the default aspect functor behavior.
+| Goal | Pattern |
+|---|---|
+| Only in host context (`{host}`) | `den.lib.perHost ({ host }: ...)` |
+| Only in user context (`{host,user}`) | `den.lib.take.atLeast ({ host, user }: ...)` |
+| Never bare `{ host, ... }:` or `{ host }:` | would fire in BOTH contexts |
+
+`den.lib.perHost` is defined in den and is already in use in this repo (fish.nix, ssh.nix,
+niri.nix). Use it for any nixos-only include that accesses `host.*`. `den.lib.parametric` is
+required whenever an aspect has context-dependent `includes`; do not omit it.
+
+Owned `nixos`/`homeManager` attributes (not in `includes`) are routed by den's context
+pipeline automatically and do not need these guards.
 
 When the host/user relationship is explicit rather than generic, prefer den
 pair-routing through `provides` and batteries such as `den._.mutual-provider`
@@ -267,20 +296,6 @@ den.aspects.higorprado = {
     nixos.users.users.${user.userName}.extraGroups = [ "linuwu_sense" ];
   };
 };
-```
-
-For ordinary shared host-aware config, keep using parametric includes:
-
-```nix
-den.aspects.my-feature = {
-  includes = [
-    ({ host, ... }: {
-      homeManager = { config, lib, pkgs, ... }: {
-        # Use both host context and HM module args
-      };
-    })
-  ];
-}
 ```
 
 When host policy matters, prefer semantic host-owned selections over probing raw
@@ -316,12 +331,15 @@ upstream NixOS module import:
 ```nix
 den.aspects.my-feature = den.lib.parametric {
   includes = [
-    ({ host, ... }: {
-      nixos = { ... }: {
-        imports = [ host.inputs.upstream.nixosModules.default ];
-        # feature config that depends on the imported module
-      };
-    })
+    (den.lib.perHost (
+      { host }:
+      {
+        nixos = { ... }: {
+          imports = [ host.inputs.upstream.nixosModules.default ];
+          # feature config that depends on the imported module
+        };
+      }
+    ))
   ];
 };
 ```
