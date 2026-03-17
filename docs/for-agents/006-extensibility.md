@@ -9,43 +9,77 @@
 
 ### Feature patterns
 
-**NixOS-only feature:**
+**NixOS-only feature that needs no host data — simple owned nixos block:**
+```nix
+{ ... }:
+{
+  den.aspects.my-feature = {
+    nixos = { config, lib, pkgs, ... }: {
+      environment.systemPackages = [ pkgs.some-tool ];
+    };
+  };
+}
+```
+
+**NixOS-only feature needing host data — perHost fires only in {host} context:**
 ```nix
 { den, ... }:
 {
-  den.aspects.my-feature = {
+  den.aspects.my-feature = den.lib.parametric {
     includes = [
-      ({ host, ... }: {
-        nixos = { ... }: {
-          environment.systemPackages = [ host.customPkgs.foo ];
+      (den.lib.perHost {
+        nixos = { lib, ... }: {
+          options.custom.my-feature.foo = lib.mkOption { type = lib.types.str; default = ""; };
         };
       })
+      (den.lib.perHost (
+        { host }:
+        {
+          nixos.environment.systemPackages = [ host.customPkgs.some-tool ];
+        }
+      ))
     ];
   };
 }
 ```
 
-**Feature with home-manager:**
+**Feature needing homeManager host data — take.atLeast fires only in {host,user} context:**
 ```nix
 { den, ... }:
 {
-  den.aspects.my-feature = {
+  den.aspects.my-feature = den.lib.parametric {
     includes = [
-      ({ host, ... }: {
-        nixos = { ... }: {
-          # NixOS config
-        };
-        homeManager = { ... }: {
-          home.packages = host.llmAgents.homePackages;
-        };
-      })
+      (den.lib.take.atLeast (
+        { host, user }:
+        {
+          homeManager = { pkgs, ... }: {
+            home.packages = host.customPkgs.extras;
+          };
+        }
+      ))
     ];
   };
 }
 ```
 
-Use `{ host, user, ... }` only when the logic is actually user-specific. If the
-HM fragment does not need `user`, do not widen the context shape.
+**Feature needing BOTH — split includes:**
+```nix
+{ den, ... }:
+{
+  den.aspects.my-feature = den.lib.parametric {
+    includes = [
+      (den.lib.perHost ({ host }: { nixos.environment.systemPackages = host.customPkgs.tools; }))
+      (den.lib.take.atLeast ({ host, user }: { homeManager.home.packages = host.customPkgs.extras; }))
+    ];
+  };
+}
+```
+
+Never use bare `{ host, ... }:` or `{ host }:` in host-aspect `includes` — under
+`den._.bidirectional` these fire in both `{host}` and `{host,user}` contexts, duplicating
+NixOS options and packages. Use `den.lib.perHost` for host-only includes and
+`den.lib.take.atLeast ({ host, user }:)` (or `den.lib.perUser`) for user-only includes.
+`den.lib.parametric` is required whenever an aspect has context-dependent `includes`.
 
 Use explicit `provides.<target>` plus a routing battery such as
 `den._.mutual-provider` when the logic belongs to one specific host/user pair,

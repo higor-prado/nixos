@@ -73,10 +73,14 @@ in
 If the host should use den `.homeManager` aspects, add:
 
 ```nix
-den.hosts.x86_64-linux.<host-name>.users.<user-aspect>.classes = [ "homeManager" ];
+den.hosts.x86_64-linux.<host-name>.users.higorprado.classes = [ "homeManager" ];
 ```
 
-and include `home-manager-settings` in the host's `includes`.
+The key under `.users.` is the user aspect name (e.g. `higorprado`), which must match a
+`den.aspects.<user>` defined in `modules/users/`. This registers the user for home-manager
+routing on this host.
+
+Include `home-manager-settings` in the host's `includes`.
 
 If a feature needs host-owned semantic selections, declare those directly in
 the host context. Example:

@@ -272,12 +272,17 @@ context a function fires in:
 | Goal | Pattern |
 |---|---|
 | Only in host context (`{host}`) | `den.lib.perHost ({ host }: ...)` |
-| Only in user context (`{host,user}`) | `den.lib.take.atLeast ({ host, user }: ...)` |
+| Only in user context (`{host,user}`) | `den.lib.perUser ({ host, user }: ...)` or `den.lib.take.atLeast ({ host, user }: ...)` |
 | Never bare `{ host, ... }:` or `{ host }:` | would fire in BOTH contexts |
 
 `den.lib.perHost` is defined in den and is already in use in this repo (fish.nix, ssh.nix,
 niri.nix). Use it for any nixos-only include that accesses `host.*`. `den.lib.parametric` is
 required whenever an aspect has context-dependent `includes`; do not omit it.
+
+> **Note on den source:** `~/git/den` may be behind the pinned flake.lock revision.
+> Always use the nix store path or `nix flake metadata .` to find the authoritative pinned
+> den source for API reference. The pinned source is in `/nix/store/<hash>-source/`.
+> Example: `nix flake metadata . --json | jq -r '.locks.nodes.den.locked.narHash'`.
 
 Owned `nixos`/`homeManager` attributes (not in `includes`) are routed by den's context
 pipeline automatically and do not need these guards.

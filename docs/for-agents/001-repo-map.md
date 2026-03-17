@@ -47,7 +47,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `desktop/niri.nix` — Niri Wayland compositor
 - `desktop/dms.nix` — Dank Material Shell greeter
 - `desktop/dms-wallpaper.nix` — DMS wallpaper management
-- `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/viewers.nix`, `desktop/gnome-keyring.nix`
+- `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/theme.nix` — public theme composition
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
