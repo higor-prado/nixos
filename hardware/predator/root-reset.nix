@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   cryptroot = "/dev/mapper/cryptroot";
   topLevelMount = "/btrfs_tmp";

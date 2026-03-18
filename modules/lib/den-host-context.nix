@@ -1,7 +1,7 @@
 # Den schema extension for host context.
 # This enables parametric aspects to receive host context via { host, ... } parameters.
 # See docs/for-agents/002-den-architecture.md for usage patterns.
-{ den, lib, ... }:
+{ lib, ... }:
 {
   den.schema.host =
     { ... }:
