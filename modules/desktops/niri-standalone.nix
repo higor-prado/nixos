@@ -22,7 +22,7 @@
         ];
       };
 
-    homeManager =
+    provides.to-users.homeManager =
       { lib, ... }:
       let
         mutableCopy = import ../../lib/mutable-copy.nix { inherit lib; };

@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.git-gh = {
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         programs.git = {

@@ -14,7 +14,7 @@ let
 in
 {
   den.aspects.dms = den.lib.parametric {
-    homeManager.programs.dank-material-shell = {
+    provides.to-users.homeManager.programs.dank-material-shell = {
       enable = true;
     }
     // dmsCommonSettings;

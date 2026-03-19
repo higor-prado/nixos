@@ -4,9 +4,9 @@
 
 | Location | Owns |
 |----------|------|
-| `modules/features/**/*.nix` | Feature behavior, NixOS + HM config, option declarations |
+| `modules/features/**/*.nix` | Feature behavior, NixOS + HM projections, option declarations |
 | `modules/desktops/*.nix` | Desktop compositions (aspect includes only) |
-| `modules/hosts/*.nix` | Host composition (includes list + host wiring) |
+| `modules/hosts/*.nix` | Host composition (includes list + host wiring + host-to-user routing aggregation) |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings (useGlobalPkgs, extraSpecialArgs, sharedModules) |
 | `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
@@ -41,7 +41,9 @@
 When creating a new feature module:
 - [ ] File is in `modules/features/<category>/`
 - [ ] NixOS config in `den.aspects.<name>.nixos = ...`
-- [ ] HM config in `den.aspects.<name>.homeManager = ...` (NOT via `hasHomeManagerUsers` guard)
+- [ ] User-owned HM config in `den.aspects.<name>.homeManager = ...`
+- [ ] Host-owned HM config in `den.aspects.<name>.provides.to-users.homeManager = ...` or `provides.<user>.homeManager = ...`
+- [ ] If the feature is host-owned and contributes HM, the owning host composition aggregates `<feature>._.to-users`
 - [ ] No `mkIf` for role/context checks — feature inclusion in a host IS the condition
 - [ ] `mkIf` only for actual NixOS option value checks (e.g. `lib.mkIf config.services.foo.enable`)
 - [ ] Custom options declared by the narrow owner module or the feature that reads them

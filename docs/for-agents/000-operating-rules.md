@@ -45,12 +45,19 @@ All new NixOS feature modules must use the den aspect pattern:
 
 Never use raw `imports` lists in `modules/features/`.
 
-## 6. Home-manager uses the den `.homeManager` class
+## 6. Home-manager routing depends on ownership
 
-Home-manager config in tracked feature modules belongs in
+User-owned Home Manager config belongs in
 `den.aspects.<name>.homeManager = { ... }: { ... };`.
 Den routes that class to `home-manager.users.<userName>` for hosts whose
 tracked users declare `classes = [ "homeManager" ]`.
+
+Host-owned Home Manager config is different in current `den`: a host aspect's
+top-level `.homeManager` is not routed to users automatically. Host-to-user HM
+must go through explicit mutual routing with `den._.mutual-provider`, declared
+via `provides.to-users.homeManager = ...` or `provides.<user>.homeManager = ...`,
+and then aggregated at the host's `_.to-users` surface.
+
 Do not hand-wire `home-manager.users.<userName>` from feature modules and do
 not create separate top-level home-manager feature modules.
 

@@ -11,7 +11,7 @@
         };
       };
 
-    homeManager =
+    provides.to-users.homeManager =
       { lib, ... }:
       {
         i18n.inputMethod = {

@@ -7,9 +7,8 @@
     includes = [
       den._.define-user
       den._.primary-user
-      (den._.user-shell "fish")  # programs.fish.enable + shell at OS and HM level
+      (den._.user-shell "fish") # programs.fish.enable + shell at OS and HM level
       den._.mutual-provider
-      den._.bidirectional
     ];
 
     provides.predator =
@@ -42,8 +41,7 @@
       {
         home.stateVersion = "25.11";
 
-        imports = lib.optional (builtins.pathExists ../../private/users/higorprado/default.nix)
-          ../../private/users/higorprado/default.nix;
+        imports = lib.optional (builtins.pathExists ../../private/users/higorprado/default.nix) ../../private/users/higorprado/default.nix;
       };
   };
 }

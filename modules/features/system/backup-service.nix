@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.backup-service = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       let
         backupScript = pkgs.writeShellScriptBin "backup-critical" ''

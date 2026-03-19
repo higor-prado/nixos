@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.monitoring-tools = {
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         xdg.configFile."htop/htoprc".source = builtins.path {

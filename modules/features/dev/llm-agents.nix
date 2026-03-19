@@ -10,14 +10,14 @@
           };
         }
       ))
-      (den.lib.take.atLeast (
-        { host, user }:
-        {
-          homeManager = {
-            home.packages = host.llmAgents.homePackages;
-          };
-        }
-      ))
     ];
+
+    provides.to-users =
+      { host, ... }:
+      {
+        homeManager = {
+          home.packages = host.llmAgents.homePackages;
+        };
+      };
   };
 }

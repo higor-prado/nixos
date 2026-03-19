@@ -25,6 +25,13 @@ in
       packages-server-tools
     ];
 
+    _.to-users.includes = with den.aspects; [
+      fish._.to-users
+      ssh._.to-users
+      git-gh._.to-users
+      core-user-packages._.to-users
+    ];
+
     nixos =
       { ... }:
       {

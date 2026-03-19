@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.media-tools = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         home.packages = [

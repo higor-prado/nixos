@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.starship = {
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         programs.starship = {

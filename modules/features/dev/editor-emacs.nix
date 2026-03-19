@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.editor-emacs = {
-    homeManager =
+    provides.to-users.homeManager =
       { config, pkgs, ... }:
       {
         programs.emacs = {

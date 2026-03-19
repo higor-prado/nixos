@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.editor-vscode = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         programs.vscode = {

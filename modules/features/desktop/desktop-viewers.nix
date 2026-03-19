@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.desktop-viewers = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       let
         loupeDesktop = "org.gnome.Loupe.desktop";

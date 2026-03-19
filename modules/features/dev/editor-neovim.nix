@@ -17,7 +17,7 @@
         };
       };
 
-    homeManager =
+    provides.to-users.homeManager =
       { lib, pkgs, ... }:
       let
         nvimRuntimeCleanup = pkgs.writeShellScript "nvim-runtime-cleanup" ''

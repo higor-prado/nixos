@@ -27,7 +27,7 @@
       })
     ];
 
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         programs.ssh = {

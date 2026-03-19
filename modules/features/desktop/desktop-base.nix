@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.desktop-base = {
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         xdg.enable = true;

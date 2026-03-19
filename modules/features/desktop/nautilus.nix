@@ -8,7 +8,7 @@
         programs.dconf.enable = true;
       };
 
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [

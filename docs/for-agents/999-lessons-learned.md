@@ -22,7 +22,7 @@
 18. When a test fails or ownership/architecture placement is disputed, stop execution and understand the real cause before changing code. If the fix would affect ownership, structure, or expected architecture, get explicit human validation before applying it.
 19. In feature migrations or reorganizations, name owner files after user-facing capabilities and avoid abstract buckets that hide ownership.
 20. If no tracked host selects a leftover feature path, delete it instead of preserving dead code, dead flake inputs, or speculative architecture.
-21. `vic/den` has a native `.homeManager` aspect class. User registration via `den.hosts.<sys>.<host>.users.<user>.classes = [ "homeManager" ]` auto-routes each aspect's `.homeManager` to `home-manager.users.<userName>`. No `hasHomeManagerUsers` guard is needed.
+21. `vic/den` has a native `.homeManager` aspect class for user-owned Home Manager config. User registration via `den.hosts.<sys>.<host>.users.<user>.classes = [ "homeManager" ]` auto-routes the user aspect's `.homeManager` to `home-manager.users.<userName>`. No `hasHomeManagerUsers` guard is needed.
 22. In den-native `.homeManager` functions, HM-specific APIs such as `lib.hm.dag.entryAfter` and `config.xdg.configHome` are available directly.
 23. `den._.define-user`, `den._.primary-user`, and `den._.user-shell "<shell>"` should own canonical user definition, primary-user groups, and shell wiring in tracked user aspects.
 24. New files under `modules/` must be `git add`-ed before `nix eval` — den's import-tree only sees git-tracked files.
@@ -41,8 +41,9 @@
 37. When a feature is parametric and captures `{ host, ... }`, declare `imports = [host.inputs.X.nixosModules.Y]` inside the parametric nixos block rather than in the host file. This makes the feature self-contained and keeps host composition limited to aspect names in `includes`.
 38. Use `den.default.includes` (declared in `modules/features/core/den-defaults.nix`) for aspects that must be present on every host. Do not repeat them in individual host `includes` lists.
 39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a `server-base` aspect, not inline in a host's `nixos` block. Host files should be pure composition lists.
-40. Under `den._.bidirectional`, a host-aspect's `includes` fire in BOTH `{host}` and `{host,user}` contexts — use it only when re-entry into the OS layer with user context is explicitly wanted. For nixos-only includes use `den.lib.perHost ({ host }:)`; for homeManager-only includes use `den.lib.perUser ({ host, user }:)` (canonical alias) or `den.lib.take.atLeast`. Never use bare `{ host, ... }:` in includes — it fires in both contexts, silently duplicating NixOS config. `den.lib.parametric` is required whenever an aspect has context-dependent `includes`.
-41. A local den clone (e.g. `~/git/den`) may be behind the version pinned in flake.lock. Before auditing den APIs or searching den source, do `git -C ~/git/den pull` or use the pinned store path directly: `nix flake metadata . --json | jq -r '.locks.nodes.den.path'`. Never assume the local clone matches what the flake actually uses.
+40. Current `den` is unidirectional by default: a host aspect's top-level `.homeManager` does not flow to users automatically. Host-to-user HM must use `den._.mutual-provider` plus explicit `provides.to-users` / `provides.<user>` routing.
+41. Use the public `den` API to declare mutual routing (`provides.to-users`, `provides.to-hosts`, `provides.<target>`), but remember that `den._.mutual-provider` consumes the internal `._.to-users` / `._.to-hosts` namespace. Host composition owns aggregation of child `._.to-users` projections.
+42. A local den clone (e.g. `~/git/den`) may be behind the version pinned in flake.lock. Before auditing den APIs or searching den source, do `git -C ~/git/den pull` or use the pinned store path directly: `nix eval --impure --raw --expr 'let flake = builtins.getFlake (toString ./.); in flake.inputs.den.outPath'`. Never assume the local clone matches what the flake actually uses.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
