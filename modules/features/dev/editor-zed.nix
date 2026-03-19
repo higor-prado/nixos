@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.editor-zed = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         home.packages = [ pkgs.zed-editor-fhs ];

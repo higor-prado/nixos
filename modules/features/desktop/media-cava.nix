@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.media-cava = {
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         programs.cava = {

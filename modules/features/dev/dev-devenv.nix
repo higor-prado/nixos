@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.dev-devenv = {
-    homeManager =
+    provides.to-users.homeManager =
       { lib, pkgs, ... }:
       let
         devc = pkgs.writeShellApplication {

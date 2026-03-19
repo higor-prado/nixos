@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.dev-tools = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         programs.bat.enable = true;

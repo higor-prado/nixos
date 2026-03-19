@@ -1,7 +1,7 @@
 { den, ... }:
 {
   den.aspects.theme-base = den.lib.parametric {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       let
         flavor = "mocha";

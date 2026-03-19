@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.core-user-packages = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         programs.fzf.enable = true;

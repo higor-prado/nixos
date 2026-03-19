@@ -30,8 +30,8 @@ Den is a flake-parts module that offers:
 
 Every tracked feature file under `modules/features/` defines exactly one aspect.
 Category subfolders are fine; den auto-discovers recursively. Features with
-only NixOS config use a single `.nixos` class; features with both NixOS and
-home-manager config use both classes:
+only NixOS config use a single `.nixos` class. User-owned aspects can also use
+plain `.homeManager`:
 
 ```nix
 { ... }:
@@ -41,7 +41,7 @@ home-manager config use both classes:
       # NixOS-only config (services, packages, etc.)
     };
     homeManager = { pkgs, ... }: {
-      # HM config — den routes this to home-manager.users.<userName> automatically
+      # User-owned HM config — den routes this to home-manager.users.<userName>
       programs.foo.enable = true;
     };
   };
@@ -52,12 +52,12 @@ The aspect name (e.g. `my-feature`) is used in host `includes` lists.
 
 ## Home-manager integration
 
-### Den-native `.homeManager` class (target architecture)
+### Den-native `.homeManager` class for user-owned config
 
 `vic/den` natively provides a `.homeManager` class on any aspect. When a host
 registers a user with `classes = [ "homeManager" ]`, den's context pipeline
-automatically routes each aspect's `homeManager` attribute to
-`home-manager.users.<userName>` for every matching user.
+automatically routes the user aspect's `homeManager` attribute to
+`home-manager.users.<userName>`.
 
 **User registration** (`modules/hosts/predator.nix`):
 ```nix
@@ -95,17 +95,63 @@ In the live repo, `den._.define-user` now owns `name`, `home`,
 repo-specific primary group wiring plus HM state/imports.
 
 Den's HM integration is currently provided by den's upstream Home Manager
-integration module,
-which does two things when a host has users with `classes = [ "homeManager" ]`:
+integration module, which does two things when a host has users with
+`classes = [ "homeManager" ]`:
 - extends `den.schema.host` with the `home-manager.enable` and `home-manager.module` options
-- activates `den.ctx.hm-host` / `den.ctx.hm-user` so each aspect's `.homeManager`
+- activates `den.ctx.hm-host` / `den.ctx.hm-user` so each user-context aspect's `.homeManager`
   class is forwarded into `home-manager.users.<userName>`
 
-After the March 13, 2026 `den` change (`4bdcb63`), host-to-user OS reentry is
-no longer implicit. If a host aspect needs to run again with `{ host, user }`
-at the OS layer, that is now an explicit opt-in via `den._.bidirectional`.
-Tracked repo features should prefer the narrowest correct context instead of
-depending on bidirectional reentry by default.
+### Host-owned Home Manager is explicit mutual routing
+
+In current `den`, the normal host pipeline is unidirectional:
+- host-owned config runs in `den.ctx.host { host }`
+- user-owned config runs in `den.ctx.user { host, user }`
+- Home Manager is just another forwarded user class
+
+That means a host aspect's plain top-level `.homeManager` does **not** reach
+host users automatically. For host-owned HM config, the correct model is:
+
+1. enable `den._.mutual-provider` in the user context
+2. declare host-to-user config through `provides.to-users` or `provides.<user>`
+3. aggregate those projections at the host aspect's `_.to-users` surface
+
+Example feature:
+
+```nix
+{ ... }:
+{
+  den.aspects.git-gh = {
+    provides.to-users.homeManager = { ... }: {
+      programs.git.enable = true;
+      programs.gh.enable = true;
+    };
+  };
+}
+```
+
+Example host aggregation:
+
+```nix
+{ den, ... }:
+{
+  den.aspects.predator = {
+    includes = with den.aspects; [
+      git-gh
+      fish
+    ];
+
+    _.to-users.includes = with den.aspects; [
+      git-gh._.to-users
+      fish._.to-users
+    ];
+  };
+}
+```
+
+This split is intentional:
+- `provides.to-users` is the public authoring API documented by `den`
+- `_.to-users` is the internal namespace consumed by `den._.mutual-provider`
+- host files own aggregation because they own composition
 
 ## Universal aspects — `den.default`
 
@@ -221,8 +267,9 @@ den.hosts.x86_64-linux.predator = {
 };
 ```
 
-Feature aspects that need host context use `den.lib.parametric` with `includes` entries.
-Choose the correct dispatch guard based on what the include sets:
+Feature aspects that need host context use `den.lib.parametric` with `includes`
+entries or explicit mutual-provider projections. Choose the correct shape based
+on who owns the config:
 
 ```nix
 # For nixos config that needs host.* — use perHost (fires only in {host} context):
@@ -239,45 +286,47 @@ den.aspects.my-feature = den.lib.parametric {
   ];
 };
 
-# For homeManager config that needs host.* — use take.atLeast with {host,user}
-# (fires only in {host,user} context, never at bare host level):
+# For host-owned Home Manager config that needs host.* — use provides.to-users
+# and let the host aggregate the resulting _.to-users surface:
 den.aspects.my-feature = den.lib.parametric {
-  includes = [
-    (den.lib.take.atLeast (
-      { host, user }:
-      {
-        homeManager = { pkgs, ... }: {
-          home.packages = host.llmAgents.homePackages;
-        };
-      }
-    ))
-  ];
+  provides.to-users = { host, ... }: {
+    homeManager = { pkgs, ... }: {
+      home.packages = host.llmAgents.homePackages;
+    };
+  };
 };
 
-# For config that needs BOTH host-level nixos AND user-level homeManager — split includes:
+# Host composition must aggregate the feature's mutual surface:
+den.aspects.my-host._.to-users.includes = [
+  den.aspects.my-feature._.to-users
+];
+
+# For config that needs BOTH host-level nixos AND host-owned homeManager — split ownership:
 den.aspects.my-feature = den.lib.parametric {
   includes = [
     (den.lib.perHost ({ host }: { nixos.environment.systemPackages = host.customPkgs.tools; }))
-    (den.lib.take.atLeast ({ host, user }: { homeManager.home.packages = host.customPkgs.extras; }))
   ];
+  provides.to-users = { host, ... }: {
+    homeManager.home.packages = host.customPkgs.extras;
+  };
 };
 ```
 
-### Bidirectional dispatch rules
+### Current dispatch rules
 
-Under `den._.bidirectional`, a host aspect's `includes` functions are called with BOTH
-`{host}` (host pipeline) and `{host,user}` (user pipeline) contexts. To control which
-context a function fires in:
+Current `den` is unidirectional by default. For host-owned feature code:
 
 | Goal | Pattern |
 |---|---|
 | Only in host context (`{host}`) | `den.lib.perHost ({ host }: ...)` |
-| Only in user context (`{host,user}`) | `den.lib.perUser ({ host, user }: ...)` or `den.lib.take.atLeast ({ host, user }: ...)` |
-| Never bare `{ host, ... }:` or `{ host }:` | would fire in BOTH contexts |
+| Host-owned HM for all users on that host | `provides.to-users = { host, ... }: { homeManager = ...; }` |
+| Host-owned HM for one specific user | `provides.<user> = { user, ... }: { homeManager = ...; }` |
+| User-owned config for each host where the user exists | plain owned `.nixos` / `.homeManager` on the user aspect |
 
-`den.lib.perHost` is defined in den and is already in use in this repo (fish.nix, ssh.nix,
-niri.nix). Use it for any nixos-only include that accesses `host.*`. `den.lib.parametric` is
-required whenever an aspect has context-dependent `includes`; do not omit it.
+`den.lib.perHost` is already in use in this repo (fish.nix, ssh.nix, niri.nix).
+Use it for any nixos-only include that accesses `host.*`. `den.lib.parametric`
+is required whenever an aspect has context-dependent `includes` or captures
+`host` data in `provides.to-users`.
 
 > **Note on den source:** `~/git/den` may be behind the pinned flake.lock revision.
 > Always use the nix store path or `nix flake metadata .` to find the authoritative pinned
@@ -323,8 +372,10 @@ in
 ```
 
 Only use `{ host, user, ... }` when the fragment is genuinely user-specific.
-If the HM config is generic across all HM users on the host and does not need
-host data, prefer owned `homeManager = { ... }: { ... };` on the aspect.
+If the config belongs to the user regardless of host, keep it on the user
+aspect's owned `.homeManager`. If it belongs to the host and should reach users,
+route it explicitly through mutual routing instead of a plain host-owned
+`.homeManager`.
 
 ## Self-contained feature imports
 

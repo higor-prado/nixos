@@ -14,7 +14,7 @@
         };
       };
 
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         programs.fish.shellAbbrs = {

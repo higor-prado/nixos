@@ -48,7 +48,7 @@ in
       })
     ];
 
-    homeManager =
+    provides.to-users.homeManager =
       { ... }:
       {
         catppuccin.fish.enable = true;

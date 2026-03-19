@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.terminal-tmux = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         programs.tmux = {

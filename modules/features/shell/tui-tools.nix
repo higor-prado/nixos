@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.tui-tools = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         home.packages = [ pkgs.lazydocker ];

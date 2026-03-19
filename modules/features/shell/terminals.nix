@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.terminals = {
-    homeManager =
+    provides.to-users.homeManager =
       {
         config,
         lib,

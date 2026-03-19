@@ -1,7 +1,7 @@
 { ... }:
 {
   den.aspects.wayland-tools = {
-    homeManager =
+    provides.to-users.homeManager =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [

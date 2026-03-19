@@ -110,6 +110,43 @@ in
       })
     ];
 
+    _.to-users.includes = with den.aspects; [
+      docker._.to-users
+      packages-toolchains._.to-users
+      backup-service._.to-users
+      llm-agents._.to-users
+      fish._.to-users
+      git-gh._.to-users
+      starship._.to-users
+      tui-tools._.to-users
+      terminal-tmux._.to-users
+      media-cava._.to-users
+      media-tools._.to-users
+      gaming._.to-users
+      ssh._.to-users
+      theme._.to-users
+      desktop-dms-on-niri._.to-users
+      niri._.to-users
+      dms._.to-users
+      dms-wallpaper._.to-users
+      fcitx5._.to-users
+      nautilus._.to-users
+      desktop-base._.to-users
+      desktop-apps._.to-users
+      desktop-viewers._.to-users
+      wayland-tools._.to-users
+      monitoring-tools._.to-users
+      music-client._.to-users
+      core-user-packages._.to-users
+      editor-neovim._.to-users
+      editor-vscode._.to-users
+      editor-emacs._.to-users
+      editor-zed._.to-users
+      terminals._.to-users
+      dev-tools._.to-users
+      dev-devenv._.to-users
+    ];
+
     provides.higorprado =
       { ... }:
       {
