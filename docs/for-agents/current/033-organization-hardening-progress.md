@@ -101,6 +101,31 @@ Diff result:
 - generated host skeletons now teach the corrected runtime boundary
 
 Commit:
+- `807afb5` `refactor(runtime): keep host inventory focused`
+
+### Slice 4
+
+- Introduced a local `repoContext` binding inside the concrete host modules for
+  `predator` and `aurelius`.
+- Reused that single value for both NixOS `repo.context` and the nested
+  Home Manager `repo.context`.
+- Updated the host skeleton templates, fixtures, and living architecture docs
+  to teach the same shape.
+
+Validation:
+- `bash tests/scripts/new-host-skeleton-fixture-test.sh`
+- `./scripts/check-docs-drift.sh`
+- `./scripts/run-validation-gates.sh structure`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+
+Diff result:
+- concrete host composition stayed explicit
+- duplicated `repo.context` assembly disappeared from real hosts and onboarding
+  templates
+- no new helper or option surface was introduced
+
+Commit:
 - pending
 
 ## Final State

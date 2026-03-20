@@ -66,6 +66,12 @@ in
     let
       host = config.repo.hosts.${hostName};
       user = config.repo.users.higorprado;
+      repoContext = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
     in
     {
       imports = [
@@ -168,22 +174,12 @@ in
             config.flake.modules.homeManager.wayland-tools
           ];
 
-          repo.context = {
-            inherit host;
-            inherit hostName;
-            inherit user;
-            userName = user.userName;
-          };
+          repo.context = repoContext;
 
           programs.fish.shellAbbrs = operatorFishAbbrs;
         };
       };
 
-      repo.context = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      repo.context = repoContext;
     };
 }

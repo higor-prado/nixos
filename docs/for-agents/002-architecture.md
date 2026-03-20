@@ -65,6 +65,11 @@ configurations.nixos.predator.module =
     host = config.repo.hosts.predator;
     user = config.repo.users.higorprado;
     hardwareImports = [ ../../hardware/predator/default.nix ];
+    repoContext = {
+      inherit host user;
+      hostName = "predator";
+      userName = user.userName;
+    };
   in
   {
     imports = [
@@ -82,18 +87,10 @@ configurations.nixos.predator.module =
         config.flake.modules.homeManager.fish
       ];
 
-      repo.context = {
-        inherit host user;
-        hostName = "predator";
-        userName = user.userName;
-      };
+      repo.context = repoContext;
     };
 
-    repo.context = {
-      inherit host user;
-      hostName = "predator";
-      userName = user.userName;
-    };
+    repo.context = repoContext;
   };
 ```
 
