@@ -23,13 +23,14 @@ in
   };
 
   flake.modules.nixos.higorprado =
-    { ... }:
+    { pkgs, ... }:
     {
       users.groups.${primaryGroup} = { };
       users.users.${userName} = {
         isNormalUser = true;
         home = homeDirectory;
         group = primaryGroup;
+        shell = pkgs.fish;
         inherit extraGroups;
       };
     };

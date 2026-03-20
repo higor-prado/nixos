@@ -37,7 +37,10 @@ in
         description = "Host-scoped Fish abbreviations merged into the active Fish surface.";
       };
 
-      config.programs.fish.shellAbbrs = baseAbbrs // config.custom.fish.hostAbbreviationOverrides;
+      config.programs.fish = {
+        enable = true;
+        shellAbbrs = baseAbbrs // config.custom.fish.hostAbbreviationOverrides;
+      };
     };
 
   flake.modules.homeManager.fish =
@@ -50,6 +53,7 @@ in
         options = [ "--no-cmd" ];
       };
       programs.fish = {
+        enable = true;
         shellAbbrs = baseAbbrs // homeManagerOnlyAbbrs;
         interactiveShellInit = ''
           # Suppress default greeting
