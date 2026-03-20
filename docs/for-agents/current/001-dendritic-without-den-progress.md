@@ -55,10 +55,46 @@ In progress
   - shadow `dendritic` namespace evaluates for `predator` and `aurelius`
   - authoritative `den` validation path remains green
 
+### Slice 2
+
+- Added [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
+  so the shadow path now owns its own lower-level runtime contracts and context
+  bridge without relying on `den`
+- Updated [shadow-hosts.nix](/home/higorprado/nixos/modules/options/shadow-hosts.nix)
+  so the shadow hosts now consume:
+  - `hardwareImports`
+  - `extraSystemPackages`
+  - repo-owned `custom.host.role`
+  - repo-owned `custom.user.name`
+  - repo-owned `repo.context`
+- Corrected two implementation mistakes in this slice:
+  - lower-level host modules had mixed `config.*` assignments with top-level
+    config attrs; fixed by moving the lower-level config into an explicit
+    `config = { ... };` block
+  - the temporary tmpfs/container fallback conflicted with real hardware imports;
+    fixed by making it conditional only when a shadow host has no
+    `hardwareImports`
+- Validation:
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.custom.host.role`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.custom.user.name`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.aurelius.config.custom.host.role`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.aurelius.config.custom.user.name`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - `predator` shadow now builds both system and HM
+  - `predator` shadow exposes the same host/user compatibility bridge names as
+    the authoritative path
+  - `aurelius` shadow resolves runtime role and user bridge values
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
 - Phase 0 baseline is captured for the current authoritative outputs
-- Phase 1 has started with a validated shadow namespace
-- Next step: start migrating repo-owned inventory/context consumers into the
-  new local framework without changing the authoritative outputs
+- Phase 1 has a validated shadow namespace that now builds `predator`
+- Phase 2 has started: the shadow path now consumes repo-owned inventory and
+  runtime contracts in a more realistic way
+- Next step: begin moving one real consumer away from `den` semantics and onto
+  repo-owned context in the shadow path, starting with a low-blast-radius owner

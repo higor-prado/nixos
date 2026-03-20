@@ -1,28 +1,5 @@
 { lib, config, inputs, ... }:
 let
-  mkContextModule =
-    { lib, ... }:
-    {
-      options.repo.context = {
-        hostName = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-        };
-        host = lib.mkOption {
-          type = lib.types.nullOr lib.types.raw;
-          default = null;
-        };
-        userName = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-        };
-        user = lib.mkOption {
-          type = lib.types.nullOr lib.types.raw;
-          default = null;
-        };
-      };
-    };
-
   mkShadowHomeModule =
     hostName: userName:
     let
@@ -61,65 +38,76 @@ let
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
+        config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
-      ];
+      ] ++ host.hardwareImports;
 
-      nixpkgs.hostPlatform = host.system;
-      networking.hostName = hostName;
-      boot.isContainer = true;
-      networking.useHostResolvConf = lib.mkForce false;
-      fileSystems."/" = {
-        device = "none";
-        fsType = "tmpfs";
-      };
-
-      system.stateVersion = "25.11";
-
-      users.groups = lib.genAttrs trackedGroups (_: { });
-      users.users = lib.genAttrs host.trackedUsers (
-        userName:
-        let
-          user = config.repo.users.${userName};
-        in
+      config = lib.mkMerge [
         {
-          isNormalUser = true;
-          home = user.homeDirectory;
-          group = user.primaryGroup;
-          extraGroups = user.extraGroups;
+          nixpkgs.hostPlatform = host.system;
+          networking.hostName = hostName;
+
+          system.stateVersion = "25.11";
+          custom = {
+            host.role = lib.mkDefault host.role;
+            user.name = lib.mkDefault (
+              if primaryUser == null then
+                "user"
+              else
+                config.repo.users.${primaryUser}.userName
+            );
+          };
+
+          environment.systemPackages = host.extraSystemPackages;
+
+          users.groups = lib.genAttrs trackedGroups (_: { });
+          users.users = lib.genAttrs host.trackedUsers (
+            userName:
+            let
+              user = config.repo.users.${userName};
+            in
+            {
+              isNormalUser = true;
+              home = user.homeDirectory;
+              group = user.primaryGroup;
+              extraGroups = user.extraGroups;
+            }
+          );
+
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            backupFileExtension = "hm-bak";
+            users = lib.genAttrs host.homeManagerUsers (userName: mkShadowHomeModule hostName userName);
+          };
+
+          repo.context = {
+            inherit hostName;
+            host = host;
+            userName = primaryUser;
+            user =
+              if primaryUser == null then
+                null
+              else
+                config.repo.users.${primaryUser};
+          };
         }
-      );
-
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "hm-bak";
-        users = lib.genAttrs host.homeManagerUsers (userName: mkShadowHomeModule hostName userName);
-      };
-
-      repo.context = {
-        inherit hostName;
-        host = host;
-        userName = primaryUser;
-        user =
-          if primaryUser == null then
-            null
-          else
-            config.repo.users.${primaryUser};
-      };
+        (lib.mkIf (host.hardwareImports == [ ]) {
+          boot.isContainer = true;
+          networking.useHostResolvConf = lib.mkForce false;
+          fileSystems."/" = {
+            device = "none";
+            fsType = "tmpfs";
+          };
+        })
+      ];
     };
 in
 {
-  config = {
-    flake.modules = {
-      nixos.repo-context = mkContextModule;
-      homeManager.repo-context = mkContextModule;
-    };
-
-    configurations.nixos = lib.mapAttrs (
+  config.configurations.nixos = lib.mapAttrs (
       hostName: host:
       {
         module = mkShadowHostModule hostName host;
       }
     ) config.repo.hosts;
-  };
 }
