@@ -40,12 +40,14 @@ in
     system = "x86_64-linux";
     role = "desktop";
     trackedUsers = [ "higorprado" ];
-    inherit inputs;
   };
 
   configurations.nixos.<host-name>.module =
     let
-      host = config.repo.hosts.${hostName};
+      hostInventory = config.repo.hosts.${hostName};
+      host = hostInventory // {
+        inherit inputs customPkgs;
+      };
       user = config.repo.users.higorprado;
     in
     {
@@ -77,7 +79,6 @@ the host context. Example:
 {
   repo.hosts.<host-name> = {
     trackedUsers = [ "higorprado" ];
-    inherit inputs customPkgs;
     llmAgents = {
       homePackages = with inputs.llm-agents.packages.${system}; [ claude-code codex ];
       systemPackages = [ ];

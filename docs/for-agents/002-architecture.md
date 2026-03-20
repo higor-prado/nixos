@@ -35,7 +35,6 @@ repo.hosts.predator = {
   system = "x86_64-linux";
   role = "desktop";
   trackedUsers = [ "higorprado" ];
-  inputs = inputs;
 };
 ```
 
@@ -62,7 +61,10 @@ Example shape:
 ```nix
 configurations.nixos.predator.module =
   let
-    host = config.repo.hosts.predator;
+    hostInventory = config.repo.hosts.predator;
+    host = hostInventory // {
+      inherit inputs customPkgs;
+    };
     user = config.repo.users.higorprado;
     hardwareImports = [ ../../hardware/predator/default.nix ];
     repoContext = {
@@ -143,6 +145,10 @@ modules.
 ## Runtime Context
 
 Host-aware lower-level modules read runtime facts from `config.repo.context.*`.
+
+`repo.context.host` is the runtime host context assembled in the concrete host
+module. It may extend tracked inventory with local runtime payload such as
+`inputs` or `customPkgs` when reusable lower-level modules need those values.
 
 The shared contract is published in
 `modules/options/repo-runtime-contracts.nix`:

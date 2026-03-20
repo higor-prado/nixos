@@ -128,6 +128,31 @@ Diff result:
 Commit:
 - pending
 
+### Slice 6
+
+- Removed raw `inputs` and `customPkgs` from the tracked `repo.hosts.*`
+  inventory schema.
+- Kept those values in the concrete host files and merged them into the
+  runtime `host` payload that is exposed through `repo.context.host`.
+- Updated host templates, fixtures, and living docs to teach the same
+  inventory-vs-runtime split.
+
+Validation:
+- `bash tests/scripts/new-host-skeleton-fixture-test.sh`
+- `./scripts/check-docs-drift.sh`
+- `./scripts/run-validation-gates.sh structure`
+- `./scripts/run-validation-gates.sh all`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+
+Diff result:
+- `repo.hosts.*` now reads more clearly as tracked inventory
+- `repo.context.host` continues to provide the runtime payload needed by
+  lower-level features without inventing a new option surface
+
+Commit:
+- pending
+
 ### Slice 5
 
 - Removed the last tracked executable use of `custom.user.name` from the

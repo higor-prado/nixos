@@ -57,14 +57,18 @@ let
 in
 {
   repo.hosts.predator = {
-    inherit system inputs customPkgs llmAgents;
+    inherit system llmAgents;
     role = "desktop";
     trackedUsers = [ "higorprado" ];
   };
 
   configurations.nixos.predator.module =
     let
-      host = config.repo.hosts.${hostName};
+      hostInventory = config.repo.hosts.${hostName};
+      host = hostInventory // {
+        inherit inputs;
+        inherit customPkgs;
+      };
       user = config.repo.users.higorprado;
       repoContext = {
         inherit host;
@@ -124,7 +128,7 @@ in
       networking.hostName = hostName;
 
       custom = {
-        host.role = host.role;
+        host.role = hostInventory.role;
         user.name = user.userName;
       };
 
