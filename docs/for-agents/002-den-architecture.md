@@ -1,16 +1,18 @@
 # Den Architecture
 
-This document now describes the remaining `den` compatibility surface only.
-Canonical outputs no longer come from `den.hosts` / `den.aspects` host
-materialization; they come from the repo-local dendritic runtime
+This document is historical context only.
+
+The tracked repo no longer has an active `den` runtime or any tracked `.nix`
+code that depends on `den`. Canonical outputs come from the repo-local
+dendritic runtime
 (`repo.hosts.*`, `repo.users.*`, `flake.modules.*`, and
 `configurations.nixos.*.module`).
 
-When this document conflicts with the active dendritic runtime, treat it as
-historical context for the shrinking `den` support layer, not as the rule for
-new work.
+When this document conflicts with the active runtime, the dendritic runtime
+wins. Use this file only to understand older commits, archived migration logs,
+or historical design decisions.
 
-## What den provides
+## What den provided
 
 Den is a flake-parts module that offers:
 
@@ -33,7 +35,7 @@ Den is a flake-parts module that offers:
    ```
    This declares a nixosConfiguration entry for the host.
 
-## Aspect pattern in this repo
+## Historical aspect pattern in this repo
 
 Every tracked feature file under `modules/features/` defines exactly one aspect.
 Category subfolders are fine; den auto-discovers recursively. Features with

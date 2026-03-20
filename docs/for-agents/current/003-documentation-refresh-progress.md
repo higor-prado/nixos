@@ -33,6 +33,19 @@ Validation:
 Commit:
 - `51952bf` `refactor(docs): prune stale den references`
 
+### Slice 2
+
+- Tightened the header and framing of
+  [002-den-architecture.md](/home/higorprado/nixos/docs/for-agents/002-den-architecture.md)
+  so it is explicitly historical and no longer implies there is a shrinking
+  live compatibility layer.
+
+Validation:
+- `./scripts/check-docs-drift.sh`
+
+Commit:
+- pending
+
 ## Final State
 
 - Open: refresh the remaining living docs/tooling descriptions and decide what
