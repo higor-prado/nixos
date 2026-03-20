@@ -362,6 +362,30 @@ In progress
     the shared theme surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 15
+
+- Added two host-context-dependent desktop HM owners:
+  - [desktop-apps.nix](/home/higorprado/nixos/modules/features/desktop/desktop-apps.nix)
+  - [theme-zen.nix](/home/higorprado/nixos/modules/features/desktop/theme-zen.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.desktop-apps`
+  - `flake.modules.homeManager.theme-zen`
+- Both read host-specific data through `config.repo.context.host`, preserving
+  the dendritic rule that cross-file sharing happens through config, not through
+  `specialArgs`
+- Imported them into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.firefox.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.brave.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.activation.syncZenCatppuccinTheme.data`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves browser/apps wiring and the Zen
+    theme sync activation through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -393,6 +417,8 @@ In progress
   imports
 - Additional desktop HM-only owners (`desktop-base`, `theme-base`) now flow
   through the repo-local runtime via explicit host imports
+- Additional host-context-dependent desktop HM owners (`desktop-apps`,
+  `theme-zen`) now flow through the repo-local runtime via explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
