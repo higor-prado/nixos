@@ -151,7 +151,7 @@ Targets:
 - [modules/hosts/predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
 - [modules/hosts/aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
 - [modules/users/higorprado.nix](/home/higorprado/nixos/modules/users/higorprado.nix)
-- [modules/lib/den-host-context.nix](/home/higorprado/nixos/modules/lib/den-host-context.nix)
+- the former `den-host-context` schema shim
 - new framework context modules
 
 Changes:

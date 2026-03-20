@@ -9,7 +9,7 @@ modules/features/   53+ feature modules grouped under category folders
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
 modules/den.nix     shrinking den compatibility surface import
-modules/lib/        repo/den bridge internals (currently den-host-context.nix)
+modules/lib/        repo/runtime bridge internals
 private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix, primary-tracked-user.nix)
@@ -74,11 +74,6 @@ docs/for-agents/archive/ archived plans and log tracks
 |------|-------------------------------|-----------|
 | `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
 | `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
-
-## modules/lib/
-
-- `den-host-context.nix` — schema extension for den host context (`inputs`,
-  `customPkgs`, semantic `llmAgents`)
 
 ## private/
 

@@ -244,7 +244,7 @@ Host context (`inputs`, `customPkgs`, semantic `llmAgents`) is propagated differ
 
 ### Host context schema
 
-The schema is extended via `modules/lib/den-host-context.nix`:
+Historically the schema was extended by a dedicated `den-host-context` shim:
 
 ```nix
 den.schema.host = { ... }: {

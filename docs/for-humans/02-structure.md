@@ -5,7 +5,7 @@ modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
 modules/den.nix     shrinking den compatibility import
-modules/lib/        repo/den bridge internals (currently den-host-context.nix)
+modules/lib/        repo/runtime bridge internals
 private/            private overrides
 lib/                generic helper functions reused by tracked modules
 hardware/<name>/    hardware, disko, boot, overlays (host-specific)
