@@ -166,7 +166,8 @@ Examples:
 contracts that need to exist everywhere:
 
 - `custom.host.role`
-- `custom.user.name`
+- `custom.user.name` as a compatibility bridge for private/legacy lower-level
+  wiring
 - shared Home Manager modules such as Catppuccin wiring
 
 These are repo runtime contracts, not a feature-selection mechanism.

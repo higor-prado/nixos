@@ -32,7 +32,8 @@ users under `repo.hosts.<host>.trackedUsers`, and `custom.user.name` is derived
 inside the concrete host configuration by default. Most tracked feature wiring
 now uses repo runtime context directly; your private override may still
 override `custom.user.name` when lower-level host config needs one selected
-local operator account.
+local operator account. In other words: this bridge still exists for private
+compatibility, not as the normal tracked wiring path.
 
 ## Gitignore
 

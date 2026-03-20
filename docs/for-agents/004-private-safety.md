@@ -32,6 +32,10 @@ Compatibility-only consumers may still reference the bridge dynamically:
 let userName = config.custom.user.name; in ...
 ```
 
+Tracked runtime wiring should prefer `config.repo.context.userName`. The bridge
+exists so gitignored host-private overrides can still select a concrete local
+operator account when needed.
+
 ## Hardcoded home paths
 
 Default rule:
