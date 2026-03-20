@@ -73,10 +73,13 @@ in
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
             config.flake.modules.homeManager.llm-agents
+            config.flake.modules.homeManager.monitoring-tools
             config.flake.modules.homeManager.ssh
             config.flake.modules.homeManager.starship
             config.flake.modules.homeManager.terminal-tmux
             config.flake.modules.homeManager.tui-tools
+            config.flake.modules.homeManager.dev-tools
+            config.flake.modules.homeManager.terminals
           ];
 
           repo.context = {
