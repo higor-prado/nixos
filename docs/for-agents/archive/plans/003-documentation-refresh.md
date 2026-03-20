@@ -1,18 +1,17 @@
-# Documentation Refresh After Den Removal
+# Documentation Refresh
 
 ## Goal
 
 Refresh the repo's living documentation so it describes the current dendritic
-runtime directly, while keeping `den` material only where it is intentionally
-historical or migration-related.
+runtime directly, while keeping migration history clearly bounded.
 
 ## Scope
 
 In scope:
 - living docs under `docs/for-humans/` and `docs/for-agents/`
-- doc indexes and validation allowlists that still mention `den`
+- doc indexes and validation allowlists that still mention old runtime naming
 - active tests/tooling descriptions that describe the old runtime incorrectly
-- deciding which `den` docs remain historical vs should be archived or renamed
+- deciding which migration docs remain historical vs should be archived or renamed
 
 Out of scope:
 - rewriting archived migration logs for style
@@ -22,20 +21,19 @@ Out of scope:
 ## Current State
 
 - Canonical outputs now come from the repo-local dendritic runtime.
-- No tracked active `.nix` files reference `den`.
-- Remaining `den` references are concentrated in:
-  - historical docs such as `docs/for-agents/002-den-architecture.md`
+- No tracked active `.nix` files reference the removed runtime.
+- Remaining migration references are concentrated in:
+  - historical docs and migration logs
   - migration plans/logs under `docs/for-agents/plans/` and `docs/for-agents/current/`
   - a small number of living docs/tests/tooling descriptions
-- `docs/README.md` still intentionally indexes `002-den-architecture.md` as a
-  historical document.
+- Some root onboarding docs still point at stale names or stale descriptions.
 
 ## Desired End State
 
 - Living docs explain the current repo in dendritic terms first.
-- Historical `den` material is clearly labeled and bounded.
-- Tests/tooling descriptions no longer describe current behavior in `den` terms.
-- The remaining `den` references are either:
+- Historical migration material is clearly labeled and bounded.
+- Tests/tooling descriptions no longer describe current behavior in removed-runtime terms.
+- The remaining historical references are either:
   - intentionally historical, or
   - archived execution history.
 
@@ -49,11 +47,11 @@ Targets:
 - `tests/`
 
 Changes:
-- Inventory the remaining tracked `den` references.
+- Inventory the remaining tracked migration references.
 - Classify each one as living, historical, or archival.
 
 Validation:
-- `rg -n "\\bden\\b" docs scripts tests`
+- `rg -n "den|dendritic-without-den|002-den-architecture" docs scripts tests`
 - `./scripts/check-docs-drift.sh`
 
 Diff expectation:
@@ -70,9 +68,9 @@ Targets:
 - `docs/README.md`
 
 Changes:
-- Rewrite living docs that still describe current behavior in `den` terms.
-- Keep `002-den-architecture.md` historical unless there is a strong reason to
-  split or archive it now.
+- Rewrite living docs that still describe current behavior in stale
+  pre-cutover terms.
+- Replace stale file names and stale labels in the onboarding surface.
 - Update wording so host composition, runtime context, and published lower-level
   modules are described directly in dendritic terms.
 
@@ -94,7 +92,7 @@ Targets:
 - doc allowlists and registries
 
 Changes:
-- Update stale descriptions and comments that still imply active `den`
+- Update stale descriptions and comments that still imply removed-runtime
   semantics.
 - Keep intentional historical references only where they are needed for
   indexing or public-safety allowlists.
@@ -111,7 +109,7 @@ Commit target:
 ### Phase 3: Bound Historical Material
 
 Targets:
-- `docs/for-agents/002-den-architecture.md`
+- architecture and migration-history docs
 - active migration plan/log files
 
 Changes:
@@ -127,7 +125,7 @@ Diff expectation:
 - doc moves / doc wording only
 
 Commit target:
-- `refactor(docs): bound historical den material`
+- `refactor(docs): bound historical migration material`
 
 ## Risks
 
@@ -140,7 +138,8 @@ Commit target:
 
 ## Definition of Done
 
-- Living docs describe the active repo as dendritic-first without stale `den`
-  runtime language.
-- Remaining `den` references are clearly historical or archived.
+- Living docs describe the active repo as dendritic-first without stale
+  removed-runtime language.
+- Remaining historical references are clearly archived or intentionally
+  bounded.
 - Docs/tooling validation stays green.
