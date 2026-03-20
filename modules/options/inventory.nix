@@ -29,6 +29,10 @@
                 type = lib.types.listOf lib.types.str;
                 default = [ ];
               };
+              features = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+              };
               inputs = lib.mkOption {
                 type = lib.types.raw;
               };

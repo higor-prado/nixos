@@ -3,7 +3,14 @@ let
   mkShadowHomeModule =
     hostName: userName:
     let
+      host = config.repo.hosts.${hostName};
       user = config.repo.users.${userName};
+      selectedFeatures = config.repo.defaults.hostFeatures ++ host.features;
+      selectedHomeModules = builtins.map (
+        featureName: config.flake.modules.homeManager.${featureName}
+      ) (
+        lib.filter (featureName: builtins.hasAttr featureName config.flake.modules.homeManager) selectedFeatures
+      );
       privateImport =
         if user.privateModule != null && builtins.pathExists user.privateModule then
           [ user.privateModule ]
@@ -13,7 +20,7 @@ let
     {
       imports = [
         config.flake.modules.homeManager.repo-context
-      ] ++ privateImport;
+      ] ++ selectedHomeModules ++ privateImport;
 
       home = {
         username = user.userName;
@@ -23,7 +30,7 @@ let
 
       repo.context = {
         inherit hostName userName;
-        host = config.repo.hosts.${hostName};
+        host = host;
         user = user;
       };
     };
@@ -31,6 +38,12 @@ let
   mkShadowHostModule =
     hostName: host:
     let
+      selectedFeatures = config.repo.defaults.hostFeatures ++ host.features;
+      selectedNixosModules = builtins.map (
+        featureName: config.flake.modules.nixos.${featureName}
+      ) (
+        lib.filter (featureName: builtins.hasAttr featureName config.flake.modules.nixos) selectedFeatures
+      );
       trackedGroups = lib.unique (map (userName: config.repo.users.${userName}.primaryGroup) host.trackedUsers);
       primaryUser =
         if host.trackedUsers == [ ] then null else builtins.elemAt host.trackedUsers 0;
@@ -40,7 +53,7 @@ let
         inputs.home-manager.nixosModules.home-manager
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
-      ] ++ host.hardwareImports;
+      ] ++ selectedNixosModules ++ host.hardwareImports;
 
       config = lib.mkMerge [
         {

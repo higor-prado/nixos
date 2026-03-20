@@ -89,6 +89,31 @@ In progress
   - `aurelius` shadow resolves runtime role and user bridge values
   - authoritative `den` validation path remains green
 
+### Slice 3
+
+- Extended the repo-local host inventory with explicit feature selection in
+  [inventory.nix](/home/higorprado/nixos/modules/options/inventory.nix)
+- Updated [shadow-hosts.nix](/home/higorprado/nixos/modules/options/shadow-hosts.nix)
+  so shadow hosts now import lower-level modules selected from top-level
+  feature names
+- Dual-published the first real feature owner,
+  [llm-agents.nix](/home/higorprado/nixos/modules/features/dev/llm-agents.nix),
+  onto the repo-local runtime:
+  - `flake.modules.nixos.llm-agents`
+  - `flake.modules.homeManager.llm-agents`
+- Enabled `llm-agents` for the `predator` shadow host via
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --apply 'pkgs: builtins.length pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.packages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - `predator` shadow HM package count is now `13`
+  - the `predator` shadow HM and system paths both build with a real feature
+    imported through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -96,5 +121,7 @@ In progress
 - Phase 1 has a validated shadow namespace that now builds `predator`
 - Phase 2 has started: the shadow path now consumes repo-owned inventory and
   runtime contracts in a more realistic way
-- Next step: begin moving one real consumer away from `den` semantics and onto
-  repo-owned context in the shadow path, starting with a low-blast-radius owner
+- Phase 3 has started in small form: one real feature (`llm-agents`) now flows
+  through the repo-local runtime
+- Next step: migrate the next low-blast-radius host-aware owner and keep growing
+  the feature selection/runtime path without touching the authoritative outputs

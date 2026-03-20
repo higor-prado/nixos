@@ -25,6 +25,7 @@ in
     role = "desktop";
     trackedUsers = [ "higorprado" ];
     homeManagerUsers = [ "higorprado" ];
+    features = [ "llm-agents" ];
     hardwareImports = [
       inputs.disko.nixosModules.disko
       inputs.impermanence.nixosModules.impermanence

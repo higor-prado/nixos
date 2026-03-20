@@ -13,6 +13,7 @@ in
     role = "server";
     trackedUsers = [ "higorprado" ];
     homeManagerUsers = [ ];
+    features = [ ];
     hardwareImports = [
       inputs.disko.nixosModules.disko
       ../../hardware/aurelius/default.nix
