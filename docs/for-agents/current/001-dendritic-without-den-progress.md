@@ -572,6 +572,35 @@ In progress
     package surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 22
+
+- Added five more NixOS-only owners:
+  - [networking-resolved.nix](/home/higorprado/nixos/modules/features/system/networking-resolved.nix)
+  - [networking-avahi.nix](/home/higorprado/nixos/modules/features/system/networking-avahi.nix)
+  - [audio.nix](/home/higorprado/nixos/modules/features/system/audio.nix)
+  - [gnome-keyring.nix](/home/higorprado/nixos/modules/features/desktop/gnome-keyring.nix)
+  - [xwayland.nix](/home/higorprado/nixos/modules/features/desktop/xwayland.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.nixos.networking-resolved`
+  - `flake.modules.nixos.networking-avahi`
+  - `flake.modules.nixos.audio`
+  - `flake.modules.nixos.gnome-keyring`
+  - `flake.modules.nixos.xwayland`
+- Imported them explicitly in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.resolved.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.avahi.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.pipewire.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.gnome.gnome-keyring.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.xwayland.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system path now resolves the resolver, mDNS, audio,
+    GNOME keyring, and Xwayland surfaces through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -617,6 +646,9 @@ In progress
   `packages-system-tools`) are being migrated through explicit host imports
 - Additional NixOS-only owners (`packages-server-tools`, `podman`, `upower`,
   `bluetooth`) are being migrated through explicit host imports
+- Additional NixOS-only owners (`networking-resolved`, `networking-avahi`,
+  `audio`, `gnome-keyring`, `xwayland`) are being migrated through explicit
+  host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

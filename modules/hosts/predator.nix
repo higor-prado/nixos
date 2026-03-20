@@ -43,7 +43,11 @@ in
         inputs.home-manager.nixosModules.home-manager
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.audio
+        config.flake.modules.nixos.gnome-keyring
         config.flake.modules.nixos.bluetooth
+        config.flake.modules.nixos.networking-avahi
+        config.flake.modules.nixos.networking-resolved
         config.flake.modules.nixos.podman
         config.flake.modules.nixos.upower
         config.flake.modules.nixos.higorprado
@@ -58,6 +62,7 @@ in
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.llm-agents
         config.flake.modules.nixos.ssh
+        config.flake.modules.nixos.xwayland
       ] ++ host.hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
