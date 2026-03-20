@@ -850,5 +850,11 @@ In progress
   host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
-- Next step: keep migrating small owners that exercise both HM and NixOS routing
-  through the local runtime without touching the authoritative outputs
+- Canonical `flake.nixosConfigurations.*` now comes from the repo-local
+  dendritic runtime rather than the `den` output materializer
+- Dead `den.hosts.*` and `den.aspects.{predator,aurelius,higorprado}` runtime
+  declarations were removed from the active host/user files after the canonical
+  cutover, leaving those files focused on top-level inventory and
+  `configurations.nixos.*.module`
+- Next step: keep shrinking the remaining `den` support surface now that hosts
+  and the tracked user no longer dual-declare runtime composition
