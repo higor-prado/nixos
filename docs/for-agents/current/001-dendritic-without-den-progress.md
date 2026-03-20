@@ -885,5 +885,9 @@ In progress
   `audio`, `bluetooth`, `maintenance`, `networking`, `networking-resolved`,
   `packages-server-tools`, `podman`, `security`, `upower`, `xwayland`,
   `gnome-keyring`, and `packages-fonts`
+- Removed another low-risk batch of NixOS-only `den` publishers:
+  `system-base`, `keyboard`, `maintenance-smartd`, `networking-avahi`,
+  `packages-system-tools`, and `tailscale`, and deleted the dead `server-base`
+  shim
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
