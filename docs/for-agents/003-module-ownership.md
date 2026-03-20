@@ -6,7 +6,7 @@
 |----------|------|
 | `modules/features/**/*.nix` | Feature behavior, published lower-level NixOS/HM modules, option declarations |
 | `modules/desktops/*.nix` | Desktop composition lower-level modules |
-| `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, and machine-specific operator wiring |
+| `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
 | `modules/options/*.nix` | Top-level runtime surfaces, inventory schema, and runtime contracts |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |

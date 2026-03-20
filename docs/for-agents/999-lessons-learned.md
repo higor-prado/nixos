@@ -46,6 +46,7 @@
 42. Use `~/git/dendritic` as the pattern reference. Historical framework-specific material is for migration/audit context only; canonical runtime decisions should be validated against the repo-local top-level modules first.
 43. Host-operator shell commands that reference a concrete machine, repo checkout, or remote target belong in the concrete host module, not in the shared shell feature.
 44. When replacing an old framework battery, restore its behavior explicitly in the new owner. Syntax migration alone is not parity if semantic effects like primary-user admin groups disappear.
+45. Keep repo-wide user semantics narrow. Base account shape and truly cross-host admin semantics belong in `modules/users/<user>.nix`; host-specific groups like device or service access belong in the concrete host module.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO

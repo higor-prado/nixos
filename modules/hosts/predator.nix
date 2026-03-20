@@ -19,6 +19,15 @@ let
     systemPackages = [ ];
   };
   hostName = "predator";
+  predatorUserExtraGroups = [
+    "video"
+    "audio"
+    "input"
+    "docker"
+    "rfkill"
+    "uinput"
+    "linuwu_sense"
+  ];
   operatorFishAbbrs = {
     npu = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
     npub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
@@ -114,6 +123,8 @@ in
       };
 
       environment.systemPackages = host.extraSystemPackages;
+
+      users.users.${user.userName}.extraGroups = predatorUserExtraGroups;
 
       home-manager = {
         users.${user.userName} = {

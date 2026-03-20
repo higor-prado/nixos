@@ -8,16 +8,7 @@ let
     "wheel"
     "networkmanager"
   ];
-  repoExtraGroups = [
-    "video"
-    "audio"
-    "input"
-    "docker"
-    "rfkill"
-    "uinput"
-    "linuwu_sense"
-  ];
-  extraGroups = primaryUserGroups ++ repoExtraGroups;
+  extraGroups = primaryUserGroups;
   privateModule = ../../private/users/higorprado/default.nix;
 in
 {

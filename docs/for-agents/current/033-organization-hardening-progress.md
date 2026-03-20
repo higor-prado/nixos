@@ -1,0 +1,77 @@
+# Organization Hardening Progress
+
+## Status
+
+In progress
+
+## Related Plan
+
+- [033-organization-hardening-plan.md](/home/higorprado/nixos/docs/for-agents/plans/033-organization-hardening-plan.md)
+
+## Baseline
+
+- Current branch: `dendritic-without-den`
+- Current active plan: organization hardening after Den removal
+- Current dirty tracked file before execution:
+  - `flake.lock`
+- Key baseline concerns confirmed:
+  - `modules/users/higorprado.nix` currently owns both repo-wide groups and
+    likely host-specific groups
+  - `modules/hosts/predator.nix` and `modules/hosts/aurelius.nix` repeat a
+    large shared baseline import block
+  - `repo.hosts.*` currently stores both inventory-like facts and runtime-heavy
+    values (`inputs`, `customPkgs`, `hardwareImports`, etc.)
+  - `custom.user.name` still exists as a compatibility bridge used by scripts
+
+## Slices
+
+### Slice 1
+
+- Opened the execution track and confirmed the baseline organization issues
+  against the current runtime.
+- No structural changes yet.
+
+Validation:
+- baseline inspection only
+
+Diff result:
+- none
+
+Commit:
+- none
+
+### Slice 2
+
+- Narrowed the user owner in `modules/users/higorprado.nix` so it keeps only
+  repo-wide primary-user groups.
+- Moved Predator-only user entitlements into `modules/hosts/predator.nix`.
+- Reduced tracked validation dependence on `custom.user.name` by switching the
+  gate runner and config contracts to `config.repo.context.userName`.
+- Kept the compatibility bridge itself intact because human docs and private
+  override entry points still rely on it.
+- Updated living docs to record the ownership split.
+
+Validation:
+- `nix eval --json path:$PWD#nixosConfigurations.predator.config.users.users.higorprado.extraGroups`
+- `nix eval --json path:$PWD#nixosConfigurations.aurelius.config.users.users.higorprado.extraGroups`
+- `bash tests/scripts/run-validation-gates-fixture-test.sh`
+- `./scripts/check-config-contracts.sh`
+- `./scripts/run-validation-gates.sh structure`
+- `./scripts/run-validation-gates.sh all`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+
+Diff result:
+- `predator` now evaluates with workstation-specific groups
+- `aurelius` now evaluates with only `["wheel","networkmanager"]`
+- tracked gate scripts no longer use `config.custom.user.name`
+- direct `aurelius` system build remains platform-limited on this `x86_64-linux`
+  machine, but the canonical gate runner passed because its Aurelius stage is
+  eval-only by design
+
+Commit:
+- pending
+
+## Final State
+
+- Open

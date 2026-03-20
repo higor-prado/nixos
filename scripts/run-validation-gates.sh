@@ -47,7 +47,7 @@ run_predator_gates() {
   host="$(validation_stage_host "predator")"
   echo "[validation-gates] predator gates"
   local hm_user
-  hm_user="$(nix eval --raw "path:$PWD#nixosConfigurations.${host}.config.custom.user.name")"
+  hm_user="$(nix eval --raw "path:$PWD#nixosConfigurations.${host}.config.repo.context.userName")"
 
   run_check_script "check-config-contracts.sh"
   run_check_script "check-desktop-composition-matrix.sh"

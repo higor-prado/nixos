@@ -130,6 +130,8 @@ The current pattern is:
 - `flake.modules.homeManager.<name>` declares the base HM user module
 - repo-wide primary-user semantics such as admin groups belong here, not in
   host hardware files or generic shell features
+- host-specific device/service entitlements for that user belong in the
+  concrete host module, not in the shared user owner
 
 This keeps user ownership out of host hardware files and out of generic feature
 modules.
