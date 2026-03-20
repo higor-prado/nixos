@@ -14,14 +14,18 @@ let
 in
 {
   repo.hosts.aurelius = {
-    inherit system inputs customPkgs;
+    inherit system;
     role = "server";
     trackedUsers = [ "higorprado" ];
   };
 
   configurations.nixos.aurelius.module =
     let
-      host = config.repo.hosts.${hostName};
+      hostInventory = config.repo.hosts.${hostName};
+      host = hostInventory // {
+        inherit inputs;
+        inherit customPkgs;
+      };
       user = config.repo.users.higorprado;
       repoContext = {
         inherit host;
@@ -55,7 +59,7 @@ in
       networking.hostName = hostName;
 
       custom = {
-        host.role = host.role;
+        host.role = hostInventory.role;
         user.name = user.userName;
       };
 

@@ -25,13 +25,6 @@
                 type = lib.types.listOf lib.types.str;
                 default = [ ];
               };
-              inputs = lib.mkOption {
-                type = lib.types.raw;
-              };
-              customPkgs = lib.mkOption {
-                type = lib.types.raw;
-                default = { };
-              };
               llmAgents = lib.mkOption {
                 type = lib.types.raw;
                 default = {

@@ -41,13 +41,21 @@ in
     system = "x86_64-linux";
     role = "desktop";
     trackedUsers = [ "higorprado" ];
-    inherit inputs;
   };
 
   configurations.nixos.${hostName}.module =
     let
-      host = config.repo.hosts.${hostName};
+      hostInventory = config.repo.hosts.${hostName};
+      host = hostInventory // {
+        inherit inputs customPkgs;
+      };
       user = config.repo.users.higorprado;
+      repoContext = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
     in
     {
       imports = [
@@ -64,19 +72,8 @@ in
         config.flake.modules.homeManager.my-feature
       ];
 
-      repo.context = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
-
-      home-manager.users.${user.userName}.repo.context = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      repo.context = repoContext;
+      home-manager.users.${user.userName}.repo.context = repoContext;
     };
   };
 }

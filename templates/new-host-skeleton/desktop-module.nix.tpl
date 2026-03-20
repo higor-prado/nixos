@@ -13,14 +13,17 @@ let
 in
 {
   repo.hosts.__HOST_NAME__ = {
-    inherit inputs customPkgs;
     role = "__HOST_ROLE__";
     trackedUsers = [ "higorprado" ];
   };
 
   configurations.nixos.__HOST_NAME__.module =
     let
-      host = config.repo.hosts.${hostName};
+      hostInventory = config.repo.hosts.${hostName};
+      host = hostInventory // {
+        inherit inputs;
+        inherit customPkgs;
+      };
       user = config.repo.users.higorprado;
       repoContext = {
         inherit host;
@@ -53,7 +56,7 @@ in
       networking.hostName = hostName;
 
       custom = {
-        host.role = host.role;
+        host.role = hostInventory.role;
         user.name = user.userName;
       };
 
