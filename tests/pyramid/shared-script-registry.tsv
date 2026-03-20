@@ -8,7 +8,7 @@ scripts/check-desktop-capability-usage.sh	gate-check	structure gate invoked by r
 scripts/check-desktop-composition-matrix.sh	gate-check	desktop composition eval gate invoked by run-validation-gates.sh
 scripts/check-docs-drift.sh	gate-check	documentation drift gate invoked by run-validation-gates.sh
 scripts/check-extension-contracts.sh	gate-check	extension contract gate invoked by run-validation-gates.sh
-scripts/check-feature-aspect-name-match.sh	gate-check	structure gate enforcing lesson 36: feature file name must match defined aspect name
+scripts/check-feature-publisher-name-match.sh	gate-check	structure gate enforcing lesson 35: feature file name must match at least one published lower-level module name
 scripts/check-extension-simulations.sh	gate-check	extension simulation gate invoked by run-validation-gates.sh
 scripts/check-bare-host-in-includes.sh	gate-check	structure gate forbidding bare host lambdas in module lists; host data must flow through repo.context inside published lower-level modules
 scripts/check-feature-role-conditionals.sh	gate-check	structure gate enforcing lesson 13: mkIf custom.host.role forbidden in modules/features/

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# check-feature-aspect-name-match.sh — enforce that each feature file publishes
+# check-feature-publisher-name-match.sh — enforce that each feature file publishes
 # lower-level modules whose name matches the filename.
 set -euo pipefail
 
@@ -40,14 +40,14 @@ while IFS= read -r -d '' file; do
   done
 
   if [[ $matched -eq 0 ]]; then
-    echo "[check-feature-aspect-name-match] FAIL: $file publishes [${published_names[*]}] but filename is '$feature_name'" >&2
+    echo "[check-feature-publisher-name-match] FAIL: $file publishes [${published_names[*]}] but filename is '$feature_name'" >&2
     fail=1
   fi
 done < <(find modules/features -name '*.nix' -print0)
 
 if [[ $fail -ne 0 ]]; then
-  echo "[check-feature-aspect-name-match] one or more feature files have publisher name mismatches" >&2
+  echo "[check-feature-publisher-name-match] one or more feature files have publisher name mismatches" >&2
   exit 1
 fi
 
-echo "[check-feature-aspect-name-match] ok"
+echo "[check-feature-publisher-name-match] ok"

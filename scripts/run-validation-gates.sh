@@ -25,7 +25,7 @@ run_structure_gates() {
   run_check_script "check-option-declaration-boundary.sh"
   run_check_script "check-flake-pattern.sh"
   run_check_script "check-extension-contracts.sh"
-  run_check_script "check-feature-aspect-name-match.sh"
+  run_check_script "check-feature-publisher-name-match.sh"
   run_check_script "check-dendritic-host-onboarding-contracts.sh"
   run_check_script "check-validation-source-of-truth.sh"
   run_check_script "check-docs-drift.sh"

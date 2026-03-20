@@ -79,7 +79,7 @@ if [[ -e "${legacy_modules_root}/default.nix" || -d "$legacy_desktop_selector_di
   report_fail "legacy desktop selector layer must be removed after desktop host-composition cutover"
 fi
 
-# Legacy stub removed — home/base/ no longer exists.
+# Legacy stub removed — the old tracked private-home path no longer exists.
 
 mapfile -t host_dirs < <(
   find hardware -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u

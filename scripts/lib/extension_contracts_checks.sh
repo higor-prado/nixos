@@ -92,7 +92,7 @@ extc_check_host_descriptor_matches_defaults() {
 
     if [[ "$runtime_role" == "desktop" ]]; then
       if ! rg -q 'desktop-[a-z0-9-]+' "$host_module_file"; then
-        "$fail_fn" "desktop host '${host}' modules/hosts/${host}.nix must include a desktop-* composition aspect"
+        "$fail_fn" "desktop host '${host}' modules/hosts/${host}.nix must include a desktop-* composition module"
       fi
     fi
 
