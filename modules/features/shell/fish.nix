@@ -28,6 +28,49 @@ let
   };
 in
 {
+  flake.modules.nixos.fish =
+    { ... }:
+    {
+      programs.fish.shellAbbrs = baseAbbrs;
+    };
+
+  flake.modules.homeManager.fish =
+    { ... }:
+    {
+      catppuccin.fish.enable = true;
+      programs.zoxide = {
+        enable = true;
+        enableFishIntegration = true;
+        options = [ "--no-cmd" ];
+      };
+      programs.fish = {
+        shellAbbrs = baseAbbrs // homeManagerOnlyAbbrs;
+        interactiveShellInit = ''
+          # Suppress default greeting
+          function fish_greeting; end
+
+          # Auto-allow direnv in ~/code directory
+          function __direnv_auto_allow --on-variable PWD
+            if string match -q "$HOME/code/*" $PWD; or string match -q "$HOME/Code/*" $PWD
+              and test -f .envrc
+              and not direnv status | grep -q "Allowed"
+              direnv allow >/dev/null 2>&1
+            end
+          end
+
+          # Keep Yazi directory-jump convenience from current host.
+          function y
+            set tmp (mktemp -t "yazi-cwd.XXXXXX")
+            command yazi $argv --cwd-file="$tmp"
+            if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+              builtin cd -- "$cwd"
+            end
+            rm -f -- "$tmp"
+          end
+        '';
+      };
+    };
+
   den.aspects.fish = {
     includes = [
       (den.lib.perHost {

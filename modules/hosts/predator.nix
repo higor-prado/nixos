@@ -1,5 +1,5 @@
 # Predator host composition - desktop workstation (den-native).
-{ den, inputs, ... }:
+{ den, inputs, config, ... }:
 let
   system = "x86_64-linux";
   customPkgs = import ../../pkgs {
@@ -18,14 +18,13 @@ let
     ];
     systemPackages = [ ];
   };
+  hostName = "predator";
 in
 {
   repo.hosts.predator = {
     inherit system inputs customPkgs llmAgents;
     role = "desktop";
     trackedUsers = [ "higorprado" ];
-    homeManagerUsers = [ "higorprado" ];
-    features = [ "llm-agents" ];
     hardwareImports = [
       inputs.disko.nixosModules.disko
       inputs.impermanence.nixosModules.impermanence
@@ -33,6 +32,69 @@ in
     ];
     extraSystemPackages = [ customPkgs.predator-tui ];
   };
+
+  configurations.nixos.predator.module =
+    let
+      host = config.repo.hosts.${hostName};
+      user = config.repo.users.higorprado;
+    in
+    {
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+        config.flake.modules.nixos.repo-runtime-contracts
+        config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.higorprado
+        config.flake.modules.nixos.nix-settings
+        config.flake.modules.nixos.fish
+        config.flake.modules.nixos.llm-agents
+        config.flake.modules.nixos.ssh
+      ] ++ host.hardwareImports;
+
+      nixpkgs.hostPlatform = host.system;
+      networking.hostName = hostName;
+      system.stateVersion = "25.11";
+
+      custom = {
+        host.role = host.role;
+        user.name = user.userName;
+      };
+
+      environment.systemPackages = host.extraSystemPackages;
+
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        backupFileExtension = "hm-bak";
+        users.${user.userName} = {
+          imports = [
+            config.flake.modules.homeManager.repo-context
+            config.flake.modules.homeManager.higorprado
+            config.flake.modules.homeManager.core-user-packages
+            config.flake.modules.homeManager.fish
+            config.flake.modules.homeManager.git-gh
+            config.flake.modules.homeManager.llm-agents
+            config.flake.modules.homeManager.ssh
+            config.flake.modules.homeManager.starship
+            config.flake.modules.homeManager.terminal-tmux
+            config.flake.modules.homeManager.tui-tools
+          ];
+
+          repo.context = {
+            inherit host;
+            inherit hostName;
+            inherit user;
+            userName = user.userName;
+          };
+        };
+      };
+
+      repo.context = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
+    };
 
   den.hosts.x86_64-linux.predator = {
     users.higorprado.classes = [ "homeManager" ];

@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, inputs, ... }:
 let
   mkRepoContextOptions =
     { lib, ... }:
@@ -42,6 +42,8 @@ in
           default = "user";
           description = "Repo-local compatibility username bridge for the dendritic shadow path.";
         };
+
+        config.home-manager.sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
       };
 
     nixos.repo-context = mkRepoContextOptions;
