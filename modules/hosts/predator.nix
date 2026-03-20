@@ -70,6 +70,7 @@ in
             config.flake.modules.homeManager.repo-context
             config.flake.modules.homeManager.higorprado
             config.flake.modules.homeManager.core-user-packages
+            config.flake.modules.homeManager.desktop-apps
             config.flake.modules.homeManager.desktop-viewers
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
@@ -85,6 +86,7 @@ in
             config.flake.modules.homeManager.desktop-base
             config.flake.modules.homeManager.terminals
             config.flake.modules.homeManager.theme-base
+            config.flake.modules.homeManager.theme-zen
           ];
 
           repo.context = {
