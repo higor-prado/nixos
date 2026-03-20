@@ -452,6 +452,31 @@ In progress
     / `rmpc` music-client surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 18
+
+- Added three more HM-only dev/editor owners:
+  - [editor-vscode.nix](/home/higorprado/nixos/modules/features/dev/editor-vscode.nix)
+  - [editor-zed.nix](/home/higorprado/nixos/modules/features/dev/editor-zed.nix)
+  - [dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.editor-vscode`
+  - `flake.modules.homeManager.editor-zed`
+  - `flake.modules.homeManager.dev-devenv`
+- Imported them into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.vscode.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.direnv.enable`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(zed|devenv|cachix).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.packages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves the VS Code surface and the
+    `devenv` / `direnv` developer workflow through the repo-local runtime
+  - the `predator` shadow HM path also resolves the additional Zed package
+    surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -489,6 +514,8 @@ In progress
   being migrated through explicit host imports
 - Additional desktop shared owners (`gaming`, `music-client`) are being
   migrated through explicit host imports
+- Additional HM-only dev/editor owners (`editor-vscode`, `editor-zed`,
+  `dev-devenv`) are being migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

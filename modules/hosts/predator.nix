@@ -90,7 +90,10 @@ in
             config.flake.modules.homeManager.terminal-tmux
             config.flake.modules.homeManager.tui-tools
             config.flake.modules.homeManager.dev-tools
+            config.flake.modules.homeManager.dev-devenv
             config.flake.modules.homeManager.desktop-base
+            config.flake.modules.homeManager.editor-vscode
+            config.flake.modules.homeManager.editor-zed
             config.flake.modules.homeManager.terminals
             config.flake.modules.homeManager.theme-base
             config.flake.modules.homeManager.theme-zen
