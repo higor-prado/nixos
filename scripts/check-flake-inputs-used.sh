@@ -10,9 +10,7 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 enter_repo_root "${BASH_SOURCE[0]}"
 
 # Inputs wired implicitly by the framework — no explicit reference in our code needed.
-# flake-aspects: den's aspects.nix accesses inputs.flake-aspects internally; it must be
-#   declared in the host flake but has no direct reference in our modules.
-always_used=("nixpkgs" "flake-parts" "import-tree" "flake-aspects")
+always_used=("nixpkgs" "flake-parts" "import-tree")
 
 # Extract declared top-level input names from flake.nix.
 # Top-level inputs are indented with exactly 4 spaces and followed by . { or =.
@@ -37,7 +35,7 @@ for name in "${declared_inputs[@]}"; do
       --include='*.nix' . --exclude='flake.lock' 2>/dev/null || true
   )
 
-  # Search 2: <name>. usage at module level (e.g. den.aspects, home-manager.nixosModules)
+  # Search 2: <name>. usage at module level (e.g. home-manager.nixosModules)
   #            in .nix files excluding flake.nix (to avoid matching the declaration itself)
   #            and flake.lock.
   if [[ -z "$refs" ]]; then

@@ -9,10 +9,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    flake-aspects.url = "github:vic/flake-aspects";
-
-    den.url = "github:vic/den";
-
     import-tree.url = "github:vic/import-tree";
 
     impermanence = {

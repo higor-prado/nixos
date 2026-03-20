@@ -1,7 +1,7 @@
 # Start Here
 
-This repo is a NixOS configuration for personal machines managed with the
-**den** framework. It configures:
+This repo is a NixOS configuration for personal machines managed with a
+top-level dendritic pattern. It configures:
 
 - **predator** — Acer Predator desktop workstation (Wayland/Niri desktop)
 - **aurelius** — remote server (minimal, SSH-accessible)
@@ -30,7 +30,9 @@ nh os switch path:$HOME/nixos#aurelius \
 
 ## Adding a package
 
-Features live under `modules/features/<category>/` as den aspects. See [workflow: add a feature](workflows/102-add-feature.md).
+Features live under `modules/features/<category>/` as top-level dendritic
+modules that publish lower-level NixOS and/or Home Manager modules. See
+[workflow: add a feature](workflows/102-add-feature.md).
 
 ## Private config
 

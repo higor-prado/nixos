@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # check-feature-role-conditionals.sh — enforce lesson 13 + 003-module-ownership.md:
 # mkIf custom.host.role is forbidden inside modules/features/. Feature inclusion
-# IS the condition; role guards inside features are a design smell and bypass den's
-# aspect dispatch model.
+# IS the condition; role guards inside features are a design smell and bypass
+# the host-composition model.
 set -euo pipefail
 
 # shellcheck source=lib/common.sh
@@ -16,7 +16,7 @@ results=$(
 )
 
 if [[ -n "$results" ]]; then
-  echo "[check-feature-role-conditionals] FAIL: mkIf custom.host.role found in modules/features/ — use aspect inclusion instead" >&2
+  echo "[check-feature-role-conditionals] FAIL: mkIf custom.host.role found in modules/features/ — use host composition instead" >&2
   echo "$results" >&2
   exit 1
 fi

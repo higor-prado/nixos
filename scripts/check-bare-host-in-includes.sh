@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# check-bare-host-in-includes.sh — gate against bare {host}: / {host,...}: lambdas
-# in includes without a den.lib wrapper. Under den._.bidirectional these fire in
-# both the host and host+user pipelines, silently duplicating NixOS config.
-# Correct patterns: den.lib.perHost, den.lib.perUser, den.lib.take.*, den.lib.parametric.
+# check-bare-host-in-includes.sh — gate against bare `{ host }:` lambdas in
+# active modules. In the dendritic runtime, host data should flow through
+# `config.repo.context.*` inside published lower-level modules, not through
+# ad hoc host-lambda wiring hidden in module lists.
 set -euo pipefail
 
 # shellcheck source=lib/common.sh
@@ -14,11 +14,10 @@ fail=0
 
 while IFS= read -r -d '' file; do
   # Find lines with a bare host-lambda opener: ( { host followed by , whitespace or }
-  # Exclude comment lines and lines that already have a den.lib wrapper on the same line.
+  # Exclude comment lines.
   results=$(
     grep -Pn '\(\s*\{\s*host[,\s}]' "$file" 2>/dev/null \
     | grep -v '^\s*[0-9]*:.*#' \
-    | grep -vP 'den\.lib\.(perHost|perUser|take|parametric)' \
     || true
   )
   if [[ -n "$results" ]]; then
@@ -29,7 +28,7 @@ while IFS= read -r -d '' file; do
 done < <(find modules/ -name '*.nix' -print0)
 
 if [[ $fail -ne 0 ]]; then
-  echo "[check-bare-host-in-includes] bare host lambdas in includes — wrap with den.lib.perHost / den.lib.perUser" >&2
+  echo "[check-bare-host-in-includes] bare host lambdas found — publish lower-level modules and read host data through repo.context instead" >&2
   exit 1
 fi
 

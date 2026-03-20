@@ -911,5 +911,8 @@ In progress
 - Moved `custom.niri.standaloneSession` ownership back into the narrow `niri`
   feature owner, leaving `repo-runtime-contracts` with only true global
   runtime contracts
+- Removed the residual top-level `den` runtime import and flake inputs
+  (`modules/den.nix`, `inputs.den`, `inputs.flake-aspects`) and aligned the
+  remaining human/docs/tooling language with the repo-local dendritic runtime
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition

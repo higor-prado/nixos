@@ -1,6 +1,6 @@
 # Development Environment
 
-## Tools included via den aspects
+## Tools included via feature modules
 
 | Aspect | Tools |
 |--------|-------|

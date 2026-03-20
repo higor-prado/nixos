@@ -8,7 +8,6 @@ Authoritative map of where things live in this dendritic-first repository.
 modules/features/   53+ feature modules grouped under category folders
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
-modules/den.nix     shrinking den compatibility surface import
 modules/lib/        repo/runtime bridge internals
 private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays

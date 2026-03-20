@@ -8,8 +8,9 @@ Each host is declared in `hardware/host-descriptors.nix` and has a corresponding
 `hardware/host-descriptors.nix` lists script-only integration metadata
 (`disko`, `homeManager`, etc.).
 
-`modules/hosts/<name>.nix` is the den aspect that composes features and
-declares the host system, hostname ownership, and imports hardware config.
+`modules/hosts/<name>.nix` declares host inventory plus one concrete dendritic
+configuration that composes published feature modules and imports hardware
+config.
 
 `hardware/<name>/default.nix` owns the explicit runtime role signal
 `custom.host.role` plus machine-specific hardware/default imports.
