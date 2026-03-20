@@ -423,6 +423,35 @@ In progress
     runtime
   - authoritative `den` validation path remains green
 
+### Slice 17
+
+- Added two more desktop shared owners:
+  - [gaming.nix](/home/higorprado/nixos/modules/features/desktop/gaming.nix)
+  - [music-client.nix](/home/higorprado/nixos/modules/features/desktop/music-client.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.nixos.gaming`
+  - `flake.modules.homeManager.gaming`
+  - `flake.modules.homeManager.music-client`
+- Kept the host-aware owner (`music-client`) on the dendritic path:
+  - host-specific packages are read through `config.repo.context.host`
+  - no `specialArgs`, helper factory, or extra option contract was introduced
+- Imported them into the `predator` shadow path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.steam.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.gamescope.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.services.mpd.enable`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(heroic|lutris|protonplus|steam-run|rmpc|spotatui).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.packages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system path now resolves the gaming system surface
+    through the repo-local runtime
+  - the `predator` shadow HM path now resolves the gaming packages and the MPD
+    / `rmpc` music-client surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -458,6 +487,8 @@ In progress
   `theme-zen`) now flow through the repo-local runtime via explicit host imports
 - Additional desktop shared owners (`nautilus`, `fcitx5`, `wayland-tools`) are
   being migrated through explicit host imports
+- Additional desktop shared owners (`gaming`, `music-client`) are being
+  migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
