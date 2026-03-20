@@ -914,5 +914,16 @@ In progress
 - Removed the residual top-level `den` runtime import and flake inputs
   (`modules/den.nix`, `inputs.den`, `inputs.flake-aspects`) and aligned the
   remaining human/docs/tooling language with the repo-local dendritic runtime
-- Next step: keep shrinking the remaining `den` support surface now that hosts
-  and the tracked user no longer dual-declare runtime composition
+- Fixed a real runtime regression in the canonical Fish surface by restoring
+  explicit `programs.fish.enable = true` in both the published NixOS and Home
+  Manager Fish modules and by restoring `users.users.higorprado.shell = pkgs.fish`
+  in the tracked user owner
+- Validated the fix with full gates plus concrete Fish checks:
+  `programs.fish.enable = true` at both layers, the user shell resolves to the
+  Fish store path again, and the removed `config.fish` / Fish-completions
+  surface reappeared in the system closure
+- Confirmed that no tracked `.nix` files still reference `den`; the remaining
+  references are documentation history, migration logs, and one stale test
+  description
+- Next step: clean the remaining stale live documentation references, then make
+  a dedicated documentation refresh plan for the historical material
