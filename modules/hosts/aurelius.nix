@@ -29,6 +29,14 @@ in
         inputs.home-manager.nixosModules.home-manager
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.system-base
+        config.flake.modules.nixos.home-manager-settings
+        config.flake.modules.nixos.networking
+        config.flake.modules.nixos.security
+        config.flake.modules.nixos.keyboard
+        config.flake.modules.nixos.nixpkgs-settings
+        config.flake.modules.nixos.maintenance
+        config.flake.modules.nixos.tailscale
         config.flake.modules.nixos.higorprado
         config.flake.modules.nixos.nix-settings
         config.flake.modules.nixos.packages-server-tools
@@ -39,7 +47,6 @@ in
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;
-      system.stateVersion = "25.11";
 
       custom = {
         host.role = host.role;
@@ -47,9 +54,6 @@ in
       };
 
       home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "hm-bak";
         users.${user.userName} = {
           imports = [
             config.flake.modules.homeManager.repo-context

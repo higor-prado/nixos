@@ -372,6 +372,46 @@ In progress
   - this slice intentionally stops at module publication; no new shadow
     configuration was introduced yet for `desktop-niri-standalone`
 
+### Slice 28
+
+- Dual-published a large part of the former `den.default.includes` baseline as
+  repo-local NixOS modules:
+  - [system-base.nix](/home/higorprado/nixos/modules/features/core/system-base.nix)
+    -> `flake.modules.nixos.system-base`
+  - [home-manager-settings.nix](/home/higorprado/nixos/modules/features/core/home-manager-settings.nix)
+    -> `flake.modules.nixos.home-manager-settings`
+  - [nixpkgs-settings.nix](/home/higorprado/nixos/modules/features/core/nixpkgs-settings.nix)
+    -> `flake.modules.nixos.nixpkgs-settings`
+  - [networking.nix](/home/higorprado/nixos/modules/features/system/networking.nix)
+    -> `flake.modules.nixos.networking`
+  - [security.nix](/home/higorprado/nixos/modules/features/system/security.nix)
+    -> `flake.modules.nixos.security`
+  - [keyboard.nix](/home/higorprado/nixos/modules/features/system/keyboard.nix)
+    -> `flake.modules.nixos.keyboard`
+  - [maintenance.nix](/home/higorprado/nixos/modules/features/system/maintenance.nix)
+    -> `flake.modules.nixos.maintenance`
+  - [tailscale.nix](/home/higorprado/nixos/modules/features/system/tailscale.nix)
+    -> `flake.modules.nixos.tailscale`
+- Imported that baseline explicitly into both shadow hosts:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Removed host-local duplication that is now owned by those defaults:
+  - `system.stateVersion`
+  - `home-manager.useGlobalPkgs`
+  - `home-manager.useUserPackages`
+  - `home-manager.backupFileExtension`
+- Validation:
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.system.stateVersion`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.tailscale.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.networking.networkmanager.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - a substantial shared baseline now flows through repo-local lower-level
+    modules instead of only through `den.default.includes`
+  - host shadow configs became slightly simpler while staying explicitly
+    composed in the host files
+
 ### Slice 9
 
 - Added the HM-only shared owners:
