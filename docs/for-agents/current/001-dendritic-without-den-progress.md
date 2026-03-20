@@ -341,6 +341,27 @@ In progress
     configuration, and the viewer MIME routing through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 14
+
+- Added two more desktop HM-only shared owners:
+  - [desktop-base.nix](/home/higorprado/nixos/modules/features/desktop/desktop-base.nix)
+  - [theme-base.nix](/home/higorprado/nixos/modules/features/desktop/theme-base.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.desktop-base`
+  - `flake.modules.homeManager.theme-base`
+- Imported them into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.xdg.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.gtk.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.catppuccin.flavor`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves the base desktop XDG surface and
+    the shared theme surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -370,6 +391,8 @@ In progress
 - Additional desktop HM-only owners (`media-tools`, `media-cava`,
   `desktop-viewers`) now flow through the repo-local runtime via explicit host
   imports
+- Additional desktop HM-only owners (`desktop-base`, `theme-base`) now flow
+  through the repo-local runtime via explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

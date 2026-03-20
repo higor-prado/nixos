@@ -82,7 +82,9 @@ in
             config.flake.modules.homeManager.terminal-tmux
             config.flake.modules.homeManager.tui-tools
             config.flake.modules.homeManager.dev-tools
+            config.flake.modules.homeManager.desktop-base
             config.flake.modules.homeManager.terminals
+            config.flake.modules.homeManager.theme-base
           ];
 
           repo.context = {
