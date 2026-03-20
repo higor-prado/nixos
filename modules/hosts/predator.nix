@@ -45,6 +45,7 @@ in
         config.flake.modules.nixos.repo-context
         config.flake.modules.nixos.higorprado
         config.flake.modules.nixos.fcitx5
+        config.flake.modules.nixos.gaming
         config.flake.modules.nixos.nix-settings
         config.flake.modules.nixos.nautilus
         config.flake.modules.nixos.fish
@@ -77,9 +78,11 @@ in
             config.flake.modules.homeManager.fcitx5
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
+            config.flake.modules.homeManager.gaming
             config.flake.modules.homeManager.llm-agents
             config.flake.modules.homeManager.media-cava
             config.flake.modules.homeManager.media-tools
+            config.flake.modules.homeManager.music-client
             config.flake.modules.homeManager.monitoring-tools
             config.flake.modules.homeManager.nautilus
             config.flake.modules.homeManager.ssh
