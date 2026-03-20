@@ -55,7 +55,7 @@ configuration:
 
   configurations.nixos.<name>.module = {
     imports = [ config.flake.modules.nixos.my-feature ];
-    home-manager.users.higorprado.imports = [
+    home-manager.users.${user.userName}.imports = [
       config.flake.modules.homeManager.my-feature
     ];
   };
