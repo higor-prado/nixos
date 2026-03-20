@@ -1,23 +1,50 @@
 { den, ... }:
+let
+  userName = "higorprado";
+  homeDirectory = "/home/higorprado";
+  primaryGroup = "higorprado";
+  homeStateVersion = "25.11";
+  extraGroups = [
+    "video"
+    "audio"
+    "input"
+    "docker"
+    "rfkill"
+    "uinput"
+    "linuwu_sense"
+  ];
+  privateModule = ../../private/users/higorprado/default.nix;
+in
 {
   repo.users.higorprado = {
-    userName = "higorprado";
-    homeDirectory = "/home/higorprado";
-    primaryGroup = "higorprado";
-    homeStateVersion = "25.11";
+    inherit userName homeDirectory primaryGroup homeStateVersion extraGroups privateModule;
     shell = "fish";
     isPrimary = true;
-    extraGroups = [
-      "video"
-      "audio"
-      "input"
-      "docker"
-      "rfkill"
-      "uinput"
-      "linuwu_sense"
-    ];
-    privateModule = ../../private/users/higorprado/default.nix;
   };
+
+  flake.modules.nixos.higorprado =
+    { ... }:
+    {
+      users.groups.${primaryGroup} = { };
+      users.users.${userName} = {
+        isNormalUser = true;
+        home = homeDirectory;
+        group = primaryGroup;
+        inherit extraGroups;
+      };
+    };
+
+  flake.modules.homeManager.higorprado =
+    { lib, ... }:
+    {
+      home = {
+        username = userName;
+        inherit homeDirectory;
+        stateVersion = homeStateVersion;
+      };
+
+      imports = lib.optional (builtins.pathExists privateModule) privateModule;
+    };
 
   # User aspect for higorprado.
   # Den routes .homeManager to home-manager.users.higorprado on hosts
@@ -50,17 +77,17 @@
         users.users.higorprado = {
           # den._.define-user owns name/home/isNormalUser; this aspect keeps only
           # the repo-specific primary group wiring.
-          group = "higorprado";
+          group = primaryGroup;
         };
-        users.groups.higorprado = { };
+        users.groups.${primaryGroup} = { };
       };
 
     homeManager =
       { lib, ... }:
       {
-        home.stateVersion = "25.11";
+        home.stateVersion = homeStateVersion;
 
-        imports = lib.optional (builtins.pathExists ../../private/users/higorprado/default.nix) ../../private/users/higorprado/default.nix;
+        imports = lib.optional (builtins.pathExists privateModule) privateModule;
       };
   };
 }

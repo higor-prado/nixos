@@ -60,7 +60,7 @@ In progress
 - Added [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
   so the shadow path now owns its own lower-level runtime contracts and context
   bridge without relying on `den`
-- Updated [shadow-hosts.nix](/home/higorprado/nixos/modules/options/shadow-hosts.nix)
+- Updated `modules/options/shadow-hosts.nix`
   so the shadow hosts now consume:
   - `hardwareImports`
   - `extraSystemPackages`
@@ -93,7 +93,7 @@ In progress
 
 - Extended the repo-local host inventory with explicit feature selection in
   [inventory.nix](/home/higorprado/nixos/modules/options/inventory.nix)
-- Updated [shadow-hosts.nix](/home/higorprado/nixos/modules/options/shadow-hosts.nix)
+- Updated `modules/options/shadow-hosts.nix`
   so shadow hosts now import lower-level modules selected from top-level
   feature names
 - Dual-published the first real feature owner,
@@ -136,16 +136,172 @@ In progress
     default feature
   - authoritative `den` validation path remains green
 
+### Slice 5
+
+- Dual-published the mixed-surface owner
+  [fish.nix](/home/higorprado/nixos/modules/features/shell/fish.nix)
+  onto the repo-local runtime as:
+  - `flake.modules.nixos.fish`
+  - `flake.modules.homeManager.fish`
+- Added explicit shadow feature selection for `fish` in:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.fish.shellAbbrs`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.programs.fish.shellAbbrs`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.fish.shellAbbrs`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.zoxide.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - both shadow hosts now resolve the Fish system abbreviation surface
+  - `predator` shadow HM now resolves the Fish and Zoxide user surface through
+    the repo-local runtime
+  - authoritative `den` validation path remains green
+
+### Slice 6
+
+- Removed the generic shadow host generator in
+  `modules/options/shadow-hosts.nix`
+  because it had drifted into a framework-style shape that was not aligned with
+  the dendritic pattern
+- Moved shadow configuration declaration into the host owners themselves:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Dual-published the user owner
+  [higorprado.nix](/home/higorprado/nixos/modules/users/higorprado.nix)
+  as lower-level modules:
+  - `flake.modules.nixos.higorprado`
+  - `flake.modules.homeManager.higorprado`
+- Removed dead repo-local shadow abstractions that only existed to support the
+  deleted generator:
+  - `repo.defaults.hostFeatures`
+  - shadow inventory `features`
+  - shadow inventory `homeManagerUsers`
+- Kept `repo-runtime-contracts.nix` as the local lower-level contract surface
+  and added the shared `catppuccin` HM module there because multiple migrated
+  owners already publish `catppuccin.*` options
+- Validation:
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.networking.hostName`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.stateVersion`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.aurelius.config.networking.hostName`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.fish.shellAbbrs`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `dendritic` shadow hosts are now declared by their host modules instead
+    of being generated from inventory
+  - the repo-local runtime shape is materially closer to the dendritic example:
+    top-level modules declaring lower-level modules and configurations as values
+  - authoritative `den` validation path remains green
+
+### Slice 7
+
+- Dual-published the mixed host/user owner
+  [ssh.nix](/home/higorprado/nixos/modules/features/system/ssh.nix)
+  onto the repo-local runtime as:
+  - `flake.modules.nixos.ssh`
+  - `flake.modules.homeManager.ssh`
+- Imported the local NixOS SSH module in both shadow hosts:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Imported the local HM SSH module in the `predator` shadow user path, which is
+  the only host currently carrying Home Manager in the shadow runtime
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.openssh.settings`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.services.openssh.settings`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.ssh.includes`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - both shadow hosts now resolve the repo-local OpenSSH surface
+  - the `predator` shadow HM path now resolves the repo-local user SSH surface
+  - authoritative `den` validation path remains green
+
+### Slice 8
+
+- Dual-published the HM-only owner
+  [git-gh.nix](/home/higorprado/nixos/modules/features/shell/git-gh.nix)
+  onto the repo-local runtime as `flake.modules.homeManager.git-gh`
+- Imported the local HM Git/GitHub module into the `predator` shadow user path
+  in [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.git.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.gh.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves the repo-local Git and GitHub
+    CLI surface
+  - authoritative `den` validation path remains green
+
+### Slice 9
+
+- Added the HM-only shared owners:
+  - [core-user-packages.nix](/home/higorprado/nixos/modules/features/shell/core-user-packages.nix)
+  - [starship.nix](/home/higorprado/nixos/modules/features/shell/starship.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.core-user-packages`
+  - `flake.modules.homeManager.starship`
+- Imported both into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.fzf.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.starship.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves shared user packages and the
+    prompt surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
+### Slice 10
+
+- Added two more HM-only shared owners:
+  - [terminal-tmux.nix](/home/higorprado/nixos/modules/features/shell/terminal-tmux.nix)
+  - [tui-tools.nix](/home/higorprado/nixos/modules/features/shell/tui-tools.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.terminal-tmux`
+  - `flake.modules.homeManager.tui-tools`
+- Imported both into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.tmux.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.yazi.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.zellij.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves tmux and the core TUI tool
+    surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
 - Phase 0 baseline is captured for the current authoritative outputs
 - Phase 1 has a validated shadow namespace that now builds `predator`
 - Phase 2 has started: the shadow path now consumes repo-owned inventory and
-  runtime contracts in a more realistic way
+  runtime contracts through host-declared configurations instead of a generic
+  generator
 - Phase 3 has started in small form: one real feature (`llm-agents`) now flows
   through the repo-local runtime
 - Another host-aware owner (`nix-settings`) now flows through the repo-local
-  default feature path
+  runtime via explicit host imports
+- Another mixed NixOS/HM owner (`fish`) now flows through the repo-local runtime
+  via explicit host imports
+- Another mixed NixOS/HM owner (`ssh`) now flows through the repo-local runtime
+  via explicit host imports
+- Another HM-only owner (`git-gh`) now flows through the repo-local runtime via
+  explicit host imports
+- Additional HM-only owners (`core-user-packages`, `starship`) now flow through
+  the repo-local runtime via explicit host imports
+- Additional HM-only owners (`terminal-tmux`, `tui-tools`) now flow through the
+  repo-local runtime via explicit host imports
+- The shadow path now has a user owner published as lower-level NixOS and
+  Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
   through the local runtime without touching the authoritative outputs
