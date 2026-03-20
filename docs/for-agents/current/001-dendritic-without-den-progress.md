@@ -238,6 +238,32 @@ In progress
     CLI surface
   - authoritative `den` validation path remains green
 
+### Slice 23
+
+- Dual-published four NixOS-only owners onto the repo-local runtime:
+  - [maintenance-smartd.nix](/home/higorprado/nixos/modules/features/system/maintenance-smartd.nix)
+    as `flake.modules.nixos.maintenance-smartd`
+  - [packages-fonts.nix](/home/higorprado/nixos/modules/features/desktop/packages-fonts.nix)
+    as `flake.modules.nixos.packages-fonts`
+  - [packages-docs-tools.nix](/home/higorprado/nixos/modules/features/dev/packages-docs-tools.nix)
+    as `flake.modules.nixos.packages-docs-tools`
+  - [nix-settings-desktop.nix](/home/higorprado/nixos/modules/features/core/nix-settings-desktop.nix)
+    as `flake.modules.nixos.nix-settings-desktop`
+- Imported those lower-level modules explicitly in the `predator` shadow host in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.smartd.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.nix.settings.extra-substituters`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(font-awesome|fira-code|meslo|jetbrains-mono).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.fonts.packages`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(pandoc|tectonic|mermaid-cli|ghostscript).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.environment.systemPackages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system now resolves the repo-local SMART monitoring,
+    desktop cache settings, font set and docs-tool package surface
+  - the repo-local runtime shape stayed explicit: feature owners publish
+    lower-level modules and the host composes them directly
+
 ### Slice 9
 
 - Added the HM-only shared owners:

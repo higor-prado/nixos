@@ -46,8 +46,10 @@ in
         config.flake.modules.nixos.audio
         config.flake.modules.nixos.gnome-keyring
         config.flake.modules.nixos.bluetooth
+        config.flake.modules.nixos.maintenance-smartd
         config.flake.modules.nixos.networking-avahi
         config.flake.modules.nixos.networking-resolved
+        config.flake.modules.nixos.nix-settings-desktop
         config.flake.modules.nixos.podman
         config.flake.modules.nixos.upower
         config.flake.modules.nixos.higorprado
@@ -56,6 +58,8 @@ in
         config.flake.modules.nixos.gaming
         config.flake.modules.nixos.nix-settings
         config.flake.modules.nixos.nautilus
+        config.flake.modules.nixos.packages-docs-tools
+        config.flake.modules.nixos.packages-fonts
         config.flake.modules.nixos.packages-system-tools
         config.flake.modules.nixos.packages-toolchains
         config.flake.modules.nixos.docker
