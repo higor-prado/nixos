@@ -42,8 +42,8 @@
 38. If a lower-level module is meant to be universal, publish it once under `flake.modules.*` and import it consistently from each concrete host module. Do not recreate implicit global include layers unless they buy real simplicity.
 39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a dedicated published feature module, not inline in a host block. Host files should stay focused on inventory plus concrete imports.
 40. In the local runtime, host-aware Home Manager is just another lower-level HM module that reads `config.repo.context.host`; no mutual-routing battery is needed in the canonical path.
-41. Keep historical `den` material clearly secondary. Do not let migration notes or old compatibility stories override the canonical dendritic runtime.
-42. Use `~/git/dendritic` as the pattern reference. Historical `den` material is for migration/audit context only; canonical runtime decisions should be validated against the repo-local top-level modules first.
+41. Keep historical migration material clearly secondary. Do not let old compatibility stories override the canonical dendritic runtime.
+42. Use `~/git/dendritic` as the pattern reference. Historical framework-specific material is for migration/audit context only; canonical runtime decisions should be validated against the repo-local top-level modules first.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO

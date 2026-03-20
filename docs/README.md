@@ -20,7 +20,7 @@ Navigation guide for this NixOS configuration repository.
 |----------|---------|
 | [for-agents/000-operating-rules.md](for-agents/000-operating-rules.md) | Hard constraints for agents |
 | [for-agents/001-repo-map.md](for-agents/001-repo-map.md) | Authoritative layout map |
-| [for-agents/002-den-architecture.md](for-agents/002-den-architecture.md) | Historical den architecture context |
+| [for-agents/002-architecture.md](for-agents/002-architecture.md) | Current dendritic runtime architecture |
 | [for-agents/003-module-ownership.md](for-agents/003-module-ownership.md) | Boundary rules |
 | [for-agents/004-private-safety.md](for-agents/004-private-safety.md) | Private info handling |
 | [for-agents/005-validation-gates.md](for-agents/005-validation-gates.md) | Validation pyramid, how to run |

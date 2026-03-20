@@ -20,8 +20,8 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 2. `hardware/`: host hardware configuration
 3. `modules/features/`: feature owners (NixOS + home-manager fragments)
 4. `modules/desktops/`: concrete desktop composition modules
-5. `modules/hosts/`: host compositions and den host declarations
-6. `modules/lib/`: den/module internals
+5. `modules/hosts/`: host inventory and concrete host configurations
+6. `modules/lib/`: repo/runtime internals
 7. `home/base/`: gitignored private overrides
 8. `lib/`: generic helper functions used by tracked modules
 9. `config/`: app/config payload files and helper payloads
@@ -32,7 +32,7 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 ## Host Role Model
 
 1. `custom.host.role = "desktop" | "server"` is a validation contract signal set in `hardware/<name>/default.nix`; it is consumed by validation scripts but must not be used as a conditional in module code.
-2. Desktop hosts select their desktop by including a concrete composition aspect (e.g. `desktop-dms-on-niri`) in the host's `den.aspects.<host>.includes` list alongside the individual feature aspects.
+2. Desktop hosts select their desktop by importing a concrete composition module (e.g. `config.flake.modules.nixos.desktop-dms-on-niri`) in the host's explicit configuration module alongside the individual feature modules.
 3. `aurelius` is the tracked server host.
 
 ## Documentation

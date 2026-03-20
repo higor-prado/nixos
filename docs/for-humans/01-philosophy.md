@@ -15,9 +15,7 @@ Hosts compose by importing those published modules explicitly.
 
 This repo uses the dendritic pattern: every non-entry-point Nix file is a
 top-level module, and concrete NixOS/Home Manager configs are declared from the
-top level. Canonical outputs come from the repo-local dendritic runtime; any
-remaining `den` references are historical documentation, not active runtime
-surface.
+top level.
 
 ## Separation of concerns
 

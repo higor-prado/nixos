@@ -13,7 +13,7 @@ targets=(
   AGENTS.md
   docs/for-agents/000-operating-rules.md
   docs/for-agents/001-repo-map.md
-  docs/for-agents/002-den-architecture.md
+  docs/for-agents/002-architecture.md
   docs/for-agents/003-module-ownership.md
   docs/for-agents/004-private-safety.md
   docs/for-agents/005-validation-gates.md
