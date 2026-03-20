@@ -412,6 +412,31 @@ In progress
   - host shadow configs became slightly simpler while staying explicitly
     composed in the host files
 
+### Slice 29
+
+- Changed [modules/den.nix](/home/higorprado/nixos/modules/den.nix) to import
+  the `den` schema/context/lib modules explicitly instead of importing
+  `inputs.den.flakeModule` wholesale
+- Intentionally omitted `den/modules/config.nix`, which is the piece that
+  materializes `config.flake` outputs from `den.hosts` / `den.homes`
+- Promoted the repo-local runtime in
+  [configurations-nixos.nix](/home/higorprado/nixos/modules/options/configurations-nixos.nix)
+  from `flake.dendritic.nixosConfigurations` to canonical
+  `flake.nixosConfigurations`
+- Kept a compatibility alias under `flake.dendritic` so the existing migration
+  log and spot checks still have the old shadow path available
+- Validation:
+  - `nix eval --raw path:$PWD#nixosConfigurations.predator.config.system.stateVersion`
+  - `nix eval --raw path:$PWD#nixosConfigurations.aurelius.config.system.stateVersion`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.system.stateVersion`
+  - `nix build --no-link --print-out-paths path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - canonical `#nixosConfigurations.*` now come from the repo-local dendritic
+    runtime rather than from `den`
+  - `den` remains temporarily as schema/context support while its output
+    materialization has been removed from the active path
+
 ### Slice 9
 
 - Added the HM-only shared owners:
