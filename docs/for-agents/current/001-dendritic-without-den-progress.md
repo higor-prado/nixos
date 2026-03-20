@@ -354,6 +354,24 @@ In progress
     `x86_64-linux` host vs `aarch64-linux` target mismatch, not by a migration
     regression
 
+### Slice 27
+
+- Dual-published the alternate desktop composition
+  [niri-standalone.nix](/home/higorprado/nixos/modules/desktops/niri-standalone.nix)
+  as:
+  - `flake.modules.nixos.desktop-niri-standalone`
+  - `flake.modules.homeManager.desktop-niri-standalone`
+- Kept the shape parallel to
+  [dms-on-niri.nix](/home/higorprado/nixos/modules/desktops/dms-on-niri.nix):
+  the composition publishes lower-level modules and carries only composition
+  defaults plus user-facing config provisioning
+- Validation:
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the repo-local runtime now has both desktop composition owners published
+  - this slice intentionally stops at module publication; no new shadow
+    configuration was introduced yet for `desktop-niri-standalone`
+
 ### Slice 9
 
 - Added the HM-only shared owners:
