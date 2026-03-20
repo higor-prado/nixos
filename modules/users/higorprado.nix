@@ -4,7 +4,11 @@ let
   homeDirectory = "/home/higorprado";
   primaryGroup = "higorprado";
   homeStateVersion = "25.11";
-  extraGroups = [
+  primaryUserGroups = [
+    "wheel"
+    "networkmanager"
+  ];
+  repoExtraGroups = [
     "video"
     "audio"
     "input"
@@ -13,6 +17,7 @@ let
     "uinput"
     "linuwu_sense"
   ];
+  extraGroups = primaryUserGroups ++ repoExtraGroups;
   privateModule = ../../private/users/higorprado/default.nix;
 in
 {
