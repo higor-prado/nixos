@@ -879,5 +879,11 @@ In progress
   [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
 - Removed the former `den-host-context` schema shim after confirming no active
   host path still materializes `den.hosts` with an extended host schema
+- Removed duplicate `den.aspects.*.nixos` publishers from a first low-risk
+  batch of NixOS-only owners already covered by `flake.modules.nixos.*`:
+  `home-manager-settings`, `nix-settings-desktop`, `nixpkgs-settings`,
+  `audio`, `bluetooth`, `maintenance`, `networking`, `networking-resolved`,
+  `packages-server-tools`, `podman`, `security`, `upower`, `xwayland`,
+  `gnome-keyring`, and `packages-fonts`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
