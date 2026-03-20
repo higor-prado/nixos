@@ -877,5 +877,7 @@ In progress
   `host-contracts`) after confirming the canonical runtime now owns those
   concerns in
   [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
+- Removed the former `den-host-context` schema shim after confirming no active
+  host path still materializes `den.hosts` with an extended host schema
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
