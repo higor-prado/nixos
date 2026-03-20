@@ -7,7 +7,7 @@ tracked hosts `predator` and `aurelius`.
 
 This is the source of truth for:
 1. System configuration (`hardware/`, `modules/`, `flake.nix`)
-2. User environment (`home/`)
+2. User environment (`modules/users/`, `private/users/`, `config/`)
 3. Configuration payload files consumed by modules (`config/`)
 4. Custom packages (`pkgs/`)
 5. Operational scripts (`scripts/`)
@@ -21,8 +21,8 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 3. `modules/features/`: feature owners (NixOS + home-manager fragments)
 4. `modules/desktops/`: concrete desktop composition modules
 5. `modules/hosts/`: host inventory and concrete host configurations
-6. `modules/lib/`: repo/runtime internals
-7. `home/base/`: gitignored private overrides
+6. `modules/options/`: top-level runtime surfaces and contracts
+7. `modules/users/`: tracked user inventory + base user modules
 8. `lib/`: generic helper functions used by tracked modules
 9. `config/`: app/config payload files and helper payloads
 10. `pkgs/`: custom derivations

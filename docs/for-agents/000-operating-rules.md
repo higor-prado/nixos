@@ -8,11 +8,11 @@ Files under `private/users/*/` and `private/hosts/*/` are gitignored.
 Do not read, create, or reference them in tracked files.
 Run `./scripts/check-repo-public-safety.sh` before committing.
 
-## 2. Options belong in modules/features/ only
+## 2. Options belong in feature owners or option modules only
 
 Option declarations (`options.custom.*`, `options.host.*`) live only in
-`modules/features/` files. Never declare options in `hardware/`, `home/`,
-or other locations.
+`modules/features/` or `modules/options/` files. Never declare options in
+`hardware/`, `private/`, or other locations.
 
 ## 3. No hardcoded usernames in tracked files
 

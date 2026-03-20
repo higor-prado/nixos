@@ -32,4 +32,4 @@ top level.
 Real usernames, SSH keys, and personal paths live in gitignored private override
 files. The tracked `*.nix.example` files show the expected shape without
 carrying real private data. This personal repo tracks the canonical
-`higorprado` user aspect by default and keeps real private overrides out of git.
+`higorprado` user module by default and keeps real private overrides out of git.

@@ -7,6 +7,7 @@
 | `modules/features/**/*.nix` | Feature behavior, published lower-level NixOS/HM modules, option declarations |
 | `modules/desktops/*.nix` | Desktop composition lower-level modules |
 | `modules/hosts/*.nix` | Host inventory plus concrete configuration declarations |
+| `modules/options/*.nix` | Top-level runtime surfaces, inventory schema, and runtime contracts |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
@@ -15,7 +16,7 @@
 
 ## Boundary rules
 
-1. **Option declarations only in `modules/features/`** — enforced by
+1. **Option declarations only in `modules/features/` or `modules/options/`** — enforced by
    `scripts/check-option-declaration-boundary.sh`.
 
 2. **Hardware config only in `hardware/<name>/`** — NVIDIA driver, disk layout,
@@ -43,5 +44,5 @@ When creating a new feature module:
 - [ ] No `mkIf` for role/context checks — feature inclusion in a host IS the condition
 - [ ] `mkIf` only for actual NixOS option value checks (e.g. `lib.mkIf config.services.foo.enable`)
 - [ ] Custom options declared by the narrow owner module or the feature that reads them
-- [ ] If universal (must be on every host): add to each concrete host module or the host generator layer that owns canonical imports
+- [ ] If universal (must be on every host): add to each concrete host module that owns canonical imports
 - [ ] If host-specific: add to that host's explicit NixOS/HM import lists in `modules/hosts/<host>.nix`

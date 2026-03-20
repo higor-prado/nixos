@@ -14,7 +14,7 @@
 10. Keep root `docs/for-agents/` for durable operating docs. Put active execution plans under `docs/for-agents/plans/`, active progress logs under `docs/for-agents/current/`, and archive completed execution docs under `docs/for-agents/archive/`.
 11. For this repo/user, prioritize performance and compatibility over ideology/licensing preferences when choosing technical paths.
 12. For local matrix/validation scripts, prefer `builtins.getFlake "path:$PWD"` over git URL refs when you need live working-tree behavior; git/index snapshots can hide unstaged fixes.
-13. Den philosophy: the context shape is the condition. Feature inclusion in a host is the condition. Do not use `custom.host.role` as a conditional inside feature or hardware modules; `custom.host.role` is only a contract signal for validation scripts.
+13. Dendritic repo philosophy: the context shape is the condition. Feature inclusion in a host is the condition. Do not use `custom.host.role` as a conditional inside feature or hardware modules; `custom.host.role` is only a contract signal for validation scripts.
 14. In Nix modules, use `mkIf` instead of eager `optionalAttrs` for conditions that depend on `config`, otherwise fixed-point evaluation can recurse.
 15. Keep one canonical validation runner and make CI/local wrappers delegate to it.
 16. Docs drift checks should target a bounded living-docs set; scanning all historical docs creates false failures and discourages maintenance.
@@ -27,7 +27,7 @@
 23. Canonical tracked user definition now lives in `modules/users/<user>.nix` as published `flake.modules.nixos.<user>` and `flake.modules.homeManager.<user>` modules plus `repo.users.<user>` inventory.
 24. New files under `modules/` must be `git add`-ed before `nix eval` — the repo's auto-import path only sees git-tracked files.
 25. Do not mirror feature inclusion into dedicated `custom.<feature>.enable` booleans just for validation. Prefer checking real configuration state or declared topology directly.
-26. Generic helpers belong in root `lib/`, not in subtrees like `private/` or former `home/base/lib/`.
+26. Generic helpers belong in root `lib/`, not in repo-specific private or feature subtrees.
 27. Root `hosts/` was retired in favor of `hardware/` for machine-specific files; `modules/hosts/` is the top-level host inventory and configuration layer.
 28. Host ownership contract: `hardware/<host>/default.nix` owns `custom.host.role`, while `modules/hosts/<host>.nix` must declare at least one tracked host user under `repo.hosts.<host>.trackedUsers`. `custom.user.name` is only a narrowed compatibility bridge.
 29. Desktop composition baseline duplication is intentional explicitness in this repo's composition model. Each composition owns its complete baseline for clarity.
@@ -36,9 +36,9 @@
 32. Do not build a repo-local `config.host.*` or HM `_module.args.host` bridge. Host-aware lower-level modules should read runtime facts from `config.repo.context.*`.
 33. For system-owned user services that only need per-user overrides, prefer Home Manager drop-ins via `xdg.configFile."systemd/user/<unit>.service.d/override.conf"` instead of redefining partial `systemd.user.services.<name>` units in HM.
 34. `nixpkgs.config.allowUnfree` and other `nixpkgs.config` settings belong in a dedicated `core/nixpkgs-settings.nix` feature, not as a side-effect of a hardware file. Hardware files can be refactored or removed; policy settings must be independently traceable.
-35. Feature file names should match the aspect name they define. The aspect name is the public API used in host `includes` lists; a mismatched filename creates confusion when cross-referencing includes against the filesystem.
+35. Feature file names should match at least one published lower-level module name they define. A mismatched filename creates confusion when cross-referencing host imports against the filesystem.
 36. Split bundle features when hosts need different subsets. A feature that bundles fstrim + smartd requires a `mkForce` override on servers with no physical disks. Separate features let host inclusion be the condition, eliminating the only reason for `mkForce` in the codebase.
-37. When a feature is parametric and captures `{ host, ... }`, declare `imports = [host.inputs.X.nixosModules.Y]` inside the parametric nixos block rather than in the host file. This makes the feature self-contained and keeps host composition limited to aspect names in `includes`.
+37. Upstream module imports that materially shape a concrete host session or system should stay explicit in the host composition. Do not hide major host composition edges behind framework-like helpers just to reduce import lines.
 38. If a lower-level module is meant to be universal, publish it once under `flake.modules.*` and import it consistently from each concrete host module. Do not recreate implicit global include layers unless they buy real simplicity.
 39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a dedicated published feature module, not inline in a host block. Host files should stay focused on inventory plus concrete imports.
 40. In the local runtime, host-aware Home Manager is just another lower-level HM module that reads `config.repo.context.host`; no mutual-routing battery is needed in the canonical path.

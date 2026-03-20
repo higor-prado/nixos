@@ -4,7 +4,10 @@
 modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
-modules/lib/        repo/runtime bridge internals
+modules/options/    top-level runtime surfaces and contracts
+modules/users/      tracked user inventory + base account/HM modules
+modules/systems.nix supported flake systems
+modules/templates.nix flake template outputs
 private/            private overrides
 lib/                generic helper functions reused by tracked modules
 hardware/<name>/    hardware, disko, boot, overlays (host-specific)
@@ -30,8 +33,8 @@ dendritic module that publishes lower-level NixOS and/or Home Manager modules:
 Files prefixed with `_` are skipped by auto-import (for example
 `shell/_starship-settings.nix`).
 
-Root `lib/` is for generic helper functions. `modules/lib/` is only for
-repo/runtime bridge internals, not general-purpose helpers.
+Root `lib/` is for generic helper functions. `modules/options/` is for
+top-level runtime surfaces and contracts, not general-purpose helpers.
 
 ## Desktop compositions
 
