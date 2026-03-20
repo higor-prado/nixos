@@ -11,7 +11,7 @@
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
-| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.user.name`, `custom.host.role`, and desktop composition flags |
+| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.user.name`, `custom.host.role`, and repo context |
 
 ## Boundary rules
 
