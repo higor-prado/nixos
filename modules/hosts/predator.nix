@@ -46,6 +46,7 @@ in
         config.flake.modules.nixos.audio
         config.flake.modules.nixos.gnome-keyring
         config.flake.modules.nixos.bluetooth
+        host.inputs.keyrs.nixosModules.default
         config.flake.modules.nixos.maintenance-smartd
         config.flake.modules.nixos.networking-avahi
         config.flake.modules.nixos.networking-resolved
@@ -56,6 +57,7 @@ in
         config.flake.modules.nixos.editor-neovim
         config.flake.modules.nixos.fcitx5
         config.flake.modules.nixos.gaming
+        config.flake.modules.nixos.keyrs
         config.flake.modules.nixos.nix-settings
         config.flake.modules.nixos.nautilus
         config.flake.modules.nixos.packages-docs-tools

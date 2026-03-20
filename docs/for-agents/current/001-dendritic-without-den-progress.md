@@ -264,6 +264,26 @@ In progress
   - the repo-local runtime shape stayed explicit: feature owners publish
     lower-level modules and the host composes them directly
 
+### Slice 24
+
+- Dual-published the host-aware NixOS owner
+  [keyrs.nix](/home/higorprado/nixos/modules/features/system/keyrs.nix)
+  as `flake.modules.nixos.keyrs`
+- Kept the host dependency flow fully dendritic:
+  the owner publishes only the `keyrs` behavior surface, while the concrete
+  external module import stays explicit in the `predator` host composition
+- Imported the local `keyrs` module explicitly in the `predator` shadow host in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.hardware.uinput.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.keyrs.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system now resolves the repo-local `keyrs` surface
+  - the external `keyrs` module is imported at the host composition boundary,
+    avoiding config-dependent `imports` inside the lower-level module
+
 ### Slice 9
 
 - Added the HM-only shared owners:
