@@ -8,6 +8,17 @@ let
   };
 in
 {
+  repo.hosts.aurelius = {
+    inherit system inputs customPkgs;
+    role = "server";
+    trackedUsers = [ "higorprado" ];
+    homeManagerUsers = [ ];
+    hardwareImports = [
+      inputs.disko.nixosModules.disko
+      ../../hardware/aurelius/default.nix
+    ];
+  };
+
   den.hosts.aarch64-linux.aurelius = {
     # Den-level context for parametric aspects
     users.higorprado = { };

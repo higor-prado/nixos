@@ -20,6 +20,19 @@ let
   };
 in
 {
+  repo.hosts.predator = {
+    inherit system inputs customPkgs llmAgents;
+    role = "desktop";
+    trackedUsers = [ "higorprado" ];
+    homeManagerUsers = [ "higorprado" ];
+    hardwareImports = [
+      inputs.disko.nixosModules.disko
+      inputs.impermanence.nixosModules.impermanence
+      ../../hardware/predator/default.nix
+    ];
+    extraSystemPackages = [ customPkgs.predator-tui ];
+  };
+
   den.hosts.x86_64-linux.predator = {
     users.higorprado.classes = [ "homeManager" ];
     # Den-level context for parametric aspects (homeManager class)

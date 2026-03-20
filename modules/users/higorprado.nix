@@ -1,5 +1,24 @@
 { den, ... }:
 {
+  repo.users.higorprado = {
+    userName = "higorprado";
+    homeDirectory = "/home/higorprado";
+    primaryGroup = "higorprado";
+    homeStateVersion = "25.11";
+    shell = "fish";
+    isPrimary = true;
+    extraGroups = [
+      "video"
+      "audio"
+      "input"
+      "docker"
+      "rfkill"
+      "uinput"
+      "linuwu_sense"
+    ];
+    privateModule = ../../private/users/higorprado/default.nix;
+  };
+
   # User aspect for higorprado.
   # Den routes .homeManager to home-manager.users.higorprado on hosts
   # where this user has the "homeManager" class (see modules/hosts/predator.nix).
