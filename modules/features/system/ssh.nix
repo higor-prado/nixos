@@ -1,24 +1,14 @@
 { ... }:
 {
   flake.modules.nixos.ssh =
-    { config, lib, ... }:
+    { ... }:
     {
-      options.custom.ssh.settings = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.oneOf [
-          lib.types.bool
-          lib.types.int
-          lib.types.str
-        ]);
-        default = { };
-        description = "Host-specific OpenSSH settings merged over SSH feature defaults.";
-      };
-
       config.services.openssh = {
         enable = true;
         settings = {
           PermitRootLogin = "no";
           PasswordAuthentication = false;
-        } // config.custom.ssh.settings;
+        };
       };
     };
 

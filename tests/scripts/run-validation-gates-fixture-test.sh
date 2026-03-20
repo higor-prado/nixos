@@ -13,19 +13,21 @@ tmpdir="$(mktemp_dir_scoped run-validation-gates-fixture-test)"
 trap 'rm -rf "$tmpdir"' EXIT
 
 fixtures_scripts_dir="$tmpdir/scripts"
+fixtures_tests_dir="$tmpdir/tests"
 fixtures_bin_dir="$tmpdir/bin"
 log_file="$tmpdir/invocations.log"
-mkdir -p "$fixtures_scripts_dir" "$fixtures_bin_dir"
+mkdir -p "$fixtures_scripts_dir" "$fixtures_tests_dir" "$fixtures_bin_dir"
 touch "$log_file"
 
 make_stub_check() {
   local name="$1"
-  cat >"${fixtures_scripts_dir}/${name}" <<'EOF2'
+  local target_dir="$2"
+  cat >"${target_dir}/${name}" <<'EOF2'
 #!/usr/bin/env bash
 set -euo pipefail
 printf '%s\n' "$(basename "$0")" >>"${INVOCATION_LOG}"
 EOF2
-  chmod +x "${fixtures_scripts_dir}/${name}"
+  chmod +x "${target_dir}/${name}"
 }
 
 check_scripts=(
@@ -46,7 +48,19 @@ check_scripts=(
 )
 
 for script_name in "${check_scripts[@]}"; do
-  make_stub_check "$script_name"
+  make_stub_check "$script_name" "$fixtures_scripts_dir"
+done
+
+test_scripts=(
+  run-validation-gates-fixture-test.sh
+  new-host-skeleton-fixture-test.sh
+  dendritic-host-onboarding-contracts-fixture-test.sh
+  report-persistence-candidates-test.sh
+  runtime-warning-budget-lib-test.sh
+)
+
+for script_name in "${test_scripts[@]}"; do
+  make_stub_check "$script_name" "$fixtures_tests_dir"
 done
 
 cat >"${fixtures_bin_dir}/nix" <<'EOF2'
@@ -78,6 +92,7 @@ run_stage() {
   PATH="${fixtures_bin_dir}:$PATH" \
     INVOCATION_LOG="$log_file" \
     VALIDATION_GATES_SCRIPTS_DIR="$fixtures_scripts_dir" \
+    VALIDATION_GATES_TESTS_DIR="$fixtures_tests_dir" \
     ./scripts/run-validation-gates.sh "$stage" >/dev/null
 }
 
@@ -93,6 +108,11 @@ assert_logged "check-feature-publisher-name-match.sh"
 assert_logged "check-dendritic-host-onboarding-contracts.sh"
 assert_logged "check-validation-source-of-truth.sh"
 assert_logged "check-docs-drift.sh"
+assert_logged "run-validation-gates-fixture-test.sh"
+assert_logged "new-host-skeleton-fixture-test.sh"
+assert_logged "dendritic-host-onboarding-contracts-fixture-test.sh"
+assert_logged "report-persistence-candidates-test.sh"
+assert_logged "runtime-warning-budget-lib-test.sh"
 
 run_stage "predator"
 assert_logged "check-config-contracts.sh"

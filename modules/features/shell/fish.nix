@@ -29,17 +29,11 @@ let
 in
 {
   flake.modules.nixos.fish =
-    { config, lib, ... }:
+    { ... }:
     {
-      options.custom.fish.hostAbbreviationOverrides = lib.mkOption {
-        type = lib.types.attrsOf lib.types.str;
-        default = { };
-        description = "Host-scoped Fish abbreviations merged into the active Fish surface.";
-      };
-
       config.programs.fish = {
         enable = true;
-        shellAbbrs = baseAbbrs // config.custom.fish.hostAbbreviationOverrides;
+        shellAbbrs = baseAbbrs;
       };
     };
 

@@ -10,10 +10,16 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/validation_host_
 enter_repo_root "${BASH_SOURCE[0]}"
 
 scripts_dir="${VALIDATION_GATES_SCRIPTS_DIR:-./scripts}"
+tests_dir="${VALIDATION_GATES_TESTS_DIR:-./tests/scripts}"
 
 run_check_script() {
   local script_name="$1"
   "${scripts_dir}/${script_name}"
+}
+
+run_test_script() {
+  local script_name="$1"
+  bash "${tests_dir}/${script_name}"
 }
 
 run_structure_gates() {
@@ -29,6 +35,11 @@ run_structure_gates() {
   run_check_script "check-dendritic-host-onboarding-contracts.sh"
   run_check_script "check-validation-source-of-truth.sh"
   run_check_script "check-docs-drift.sh"
+  run_test_script "run-validation-gates-fixture-test.sh"
+  run_test_script "new-host-skeleton-fixture-test.sh"
+  run_test_script "dendritic-host-onboarding-contracts-fixture-test.sh"
+  run_test_script "report-persistence-candidates-test.sh"
+  run_test_script "runtime-warning-budget-lib-test.sh"
 }
 
 run_predator_gates() {

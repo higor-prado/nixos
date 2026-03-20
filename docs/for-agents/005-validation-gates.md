@@ -40,6 +40,11 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
 | `check-validation-source-of-truth.sh` | Shared script inventory and CI/stage routing contracts |
 | `check-docs-drift.sh` | Living docs only reference paths that still exist |
+| `tests/scripts/run-validation-gates-fixture-test.sh` | Fixture-based structure-stage orchestration contract |
+| `tests/scripts/new-host-skeleton-fixture-test.sh` | Fixture-based host generator contract |
+| `tests/scripts/dendritic-host-onboarding-contracts-fixture-test.sh` | Fixture-based host onboarding contract |
+| `tests/scripts/report-persistence-candidates-test.sh` | Fixture coverage for the persistence report helper |
+| `tests/scripts/runtime-warning-budget-lib-test.sh` | Library contract for runtime warning budgeting |
 
 ## Shared Script Boundary
 
@@ -92,14 +97,19 @@ This is a deliberate local-tool exception, not part of the canonical shared
 validation topology.
 
 Because it remains a tracked top-level script, its basic CLI contract still
-stays covered by:
+stays covered by a targeted manual test:
 
 ```bash
 bash tests/scripts/gate-cli-contracts-test.sh
 ```
 
-Other targeted script tests remain tracked because they protect live
-non-gate-runner tooling and runner contracts:
+`tests/scripts/gate-cli-contracts-test.sh` stays outside the canonical gate runner on
+purpose. It is a meta-test of the runner/CLI surface itself, so embedding it
+inside `run-validation-gates.sh` makes the check self-referential and brittle.
+
+The following targeted script tests now also run inside the structure gate
+because they are fast and protect live non-gate-runner tooling plus runner
+contracts:
 
 ```bash
 bash tests/scripts/run-validation-gates-fixture-test.sh
