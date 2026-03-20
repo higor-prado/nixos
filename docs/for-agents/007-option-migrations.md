@@ -20,7 +20,7 @@ Current policy:
 Historical note:
 
 1. The repo previously used a dedicated registry-driven gate to keep
-   removed-option compatibility messages alive during the den/dendritic
+   removed-option compatibility messages alive during a large runtime
    migration.
 2. That migration was completed, the tracked repo stopped using the removed
    options, and the compatibility layer was intentionally deleted to simplify the

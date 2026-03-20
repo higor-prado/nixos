@@ -3,7 +3,7 @@
 ## First Reads
 1. `docs/for-agents/000-operating-rules.md`
 2. `docs/for-agents/001-repo-map.md`
-3. `docs/for-agents/002-den-architecture.md`
+3. `docs/for-agents/002-architecture.md`
 4. `docs/for-agents/003-module-ownership.md`
 5. `docs/for-agents/004-private-safety.md`
 6. `docs/for-agents/005-validation-gates.md`
