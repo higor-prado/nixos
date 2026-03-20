@@ -543,6 +543,35 @@ In progress
     `packages-system-tools` in its system package set
   - authoritative `den` validation path remains green
 
+### Slice 21
+
+- Added four more NixOS-only owners:
+  - [packages-server-tools.nix](/home/higorprado/nixos/modules/features/system/packages-server-tools.nix)
+  - [podman.nix](/home/higorprado/nixos/modules/features/system/podman.nix)
+  - [upower.nix](/home/higorprado/nixos/modules/features/system/upower.nix)
+  - [bluetooth.nix](/home/higorprado/nixos/modules/features/system/bluetooth.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.nixos.packages-server-tools`
+  - `flake.modules.nixos.podman`
+  - `flake.modules.nixos.upower`
+  - `flake.modules.nixos.bluetooth`
+- Imported them explicitly in:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.hardware.bluetooth.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.virtualisation.podman.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.upower.enable`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(eza|ripgrep|distrobox).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.aurelius.config.environment.systemPackages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system path now resolves Bluetooth, Podman, and
+    UPower through the repo-local runtime
+  - the `aurelius` shadow configuration now evaluates with the server-oriented
+    package surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -586,6 +615,8 @@ In progress
   `editor-emacs`) are being migrated through explicit host imports
 - Additional system/shared owners (`docker`, `packages-toolchains`,
   `packages-system-tools`) are being migrated through explicit host imports
+- Additional NixOS-only owners (`packages-server-tools`, `podman`, `upower`,
+  `bluetooth`) are being migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

@@ -43,6 +43,9 @@ in
         inputs.home-manager.nixosModules.home-manager
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.bluetooth
+        config.flake.modules.nixos.podman
+        config.flake.modules.nixos.upower
         config.flake.modules.nixos.higorprado
         config.flake.modules.nixos.editor-neovim
         config.flake.modules.nixos.fcitx5
