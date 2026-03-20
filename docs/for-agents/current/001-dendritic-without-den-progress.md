@@ -901,5 +901,9 @@ In progress
   `git-gh`, `terminals`, `backup-service`, and `docker`
 - Removed the last two pure-duplicate editor publishers from `den`:
   `editor-emacs` and `editor-neovim`
+- Migrated the remaining `den`-owned lower-level contracts for `fish` and
+  `ssh` into their canonical published NixOS modules, so host-specific Fish
+  abbreviation overrides and OpenSSH settings overrides now live directly in
+  the narrow feature owners instead of behind `den.lib.perHost`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
