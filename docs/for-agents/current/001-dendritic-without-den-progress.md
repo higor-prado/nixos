@@ -889,5 +889,11 @@ In progress
   `system-base`, `keyboard`, `maintenance-smartd`, `networking-avahi`,
   `packages-system-tools`, and `tailscale`, and deleted the dead `server-base`
   shim
+- Removed a low-risk batch of HM-only and mixed owner `den` publishers already
+  covered by `flake.modules.*`:
+  `core-user-packages`, `dev-tools`, `monitoring-tools`, `terminal-tmux`,
+  `starship`, `editor-vscode`, `editor-zed`, `desktop-base`,
+  `desktop-viewers`, `media-tools`, `media-cava`, `dev-devenv`, `gaming`, and
+  the NixOS-only `packages-docs-tools`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
