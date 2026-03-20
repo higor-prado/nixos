@@ -23,7 +23,7 @@ docs/for-agents/archive/ archived plans and log tracks
 ## modules/features/ — category layout
 
 **Core**
-- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and desktop composition flags
+- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and repo context
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — nix daemon settings (universal: max-jobs, store optimization, numtide cache, nh)

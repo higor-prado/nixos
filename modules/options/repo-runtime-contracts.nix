@@ -43,12 +43,6 @@ in
           description = "Repo-local compatibility username bridge for the dendritic shadow path.";
         };
 
-        options.custom.niri.standaloneSession = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Repo-local desktop composition contract for Niri standalone vs DMS-managed sessions.";
-        };
-
         config.home-manager.sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
       };
 

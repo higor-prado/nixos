@@ -905,5 +905,11 @@ In progress
   `ssh` into their canonical published NixOS modules, so host-specific Fish
   abbreviation overrides and OpenSSH settings overrides now live directly in
   the narrow feature owners instead of behind `den.lib.perHost`
+- Removed the last `den` compatibility publishers from active feature owners:
+  `nix-settings`, `desktop-apps`, `dms`, `dms-wallpaper`, `music-client`,
+  `niri`, `theme-base`, `theme-zen`, `llm-agents`, and `keyrs`
+- Moved `custom.niri.standaloneSession` ownership back into the narrow `niri`
+  feature owner, leaving `repo-runtime-contracts` with only true global
+  runtime contracts
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
