@@ -55,6 +55,8 @@ That module owns:
 - `networking.hostName`
 - concrete `repo.context` values for NixOS and Home Manager
 - host-scoped package additions such as `environment.systemPackages`
+- host-operator overlays that only make sense on that machine, such as
+  machine-specific Fish abbreviations
 
 Example shape:
 
@@ -126,6 +128,8 @@ The current pattern is:
 - `repo.users.<name>` stores tracked user facts
 - `flake.modules.nixos.<name>` declares the NixOS user account
 - `flake.modules.homeManager.<name>` declares the base HM user module
+- repo-wide primary-user semantics such as admin groups belong here, not in
+  host hardware files or generic shell features
 
 This keeps user ownership out of host hardware files and out of generic feature
 modules.

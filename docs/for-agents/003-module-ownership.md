@@ -6,11 +6,11 @@
 |----------|------|
 | `modules/features/**/*.nix` | Feature behavior, published lower-level NixOS/HM modules, option declarations |
 | `modules/desktops/*.nix` | Desktop composition lower-level modules |
-| `modules/hosts/*.nix` | Host inventory plus concrete configuration declarations |
+| `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, and machine-specific operator wiring |
 | `modules/options/*.nix` | Top-level runtime surfaces, inventory schema, and runtime contracts |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
-| `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
+| `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), and repo-wide primary-user semantics |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
 | `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.user.name`, `custom.host.role`, and repo context |
 
