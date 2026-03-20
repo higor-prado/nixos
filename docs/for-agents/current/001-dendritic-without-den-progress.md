@@ -868,5 +868,10 @@ In progress
   aspects
 - Living operating docs were updated so the active onboarding story matches the
   canonical repo-local dendritic runtime rather than the old den host runtime
+- Removed the dead `modules/features/desktop/theme.nix` shim after confirming
+  no active code path still consumed `den.aspects.theme`
+- Updated human-facing structure and feature/composition workflows to describe
+  published `flake.modules.*` plus explicit host imports instead of `den`
+  aspect `includes`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition

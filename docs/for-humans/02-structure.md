@@ -1,55 +1,65 @@
 # Repository Structure
 
 ```
-modules/features/   53+ feature aspects grouped by category
+modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
-modules/hosts/      one file per host (includes + host nixos config)
-modules/den.nix     den flake module import
-modules/lib/        module/den internals (currently den-host-context.nix)
+modules/hosts/      one file per host inventory + concrete configuration
+modules/den.nix     shrinking den compatibility import
+modules/lib/        repo/den bridge internals (currently den-host-context.nix)
 private/            private overrides
 lib/                generic helper functions reused by tracked modules
-hardware/<name>/       hardware, disko, boot, overlays (host-specific)
+hardware/<name>/    hardware, disko, boot, overlays (host-specific)
 pkgs/               custom packages (linuwu-sense, etc.)
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
 scripts/            validation gates
 tests/              fixtures and test runners
 ```
 
-## Feature aspects
+## Feature modules
 
-Each tracked feature file in `modules/features/<category>/` is a self-contained den aspect. Features
-with home-manager config use both `.nixos` and `.homeManager` classes:
+Each tracked feature file in `modules/features/<category>/` is a top-level
+dendritic module that publishes lower-level NixOS and/or Home Manager modules:
 
 ```nix
 { ... }:
 {
-  den.aspects.my-feature = {
-    nixos = { config, lib, pkgs, ... }: { /* NixOS config */ };
-    homeManager = { pkgs, ... }: { /* HM config — auto-routed by den */ };
-  };
+  flake.modules.nixos.my-feature = { config, lib, pkgs, ... }: { /* NixOS config */ };
+  flake.modules.homeManager.my-feature = { pkgs, ... }: { /* HM config */ };
 }
 ```
 
-Files prefixed with `_` are skipped by den's auto-discovery (e.g. `shell/_starship-settings.nix`).
+Files prefixed with `_` are skipped by auto-import (for example
+`shell/_starship-settings.nix`).
 
-Root `lib/` is for generic helper functions. `modules/lib/` is only for module/den
-internals, not general-purpose helpers.
+Root `lib/` is for generic helper functions. `modules/lib/` is only for
+repo/runtime bridge internals, not general-purpose helpers.
 
 ## Desktop compositions
 
-`modules/desktops/` files own the baseline for a concrete desktop experience.
-Each is a den aspect named `desktop-*`, and hosts include them alongside the
-feature aspects they parameterize.
+`modules/desktops/` files publish `flake.modules.nixos.desktop-*` and, when
+needed, `flake.modules.homeManager.desktop-*` for a concrete desktop
+experience.
 
 ## Host files
 
-`modules/hosts/<name>.nix` declares which features the host includes:
+`modules/hosts/<name>.nix` declares host inventory and one concrete
+configuration:
 
 ```nix
-den.aspects.<name> = {
-  includes = with den.aspects; [ feature-a feature-b desktop-dms-on-niri ];
-  nixos = { ... }: { imports = [ ../../hardware/<name>/default.nix ]; };
-};
+{
+  repo.hosts.<name> = {
+    system = "x86_64-linux";
+    role = "desktop";
+    trackedUsers = [ "higorprado" ];
+  };
+
+  configurations.nixos.<name>.module = {
+    imports = [ config.flake.modules.nixos.my-feature ];
+    home-manager.users.higorprado.imports = [
+      config.flake.modules.homeManager.my-feature
+    ];
+  };
+}
 ```
 
 ## Hardware files
