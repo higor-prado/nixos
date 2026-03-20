@@ -46,10 +46,16 @@ in
         config.flake.modules.nixos.audio
         config.flake.modules.nixos.gnome-keyring
         config.flake.modules.nixos.bluetooth
+        host.inputs.niri.nixosModules.niri
+        host.inputs.dms.nixosModules.dank-material-shell
+        host.inputs.dms.nixosModules.greeter
         host.inputs.keyrs.nixosModules.default
+        config.flake.modules.nixos.desktop-dms-on-niri
+        config.flake.modules.nixos.dms
         config.flake.modules.nixos.maintenance-smartd
         config.flake.modules.nixos.networking-avahi
         config.flake.modules.nixos.networking-resolved
+        config.flake.modules.nixos.niri
         config.flake.modules.nixos.nix-settings-desktop
         config.flake.modules.nixos.podman
         config.flake.modules.nixos.upower
@@ -94,6 +100,9 @@ in
             config.flake.modules.homeManager.core-user-packages
             config.flake.modules.homeManager.desktop-apps
             config.flake.modules.homeManager.desktop-viewers
+            config.flake.modules.homeManager.desktop-dms-on-niri
+            config.flake.modules.homeManager.dms
+            config.flake.modules.homeManager.dms-wallpaper
             config.flake.modules.homeManager.docker
             config.flake.modules.homeManager.fcitx5
             config.flake.modules.homeManager.fish
@@ -105,6 +114,7 @@ in
             config.flake.modules.homeManager.music-client
             config.flake.modules.homeManager.monitoring-tools
             config.flake.modules.homeManager.nautilus
+            config.flake.modules.homeManager.niri
             config.flake.modules.homeManager.packages-toolchains
             config.flake.modules.homeManager.ssh
             config.flake.modules.homeManager.starship

@@ -13,6 +13,37 @@ let
   };
 in
 {
+  flake.modules = {
+    nixos.dms =
+      { config, ... }:
+      let
+        host = config.repo.context.host;
+        userName = config.repo.context.userName;
+        homeDir = config.users.users.${userName}.home;
+      in
+      {
+        home-manager.sharedModules = [ host.inputs.dms.homeModules.dank-material-shell ];
+
+        programs.dsearch.enable = true;
+
+        programs.dank-material-shell.greeter = {
+          enable = true;
+          compositor.name = "niri";
+          configHome = homeDir;
+          configFiles = [ "${homeDir}/.config/DankMaterialShell/settings.json" ];
+        };
+      };
+
+    homeManager.dms =
+      { ... }:
+      {
+        programs.dank-material-shell = {
+          enable = true;
+        }
+        // dmsCommonSettings;
+      };
+  };
+
   den.aspects.dms = den.lib.parametric {
     provides.to-users.homeManager.programs.dank-material-shell = {
       enable = true;

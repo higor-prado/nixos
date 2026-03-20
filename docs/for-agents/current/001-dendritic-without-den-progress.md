@@ -284,6 +284,49 @@ In progress
   - the external `keyrs` module is imported at the host composition boundary,
     avoiding config-dependent `imports` inside the lower-level module
 
+### Slice 25
+
+- Added the real desktop composition contract
+  `custom.niri.standaloneSession` to
+  [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
+  instead of leaving the option declaration inside a feature owner
+- Dual-published the reusable desktop owners:
+  - [niri.nix](/home/higorprado/nixos/modules/features/desktop/niri.nix)
+    as:
+    - `flake.modules.nixos.niri`
+    - `flake.modules.homeManager.niri`
+  - [dms.nix](/home/higorprado/nixos/modules/features/desktop/dms.nix)
+    as:
+    - `flake.modules.nixos.dms`
+    - `flake.modules.homeManager.dms`
+  - [dms-wallpaper.nix](/home/higorprado/nixos/modules/features/desktop/dms-wallpaper.nix)
+    as `flake.modules.homeManager.dms-wallpaper`
+- Dual-published the desktop composition owner
+  [dms-on-niri.nix](/home/higorprado/nixos/modules/desktops/dms-on-niri.nix)
+  as:
+  - `flake.modules.nixos.desktop-dms-on-niri`
+  - `flake.modules.homeManager.desktop-dms-on-niri`
+- Kept external imports explicit at the host boundary in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix):
+  - `host.inputs.niri.nixosModules.niri`
+  - `host.inputs.dms.nixosModules.dank-material-shell`
+  - `host.inputs.dms.nixosModules.greeter`
+- Imported the new repo-local desktop modules explicitly into the `predator`
+  shadow system and HM path
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.custom.niri.standaloneSession`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.niri.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.dank-material-shell.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow now resolves the repo-local `niri`/`dms` desktop stack
+  - the `niri` composition contract lives in the repo runtime surface, not in a
+    feature file
+  - external NixOS modules remain imported concretely by the host, matching the
+    dendritic composition boundary
+
 ### Slice 9
 
 - Added the HM-only shared owners:
