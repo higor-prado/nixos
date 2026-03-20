@@ -899,5 +899,7 @@ In progress
   already covered by `flake.modules.*`:
   `tui-tools`, `packages-toolchains`, `wayland-tools`, `fcitx5`, `nautilus`,
   `git-gh`, `terminals`, `backup-service`, and `docker`
+- Removed the last two pure-duplicate editor publishers from `den`:
+  `editor-emacs` and `editor-neovim`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
