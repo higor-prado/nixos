@@ -6,7 +6,7 @@
 2. Publish lower-level modules under `flake.modules.nixos.*` and/or `flake.modules.homeManager.*`
 3. If the feature needs custom options, declare them in the feature owner or the narrow contract module that owns that concern
 4. Add the published lower-level modules to the host's explicit import lists in `modules/hosts/<host>.nix`
-4. Verify with `./scripts/check-extension-contracts.sh`
+5. Verify with `./scripts/check-extension-contracts.sh`
 
 ### Feature patterns
 
@@ -88,7 +88,7 @@ in
 1. Create `modules/desktops/<name>.nix`
 2. Publish `flake.modules.nixos.desktop-<name>` and, if needed, `flake.modules.homeManager.desktop-<name>`
 3. Add those published modules to the host's explicit NixOS/HM imports alongside the individual features they compose
-5. Verify with `./scripts/check-desktop-composition-matrix.sh`
+4. Verify with `./scripts/check-desktop-composition-matrix.sh`
 
 See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix` for reference. Baseline duplication across composition files is intentional because each composition owns its own lower-level module payload.
 
@@ -103,7 +103,7 @@ Required files:
 
 ## Extension contracts enforced by scripts
 
-- Desktop host must include a `desktop-*` composition aspect
+- Desktop host must include a `desktop-*` composition module
 - `hardware/host-descriptors.nix` must stay script-only (`integrations` only)
 - `hardware/<name>/default.nix` must expose `custom.host.role`
 - `modules/hosts/<name>.nix` must declare at least one tracked host user under `repo.hosts.<name>.trackedUsers`

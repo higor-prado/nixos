@@ -3,7 +3,7 @@
 ## Quick check (structural, <2 min)
 
 ```bash
-./scripts/run-validation-gates.sh
+./scripts/run-validation-gates.sh structure
 ```
 
 ## Nix eval check
@@ -37,6 +37,7 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-dendritic-host-onboarding-contracts.sh` | Host descriptor onboarding contract shape |
 | `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |
 | `check-extension-simulations.sh` | Synthetic host extension eval checks |
+| `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
 | `check-validation-source-of-truth.sh` | Shared script inventory and CI/stage routing contracts |
 | `check-docs-drift.sh` | Living docs only reference paths that still exist |
 
@@ -95,6 +96,17 @@ stays covered by:
 
 ```bash
 bash tests/scripts/gate-cli-contracts-test.sh
+```
+
+Other targeted script tests remain tracked because they protect live
+non-gate-runner tooling and runner contracts:
+
+```bash
+bash tests/scripts/run-validation-gates-fixture-test.sh
+bash tests/scripts/new-host-skeleton-fixture-test.sh
+bash tests/scripts/dendritic-host-onboarding-contracts-fixture-test.sh
+bash tests/scripts/report-persistence-candidates-test.sh
+bash tests/scripts/runtime-warning-budget-lib-test.sh
 ```
 
 ## When to run what

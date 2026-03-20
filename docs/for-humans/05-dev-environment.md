@@ -2,7 +2,7 @@
 
 ## Tools included via feature modules
 
-| Aspect | Tools |
+| Feature | Tools |
 |--------|-------|
 | `editor-neovim` | Neovim + 30+ LSP packages |
 | `editor-vscode` | VS Code with extensions |

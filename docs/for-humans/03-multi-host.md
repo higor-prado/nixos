@@ -31,7 +31,7 @@ scripts/new-host-skeleton.sh <host-name> [desktop|server] [desktop-experience]
 ```
 
 Then add the descriptor integrations to `hardware/host-descriptors.nix` and
-adjust the generated `modules/hosts/<name>.nix` includes.
+adjust the generated `modules/hosts/<name>.nix` imports.
 
 See [workflow: add a host](workflows/103-add-host.md).
 

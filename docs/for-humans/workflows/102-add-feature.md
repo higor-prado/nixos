@@ -38,7 +38,7 @@ Read it from the runtime context inside the lower-level module:
 }
 ```
 
-## 2. Add to host includes
+## 2. Add to host imports
 
 In `modules/hosts/<your-host>.nix`, import the published lower-level modules:
 

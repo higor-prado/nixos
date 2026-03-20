@@ -8,7 +8,10 @@ Authoritative map of where things live in this dendritic-first repository.
 modules/features/   53+ feature modules grouped under category folders
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
-modules/lib/        repo/runtime bridge internals
+modules/options/    top-level runtime surfaces and contracts
+modules/users/      tracked user inventory + base account/HM modules
+modules/systems.nix supported flake systems
+modules/templates.nix flake template outputs
 private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix, primary-tracked-user.nix)
@@ -19,10 +22,16 @@ tests/              fixtures and test runners
 docs/for-agents/archive/ archived plans and log tracks
 ```
 
+## modules/options/
+
+- `modules/options/configurations-nixos.nix` — materializes `flake.nixosConfigurations` from `configurations.nixos.*.module`
+- `modules/options/flake-parts-modules.nix` — enables the `flake-parts` published-module surface
+- `modules/options/inventory.nix` — inventory schema for `repo.hosts.*` and `repo.users.*`
+- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and `repo.context`
+
 ## modules/features/ — category layout
 
 **Core**
-- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and repo context
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — nix daemon settings (universal: max-jobs, store optimization, numtide cache, nh)
@@ -72,6 +81,10 @@ docs/for-agents/archive/ archived plans and log tracks
 |------|-------------------------------|-----------|
 | `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
 | `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
+
+## modules/users/
+
+- `modules/users/higorprado.nix` — tracked user inventory plus base NixOS user and Home Manager module publishers
 
 ## private/
 

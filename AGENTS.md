@@ -22,7 +22,7 @@
 2. Keep numbering stable and consistent when adding files.
 
 ## Safety Rules
-1. Never commit real private override files (`hardware/*/private*.nix`, `home/*/private*.nix`); only `*.example` should be tracked.
+1. Never commit real private override files under `private/users/` or `private/hosts/`; only `*.example` should be tracked.
 2. Run public safety gate before publish:
    - `./scripts/check-repo-public-safety.sh`
 3. Run mandatory Nix validation gates after meaningful changes:
