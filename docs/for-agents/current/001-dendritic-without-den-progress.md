@@ -327,6 +327,33 @@ In progress
   - external NixOS modules remain imported concretely by the host, matching the
     dendritic composition boundary
 
+### Slice 26
+
+- Added an explicit Home Manager path to the
+  [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix) shadow host
+  using already-migrated owners:
+  - `homeManager.repo-context`
+  - `homeManager.higorprado`
+  - `homeManager.core-user-packages`
+  - `homeManager.fish`
+  - `homeManager.git-gh`
+  - `homeManager.ssh`
+- Kept the host shape dendritic:
+  the `aurelius` host declares its own concrete HM composition instead of
+  relying on selector/generator logic
+- Validation:
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.aurelius.config.home-manager.users.higorprado.home.stateVersion`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.home-manager.users.higorprado.programs.git.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.home-manager.users.higorprado.programs.ssh.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.aurelius.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `aurelius` shadow now exposes a concrete HM user path
+  - HM surface evaluation is green for `stateVersion`, Git and SSH
+  - direct `home.path` build is still limited locally by the known
+    `x86_64-linux` host vs `aarch64-linux` target mismatch, not by a migration
+    regression
+
 ### Slice 9
 
 - Added the HM-only shared owners:
