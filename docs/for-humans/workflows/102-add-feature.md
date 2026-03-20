@@ -1,89 +1,54 @@
-# Add a Feature (Den Aspect)
+# Add a Feature
 
 ## 1. Create the feature file
 
 Create a new file in `modules/features/<category>/` (for example `modules/features/shell/<name>.nix`).
 
-Choose the pattern that matches your feature's needs:
+Publish the lower-level module(s) your feature owns.
 
 ### Pattern 1 — No host data needed (most features)
 
 ```nix
 { ... }:
 {
-  den.aspects.my-feature = {
-    nixos = { config, lib, pkgs, ... }: {
-      # NixOS-only config
-    };
-    homeManager = { pkgs, ... }: {
-      # HM config — routed automatically to home-manager.users.<userName>
-    };
+  flake.modules.nixos.my-feature = { config, lib, pkgs, ... }: {
+    # NixOS-only config
+  };
+
+  flake.modules.homeManager.my-feature = { pkgs, ... }: {
+    # HM config
   };
 }
 ```
 
-### Pattern 2 — Needs `host.*` (flake inputs, customPkgs, llmAgents)
+### Pattern 2 — Needs host data (`inputs`, `customPkgs`, `llmAgents`)
 
-For nixos config that reads host data — `den.lib.perHost` (fires once, in host pipeline only):
+Read it from the runtime context inside the lower-level module:
 
 ```nix
-{ den, ... }:
+{ ... }:
 {
-  den.aspects.my-feature = den.lib.parametric {
-    includes = [
-      (den.lib.perHost (
-        { host }:
-        {
-          nixos = { ... }: {
-            imports = [ host.inputs.upstream.nixosModules.default ];
-          };
-        }
-      ))
-    ];
+  flake.modules.nixos.my-feature = { config, ... }: {
+    imports = [ config.repo.context.host.inputs.upstream.nixosModules.default ];
+  };
+
+  flake.modules.homeManager.my-feature = { config, ... }: {
+    home.packages = [ config.repo.context.host.customPkgs.some-tool ];
   };
 }
 ```
-
-For homeManager config that reads host data — `take.atLeast` with `{host,user}` (fires in user
-pipeline only, never at bare host level):
-
-```nix
-{ den, ... }:
-{
-  den.aspects.my-feature = den.lib.parametric {
-    includes = [
-      (den.lib.take.atLeast (
-        { host, user }:
-        {
-          homeManager = { pkgs, ... }: {
-            home.packages = [ host.customPkgs.some-tool ];
-          };
-        }
-      ))
-    ];
-  };
-}
-```
-
-`den.lib.perUser` is the canonical alias for the homeManager case: `den.lib.perUser ({ host, user }: ...)` is equivalent to `take.atLeast` and more readable.
-
-For both — split into two includes (see `modules/features/dev/llm-agents.nix`).
-
-**Never** use bare `{ host, ... }:` or `{ host }:` inside `includes` — they fire in both
-`{host}` and `{host,user}` contexts, duplicating config.
-
-Notes:
-- Use `.homeManager` directly. Do not use the retired `hasHomeManagerUsers` / `optionalAttrs` pattern.
-- `den.lib.parametric` is required whenever an aspect has context-dependent `includes`.
 
 ## 2. Add to host includes
 
-In `modules/hosts/<your-host>.nix`, add the aspect to the host's `includes` list:
+In `modules/hosts/<your-host>.nix`, import the published lower-level modules:
 
 ```nix
-includes = with den.aspects; [
-  # ...
-  my-feature
+imports = [
+  config.flake.modules.nixos.my-feature
+];
+
+home-manager.users.${user.userName}.imports = [
+  config.flake.modules.homeManager.my-feature
 ];
 ```
 
