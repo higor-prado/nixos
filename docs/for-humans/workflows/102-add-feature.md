@@ -21,19 +21,49 @@ Publish the lower-level module(s) your feature owns.
 }
 ```
 
-### Pattern 2 — Needs host data (`inputs`, `customPkgs`, `llmAgents`)
+### Pattern 2 — Needs one narrow semantic input
 
-Read it from the runtime context inside the lower-level module:
+Declare a narrow feature-owned option only when the feature genuinely owns that
+input:
+
+```nix
+{ lib, ... }:
+{
+  flake.modules.nixos.my-feature =
+    { config, ... }:
+    {
+      options.custom.my-feature.package = lib.mkOption {
+        type = lib.types.package;
+      };
+
+      config.environment.systemPackages = [ config.custom.my-feature.package ];
+    };
+}
+```
+
+If the host-specific part is just a local package selection or one-off runtime
+payload, keep it in the host composition instead of inventing a repo-wide
+carrier or broad option surface.
+
+```nix
+home-manager.users.${user.userName} = {
+  imports = [
+    homeManager.my-feature
+  ];
+
+  home.packages = [
+    customPkgs.some-tool
+  ];
+};
+```
+
+Avoid this:
 
 ```nix
 { ... }:
 {
   flake.modules.nixos.my-feature = { config, ... }: {
-    imports = [ config.repo.context.host.inputs.upstream.nixosModules.default ];
-  };
-
-  flake.modules.homeManager.my-feature = { config, ... }: {
-    home.packages = [ config.repo.context.host.customPkgs.some-tool ];
+    imports = [ config.repo.some-carrier.inputs.upstream.nixosModules.default ];
   };
 }
 ```
@@ -43,13 +73,18 @@ Read it from the runtime context inside the lower-level module:
 In `modules/hosts/<your-host>.nix`, import the published lower-level modules:
 
 ```nix
+let
+  inherit (config.flake.modules) homeManager nixos;
+in
+{
 imports = [
-  config.flake.modules.nixos.my-feature
+  nixos.my-feature
 ];
 
-home-manager.users.${user.userName}.imports = [
-  config.flake.modules.homeManager.my-feature
+home-manager.users.${userName}.imports = [
+  homeManager.my-feature
 ];
+}
 ```
 
 ## 3. Declare options if needed

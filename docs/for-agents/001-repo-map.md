@@ -14,7 +14,7 @@ modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays
-lib/                generic helper functions (_helpers.nix, mutable-copy.nix, primary-tracked-user.nix)
+lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
 scripts/            validation gate scripts
@@ -26,8 +26,8 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `modules/options/configurations-nixos.nix` — materializes `flake.nixosConfigurations` from `configurations.nixos.*.module`
 - `modules/options/flake-parts-modules.nix` — enables the `flake-parts` published-module surface
-- `modules/options/inventory.nix` — inventory schema for `repo.hosts.*` and `repo.users.*`
-- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `repo.context`, and the `custom.user.name` compatibility bridge
+- `modules/options/inventory.nix` — inventory schema for `repo.hosts.*` plus the repo-wide `username` fact
+- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role` and `custom.user.name`, plus shared HM module wiring
 
 ## modules/features/ — category layout
 
@@ -65,7 +65,6 @@ docs/for-agents/archive/ archived plans and log tracks
 - `dev/editor-zed.nix` — Zed editor
 - `dev/dev-tools.nix`, `dev/dev-devenv.nix`
 - `dev/packages-toolchains.nix`, `dev/packages-docs-tools.nix`
-- `dev/llm-agents.nix` — host-owned LLM/code-agent package selections
 
 **System**
 - `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
@@ -84,7 +83,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## modules/users/
 
-- `modules/users/higorprado.nix` — tracked user inventory plus base NixOS user and Home Manager module publishers
+- `modules/users/higorprado.nix` — narrow tracked user identity plus base NixOS user and Home Manager module publishers
 
 ## private/
 
@@ -98,8 +97,6 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `lib/_helpers.nix` — small generic helper set (currently `portalExecPath`)
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
-- `lib/primary-tracked-user.nix` — helper that derives the sole tracked host user from repo inventory
-
 ## config/apps/
 
 - `config/apps/nvim/` — tracked Neovim config payload

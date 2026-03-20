@@ -12,11 +12,7 @@ let
   privateModule = ../../private/users/higorprado/default.nix;
 in
 {
-  repo.users.higorprado = {
-    inherit userName homeDirectory primaryGroup homeStateVersion extraGroups privateModule;
-    shell = "fish";
-    isPrimary = true;
-  };
+  username = userName;
 
   flake.modules.nixos.higorprado =
     { pkgs, ... }:

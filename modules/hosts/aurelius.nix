@@ -2,10 +2,6 @@
 { inputs, config, ... }:
 let
   system = "aarch64-linux";
-  customPkgs = import ../../pkgs {
-    pkgs = inputs.nixpkgs.legacyPackages.${system};
-    inherit inputs;
-  };
   hostName = "aurelius";
   hardwareImports = [
     inputs.disko.nixosModules.disko
@@ -21,64 +17,49 @@ in
 
   configurations.nixos.aurelius.module =
     let
+      inherit (config.flake.modules) homeManager nixos;
       hostInventory = config.repo.hosts.${hostName};
-      host = hostInventory // {
-        inherit inputs;
-        inherit customPkgs;
-      };
-      user = config.repo.users.higorprado;
-      repoContext = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        config.flake.modules.nixos.repo-runtime-contracts
-        config.flake.modules.nixos.repo-context
-        config.flake.modules.nixos.system-base
-        config.flake.modules.nixos.home-manager-settings
-        config.flake.modules.nixos.networking
-        config.flake.modules.nixos.security
-        config.flake.modules.nixos.keyboard
-        config.flake.modules.nixos.nixpkgs-settings
-        config.flake.modules.nixos.maintenance
-        config.flake.modules.nixos.tailscale
-        config.flake.modules.nixos.higorprado
-        config.flake.modules.nixos.nix-settings
-        config.flake.modules.nixos.packages-server-tools
-        config.flake.modules.nixos.packages-system-tools
-        config.flake.modules.nixos.fish
-        config.flake.modules.nixos.ssh
+        nixos.repo-runtime-contracts
+        nixos.system-base
+        nixos.home-manager-settings
+        nixos.networking
+        nixos.security
+        nixos.keyboard
+        nixos.nixpkgs-settings
+        nixos.maintenance
+        nixos.tailscale
+        nixos.higorprado
+        nixos.nix-settings
+        nixos.packages-server-tools
+        nixos.packages-system-tools
+        nixos.fish
+        nixos.ssh
       ] ++ hardwareImports;
 
-      nixpkgs.hostPlatform = host.system;
+      nixpkgs.hostPlatform = hostInventory.system;
       networking.hostName = hostName;
 
       custom = {
         host.role = hostInventory.role;
-        user.name = user.userName;
+        user.name = userName;
       };
 
       home-manager = {
-        users.${user.userName} = {
+        users.${userName} = {
           imports = [
-            config.flake.modules.homeManager.repo-context
-            config.flake.modules.homeManager.higorprado
-            config.flake.modules.homeManager.core-user-packages
-            config.flake.modules.homeManager.fish
-            config.flake.modules.homeManager.git-gh
-            config.flake.modules.homeManager.ssh
+            homeManager.higorprado
+            homeManager.core-user-packages
+            homeManager.fish
+            homeManager.git-gh
+            homeManager.ssh
           ];
-
-          repo.context = repoContext;
         };
       };
-
-      repo.context = repoContext;
 
       programs.fish.shellAbbrs = {
         naui = "nh os info";

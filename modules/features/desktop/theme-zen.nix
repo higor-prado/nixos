@@ -1,9 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.theme-zen =
     { config, lib, pkgs, ... }:
     let
-      host = config.repo.context.host;
+      customPkgs = import ../../../pkgs { inherit pkgs inputs; };
       flavor = "mocha";
       accent = "lavender";
       capitalize =
@@ -13,7 +13,7 @@
         }";
       flavorDir = capitalize flavor;
       accentDir = capitalize accent;
-      themeDir = "${host.customPkgs.catppuccin-zen-browser}/themes/${flavorDir}/${accentDir}";
+      themeDir = "${customPkgs.catppuccin-zen-browser}/themes/${flavorDir}/${accentDir}";
       logoFile = "${themeDir}/zen-logo-${flavor}.svg";
       syncZenCatppuccinTheme = pkgs.writeShellScript "sync-zen-catppuccin-theme" ''
         export THEME_DIR=${lib.escapeShellArg themeDir}

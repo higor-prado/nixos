@@ -17,7 +17,7 @@ The repo uses the dendritic pattern on top of `flake-parts`.
 The canonical runtime is built from these top-level option surfaces:
 
 - `repo.hosts.<name>`: tracked host inventory
-- `repo.users.<name>`: tracked user inventory
+- `username`: repo-wide tracked user identity
 - `flake.modules.nixos.<name>`: published lower-level NixOS modules
 - `flake.modules.homeManager.<name>`: published lower-level Home Manager modules
 - `configurations.nixos.<name>.module`: concrete host configurations
@@ -51,7 +51,7 @@ That module owns:
 - the host's NixOS `imports`
 - the host's Home Manager `imports`
 - `networking.hostName`
-- concrete `repo.context` values for NixOS and Home Manager
+- narrow runtime facts such as `custom.host.role` and `custom.user.name`
 - host-scoped package additions such as `environment.systemPackages`
 - host-operator overlays that only make sense on that machine, such as
   machine-specific Fish abbreviations
@@ -59,40 +59,32 @@ That module owns:
 Example shape:
 
 ```nix
-configurations.nixos.predator.module =
-  let
-    hostInventory = config.repo.hosts.predator;
-    host = hostInventory // {
-      inherit inputs customPkgs;
-    };
-    user = config.repo.users.higorprado;
+  configurations.nixos.predator.module =
+    let
+      inherit (config.flake.modules) homeManager nixos;
+      hostInventory = config.repo.hosts.predator;
     hardwareImports = [ ../../hardware/predator/default.nix ];
-    repoContext = {
-      inherit host user;
-      hostName = "predator";
-      userName = user.userName;
-    };
+    userName = config.username;
   in
   {
     imports = [
       inputs.home-manager.nixosModules.home-manager
-      config.flake.modules.nixos.repo-runtime-contracts
-      config.flake.modules.nixos.repo-context
-      config.flake.modules.nixos.system-base
-      config.flake.modules.nixos.fish
+      nixos.repo-runtime-contracts
+      nixos.system-base
+      nixos.fish
     ] ++ hardwareImports;
 
-    home-manager.users.${user.userName} = {
-      imports = [
-        config.flake.modules.homeManager.repo-context
-        config.flake.modules.homeManager.higorprado
-        config.flake.modules.homeManager.fish
-      ];
-
-      repo.context = repoContext;
+    custom = {
+      host.role = hostInventory.role;
+      user.name = userName;
     };
 
-    repo.context = repoContext;
+    home-manager.users.${userName} = {
+      imports = [
+        homeManager.higorprado
+        homeManager.fish
+      ];
+    };
   };
 ```
 
@@ -131,7 +123,8 @@ Manager module.
 
 The current pattern is:
 
-- `repo.users.<name>` stores tracked user facts
+- `username` stores the repo-wide tracked user identity needed by host
+  composition
 - `flake.modules.nixos.<name>` declares the NixOS user account
 - `flake.modules.homeManager.<name>` declares the base HM user module
 - repo-wide primary-user semantics such as admin groups belong here, not in
@@ -142,29 +135,23 @@ The current pattern is:
 This keeps user ownership out of host hardware files and out of generic feature
 modules.
 
-## Runtime Context
+## Host-Aware Lower-Level Modules
 
-Host-aware lower-level modules read runtime facts from `config.repo.context.*`.
+Host-aware lower-level modules should stay explicit.
 
-`repo.context.host` is the runtime host context assembled in the concrete host
-module. It may extend tracked inventory with local runtime payload such as
-`inputs` or `customPkgs` when reusable lower-level modules need those values.
+Use one of these patterns:
 
-The shared contract is published in
-`modules/options/repo-runtime-contracts.nix`:
+- capture direct flake inputs in the owning top-level module, for example
+  `{ inputs, ... }: { flake.modules.homeManager.foo = { pkgs, ... }: ...; }`
+- derive system-specific local packages inside the lower-level module from
+  `pkgs` plus those captured `inputs`
+- read narrow runtime facts that the concrete host sets explicitly, for example
+  `config.custom.user.name`
+- read existing lower-level state such as `config.networking.hostName`,
+  `config.home.username`, or `osConfig`
 
-- `repo.context.hostName`
-- `repo.context.host`
-- `repo.context.userName`
-- `repo.context.user`
-
-Use this instead of `specialArgs`, `extraSpecialArgs`, or ad hoc host lambdas.
-
-Examples:
-
-- `config.repo.context.host.customPkgs`
-- `config.repo.context.host.llmAgents`
-- `config.repo.context.userName`
+Do not build a generic runtime carrier such as `repo.context` just to move
+host/user payload around.
 
 ## Universal Runtime Contracts
 
@@ -172,8 +159,7 @@ Examples:
 contracts that need to exist everywhere:
 
 - `custom.host.role`
-- `custom.user.name` as a compatibility bridge for private/legacy lower-level
-  wiring
+- `custom.user.name` as the selected tracked user for the concrete host
 - shared Home Manager modules such as Catppuccin wiring
 
 These are repo runtime contracts, not a feature-selection mechanism.

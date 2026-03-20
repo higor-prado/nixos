@@ -32,7 +32,7 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-desktop-capability-usage.sh` | Legacy desktop selector references stay out of active Nix code |
 | `check-option-declaration-boundary.sh` | Options declared only in allowed locations |
 | `check-flake-pattern.sh` | Flake input naming and wiring policy |
-| `check-config-contracts.sh` | Role/feature/username-indirection invariants |
+| `check-config-contracts.sh` | Role/feature/selected-user invariants |
 | `check-extension-contracts.sh` | Host descriptor/module contracts |
 | `check-dendritic-host-onboarding-contracts.sh` | Host descriptor onboarding contract shape |
 | `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |

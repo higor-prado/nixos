@@ -12,7 +12,7 @@
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), and repo-wide primary-user semantics |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
-| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.host.role`, repo context, and the `custom.user.name` compatibility bridge |
+| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.host.role`, `custom.user.name`, and shared HM wiring |
 
 ## Boundary rules
 
@@ -28,9 +28,9 @@
 4. **`environment.systemPackages` not in `hardware/<name>/default.nix`** — use
    software profile/pack overrides instead.
 
-5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer runtime
-   context from `config.repo.context.*` or the tracked user runtime module.
-   `custom.user.name` is compatibility-only, not the default feature wiring path.
+5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer narrow facts
+   such as `config.custom.user.name`, existing lower-level state, or the tracked
+   user runtime module.
 
 6. **`openssh.authorizedKeys.keys` not tracked** — must be in an untracked private override file (see the tracked `*.nix.example` files for shape).
 
@@ -40,7 +40,7 @@ When creating a new feature module:
 - [ ] File is in `modules/features/<category>/`
 - [ ] NixOS config is published in `flake.modules.nixos.<name> = ...` when needed
 - [ ] Home Manager config is published in `flake.modules.homeManager.<name> = ...` when needed
-- [ ] Host-aware feature logic reads host/user data through `config.repo.context.*`
+- [ ] Host-aware feature logic reads narrow top-level facts, existing lower-level state, or direct flake inputs captured by the owner
 - [ ] No `mkIf` for role/context checks — feature inclusion in a host IS the condition
 - [ ] `mkIf` only for actual NixOS option value checks (e.g. `lib.mkIf config.services.foo.enable`)
 - [ ] Custom options declared by the narrow owner module or the feature that reads them

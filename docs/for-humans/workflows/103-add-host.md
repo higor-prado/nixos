@@ -44,24 +44,25 @@ in
 
   configurations.nixos.<host-name>.module =
     let
+      inherit (config.flake.modules) homeManager nixos;
       hostInventory = config.repo.hosts.${hostName};
-      host = hostInventory // {
-        inherit inputs customPkgs;
-      };
-      user = config.repo.users.higorprado;
+      userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        config.flake.modules.nixos.repo-runtime-contracts
-        config.flake.modules.nixos.repo-context
-        config.flake.modules.nixos.system-base
+        nixos.repo-runtime-contracts
+        nixos.system-base
         # ... add lower-level nixos modules here
       ] ++ hardwareImports;
 
-      home-manager.users.${user.userName}.imports = [
-        config.flake.modules.homeManager.repo-context
-        config.flake.modules.homeManager.higorprado
+      custom = {
+        host.role = hostInventory.role;
+        user.name = userName;
+      };
+
+      home-manager.users.${userName}.imports = [
+        homeManager.higorprado
         # ... add lower-level homeManager modules here
       ];
     };
@@ -73,17 +74,26 @@ Keep hardware import lists and other runtime-only payload local to the host file
 instead of storing them under `repo.hosts.<host-name>`.
 
 If a feature needs host-owned semantic selections, declare those directly in
-the host context. Example:
+the host or derive them directly from the owner's captured inputs. Example:
 
 ```nix
 {
   repo.hosts.<host-name> = {
     trackedUsers = [ "higorprado" ];
-    llmAgents = {
-      homePackages = with inputs.llm-agents.packages.${system}; [ claude-code codex ];
-      systemPackages = [ ];
-    };
   };
+}
+```
+
+Keep runtime-only payload local to the host file. Example:
+
+```nix
+let
+  llmAgentsHomePackages = with inputs.llm-agents.packages.${system}; [
+    claude-code
+    codex
+  ];
+in {
+  home-manager.users.${userName}.home.packages = llmAgentsHomePackages;
 }
 ```
 

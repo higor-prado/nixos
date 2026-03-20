@@ -24,16 +24,16 @@
 20. If no tracked host selects a leftover feature path, delete it instead of preserving dead code, dead flake inputs, or speculative architecture.
 21. Canonical outputs now come from the repo-local dendritic runtime. Host inventory lives under `repo.hosts.*`, tracked users under `repo.hosts.<host>.trackedUsers`, and concrete systems under `configurations.nixos.*.module`.
 22. Home Manager modules should be published under `flake.modules.homeManager.*` and wired concretely by the host. HM-specific APIs such as `lib.hm.dag.entryAfter` and `config.xdg.configHome` are available inside those lower-level HM modules.
-23. Canonical tracked user definition now lives in `modules/users/<user>.nix` as published `flake.modules.nixos.<user>` and `flake.modules.homeManager.<user>` modules plus `repo.users.<user>` inventory.
+23. Canonical tracked user definition now lives in `modules/users/<user>.nix` as published `flake.modules.nixos.<user>` and `flake.modules.homeManager.<user>` modules plus the repo-wide `username` fact.
 24. New files under `modules/` must be `git add`-ed before `nix eval` — the repo's auto-import path only sees git-tracked files.
 25. Do not mirror feature inclusion into dedicated `custom.<feature>.enable` booleans just for validation. Prefer checking real configuration state or declared topology directly.
 26. Generic helpers belong in root `lib/`, not in repo-specific private or feature subtrees.
 27. Root `hosts/` was retired in favor of `hardware/` for machine-specific files; `modules/hosts/` is the top-level host inventory and configuration layer.
-28. Host ownership contract: `hardware/<host>/default.nix` owns `custom.host.role`, while `modules/hosts/<host>.nix` must declare at least one tracked host user under `repo.hosts.<host>.trackedUsers`. `custom.user.name` is only a narrowed compatibility bridge.
+28. Host ownership contract: `hardware/<host>/default.nix` owns `custom.host.role`, while `modules/hosts/<host>.nix` must declare at least one tracked host user under `repo.hosts.<host>.trackedUsers` and set the concrete `custom.user.name`.
 29. Desktop composition baseline duplication is intentional explicitness in this repo's composition model. Each composition owns its complete baseline for clarity.
 30. `hardware/host-descriptors.nix` is script-only integration metadata. Do not mirror runtime host facts there unless a real script consumer needs them.
 31. Speculative parameterization options should exist only when multiple real values are supported. A single-value enum option is architectural noise.
-32. Do not build a repo-local `config.host.*` or HM `_module.args.host` bridge. Host-aware lower-level modules should read runtime facts from `config.repo.context.*`.
+32. Do not build a repo-local `config.host.*`, `repo.context`, or HM `_module.args.host` bridge. Host-aware lower-level modules should use explicit top-level facts, direct flake inputs captured by the owner, or existing lower-level state.
 33. For system-owned user services that only need per-user overrides, prefer Home Manager drop-ins via `xdg.configFile."systemd/user/<unit>.service.d/override.conf"` instead of redefining partial `systemd.user.services.<name>` units in HM.
 34. `nixpkgs.config.allowUnfree` and other `nixpkgs.config` settings belong in a dedicated `core/nixpkgs-settings.nix` feature, not as a side-effect of a hardware file. Hardware files can be refactored or removed; policy settings must be independently traceable.
 35. Feature file names should match at least one published lower-level module name they define. A mismatched filename creates confusion when cross-referencing host imports against the filesystem.
@@ -41,7 +41,7 @@
 37. Upstream module imports that materially shape a concrete host session or system should stay explicit in the host composition. Do not hide major host composition edges behind framework-like helpers just to reduce import lines.
 38. If a lower-level module is meant to be universal, publish it once under `flake.modules.*` and import it consistently from each concrete host module. Do not recreate implicit global include layers unless they buy real simplicity.
 39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a dedicated published feature module, not inline in a host block. Host files should stay focused on inventory plus concrete imports.
-40. In the local runtime, host-aware Home Manager is just another lower-level HM module that reads `config.repo.context.host`; no mutual-routing battery is needed in the canonical path.
+40. In the local runtime, host-aware Home Manager is just another lower-level HM module. It should use direct flake inputs captured by the owner, narrow facts such as `config.custom.user.name`, or existing lower-level state; no mutual-routing battery is needed in the canonical path.
 41. Keep historical migration material clearly secondary. Do not let old compatibility stories override the canonical dendritic runtime.
 42. Use `~/git/dendritic` as the pattern reference. Historical framework-specific material is for migration/audit context only; canonical runtime decisions should be validated against the repo-local top-level modules first.
 43. Host-operator shell commands that reference a concrete machine, repo checkout, or remote target belong in the concrete host module, not in the shared shell feature.

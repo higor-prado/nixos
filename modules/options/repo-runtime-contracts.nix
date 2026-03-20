@@ -1,28 +1,4 @@
 { lib, inputs, ... }:
-let
-  mkRepoContextOptions =
-    { lib, ... }:
-    {
-      options.repo.context = {
-        hostName = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-        };
-        host = lib.mkOption {
-          type = lib.types.nullOr lib.types.raw;
-          default = null;
-        };
-        userName = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-        };
-        user = lib.mkOption {
-          type = lib.types.nullOr lib.types.raw;
-          default = null;
-        };
-      };
-    };
-in
 {
   flake.modules = {
     nixos.repo-runtime-contracts =
@@ -40,13 +16,10 @@ in
         options.custom.user.name = lib.mkOption {
           type = lib.types.str;
           default = "user";
-          description = "Repo-local compatibility username bridge for the dendritic shadow path.";
+          description = "Selected tracked user for the concrete host runtime.";
         };
 
         config.home-manager.sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
       };
-
-    nixos.repo-context = mkRepoContextOptions;
-    homeManager.repo-context = mkRepoContextOptions;
   };
 }

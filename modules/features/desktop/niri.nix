@@ -1,15 +1,13 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules = {
     nixos.niri =
       { config, lib, pkgs, ... }:
       let
-        host = config.repo.context.host;
-        trackedUser = import ../../../lib/primary-tracked-user.nix { inherit lib; };
-        userName = trackedUser.primaryTrackedUserName host;
+        userName = config.custom.user.name;
         system = pkgs.stdenv.hostPlatform.system;
-        niriPackage = host.inputs.niri.packages.${system}.niri-unstable;
-        xwaylandSatellitePackage = host.inputs.niri.packages.${system}.xwayland-satellite-unstable;
+        niriPackage = inputs.niri.packages.${system}.niri-unstable;
+        xwaylandSatellitePackage = inputs.niri.packages.${system}.xwayland-satellite-unstable;
         niriStandaloneSession = config.custom.niri.standaloneSession;
         sessionPriority = if niriStandaloneSession then 100 else 2000;
         sessionCommand = if niriStandaloneSession then "${niriPackage}/bin/niri --session" else "/run/current-system/sw/bin/true";

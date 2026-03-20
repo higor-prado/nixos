@@ -8,9 +8,8 @@ In the gitignored host private override entry point. For shape, see
 ```nix
 { lib, ... }:
 {
-  # custom.user.name is now compatibility-only. Use it only when your
-  # lower-level private host config still needs one selected local operator
-  # account.
+  # Override the selected tracked user only when the real local operator
+  # account differs from the tracked default.
   custom.user.name = lib.mkForce "your-real-username";
 }
 ```

@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 let
   dmsCommonSettings = {
     systemd = {
@@ -17,12 +17,11 @@ in
     nixos.dms =
       { config, ... }:
       let
-        host = config.repo.context.host;
-        userName = config.repo.context.userName;
+        userName = config.custom.user.name;
         homeDir = config.users.users.${userName}.home;
       in
       {
-        home-manager.sharedModules = [ host.inputs.dms.homeModules.dank-material-shell ];
+        home-manager.sharedModules = [ inputs.dms.homeModules.dank-material-shell ];
 
         programs.dsearch.enable = true;
 

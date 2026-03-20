@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # check-bare-host-in-includes.sh — gate against bare `{ host }:` lambdas in
-# active modules. In the dendritic runtime, host data should flow through
-# `config.repo.context.*` inside published lower-level modules, not through
-# ad hoc host-lambda wiring hidden in module lists.
+# active modules. In the dendritic runtime, lower-level modules should read
+# explicit top-level facts or direct flake inputs, not ad hoc host-lambda
+# wiring hidden in module lists.
 set -euo pipefail
 
 # shellcheck source=lib/common.sh
@@ -28,7 +28,7 @@ while IFS= read -r -d '' file; do
 done < <(find modules/ -name '*.nix' -print0)
 
 if [[ $fail -ne 0 ]]; then
-  echo "[check-bare-host-in-includes] bare host lambdas found — publish lower-level modules and read host data through repo.context instead" >&2
+  echo "[check-bare-host-in-includes] bare host lambdas found — publish lower-level modules and use explicit top-level facts or direct flake inputs instead" >&2
   exit 1
 fi
 

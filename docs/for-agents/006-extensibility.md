@@ -20,13 +20,18 @@
 }
 ```
 
-**Host-aware feature — read host context from `repo.context.host` inside the lower-level module:**
+**Host-aware feature — capture direct flake inputs in the owner and derive what the lower-level module needs locally:**
 ```nix
-{ ... }:
+{ inputs, ... }:
 {
-  flake.modules.homeManager.my-feature = { config, ... }: {
-    home.packages = config.repo.context.host.customPkgs.extraPackages;
-  };
+  flake.modules.homeManager.my-feature =
+    { pkgs, ... }:
+    let
+      customPkgs = import ../../../pkgs { inherit pkgs inputs; };
+    in
+    {
+      home.packages = [ customPkgs.some-tool ];
+    };
 }
 ```
 
@@ -45,40 +50,32 @@ in
 
   configurations.nixos.${hostName}.module =
     let
+      inherit (config.flake.modules) homeManager nixos;
       hostInventory = config.repo.hosts.${hostName};
-      host = hostInventory // {
-        inherit inputs customPkgs;
-      };
-      user = config.repo.users.higorprado;
-      repoContext = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        config.flake.modules.nixos.repo-runtime-contracts
-        config.flake.modules.nixos.repo-context
-        config.flake.modules.nixos.system-base
-        config.flake.modules.nixos.my-feature
+        nixos.repo-runtime-contracts
+        nixos.system-base
+        nixos.my-feature
       ];
 
-      home-manager.users.${user.userName}.imports = [
-        config.flake.modules.homeManager.repo-context
-        config.flake.modules.homeManager.higorprado
-        config.flake.modules.homeManager.my-feature
-      ];
+      custom = {
+        host.role = hostInventory.role;
+        user.name = userName;
+      };
 
-      repo.context = repoContext;
-      home-manager.users.${user.userName}.repo.context = repoContext;
+      home-manager.users.${userName}.imports = [
+        homeManager.higorprado
+        homeManager.my-feature
+      ];
     };
   };
 }
 ```
-**Do not use `specialArgs` or `extraSpecialArgs`** — publish values at the top level and consume them through `config.repo.*` / `config.flake.modules.*`.
+**Do not use `specialArgs` or `extraSpecialArgs`** — publish values at the top level and consume them through narrow top-level facts, existing lower-level state, or `config.flake.modules.*`.
 
 ## Adding a desktop composition
 

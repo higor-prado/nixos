@@ -1,9 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.desktop-apps =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     let
-      host = config.repo.context.host;
       nonFirefoxWebHandlers = [
         "brave-browser.desktop"
         "com.brave.Browser.desktop"
@@ -29,7 +28,7 @@
       programs.brave.enable = true;
 
       home.packages = [
-        host.inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
         (pkgs.google-chrome.override {
           commandLineArgs = [
             "--ozone-platform-hint=auto"

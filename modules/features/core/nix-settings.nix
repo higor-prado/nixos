@@ -1,7 +1,11 @@
-{ ... }:
+{ config, ... }:
 {
   flake.modules.nixos.nix-settings =
-    { config, lib, ... }:
+    nixosArgs@{ lib, ... }:
+    let
+      hostName = nixosArgs.config.networking.hostName;
+      trackedUsers = config.repo.hosts.${hostName}.trackedUsers or [ ];
+    in
     {
       nix.settings = {
         max-jobs = "auto";
@@ -17,7 +21,7 @@
         narinfo-cache-negative-ttl = 0;
         trusted-users = lib.mkForce (
           [ "root" ]
-          ++ config.repo.context.host.trackedUsers
+          ++ trackedUsers
         );
       };
 

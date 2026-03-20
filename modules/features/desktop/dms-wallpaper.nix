@@ -1,11 +1,11 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.dms-wallpaper =
-    { config, lib, pkgs, ... }:
+    { lib, pkgs, ... }:
     let
-      host = config.repo.context.host;
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
-      dmsPackage = host.inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell;
+      customPkgs = import ../../../pkgs { inherit pkgs inputs; };
+      dmsPackage = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell;
       dmsAwwwConfigTemplate = builtins.readFile ../../../config/apps/dms/dms-awww-config.toml.in;
       awww = pkgs.writeShellScriptBin "awww" ''exec ${pkgs.swww}/bin/swww "$@"'';
       runDmsAwww = pkgs.writeShellApplication {
@@ -15,7 +15,7 @@
           pkgs.matugen
         ];
         text = ''
-          export DMS_AWWW_BIN=${lib.escapeShellArg "${host.customPkgs.dms-awww}/bin/dms-awww"}
+          export DMS_AWWW_BIN=${lib.escapeShellArg "${customPkgs.dms-awww}/bin/dms-awww"}
           ${builtins.readFile ../../../config/apps/dms/run-dms-awww.sh}
         '';
       };
@@ -23,7 +23,7 @@
     {
       home.packages = [
         awww
-        host.customPkgs.dms-awww
+        customPkgs.dms-awww
       ];
       home.activation.provisionDmsSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {

@@ -29,11 +29,10 @@ Tracked example files show the expected shape without real values:
 Private config uses `lib.mkForce` or higher-priority `mkOverride` to take
 precedence over tracked defaults. The tracked host module declares its tracked
 users under `repo.hosts.<host>.trackedUsers`, and `custom.user.name` is derived
-inside the concrete host configuration by default. Most tracked feature wiring
-now uses repo runtime context directly; your private override may still
-override `custom.user.name` when lower-level host config needs one selected
-local operator account. In other words: this bridge still exists for private
-compatibility, not as the normal tracked wiring path.
+inside the concrete host configuration by default. Tracked lower-level modules
+may read that selected-user fact when one concrete operator account is part of
+the runtime contract. Your private override may still `mkForce` it when the
+real local account differs from the tracked default.
 
 ## Gitignore
 

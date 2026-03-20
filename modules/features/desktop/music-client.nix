@@ -1,9 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.music-client =
     { config, pkgs, ... }:
     let
-      host = config.repo.context.host;
+      customPkgs = import ../../../pkgs { inherit pkgs inputs; };
     in
     {
       services.mpd = {
@@ -35,8 +35,8 @@
         ffmpeg
         (python3.withPackages (ps: [ ps.mutagen ]))
         mpd
-        host.customPkgs.rmpc
-        host.customPkgs.spotatui
+        customPkgs.rmpc
+        customPkgs.spotatui
       ];
 
       xdg.configFile."mpd/mpd.conf".source = builtins.path {

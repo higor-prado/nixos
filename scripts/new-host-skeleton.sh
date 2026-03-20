@@ -33,44 +33,44 @@ desktop_imports_for() {
     dms-on-niri)
       cat <<'EOF2'
 
-        host.inputs.niri.nixosModules.niri
-        host.inputs.dms.nixosModules.dank-material-shell
-        host.inputs.dms.nixosModules.greeter
-        config.flake.modules.nixos.desktop-dms-on-niri
-        config.flake.modules.nixos.dms
-        config.flake.modules.nixos.niri
-        config.flake.modules.nixos.xwayland
+        inputs.niri.nixosModules.niri
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
+        nixos.desktop-dms-on-niri
+        nixos.dms
+        nixos.niri
+        nixos.xwayland
 EOF2
       printf '\n'
       cat <<'EOF2'
 
-          config.flake.modules.homeManager.desktop-apps
-          config.flake.modules.homeManager.desktop-base
-          config.flake.modules.homeManager.desktop-dms-on-niri
-          config.flake.modules.homeManager.desktop-viewers
-          config.flake.modules.homeManager.dms
-          config.flake.modules.homeManager.dms-wallpaper
-          config.flake.modules.homeManager.niri
-          config.flake.modules.homeManager.wayland-tools
+          homeManager.desktop-apps
+          homeManager.desktop-base
+          homeManager.desktop-dms-on-niri
+          homeManager.desktop-viewers
+          homeManager.dms
+          homeManager.dms-wallpaper
+          homeManager.niri
+          homeManager.wayland-tools
 EOF2
       ;;
     niri-standalone)
       cat <<'EOF2'
 
-        host.inputs.niri.nixosModules.niri
-        config.flake.modules.nixos.desktop-niri-standalone
-        config.flake.modules.nixos.niri
-        config.flake.modules.nixos.xwayland
+        inputs.niri.nixosModules.niri
+        nixos.desktop-niri-standalone
+        nixos.niri
+        nixos.xwayland
 EOF2
       printf '\n'
       cat <<'EOF2'
 
-          config.flake.modules.homeManager.desktop-apps
-          config.flake.modules.homeManager.desktop-base
-          config.flake.modules.homeManager.desktop-niri-standalone
-          config.flake.modules.homeManager.desktop-viewers
-          config.flake.modules.homeManager.niri
-          config.flake.modules.homeManager.wayland-tools
+          homeManager.desktop-apps
+          homeManager.desktop-base
+          homeManager.desktop-niri-standalone
+          homeManager.desktop-viewers
+          homeManager.niri
+          homeManager.wayland-tools
 EOF2
       ;;
     *)
@@ -152,7 +152,7 @@ if [[ "$host_role" == "desktop" ]]; then
 
 Next steps:
   1. Adjust the system architecture, tracked users, and feature imports in ${host_module_file}.
-  2. Add any host-scoped semantic selections to repo.hosts.${host_name} (for example custom packages or desktop-specific inputs).
+  2. Add any host-only package choices or upstream module imports directly in ${host_module_file}; keep repo.hosts.${host_name} for actual inventory only.
   3. Adjust the descriptor integrations and hardware imports.
 EOF2
 else

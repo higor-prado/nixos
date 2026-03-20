@@ -17,8 +17,16 @@ extc_host_runtime_role() {
 
 extc_host_tracked_users_count() {
   local host="$1"
-  nix eval --json "path:${PWD}#nixosConfigurations.${host}.config.repo.context.host.trackedUsers" \
-    | jq 'length'
+  local host_module_file="modules/hosts/${host}.nix"
+  local tracked_users_line
+
+  tracked_users_line="$(grep -oP 'trackedUsers\s*=\s*\[[^]]*\]' "$host_module_file" | head -n1 || true)"
+  if [[ -z "$tracked_users_line" ]]; then
+    echo 0
+    return 0
+  fi
+
+  grep -oP '"[^"]+"' <<<"$tracked_users_line" | wc -l | tr -d ' '
 }
 
 extc_host_descriptor_has_legacy_desktop_selector() {

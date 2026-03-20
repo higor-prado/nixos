@@ -32,9 +32,10 @@ Compatibility-only consumers may still reference the bridge dynamically:
 let userName = config.custom.user.name; in ...
 ```
 
-Tracked runtime wiring should prefer `config.repo.context.userName`. The bridge
-exists so gitignored host-private overrides can still select a concrete local
-operator account when needed.
+Tracked runtime wiring should prefer `config.custom.user.name` when a lower-level
+module truly needs the selected tracked user. The bridge exists so gitignored
+host-private overrides can still select a concrete local operator account when
+needed.
 
 ## Hardcoded home paths
 
@@ -42,8 +43,7 @@ Default rule:
 
 - do not introduce new hardcoded `"/home/username"` paths in tracked files
 - use `config.home.homeDirectory` in HM modules where possible
-- use the tracked-user helper/context in NixOS modules when one selected user is needed
-- reserve `config.custom.user.name` for compatibility-only lower-level wiring
+- use `config.custom.user.name` in NixOS modules when one selected user is needed
 
 Current state:
 

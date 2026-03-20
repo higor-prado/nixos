@@ -6,18 +6,14 @@ let
     pkgs = inputs.nixpkgs.legacyPackages.${system};
     inherit inputs;
   };
-  llmAgentsPkgs =
-    inputs.llm-agents.packages.${system} or { };
-  llmAgents = {
-    homePackages = with llmAgentsPkgs; [
-      claude-code
-      codex
-      crush
-      kilocode-cli
-      opencode
-    ];
-    systemPackages = [ ];
-  };
+  llmAgentsPkgs = inputs.llm-agents.packages.${system} or { };
+  llmAgentsHomePackages = with llmAgentsPkgs; [
+    claude-code
+    codex
+    crush
+    kilocode-cli
+    opencode
+  ];
   hostName = "predator";
   hardwareImports = [
     inputs.disko.nixosModules.disko
@@ -57,133 +53,118 @@ let
 in
 {
   repo.hosts.predator = {
-    inherit system llmAgents;
+    inherit system;
     role = "desktop";
     trackedUsers = [ "higorprado" ];
   };
 
   configurations.nixos.predator.module =
     let
+      inherit (config.flake.modules) homeManager nixos;
       hostInventory = config.repo.hosts.${hostName};
-      host = hostInventory // {
-        inherit inputs;
-        inherit customPkgs;
-      };
-      user = config.repo.users.higorprado;
-      repoContext = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        config.flake.modules.nixos.repo-runtime-contracts
-        config.flake.modules.nixos.repo-context
-        config.flake.modules.nixos.system-base
-        config.flake.modules.nixos.home-manager-settings
-        config.flake.modules.nixos.networking
-        config.flake.modules.nixos.security
-        config.flake.modules.nixos.keyboard
-        config.flake.modules.nixos.nixpkgs-settings
-        config.flake.modules.nixos.maintenance
-        config.flake.modules.nixos.tailscale
-        config.flake.modules.nixos.audio
-        config.flake.modules.nixos.gnome-keyring
-        config.flake.modules.nixos.bluetooth
-        host.inputs.niri.nixosModules.niri
-        host.inputs.dms.nixosModules.dank-material-shell
-        host.inputs.dms.nixosModules.greeter
-        host.inputs.keyrs.nixosModules.default
-        config.flake.modules.nixos.desktop-dms-on-niri
-        config.flake.modules.nixos.dms
-        config.flake.modules.nixos.maintenance-smartd
-        config.flake.modules.nixos.networking-avahi
-        config.flake.modules.nixos.networking-resolved
-        config.flake.modules.nixos.niri
-        config.flake.modules.nixos.nix-settings-desktop
-        config.flake.modules.nixos.podman
-        config.flake.modules.nixos.upower
-        config.flake.modules.nixos.higorprado
-        config.flake.modules.nixos.editor-neovim
-        config.flake.modules.nixos.fcitx5
-        config.flake.modules.nixos.gaming
-        config.flake.modules.nixos.keyrs
-        config.flake.modules.nixos.nix-settings
-        config.flake.modules.nixos.nautilus
-        config.flake.modules.nixos.packages-docs-tools
-        config.flake.modules.nixos.packages-fonts
-        config.flake.modules.nixos.packages-system-tools
-        config.flake.modules.nixos.packages-toolchains
-        config.flake.modules.nixos.docker
-        config.flake.modules.nixos.fish
-        config.flake.modules.nixos.llm-agents
-        config.flake.modules.nixos.ssh
-        config.flake.modules.nixos.xwayland
+        nixos.repo-runtime-contracts
+        nixos.system-base
+        nixos.home-manager-settings
+        nixos.networking
+        nixos.security
+        nixos.keyboard
+        nixos.nixpkgs-settings
+        nixos.maintenance
+        nixos.tailscale
+        nixos.audio
+        nixos.gnome-keyring
+        nixos.bluetooth
+        inputs.niri.nixosModules.niri
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
+        inputs.keyrs.nixosModules.default
+        nixos.desktop-dms-on-niri
+        nixos.dms
+        nixos.maintenance-smartd
+        nixos.networking-avahi
+        nixos.networking-resolved
+        nixos.niri
+        nixos.nix-settings-desktop
+        nixos.podman
+        nixos.upower
+        nixos.higorprado
+        nixos.editor-neovim
+        nixos.fcitx5
+        nixos.gaming
+        nixos.keyrs
+        nixos.nix-settings
+        nixos.nautilus
+        nixos.packages-docs-tools
+        nixos.packages-fonts
+        nixos.packages-system-tools
+        nixos.packages-toolchains
+        nixos.docker
+        nixos.fish
+        nixos.ssh
+        nixos.xwayland
       ] ++ hardwareImports;
 
-      nixpkgs.hostPlatform = host.system;
+      nixpkgs.hostPlatform = hostInventory.system;
       networking.hostName = hostName;
 
       custom = {
         host.role = hostInventory.role;
-        user.name = user.userName;
+        user.name = userName;
       };
 
       environment.systemPackages = extraSystemPackages;
 
-      users.users.${user.userName}.extraGroups = predatorUserExtraGroups;
+      users.users.${userName}.extraGroups = predatorUserExtraGroups;
 
       home-manager = {
-        users.${user.userName} = {
+        users.${userName} = {
           imports = [
-            config.flake.modules.homeManager.repo-context
-            config.flake.modules.homeManager.higorprado
-            config.flake.modules.homeManager.backup-service
-            config.flake.modules.homeManager.core-user-packages
-            config.flake.modules.homeManager.desktop-apps
-            config.flake.modules.homeManager.desktop-viewers
-            config.flake.modules.homeManager.desktop-dms-on-niri
-            config.flake.modules.homeManager.dms
-            config.flake.modules.homeManager.dms-wallpaper
-            config.flake.modules.homeManager.docker
-            config.flake.modules.homeManager.fcitx5
-            config.flake.modules.homeManager.fish
-            config.flake.modules.homeManager.git-gh
-            config.flake.modules.homeManager.gaming
-            config.flake.modules.homeManager.llm-agents
-            config.flake.modules.homeManager.media-cava
-            config.flake.modules.homeManager.media-tools
-            config.flake.modules.homeManager.music-client
-            config.flake.modules.homeManager.monitoring-tools
-            config.flake.modules.homeManager.nautilus
-            config.flake.modules.homeManager.niri
-            config.flake.modules.homeManager.packages-toolchains
-            config.flake.modules.homeManager.ssh
-            config.flake.modules.homeManager.starship
-            config.flake.modules.homeManager.terminal-tmux
-            config.flake.modules.homeManager.tui-tools
-            config.flake.modules.homeManager.dev-tools
-            config.flake.modules.homeManager.dev-devenv
-            config.flake.modules.homeManager.desktop-base
-            config.flake.modules.homeManager.editor-emacs
-            config.flake.modules.homeManager.editor-neovim
-            config.flake.modules.homeManager.editor-vscode
-            config.flake.modules.homeManager.editor-zed
-            config.flake.modules.homeManager.terminals
-            config.flake.modules.homeManager.theme-base
-            config.flake.modules.homeManager.theme-zen
-            config.flake.modules.homeManager.wayland-tools
+            homeManager.higorprado
+            homeManager.backup-service
+            homeManager.core-user-packages
+            homeManager.desktop-apps
+            homeManager.desktop-viewers
+            homeManager.desktop-dms-on-niri
+            homeManager.dms
+            homeManager.dms-wallpaper
+            homeManager.docker
+            homeManager.fcitx5
+            homeManager.fish
+            homeManager.git-gh
+            homeManager.gaming
+            homeManager.media-cava
+            homeManager.media-tools
+            homeManager.music-client
+            homeManager.monitoring-tools
+            homeManager.nautilus
+            homeManager.niri
+            homeManager.packages-toolchains
+            homeManager.ssh
+            homeManager.starship
+            homeManager.terminal-tmux
+            homeManager.tui-tools
+            homeManager.dev-tools
+            homeManager.dev-devenv
+            homeManager.desktop-base
+            homeManager.editor-emacs
+            homeManager.editor-neovim
+            homeManager.editor-vscode
+            homeManager.editor-zed
+            homeManager.terminals
+            homeManager.theme-base
+            homeManager.theme-zen
+            homeManager.wayland-tools
           ];
 
-          repo.context = repoContext;
+          home.packages = llmAgentsHomePackages;
 
           programs.fish.shellAbbrs = operatorFishAbbrs;
         };
       };
-
-      repo.context = repoContext;
     };
 }
