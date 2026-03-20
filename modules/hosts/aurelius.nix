@@ -23,6 +23,12 @@ in
     let
       host = config.repo.hosts.${hostName};
       user = config.repo.users.higorprado;
+      repoContext = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
     in
     {
       imports = [
@@ -64,21 +70,11 @@ in
             config.flake.modules.homeManager.ssh
           ];
 
-          repo.context = {
-            inherit host;
-            inherit hostName;
-            inherit user;
-            userName = user.userName;
-          };
+          repo.context = repoContext;
         };
       };
 
-      repo.context = {
-        inherit host;
-        inherit hostName;
-        inherit user;
-        userName = user.userName;
-      };
+      repo.context = repoContext;
 
       programs.fish.shellAbbrs = {
         naui = "nh os info";
