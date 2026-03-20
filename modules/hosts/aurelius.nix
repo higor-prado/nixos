@@ -31,6 +31,7 @@ in
         config.flake.modules.nixos.repo-context
         config.flake.modules.nixos.higorprado
         config.flake.modules.nixos.nix-settings
+        config.flake.modules.nixos.packages-system-tools
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.ssh
       ] ++ host.hardwareImports;

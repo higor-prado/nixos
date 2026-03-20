@@ -505,6 +505,44 @@ In progress
     surface, and Emacs service surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 20
+
+- Added three more system/shared owners:
+  - [docker.nix](/home/higorprado/nixos/modules/features/system/docker.nix)
+  - [packages-toolchains.nix](/home/higorprado/nixos/modules/features/dev/packages-toolchains.nix)
+  - [packages-system-tools.nix](/home/higorprado/nixos/modules/features/system/packages-system-tools.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.nixos.docker`
+  - `flake.modules.homeManager.docker`
+  - `flake.modules.nixos.packages-toolchains`
+  - `flake.modules.homeManager.packages-toolchains`
+  - `flake.modules.nixos.packages-system-tools`
+- Imported them explicitly in:
+  - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+  - [aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.virtualisation.docker.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.fish.shellAbbrs`
+  - `nix eval --raw path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.fish.interactiveShellInit`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(gcc|nodejs|btrfs-progs).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.environment.systemPackages`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(btrfs-progs).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.aurelius.config.environment.systemPackages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Notes:
+  - attempted `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.aurelius.config.system.build.toplevel`
+    still does not complete on this machine because the current host is
+    `x86_64-linux` and `aurelius` targets `aarch64-linux`; this is a local
+    builder/platform limitation, not a regression introduced by this slice
+- Outcome:
+  - the `predator` shadow system path now resolves Docker, toolchain packages,
+    and system filesystem tooling through the repo-local runtime
+  - the `predator` shadow HM path now resolves Docker shell abbreviations and
+    the toolchain Fish path bootstrap through the repo-local runtime
+  - the `aurelius` shadow configuration now evaluates with
+    `packages-system-tools` in its system package set
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -546,6 +584,8 @@ In progress
   `dev-devenv`) are being migrated through explicit host imports
 - Additional user-surface owners (`backup-service`, `editor-neovim`,
   `editor-emacs`) are being migrated through explicit host imports
+- Additional system/shared owners (`docker`, `packages-toolchains`,
+  `packages-system-tools`) are being migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

@@ -49,6 +49,9 @@ in
         config.flake.modules.nixos.gaming
         config.flake.modules.nixos.nix-settings
         config.flake.modules.nixos.nautilus
+        config.flake.modules.nixos.packages-system-tools
+        config.flake.modules.nixos.packages-toolchains
+        config.flake.modules.nixos.docker
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.llm-agents
         config.flake.modules.nixos.ssh
@@ -77,6 +80,7 @@ in
             config.flake.modules.homeManager.core-user-packages
             config.flake.modules.homeManager.desktop-apps
             config.flake.modules.homeManager.desktop-viewers
+            config.flake.modules.homeManager.docker
             config.flake.modules.homeManager.fcitx5
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
@@ -87,6 +91,7 @@ in
             config.flake.modules.homeManager.music-client
             config.flake.modules.homeManager.monitoring-tools
             config.flake.modules.homeManager.nautilus
+            config.flake.modules.homeManager.packages-toolchains
             config.flake.modules.homeManager.ssh
             config.flake.modules.homeManager.starship
             config.flake.modules.homeManager.terminal-tmux
