@@ -70,9 +70,12 @@ in
             config.flake.modules.homeManager.repo-context
             config.flake.modules.homeManager.higorprado
             config.flake.modules.homeManager.core-user-packages
+            config.flake.modules.homeManager.desktop-viewers
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
             config.flake.modules.homeManager.llm-agents
+            config.flake.modules.homeManager.media-cava
+            config.flake.modules.homeManager.media-tools
             config.flake.modules.homeManager.monitoring-tools
             config.flake.modules.homeManager.ssh
             config.flake.modules.homeManager.starship

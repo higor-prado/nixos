@@ -318,6 +318,29 @@ In progress
     through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 13
+
+- Added three desktop HM-only owners:
+  - [media-tools.nix](/home/higorprado/nixos/modules/features/desktop/media-tools.nix)
+  - [media-cava.nix](/home/higorprado/nixos/modules/features/desktop/media-cava.nix)
+  - [desktop-viewers.nix](/home/higorprado/nixos/modules/features/desktop/desktop-viewers.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.media-tools`
+  - `flake.modules.homeManager.media-cava`
+  - `flake.modules.homeManager.desktop-viewers`
+- Imported them into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.cava.enable`
+  - `nix eval --raw \"path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.xdg.mimeApps.defaultApplications.\\\"application/pdf\\\"\"`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: (pkg.pname or \"\") == \"vlc\") pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.packages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves tracked media packages, the Cava
+    configuration, and the viewer MIME routing through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -344,6 +367,9 @@ In progress
   the repo-local runtime via explicit host imports
 - Another HM-only owner (`terminals`) now flows through the repo-local runtime
   via explicit host imports
+- Additional desktop HM-only owners (`media-tools`, `media-cava`,
+  `desktop-viewers`) now flow through the repo-local runtime via explicit host
+  imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
