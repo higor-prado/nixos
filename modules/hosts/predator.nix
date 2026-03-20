@@ -44,6 +44,7 @@ in
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
         config.flake.modules.nixos.higorprado
+        config.flake.modules.nixos.editor-neovim
         config.flake.modules.nixos.fcitx5
         config.flake.modules.nixos.gaming
         config.flake.modules.nixos.nix-settings
@@ -72,6 +73,7 @@ in
           imports = [
             config.flake.modules.homeManager.repo-context
             config.flake.modules.homeManager.higorprado
+            config.flake.modules.homeManager.backup-service
             config.flake.modules.homeManager.core-user-packages
             config.flake.modules.homeManager.desktop-apps
             config.flake.modules.homeManager.desktop-viewers
@@ -92,6 +94,8 @@ in
             config.flake.modules.homeManager.dev-tools
             config.flake.modules.homeManager.dev-devenv
             config.flake.modules.homeManager.desktop-base
+            config.flake.modules.homeManager.editor-emacs
+            config.flake.modules.homeManager.editor-neovim
             config.flake.modules.homeManager.editor-vscode
             config.flake.modules.homeManager.editor-zed
             config.flake.modules.homeManager.terminals

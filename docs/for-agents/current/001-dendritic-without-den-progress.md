@@ -477,6 +477,34 @@ In progress
     surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 19
+
+- Added three more user-surface owners:
+  - [backup-service.nix](/home/higorprado/nixos/modules/features/system/backup-service.nix)
+  - [editor-neovim.nix](/home/higorprado/nixos/modules/features/dev/editor-neovim.nix)
+  - [editor-emacs.nix](/home/higorprado/nixos/modules/features/dev/editor-emacs.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.backup-service`
+  - `flake.modules.nixos.editor-neovim`
+  - `flake.modules.homeManager.editor-neovim`
+  - `flake.modules.homeManager.editor-emacs`
+- Imported them into the `predator` shadow path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.security.pam.services.systemd-user.limits`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.neovim.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.services.emacs.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.systemd.user.timers.critical-backup.Timer.OnCalendar`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system path now resolves the Neovim PAM/session
+    limits through the repo-local runtime
+  - the `predator` shadow HM path now resolves the backup timer, Neovim user
+    surface, and Emacs service surface through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -516,6 +544,8 @@ In progress
   migrated through explicit host imports
 - Additional HM-only dev/editor owners (`editor-vscode`, `editor-zed`,
   `dev-devenv`) are being migrated through explicit host imports
+- Additional user-surface owners (`backup-service`, `editor-neovim`,
+  `editor-emacs`) are being migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
