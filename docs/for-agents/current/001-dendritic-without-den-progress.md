@@ -895,5 +895,9 @@ In progress
   `starship`, `editor-vscode`, `editor-zed`, `desktop-base`,
   `desktop-viewers`, `media-tools`, `media-cava`, `dev-devenv`, `gaming`, and
   the NixOS-only `packages-docs-tools`
+- Removed another low-risk batch of duplicate `den` publishers from owners
+  already covered by `flake.modules.*`:
+  `tui-tools`, `packages-toolchains`, `wayland-tools`, `fcitx5`, `nautilus`,
+  `git-gh`, `terminals`, `backup-service`, and `docker`
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition
