@@ -128,6 +128,26 @@ Diff result:
 Commit:
 - pending
 
+### Slice 5
+
+- Removed the last tracked executable use of `custom.user.name` from the
+  desktop composition matrix fixture.
+- Tightened living docs so `custom.user.name` is described as a
+  compatibility-only bridge for private overrides, not as a normal runtime
+  surface.
+
+Validation:
+- `./scripts/check-desktop-composition-matrix.sh`
+- `./scripts/check-docs-drift.sh`
+- `./scripts/run-validation-gates.sh structure`
+
+Diff result:
+- tracked executable code no longer depends on `custom.user.name`
+- the bridge remains available only for compatibility/private entry points
+
+Commit:
+- pending
+
 ## Final State
 
 - Open

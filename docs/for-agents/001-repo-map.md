@@ -27,7 +27,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `modules/options/configurations-nixos.nix` — materializes `flake.nixosConfigurations` from `configurations.nixos.*.module`
 - `modules/options/flake-parts-modules.nix` — enables the `flake-parts` published-module surface
 - `modules/options/inventory.nix` — inventory schema for `repo.hosts.*` and `repo.users.*`
-- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and `repo.context`
+- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `repo.context`, and the `custom.user.name` compatibility bridge
 
 ## modules/features/ — category layout
 
