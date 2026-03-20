@@ -114,6 +114,28 @@ In progress
     imported through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 4
+
+- Dual-published the host-aware core owner
+  [nix-settings.nix](/home/higorprado/nixos/modules/features/core/nix-settings.nix)
+  onto the repo-local runtime as `flake.modules.nixos.nix-settings`
+- Started using repo-local default feature selection in
+  [den-defaults.nix](/home/higorprado/nixos/modules/features/core/den-defaults.nix)
+  through `repo.defaults.hostFeatures = [ "nix-settings" ]`
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.nix.settings.trusted-users`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.nix.settings.trusted-users`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.programs.nh.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.aurelius.config.programs.nh.enable`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - both shadow hosts now resolve `nix.settings.trusted-users = [ "root" "higorprado" ]`
+  - both shadow hosts now resolve `programs.nh.enable = true`
+  - `predator` shadow system still builds after adding a global host-aware
+    default feature
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -123,5 +145,7 @@ In progress
   runtime contracts in a more realistic way
 - Phase 3 has started in small form: one real feature (`llm-agents`) now flows
   through the repo-local runtime
-- Next step: migrate the next low-blast-radius host-aware owner and keep growing
-  the feature selection/runtime path without touching the authoritative outputs
+- Another host-aware owner (`nix-settings`) now flows through the repo-local
+  default feature path
+- Next step: keep migrating small owners that exercise both HM and NixOS routing
+  through the local runtime without touching the authoritative outputs
