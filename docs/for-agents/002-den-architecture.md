@@ -160,13 +160,14 @@ This split is intentional:
 - `_.to-users` is the internal namespace consumed by `den._.mutual-provider`
 - host files own aggregation because they own composition
 
-## Universal aspects — `den.default`
+## Universal aspects — historical `den.default`
 
 `den.default.includes` lists aspects that are injected into **every** host
 unconditionally. This is the canonical mechanism for repo-wide invariants —
 aspects that must be present regardless of host role.
 
-Declared in `modules/features/core/den-defaults.nix`:
+Historically this lived in a dedicated `den-defaults` shim, which has since
+been removed from the canonical path:
 
 ```nix
 { den, ... }:

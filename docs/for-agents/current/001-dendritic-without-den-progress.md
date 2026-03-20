@@ -120,7 +120,7 @@ In progress
   [nix-settings.nix](/home/higorprado/nixos/modules/features/core/nix-settings.nix)
   onto the repo-local runtime as `flake.modules.nixos.nix-settings`
 - Started using repo-local default feature selection in
-  [den-defaults.nix](/home/higorprado/nixos/modules/features/core/den-defaults.nix)
+  the former `den-defaults` shim
   through `repo.defaults.hostFeatures = [ "nix-settings" ]`
 - Validation:
   - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.nix.settings.trusted-users`
@@ -873,5 +873,9 @@ In progress
 - Updated human-facing structure and feature/composition workflows to describe
   published `flake.modules.*` plus explicit host imports instead of `den`
   aspect `includes`
+- Removed dead den-era contract shims (`den-defaults`, `user-context`, and
+  `host-contracts`) after confirming the canonical runtime now owns those
+  concerns in
+  [repo-runtime-contracts.nix](/home/higorprado/nixos/modules/options/repo-runtime-contracts.nix)
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition

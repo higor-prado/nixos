@@ -23,9 +23,7 @@ docs/for-agents/archive/ archived plans and log tracks
 ## modules/features/ — category layout
 
 **Core**
-- `core/den-defaults.nix` — legacy den default-includes shim still carried during migration
-- `core/user-context.nix` — `custom.user.name` contract
-- `core/host-contracts.nix` — `custom.host.role` contract
+- `modules/options/repo-runtime-contracts.nix` — canonical runtime contracts for `custom.host.role`, `custom.user.name`, and desktop composition flags
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — nix daemon settings (universal: max-jobs, store optimization, numtide cache, nh)

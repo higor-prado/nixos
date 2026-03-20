@@ -8,11 +8,10 @@
 | `modules/desktops/*.nix` | Desktop composition lower-level modules |
 | `modules/hosts/*.nix` | Host inventory plus concrete configuration declarations |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
-| `modules/features/core/home-manager-settings.nix` | HM framework settings (useGlobalPkgs, extraSpecialArgs, sharedModules) |
+| `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos) and base HM config (homeManager) |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
-| `modules/features/core/user-context.nix` | `custom.user.name` contract |
-| `modules/features/core/host-contracts.nix` | `custom.host.role` contract |
+| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.user.name`, `custom.host.role`, and desktop composition flags |
 
 ## Boundary rules
 

@@ -43,15 +43,14 @@ Out of scope:
   [modules/users/higorprado.nix](/home/higorprado/nixos/modules/users/higorprado.nix)
   plus `den._.define-user`, `den._.primary-user`, `den._.user-shell`, and
   `den._.mutual-provider`.
-- Repo-wide defaults currently depend on
-  [modules/features/core/den-defaults.nix](/home/higorprado/nixos/modules/features/core/den-defaults.nix),
-  which injects universal aspects through `den.default.includes`.
+- Repo-wide defaults initially depended on a now-removed `den-defaults` shim
+  that injected universal aspects through `den.default.includes`.
 - Host-aware feature behavior currently depends on `den` context helpers such as
   `den.lib.parametric`, `den.lib.perHost`, and `den.lib.take.*` in files like
   [modules/features/dev/llm-agents.nix](/home/higorprado/nixos/modules/features/dev/llm-agents.nix),
   [modules/features/shell/fish.nix](/home/higorprado/nixos/modules/features/shell/fish.nix),
   [modules/features/core/nix-settings.nix](/home/higorprado/nixos/modules/features/core/nix-settings.nix),
-  and [modules/features/core/user-context.nix](/home/higorprado/nixos/modules/features/core/user-context.nix).
+  and a now-removed `user-context` shim.
 - Host-owned HM is pervasive: `36` tracked feature/composition files publish
   `provides.to-users`, and hosts aggregate them via `_.to-users.includes`.
 - Tooling and docs are also `den`-shaped:
@@ -181,7 +180,7 @@ Commit target:
 ### Phase 3: Replace `den.default` and Feature Registry Semantics
 
 Targets:
-- [modules/features/core/den-defaults.nix](/home/higorprado/nixos/modules/features/core/den-defaults.nix)
+- the former `den.default` universal-include layer
 - feature/desktops modules under `modules/features/` and `modules/desktops/`
 
 Changes:
@@ -256,7 +255,7 @@ Changes:
   - [modules/features/system/ssh.nix](/home/higorprado/nixos/modules/features/system/ssh.nix)
   - [modules/features/system/keyrs.nix](/home/higorprado/nixos/modules/features/system/keyrs.nix)
   - [modules/features/core/nix-settings.nix](/home/higorprado/nixos/modules/features/core/nix-settings.nix)
-  - [modules/features/core/user-context.nix](/home/higorprado/nixos/modules/features/core/user-context.nix)
+  - the former `user-context` shim
   - [modules/features/desktop/niri.nix](/home/higorprado/nixos/modules/features/desktop/niri.nix)
   - [modules/features/desktop/dms.nix](/home/higorprado/nixos/modules/features/desktop/dms.nix)
 
