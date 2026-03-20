@@ -22,36 +22,55 @@ render_template() {
   local template_name="$1" target="$2" content
   content="$(<"${templates_dir}/${template_name}")"
   content="${content//__HOST_NAME__/${host_name}}"
-  content="${content//__DESKTOP_FEATURES__/${desktop_features:-}}"
+  content="${content//__HOST_ROLE__/${host_role}}"
+  content="${content//__NIXOS_DESKTOP_IMPORTS__/${nixos_desktop_imports:-}}"
+  content="${content//__HOME_MANAGER_DESKTOP_IMPORTS__/${home_manager_desktop_imports:-}}"
   printf '%s\n' "$content" >"$target"
 }
 
-desktop_features_for() {
+desktop_imports_for() {
   case "$1" in
     dms-on-niri)
       cat <<'EOF2'
 
-      desktop-dms-on-niri
-      niri
-      dms
-      dms-wallpaper
-      desktop-base
-      desktop-apps
-      desktop-viewers
-      wayland-tools
-      xwayland
+        host.inputs.niri.nixosModules.niri
+        host.inputs.dms.nixosModules.dank-material-shell
+        host.inputs.dms.nixosModules.greeter
+        config.flake.modules.nixos.desktop-dms-on-niri
+        config.flake.modules.nixos.dms
+        config.flake.modules.nixos.niri
+        config.flake.modules.nixos.xwayland
+EOF2
+      printf '\n'
+      cat <<'EOF2'
+
+          config.flake.modules.homeManager.desktop-apps
+          config.flake.modules.homeManager.desktop-base
+          config.flake.modules.homeManager.desktop-dms-on-niri
+          config.flake.modules.homeManager.desktop-viewers
+          config.flake.modules.homeManager.dms
+          config.flake.modules.homeManager.dms-wallpaper
+          config.flake.modules.homeManager.niri
+          config.flake.modules.homeManager.wayland-tools
 EOF2
       ;;
     niri-standalone)
       cat <<'EOF2'
 
-      desktop-niri-standalone
-      niri
-      desktop-base
-      desktop-apps
-      desktop-viewers
-      wayland-tools
-      xwayland
+        host.inputs.niri.nixosModules.niri
+        config.flake.modules.nixos.desktop-niri-standalone
+        config.flake.modules.nixos.niri
+        config.flake.modules.nixos.xwayland
+EOF2
+      printf '\n'
+      cat <<'EOF2'
+
+          config.flake.modules.homeManager.desktop-apps
+          config.flake.modules.homeManager.desktop-base
+          config.flake.modules.homeManager.desktop-niri-standalone
+          config.flake.modules.homeManager.desktop-viewers
+          config.flake.modules.homeManager.niri
+          config.flake.modules.homeManager.wayland-tools
 EOF2
       ;;
     *)
@@ -102,7 +121,9 @@ fi
 mkdir -p "$host_dir" "$(dirname "$host_module_file")"
 
 if [[ "$host_role" == "desktop" ]]; then
-  desktop_features="$(desktop_features_for "$desktop_experience")"
+  imports_payload="$(desktop_imports_for "$desktop_experience")"
+  nixos_desktop_imports="${imports_payload%%$'\n\n'*}"
+  home_manager_desktop_imports="${imports_payload#*$'\n\n'}"
   render_template desktop-hardware.nix.tpl "$host_file"
   render_template desktop-module.nix.tpl "$host_module_file"
 else
@@ -130,10 +151,9 @@ if [[ "$host_role" == "desktop" ]]; then
   cat <<EOF2
 
 Next steps:
-  1. If the host should use home-manager, set:
-     den.hosts.x86_64-linux.${host_name}.users.<user-aspect>.classes = [ "homeManager" ];
-  2. Add home-manager-settings to ${host_module_file} includes.
-  3. Adjust the system architecture, feature list, and descriptor integrations.
+  1. Adjust the system architecture, tracked users, and feature imports in ${host_module_file}.
+  2. Add any host-scoped semantic selections to repo.hosts.${host_name} (for example custom packages or desktop-specific inputs).
+  3. Adjust the descriptor integrations and hardware imports.
 EOF2
 else
   cat <<EOF2
@@ -147,5 +167,5 @@ fi
 cat <<'EOF2'
 
 Remember to git add new files under modules/ before running nix eval/build;
-den's import tree only sees tracked files.
+the repo import tree only sees tracked files.
 EOF2

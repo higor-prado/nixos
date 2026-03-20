@@ -1,7 +1,14 @@
 # Den Architecture
 
-This repo uses [den](https://github.com/vic/den) as its NixOS module
-framework. This document explains how den works in the context of this repo.
+This document now describes the remaining `den` compatibility surface only.
+Canonical outputs no longer come from `den.hosts` / `den.aspects` host
+materialization; they come from the repo-local dendritic runtime
+(`repo.hosts.*`, `repo.users.*`, `flake.modules.*`, and
+`configurations.nixos.*.module`).
+
+When this document conflicts with the active dendritic runtime, treat it as
+historical context for the shrinking `den` support layer, not as the rule for
+new work.
 
 ## What den provides
 

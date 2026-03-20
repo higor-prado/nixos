@@ -1,15 +1,15 @@
 # Repository Map
 
-Authoritative map of where things live in this den-native repository.
+Authoritative map of where things live in this dendritic-first repository.
 
 ## Top-level layout
 
 ```
-modules/features/   53+ feature aspects grouped under category folders
+modules/features/   53+ feature modules grouped under category folders
 modules/desktops/   2 concrete desktop compositions
-modules/hosts/      one file per host
-modules/den.nix     den flake module import
-modules/lib/        module/den internals (currently den-host-context.nix)
+modules/hosts/      one file per host inventory + concrete configuration
+modules/den.nix     shrinking den compatibility surface import
+modules/lib/        repo/den bridge internals (currently den-host-context.nix)
 private/            private overrides (gitignored)
 hardware/<name>/       machine-specific: hardware, disko, boot, overlays
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix, primary-tracked-user.nix)
@@ -23,7 +23,7 @@ docs/for-agents/archive/ archived plans and log tracks
 ## modules/features/ — category layout
 
 **Core**
-- `core/den-defaults.nix` — `den.default.includes` for universal aspects injected into every host
+- `core/den-defaults.nix` — legacy den default-includes shim still carried during migration
 - `core/user-context.nix` — `custom.user.name` contract
 - `core/host-contracts.nix` — `custom.host.role` contract
 - `core/system-base.nix` — base NixOS system config
@@ -48,7 +48,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `desktop/dms.nix` — Dank Material Shell greeter
 - `desktop/dms-wallpaper.nix` — DMS wallpaper management
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
-- `desktop/theme.nix` — public theme composition
+- `desktop/theme.nix` — legacy theme composition shim pending full den-surface removal
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
@@ -73,10 +73,10 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## modules/desktops/
 
-| File | Aspect name | Composites |
-|------|-------------|-----------|
-| `dms-on-niri.nix` | `desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
-| `niri-standalone.nix` | `desktop-niri-standalone` | niri standalone session |
+| File | Published lower-level modules | Composites |
+|------|-------------------------------|-----------|
+| `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
+| `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
 
 ## modules/lib/
 
@@ -95,7 +95,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `lib/_helpers.nix` — small generic helper set (currently `portalExecPath`)
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
-- `lib/primary-tracked-user.nix` — helper that derives the sole tracked host user from den host user membership
+- `lib/primary-tracked-user.nix` — helper that derives the sole tracked host user from repo inventory
 
 ## config/apps/
 
@@ -111,7 +111,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## Feature-private underscore files
 
-Files prefixed with `_` under `modules/features/` are skipped by den auto-discovery
+Files prefixed with `_` under `modules/features/` are skipped by auto-import
 and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by

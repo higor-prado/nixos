@@ -1,40 +1,80 @@
-# ci-runner host composition - generated skeleton (den-native).
-{ den, inputs, ... }:
+# ci-runner host composition - generated skeleton.
+{ inputs, config, ... }:
 let
   system = "x86_64-linux";
   customPkgs = import ../../pkgs {
     pkgs = inputs.nixpkgs.legacyPackages.${system};
     inherit inputs;
   };
+  hostName = "ci-runner";
 in
 {
-  den.hosts.x86_64-linux.ci-runner = {
-    users.higorprado = { };
+  repo.hosts.ci-runner = {
     inherit inputs customPkgs;
-  };
-
-  den.aspects.ci-runner = {
-    includes = with den.aspects; [
-      den._.hostname
-      user-context
-      host-contracts
-      system-base
-      networking
-      security
-      keyboard
-      nix-settings
-      fish
-      ssh
-      terminal
-      git-gh
-      core-user-packages
+    role = "server";
+    trackedUsers = [ "higorprado" ];
+    hardwareImports = [
+      ../../hardware/ci-runner/default.nix
     ];
-
-    nixos = { ... }: {
-      config = { };
-      imports = [
-        ../../hardware/ci-runner/default.nix
-      ];
-    };
   };
+
+  configurations.nixos.ci-runner.module =
+    let
+      host = config.repo.hosts.${hostName};
+      user = config.repo.users.higorprado;
+    in
+    {
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+        config.flake.modules.nixos.repo-runtime-contracts
+        config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.system-base
+        config.flake.modules.nixos.home-manager-settings
+        config.flake.modules.nixos.networking
+        config.flake.modules.nixos.security
+        config.flake.modules.nixos.keyboard
+        config.flake.modules.nixos.nixpkgs-settings
+        config.flake.modules.nixos.maintenance
+        config.flake.modules.nixos.tailscale
+        config.flake.modules.nixos.higorprado
+        config.flake.modules.nixos.nix-settings
+        config.flake.modules.nixos.packages-server-tools
+        config.flake.modules.nixos.packages-system-tools
+        config.flake.modules.nixos.fish
+        config.flake.modules.nixos.ssh
+      ] ++ host.hardwareImports;
+
+      nixpkgs.hostPlatform = host.system;
+      networking.hostName = hostName;
+
+      custom = {
+        host.role = host.role;
+        user.name = user.userName;
+      };
+
+      home-manager.users.${user.userName} = {
+        imports = [
+          config.flake.modules.homeManager.repo-context
+          config.flake.modules.homeManager.higorprado
+          config.flake.modules.homeManager.core-user-packages
+          config.flake.modules.homeManager.fish
+          config.flake.modules.homeManager.git-gh
+          config.flake.modules.homeManager.ssh
+        ];
+
+        repo.context = {
+          inherit host;
+          inherit hostName;
+          inherit user;
+          userName = user.userName;
+        };
+      };
+
+      repo.context = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
+    };
 }

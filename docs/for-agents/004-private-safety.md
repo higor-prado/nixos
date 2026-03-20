@@ -21,7 +21,7 @@ email addresses, IP addresses outside approved ranges) appears in tracked files.
 ## The tracked-user pattern
 
 Tracked host modules declare their tracked user under
-`den.hosts.<system>.<host>.users`. In this personal repo, the generator and the
+`repo.hosts.<host>.trackedUsers`. In this personal repo, the generator and the
 tracked real hosts use the canonical `higorprado` user aspect by default.
 `custom.user.name` is derived from that sole declared host user by default. The
 real username may still be set in `private/hosts/<host>/default.nix` with

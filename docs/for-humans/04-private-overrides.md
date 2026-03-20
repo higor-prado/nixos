@@ -28,10 +28,11 @@ Tracked example files show the expected shape without real values:
 
 Private config uses `lib.mkForce` or higher-priority `mkOverride` to take
 precedence over tracked defaults. The tracked host module declares its tracked
-user under `den.hosts.<system>.<host>.users`, and `custom.user.name` is derived
-from that by default. Most tracked feature wiring now uses den context directly;
-your private override may still override `custom.user.name` when lower-level host
-config needs one selected local operator account.
+users under `repo.hosts.<host>.trackedUsers`, and `custom.user.name` is derived
+inside the concrete host configuration by default. Most tracked feature wiring
+now uses repo runtime context directly; your private override may still
+override `custom.user.name` when lower-level host config needs one selected
+local operator account.
 
 ## Gitignore
 

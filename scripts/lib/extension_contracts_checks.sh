@@ -96,8 +96,10 @@ extc_check_host_descriptor_matches_defaults() {
       fi
     fi
 
-    if ! rg -q 'users\.[A-Za-z0-9_-]+(\.classes)?[[:space:]]*=' "$host_module_file"; then
-      "$fail_fn" "host '${host}' modules/hosts/${host}.nix must declare at least one tracked host user under den.hosts.<system>.${host}.users"
+    local tracked_users_count
+    tracked_users_count="$(extc_host_tracked_users_count "${host}" 2>/dev/null || true)"
+    if [[ -z "$tracked_users_count" || "$tracked_users_count" == "0" ]]; then
+      "$fail_fn" "host '${host}' must declare at least one tracked host user under repo.hosts.${host}.trackedUsers"
     fi
 
     if rg -q '^[[:space:]]*environment\.systemPackages[[:space:]]*=' "$host_file"; then

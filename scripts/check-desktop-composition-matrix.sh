@@ -67,8 +67,7 @@ check_experience() {
           inherit pkgs inputs;
         };
         lib = flake.inputs.nixpkgs.lib;
-        compositionFile = \"${repo_root}/modules/desktops/${experience}.nix\";
-        composition = (import compositionFile {}).den.aspects.\"${module_name}\".nixos;
+        composition = flake.modules.nixos.\"${module_name}\";
         systemConfig = lib.nixosSystem {
           inherit system;
           specialArgs = {

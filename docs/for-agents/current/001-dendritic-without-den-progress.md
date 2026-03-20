@@ -856,5 +856,17 @@ In progress
   declarations were removed from the active host/user files after the canonical
   cutover, leaving those files focused on top-level inventory and
   `configurations.nixos.*.module`
+- Dead `den` composition mirrors were removed from
+  [dms-on-niri.nix](/home/higorprado/nixos/modules/desktops/dms-on-niri.nix)
+  and
+  [niri-standalone.nix](/home/higorprado/nixos/modules/desktops/niri-standalone.nix),
+  leaving those files as pure lower-level module publishers for the local
+  dendritic runtime
+- The extension contract and host skeleton generator were migrated from
+  `den.hosts.*.users` to `repo.hosts.<host>.trackedUsers`, and the generated
+  host templates now emit concrete dendritic host modules instead of den host
+  aspects
+- Living operating docs were updated so the active onboarding story matches the
+  canonical repo-local dendritic runtime rather than the old den host runtime
 - Next step: keep shrinking the remaining `den` support surface now that hosts
   and the tracked user no longer dual-declare runtime composition

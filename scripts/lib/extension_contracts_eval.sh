@@ -15,6 +15,12 @@ extc_host_runtime_role() {
   nix eval --raw "path:${PWD}#nixosConfigurations.${host}.config.custom.host.role"
 }
 
+extc_host_tracked_users_count() {
+  local host="$1"
+  nix eval --json "path:${PWD}#nixosConfigurations.${host}.config.repo.context.host.trackedUsers" \
+    | jq 'length'
+}
+
 extc_host_descriptor_has_legacy_desktop_selector() {
   local host="$1"
   [[ "$(

@@ -16,13 +16,12 @@ or other locations.
 
 ## 3. No hardcoded usernames in tracked files
 
-Tracked hosts must declare their safe fallback user under
-`den.hosts.<system>.<host>.users` in the host module. `custom.user.name` is a
-derived compatibility bridge that may still be `mkForce`-overridden in private
-files. Tracked feature modules should prefer the narrowest correct den context
-shape: owned `homeManager` when no host/user data is needed, `{ host }` when
-only host data is needed, and `{ host, user }` only for genuinely user-specific
-logic. Never hardcode real usernames in tracked files.
+Tracked hosts must declare their tracked users under
+`repo.hosts.<host>.trackedUsers` in the host module. `custom.user.name` is a
+compatibility bridge derived inside the concrete host configuration and may
+still be `mkForce`-overridden in private files. Feature modules should consume
+host/user data through the runtime context (`config.repo.context.*`), never by
+hardcoding real usernames in tracked files.
 
 ## 4. Validation gates must pass
 
@@ -36,36 +35,29 @@ For structural changes, also run:
 nix eval .#nixosConfigurations.predator.config.system.build.toplevel.drvPath
 ```
 
-## 5. Den aspect pattern only
+## 5. Dendritic top-level pattern only
 
-All new NixOS feature modules must use the den aspect pattern:
+All new feature modules must remain top-level dendritic modules. Publish
+lower-level NixOS/Home Manager modules under `flake.modules.*`:
 ```nix
-{ ... }: { den.aspects.my-feature.nixos = { config, lib, ... }: { ... }; }
+{ ... }: { flake.modules.nixos.my-feature = { config, lib, ... }: { ... }; }
 ```
 
-Never use raw `imports` lists in `modules/features/`.
+Never turn `modules/features/` files into raw entry-point configs or `specialArgs`
+plumbing.
 
-## 6. Home-manager routing depends on ownership
+## 6. Home Manager wiring happens in host composition
 
-User-owned Home Manager config belongs in
-`den.aspects.<name>.homeManager = { ... }: { ... };`.
-Den routes that class to `home-manager.users.<userName>` for hosts whose
-tracked users declare `classes = [ "homeManager" ]`.
-
-Host-owned Home Manager config is different in current `den`: a host aspect's
-top-level `.homeManager` is not routed to users automatically. Host-to-user HM
-must go through explicit mutual routing with `den._.mutual-provider`, declared
-via `provides.to-users.homeManager = ...` or `provides.<user>.homeManager = ...`,
-and then aggregated at the host's `_.to-users` surface.
-
-Do not hand-wire `home-manager.users.<userName>` from feature modules and do
-not create separate top-level home-manager feature modules.
+User-owned and host-aware HM modules are both published at the top level under
+`flake.modules.homeManager.*`. Hosts own the concrete wiring into
+`home-manager.users.<userName>.imports`, and runtime host/user data is passed
+through `repo.context`, not `specialArgs`.
 
 ## 7. host-specific hardware stays in hardware/
 
 Machine-specific config (hardware-configuration.nix, disko.nix, NVIDIA drivers,
 LUKS, boot loader) lives in `hardware/<name>/`. If config is reusable across
-hosts, promote it to a den aspect in `modules/features/`.
+hosts, promote it to a published lower-level module in `modules/features/`.
 
 ## 8. Keep commits focused
 

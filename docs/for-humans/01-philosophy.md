@@ -5,27 +5,26 @@
 Every piece of configuration lives in exactly one place. No duplicates,
 no shadow configs, no "also configure this in another file."
 
-## Feature aspects, not monolithic files
+## Dendritic feature modules, not monolithic files
 
-Each feature (`fish`, `niri`, `editor-neovim`) is an independent den aspect.
-Features compose by listing them in a host's `includes` list. Adding a feature
-to a host is one line.
+Each feature (`fish`, `niri`, `editor-neovim`) is an independent top-level
+module that publishes lower-level NixOS and/or Home Manager modules.
+Hosts compose by importing those published modules explicitly.
 
-## Den-native
+## Dendritic first
 
-This repo uses [den](https://github.com/vic/den) to structure NixOS
-modules. Den handles:
-- Auto-discovery of modules under `modules/**/*.nix`
-- Aspect composition via `includes`
-- Host declaration via `den.hosts`
+This repo uses the dendritic pattern: every non-entry-point Nix file is a
+top-level module, and concrete NixOS/Home Manager configs are declared from the
+top level. The repo still carries some shrinking `den` compatibility surface,
+but canonical outputs come from the repo-local dendritic runtime.
 
 ## Separation of concerns
 
 | Layer | Responsibility |
 |-------|---------------|
-| `modules/features/` | What the system can do |
-| `modules/desktops/` | Desktop compositions (which features together) |
-| `modules/hosts/` | Which features each host has |
+| `modules/features/` | Feature-owned lower-level modules |
+| `modules/desktops/` | Desktop composition lower-level modules |
+| `modules/hosts/` | Host inventory + concrete configuration declarations |
 | `hardware/<name>/` | Hardware, disks, boot — machine-specific only |
 | `private/` | Private overrides (gitignored) |
 

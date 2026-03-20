@@ -2,119 +2,95 @@
 
 ## Adding a feature
 
-1. Create `modules/features/<category>/<name>.nix` using the den aspect pattern
-2. If the feature needs custom options, declare them in the feature owner or the narrow contract module that owns that concern
-3. Add to the host's `includes` list in `modules/hosts/<host>.nix`
+1. Create `modules/features/<category>/<name>.nix` as a top-level dendritic module
+2. Publish lower-level modules under `flake.modules.nixos.*` and/or `flake.modules.homeManager.*`
+3. If the feature needs custom options, declare them in the feature owner or the narrow contract module that owns that concern
+4. Add the published lower-level modules to the host's explicit import lists in `modules/hosts/<host>.nix`
 4. Verify with `./scripts/check-extension-contracts.sh`
 
 ### Feature patterns
 
-**NixOS-only feature that needs no host data — simple owned nixos block:**
+**NixOS-only feature that needs no host data — publish a lower-level NixOS module:**
 ```nix
 { ... }:
 {
-  den.aspects.my-feature = {
-    nixos = { config, lib, pkgs, ... }: {
-      environment.systemPackages = [ pkgs.some-tool ];
-    };
+  flake.modules.nixos.my-feature = { pkgs, ... }: {
+    environment.systemPackages = [ pkgs.some-tool ];
   };
 }
 ```
 
-**NixOS-only feature needing host data — perHost fires only in {host} context:**
+**Host-aware feature — read host context from `repo.context.host` inside the lower-level module:**
 ```nix
-{ den, ... }:
+{ ... }:
 {
-  den.aspects.my-feature = den.lib.parametric {
-    includes = [
-      (den.lib.perHost {
-        nixos = { lib, ... }: {
-          options.custom.my-feature.foo = lib.mkOption { type = lib.types.str; default = ""; };
-        };
-      })
-      (den.lib.perHost (
-        { host }:
-        {
-          nixos.environment.systemPackages = [ host.customPkgs.some-tool ];
-        }
-      ))
-    ];
+  flake.modules.homeManager.my-feature = { config, ... }: {
+    home.packages = config.repo.context.host.customPkgs.extraPackages;
   };
 }
 ```
 
-**Host-owned feature needing Home Manager host data — use explicit mutual routing:**
+**Host composition — declare one concrete configuration and import published modules explicitly:**
 ```nix
-{ den, ... }:
+{ inputs, config, ... }:
+let
+  hostName = "my-host";
+in
 {
-  den.aspects.my-feature = den.lib.parametric {
-    provides.to-users = { host, ... }: {
-      homeManager = { pkgs, ... }: {
-        home.packages = host.customPkgs.extras;
+  repo.hosts.${hostName} = {
+    system = "x86_64-linux";
+    role = "desktop";
+    trackedUsers = [ "higorprado" ];
+    inherit inputs;
+  };
+
+  configurations.nixos.${hostName}.module =
+    let
+      host = config.repo.hosts.${hostName};
+      user = config.repo.users.higorprado;
+    in
+    {
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+        config.flake.modules.nixos.repo-runtime-contracts
+        config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.system-base
+        config.flake.modules.nixos.my-feature
+      ];
+
+      home-manager.users.${user.userName}.imports = [
+        config.flake.modules.homeManager.repo-context
+        config.flake.modules.homeManager.higorprado
+        config.flake.modules.homeManager.my-feature
+      ];
+
+      repo.context = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
+      };
+
+      home-manager.users.${user.userName}.repo.context = {
+        inherit host;
+        inherit hostName;
+        inherit user;
+        userName = user.userName;
       };
     };
   };
 }
 ```
-
-The host that includes it must aggregate the projection:
-
-```nix
-den.aspects.my-host._.to-users.includes = [
-  den.aspects.my-feature._.to-users
-];
-```
-
-**Feature needing BOTH — split host-only `nixos` from host-to-user Home Manager routing:**
-```nix
-{ den, ... }:
-{
-  den.aspects.my-feature = den.lib.parametric {
-    includes = [
-      (den.lib.perHost ({ host }: { nixos.environment.systemPackages = host.customPkgs.tools; }))
-    ];
-    provides.to-users = { host, ... }: {
-      homeManager.home.packages = host.customPkgs.extras;
-    };
-  };
-}
-```
-
-Never assume that a host aspect's top-level `.homeManager` is routed to users
-automatically. In current `den`, host-to-user HM is an explicit mutual-routing
-path, not part of the default unidirectional host pipeline.
-
-Use `den.lib.perHost` for host-only includes. Use explicit mutual routing for
-host-owned Home Manager. `den.lib.parametric` is required whenever an aspect has
-context-dependent `includes` or captures `host` data in `provides.to-users`.
-
-Use explicit `provides.<target>` plus a routing battery such as
-`den._.mutual-provider` when the logic belongs to one specific host/user pair,
-instead of embedding host-name conditionals inside shared aspects.
-
-When a feature needs host-specific package choice, prefer semantic host data
-like `host.llmAgents.homePackages` or `host.desktopPackages.niri` over probing
-host identity or raw package-set universes inside the shared feature.
-
-If you need both host context and HM module args (`config`, `lib`, `pkgs`):
-```nix
-provides.to-users.homeManager = { config, lib, pkgs, ... }: {
-  # Use both host context captured by the parametric include and HM args
-};
-```
-**Do not use `extraSpecialArgs`** — use den parametric includes for host-aware logic.
+**Do not use `specialArgs` or `extraSpecialArgs`** — publish values at the top level and consume them through `config.repo.*` / `config.flake.modules.*`.
 
 ## Adding a desktop composition
 
-1. Create `modules/desktops/<name>.nix` with aspect name `desktop-<name>`
-2. The file declares `den.aspects.desktop-<name>` with:
-   - `nixos` class: composition-specific greetd/portal baseline and any composition parameters (e.g. `custom.niri.standaloneSession`)
-   - `provides.to-users.homeManager` class: provision composition-specific mutable config and any user-scoped systemd drop-ins owned by the composition
-3. Add to a host's includes list alongside the individual feature aspects it composes
-4. Aggregate the composition's `._.to-users` surface in the host aspect when it contributes Home Manager config
+1. Create `modules/desktops/<name>.nix`
+2. Publish `flake.modules.nixos.desktop-<name>` and, if needed, `flake.modules.homeManager.desktop-<name>`
+3. Add those published modules to the host's explicit NixOS/HM imports alongside the individual features they compose
 5. Verify with `./scripts/check-desktop-composition-matrix.sh`
 
-See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix` for reference. Baseline duplication across composition files is intentional per den philosophy (lesson 40).
+See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix` for reference. Baseline duplication across composition files is intentional because each composition owns its own lower-level module payload.
 
 ## Adding a host
 
@@ -123,13 +99,13 @@ See [workflow: add a host](../for-humans/workflows/103-add-host.md).
 Required files:
 - `hardware/host-descriptors.nix`: descriptor entry
 - `hardware/<name>/default.nix`: hardware imports + runtime role
-- `modules/hosts/<name>.nix`: den aspect with includes + system wiring
+- `modules/hosts/<name>.nix`: top-level host inventory entry plus `configurations.nixos.<name>.module`
 
 ## Extension contracts enforced by scripts
 
 - Desktop host must include a `desktop-*` composition aspect
 - `hardware/host-descriptors.nix` must stay script-only (`integrations` only)
 - `hardware/<name>/default.nix` must expose `custom.host.role`
-- `modules/hosts/<name>.nix` must declare at least one tracked host user under `den.hosts.<system>.<name>.users`
+- `modules/hosts/<name>.nix` must declare at least one tracked host user under `repo.hosts.<name>.trackedUsers`
 - No `environment.systemPackages` in host default.nix
 - No `openssh.authorizedKeys.keys` in tracked host files

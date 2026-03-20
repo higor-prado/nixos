@@ -25,70 +25,53 @@ Add to `hardware/host-descriptors.nix`:
 
 ## 3. Create host module
 
-The generated `modules/hosts/<host-name>.nix` already uses the current den-native shape:
+The generated `modules/hosts/<host-name>.nix` already uses the current dendritic runtime shape:
 
 ```nix
-{ den, inputs, ... }:
+{ inputs, config, ... }:
 let
-  system = "x86_64-linux";
-  customPkgs = import ../../pkgs {
-    pkgs = inputs.nixpkgs.legacyPackages.${system};
-    inherit inputs;
-  };
+  hostName = "<host-name>";
 in
 {
-  den.hosts.x86_64-linux.<host-name> = {
-    users.higorprado = { };
-    inherit inputs customPkgs;
+  repo.hosts.<host-name> = {
+    system = "x86_64-linux";
+    role = "desktop";
+    trackedUsers = [ "higorprado" ];
+    inherit inputs;
   };
 
-  den.aspects.<host-name> = {
-    includes = with den.aspects; [
-      den._.hostname
-      user-context
-      host-contracts
-      system-base
-      networking
-      security
-      keyboard
-      nix-settings
-      fish
-      ssh
-      terminal
-      git-gh
-      core-user-packages
-      # ... add features as needed
-    ];
-
-    nixos = { ... }: {
-      config = { };
+  configurations.nixos.<host-name>.module =
+    let
+      host = config.repo.hosts.${hostName};
+      user = config.repo.users.higorprado;
+    in
+    {
       imports = [
-        ../../hardware/<host-name>/default.nix
+        inputs.home-manager.nixosModules.home-manager
+        config.flake.modules.nixos.repo-runtime-contracts
+        config.flake.modules.nixos.repo-context
+        config.flake.modules.nixos.system-base
+        # ... add lower-level nixos modules here
+      ];
+
+      home-manager.users.${user.userName}.imports = [
+        config.flake.modules.homeManager.repo-context
+        config.flake.modules.homeManager.higorprado
+        # ... add lower-level homeManager modules here
       ];
     };
-  };
 }
 ```
 
-If the host should use den `.homeManager` aspects, add:
-
-```nix
-den.hosts.x86_64-linux.<host-name>.users.higorprado.classes = [ "homeManager" ];
-```
-
-The key under `.users.` is the user aspect name (e.g. `higorprado`), which must match a
-`den.aspects.<user>` defined in `modules/users/`. This registers the user for home-manager
-routing on this host.
-
-Include `home-manager-settings` in the host's `includes`.
+`repo.hosts.<host-name>.trackedUsers` is the tracked inventory contract for users on that host.
 
 If a feature needs host-owned semantic selections, declare those directly in
 the host context. Example:
 
 ```nix
 {
-  den.hosts.x86_64-linux.<host-name> = {
-    users.higorprado = { };
+  repo.hosts.<host-name> = {
+    trackedUsers = [ "higorprado" ];
     inherit inputs customPkgs;
     llmAgents = {
       homePackages = with inputs.llm-agents.packages.${system}; [ claude-code codex ];
