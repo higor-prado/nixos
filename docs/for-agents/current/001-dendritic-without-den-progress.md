@@ -279,6 +279,45 @@ In progress
     surface through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 11
+
+- Added two more HM-only shared owners:
+  - [dev-tools.nix](/home/higorprado/nixos/modules/features/dev/dev-tools.nix)
+  - [monitoring-tools.nix](/home/higorprado/nixos/modules/features/shell/monitoring-tools.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.homeManager.dev-tools`
+  - `flake.modules.homeManager.monitoring-tools`
+- Imported both into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.bat.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.eza.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.xdg.configFile.\"htop/htoprc\".source`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves shared dev utilities and the
+    tracked `htop` config through the repo-local runtime
+  - authoritative `den` validation path remains green
+
+### Slice 12
+
+- Added the HM-only terminal surface owner
+  [terminals.nix](/home/higorprado/nixos/modules/features/shell/terminals.nix)
+  as `flake.modules.homeManager.terminals`
+- Imported it into the `predator` shadow HM path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.kitty.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.programs.wezterm.enable`
+  - `nix eval --raw \"path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.sessionVariables.TERMINAL\"`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow HM path now resolves the tracked terminal stack
+    through the repo-local runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -301,6 +340,10 @@ In progress
   the repo-local runtime via explicit host imports
 - Additional HM-only owners (`terminal-tmux`, `tui-tools`) now flow through the
   repo-local runtime via explicit host imports
+- Additional HM-only owners (`dev-tools`, `monitoring-tools`) now flow through
+  the repo-local runtime via explicit host imports
+- Another HM-only owner (`terminals`) now flows through the repo-local runtime
+  via explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing
