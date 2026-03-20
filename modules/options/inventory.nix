@@ -39,14 +39,6 @@
                   systemPackages = [ ];
                 };
               };
-              hardwareImports = lib.mkOption {
-                type = lib.types.listOf lib.types.raw;
-                default = [ ];
-              };
-              extraSystemPackages = lib.mkOption {
-                type = lib.types.listOf lib.types.raw;
-                default = [ ];
-              };
             };
           }
         )

@@ -7,15 +7,15 @@ let
     inherit inputs;
   };
   hostName = "zeus";
+  hardwareImports = [
+    ../../hardware/zeus/default.nix
+  ];
 in
 {
   repo.hosts.zeus = {
     inherit inputs customPkgs;
     role = "desktop";
     trackedUsers = [ "higorprado" ];
-    hardwareImports = [
-      ../../hardware/zeus/default.nix
-    ];
   };
 
   configurations.nixos.zeus.module =
@@ -48,7 +48,7 @@ in
         config.flake.modules.nixos.dms
         config.flake.modules.nixos.niri
         config.flake.modules.nixos.xwayland
-      ] ++ host.hardwareImports;
+      ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;

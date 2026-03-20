@@ -7,15 +7,15 @@ let
     inherit inputs;
   };
   hostName = "__HOST_NAME__";
+  hardwareImports = [
+    ../../hardware/__HOST_NAME__/default.nix
+  ];
 in
 {
   repo.hosts.__HOST_NAME__ = {
     inherit inputs customPkgs;
     role = "__HOST_ROLE__";
     trackedUsers = [ "higorprado" ];
-    hardwareImports = [
-      ../../hardware/__HOST_NAME__/default.nix
-    ];
   };
 
   configurations.nixos.__HOST_NAME__.module =
@@ -42,7 +42,7 @@ in
         config.flake.modules.nixos.packages-system-tools
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.ssh
-      ] ++ host.hardwareImports;
+      ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;

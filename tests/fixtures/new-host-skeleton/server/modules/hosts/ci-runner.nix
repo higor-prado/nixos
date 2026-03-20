@@ -7,15 +7,15 @@ let
     inherit inputs;
   };
   hostName = "ci-runner";
+  hardwareImports = [
+    ../../hardware/ci-runner/default.nix
+  ];
 in
 {
   repo.hosts.ci-runner = {
     inherit inputs customPkgs;
     role = "server";
     trackedUsers = [ "higorprado" ];
-    hardwareImports = [
-      ../../hardware/ci-runner/default.nix
-    ];
   };
 
   configurations.nixos.ci-runner.module =
@@ -42,7 +42,7 @@ in
         config.flake.modules.nixos.packages-system-tools
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.ssh
-      ] ++ host.hardwareImports;
+      ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;

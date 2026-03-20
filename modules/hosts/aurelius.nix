@@ -7,16 +7,16 @@ let
     inherit inputs;
   };
   hostName = "aurelius";
+  hardwareImports = [
+    inputs.disko.nixosModules.disko
+    ../../hardware/aurelius/default.nix
+  ];
 in
 {
   repo.hosts.aurelius = {
     inherit system inputs customPkgs;
     role = "server";
     trackedUsers = [ "higorprado" ];
-    hardwareImports = [
-      inputs.disko.nixosModules.disko
-      ../../hardware/aurelius/default.nix
-    ];
   };
 
   configurations.nixos.aurelius.module =
@@ -43,7 +43,7 @@ in
         config.flake.modules.nixos.packages-system-tools
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.ssh
-      ] ++ host.hardwareImports;
+      ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;

@@ -19,6 +19,12 @@ let
     systemPackages = [ ];
   };
   hostName = "predator";
+  hardwareImports = [
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+    ../../hardware/predator/default.nix
+  ];
+  extraSystemPackages = [ customPkgs.predator-tui ];
   predatorUserExtraGroups = [
     "video"
     "audio"
@@ -54,12 +60,6 @@ in
     inherit system inputs customPkgs llmAgents;
     role = "desktop";
     trackedUsers = [ "higorprado" ];
-    hardwareImports = [
-      inputs.disko.nixosModules.disko
-      inputs.impermanence.nixosModules.impermanence
-      ../../hardware/predator/default.nix
-    ];
-    extraSystemPackages = [ customPkgs.predator-tui ];
   };
 
   configurations.nixos.predator.module =
@@ -112,7 +112,7 @@ in
         config.flake.modules.nixos.llm-agents
         config.flake.modules.nixos.ssh
         config.flake.modules.nixos.xwayland
-      ] ++ host.hardwareImports;
+      ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = host.system;
       networking.hostName = hostName;
@@ -122,7 +122,7 @@ in
         user.name = user.userName;
       };
 
-      environment.systemPackages = host.extraSystemPackages;
+      environment.systemPackages = extraSystemPackages;
 
       users.users.${user.userName}.extraGroups = predatorUserExtraGroups;
 

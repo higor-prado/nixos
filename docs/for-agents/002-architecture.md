@@ -36,7 +36,6 @@ repo.hosts.predator = {
   role = "desktop";
   trackedUsers = [ "higorprado" ];
   inputs = inputs;
-  hardwareImports = [ ../../hardware/predator/default.nix ];
 };
 ```
 
@@ -65,6 +64,7 @@ configurations.nixos.predator.module =
   let
     host = config.repo.hosts.predator;
     user = config.repo.users.higorprado;
+    hardwareImports = [ ../../hardware/predator/default.nix ];
   in
   {
     imports = [
@@ -73,7 +73,7 @@ configurations.nixos.predator.module =
       config.flake.modules.nixos.repo-context
       config.flake.modules.nixos.system-base
       config.flake.modules.nixos.fish
-    ] ++ host.hardwareImports;
+    ] ++ hardwareImports;
 
     home-manager.users.${user.userName} = {
       imports = [
@@ -99,6 +99,13 @@ configurations.nixos.predator.module =
 
 Concrete host composition is explicit on purpose. The host file is where the
 repo says what that machine actually is.
+
+Keep runtime-only payload local to the host file when it is not inventory-like.
+Examples:
+
+- hardware module import lists
+- host-only `environment.systemPackages`
+- operator-only Fish abbreviations
 
 ## Feature Modules
 

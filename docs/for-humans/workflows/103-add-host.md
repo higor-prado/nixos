@@ -31,6 +31,9 @@ The generated `modules/hosts/<host-name>.nix` already uses the current dendritic
 { inputs, config, ... }:
 let
   hostName = "<host-name>";
+  hardwareImports = [
+    ../../hardware/<host-name>/default.nix
+  ];
 in
 {
   repo.hosts.<host-name> = {
@@ -52,7 +55,7 @@ in
         config.flake.modules.nixos.repo-context
         config.flake.modules.nixos.system-base
         # ... add lower-level nixos modules here
-      ];
+      ] ++ hardwareImports;
 
       home-manager.users.${user.userName}.imports = [
         config.flake.modules.homeManager.repo-context
@@ -64,6 +67,8 @@ in
 ```
 
 `repo.hosts.<host-name>.trackedUsers` is the tracked inventory contract for users on that host.
+Keep hardware import lists and other runtime-only payload local to the host file
+instead of storing them under `repo.hosts.<host-name>`.
 
 If a feature needs host-owned semantic selections, declare those directly in
 the host context. Example:

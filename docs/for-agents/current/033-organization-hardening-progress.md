@@ -70,6 +70,37 @@ Diff result:
   eval-only by design
 
 Commit:
+- `ea8fa62` `refactor(runtime): narrow user ownership and reduce username bridge use`
+
+### Slice 3
+
+- Removed `hardwareImports` and `extraSystemPackages` from the tracked
+  `repo.hosts.*` inventory schema.
+- Kept those values local to the concrete host owners in
+  `modules/hosts/predator.nix` and `modules/hosts/aurelius.nix`.
+- Updated the host skeleton templates and fixtures so onboarding continues to
+  teach the cleaned-up shape.
+- Updated living architecture/onboarding docs so inventory is described as
+  tracked host data, while hardware import lists and host-only package payloads
+  stay local to the host file.
+
+Validation:
+- `bash tests/scripts/new-host-skeleton-fixture-test.sh`
+- `./scripts/check-docs-drift.sh`
+- `./scripts/check-extension-contracts.sh`
+- `./scripts/run-validation-gates.sh structure`
+- `./scripts/run-validation-gates.sh all`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+
+Diff result:
+- `repo.hosts.*` no longer stores host-only hardware import lists or
+  host-specific package payloads
+- concrete host files remain explicit, but the tracked inventory reads more
+  cleanly as inventory instead of runtime baggage
+- generated host skeletons now teach the corrected runtime boundary
+
+Commit:
 - pending
 
 ## Final State
