@@ -386,6 +386,43 @@ In progress
     theme sync activation through the repo-local runtime
   - authoritative `den` validation path remains green
 
+### Slice 16
+
+- Added three more desktop shared owners:
+  - [nautilus.nix](/home/higorprado/nixos/modules/features/desktop/nautilus.nix)
+  - [fcitx5.nix](/home/higorprado/nixos/modules/features/desktop/fcitx5.nix)
+  - [wayland-tools.nix](/home/higorprado/nixos/modules/features/desktop/wayland-tools.nix)
+- Published them onto the repo-local runtime as:
+  - `flake.modules.nixos.nautilus`
+  - `flake.modules.homeManager.nautilus`
+  - `flake.modules.nixos.fcitx5`
+  - `flake.modules.homeManager.fcitx5`
+  - `flake.modules.homeManager.wayland-tools`
+- Kept the shape explicit:
+  - NixOS surfaces stay on the feature owner as lower-level modules
+  - HM surfaces stay on the feature owner as lower-level modules
+  - the `predator` host imports those modules directly instead of routing them
+    through inventory selectors or helper factories
+- Imported them into the `predator` shadow path in
+  [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
+- Validation:
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.services.gvfs.enable`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.i18n.inputMethod.type`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.i18n.inputMethod.fcitx5.addons`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.i18n.inputMethod.type`
+  - `nix eval --json path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.xdg.mimeApps.defaultApplications`
+  - `nix eval --apply 'pkgs: builtins.any (pkg: let n = (pkg.name or pkg.pname or ""); in builtins.match ".*(nautilus|waybar|wlr-randr).*" n != null) pkgs' path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.packages`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.system.build.toplevel`
+  - `nix build --no-link --print-out-paths path:$PWD#dendritic.nixosConfigurations.predator.config.home-manager.users.higorprado.home.path`
+  - `./scripts/run-validation-gates.sh`
+- Outcome:
+  - the `predator` shadow system path now resolves the desktop file-manager and
+    input-method system surface through the repo-local runtime
+  - the `predator` shadow HM path now resolves Nautilus MIME routing, Wayland
+    utilities, and the user-side `fcitx5` surface through the repo-local
+    runtime
+  - authoritative `den` validation path remains green
+
 ## Final State
 
 - Not complete yet
@@ -419,6 +456,8 @@ In progress
   through the repo-local runtime via explicit host imports
 - Additional host-context-dependent desktop HM owners (`desktop-apps`,
   `theme-zen`) now flow through the repo-local runtime via explicit host imports
+- Additional desktop shared owners (`nautilus`, `fcitx5`, `wayland-tools`) are
+  being migrated through explicit host imports
 - The shadow path now has a user owner published as lower-level NixOS and
   Home Manager modules instead of synthesizing users inside a host generator
 - Next step: keep migrating small owners that exercise both HM and NixOS routing

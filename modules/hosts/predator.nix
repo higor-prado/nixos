@@ -44,7 +44,9 @@ in
         config.flake.modules.nixos.repo-runtime-contracts
         config.flake.modules.nixos.repo-context
         config.flake.modules.nixos.higorprado
+        config.flake.modules.nixos.fcitx5
         config.flake.modules.nixos.nix-settings
+        config.flake.modules.nixos.nautilus
         config.flake.modules.nixos.fish
         config.flake.modules.nixos.llm-agents
         config.flake.modules.nixos.ssh
@@ -72,12 +74,14 @@ in
             config.flake.modules.homeManager.core-user-packages
             config.flake.modules.homeManager.desktop-apps
             config.flake.modules.homeManager.desktop-viewers
+            config.flake.modules.homeManager.fcitx5
             config.flake.modules.homeManager.fish
             config.flake.modules.homeManager.git-gh
             config.flake.modules.homeManager.llm-agents
             config.flake.modules.homeManager.media-cava
             config.flake.modules.homeManager.media-tools
             config.flake.modules.homeManager.monitoring-tools
+            config.flake.modules.homeManager.nautilus
             config.flake.modules.homeManager.ssh
             config.flake.modules.homeManager.starship
             config.flake.modules.homeManager.terminal-tmux
@@ -87,6 +91,7 @@ in
             config.flake.modules.homeManager.terminals
             config.flake.modules.homeManager.theme-base
             config.flake.modules.homeManager.theme-zen
+            config.flake.modules.homeManager.wayland-tools
           ];
 
           repo.context = {
