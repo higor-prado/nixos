@@ -223,8 +223,9 @@ uses and wires the host-specific hardware config. Universal aspects arrive via
 }
 ```
 
-Server hosts add `server-base` to their includes for server-specific policy
-(mutableUsers, no autologin, no documentation, SSH hardening).
+Server-specific policy used to live in a separate `server-base` shim with
+mutable-users and SSH hardening defaults. That shim has been removed from the
+canonical path.
 
 ## private/ directory
 
