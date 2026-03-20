@@ -19,6 +19,26 @@ let
     systemPackages = [ ];
   };
   hostName = "predator";
+  operatorFishAbbrs = {
+    npu = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+    npub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+    nput = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+    npus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+    npui = "nh os info";
+    npusi = "nh os info";
+    npust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
+    npuc = "nh clean all";
+    npuct = "systemctl status nh-clean.timer --no-pager";
+    nau = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+    naub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
+    naut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
+    naus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
+    naui = "ssh aurelius 'nh os info'";
+    nausi = "ssh aurelius 'nh os info'";
+    naust = "ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
+    nauc = "ssh aurelius 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
+    nauct = "ssh aurelius 'systemctl status nh-clean.timer --no-pager'";
+  };
 in
 {
   repo.hosts.predator = {
@@ -143,6 +163,8 @@ in
             inherit user;
             userName = user.userName;
           };
+
+          programs.fish.shellAbbrs = operatorFishAbbrs;
         };
       };
 
