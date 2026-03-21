@@ -118,7 +118,6 @@ run_stage "predator"
 assert_logged "check-config-contracts.sh"
 assert_logged "check-desktop-composition-matrix.sh"
 assert_logged "check-extension-simulations.sh"
-assert_logged "nix eval --raw path:$PWD#nixosConfigurations.predator.config.custom.user.name"
 assert_logged "nix flake metadata"
 assert_logged "nix eval path:$PWD#nixosConfigurations.predator.config.system.stateVersion"
 assert_logged "nix eval path:$PWD#nixosConfigurations.predator.config.home-manager.users.fixture-user.home.stateVersion"
@@ -126,7 +125,6 @@ assert_logged "nix build --no-link path:$PWD#nixosConfigurations.predator.config
 assert_logged "nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel"
 
 run_stage "aurelius"
-assert_logged "nix eval path:$PWD#nixosConfigurations.aurelius.config.custom.host.role"
 assert_logged "nix eval path:$PWD#nixosConfigurations.aurelius.config.system.stateVersion"
 assert_logged "nix eval path:$PWD#nixosConfigurations.aurelius.pkgs.stdenv.hostPlatform.system"
 

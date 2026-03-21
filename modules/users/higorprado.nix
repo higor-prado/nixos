@@ -12,8 +12,6 @@ let
   privateModule = ../../private/users/higorprado/default.nix;
 in
 {
-  username = userName;
-
   flake.modules.nixos.higorprado =
     { pkgs, ... }:
     {

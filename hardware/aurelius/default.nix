@@ -7,9 +7,6 @@
   ]
   ++ lib.optional (builtins.pathExists ../../private/hosts/aurelius/default.nix) ../../private/hosts/aurelius/default.nix;
 
-  # Host role (contract signal for validation scripts)
-  custom.host.role = "server";
-
   # Bootloader configuration (systemd-boot with EFI)
   boot.loader = {
     systemd-boot.enable = true;

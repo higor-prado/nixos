@@ -20,22 +20,16 @@ email addresses, IP addresses outside approved ranges) appears in tracked files.
 
 ## The tracked-user pattern
 
-Tracked host modules declare their tracked user under
-`repo.hosts.<host>.trackedUsers`. In this personal repo, the generator and the
-tracked real hosts use the canonical `higorprado` user module by default.
-`custom.user.name` is derived from that sole declared host user by default. The
-real username may still be set in `private/hosts/<host>/default.nix` with
-`lib.mkForce` when needed.
+In this personal repo, the tracked runtime uses the canonical `username` fact
+for the shared tracked user.
 
-Compatibility-only consumers may still reference the bridge dynamically:
+Tracked runtime consumers should reference that fact directly:
 ```nix
-let userName = config.custom.user.name; in ...
+let userName = config.username; in ...
 ```
 
-Tracked runtime wiring should prefer `config.custom.user.name` when a lower-level
-module truly needs the selected tracked user. The bridge exists so gitignored
-host-private overrides can still select a concrete local operator account when
-needed.
+Tracked runtime wiring should prefer `config.username` when a lower-level module
+truly needs the tracked user.
 
 ## Hardcoded home paths
 
@@ -43,7 +37,7 @@ Default rule:
 
 - do not introduce new hardcoded `"/home/username"` paths in tracked files
 - use `config.home.homeDirectory` in HM modules where possible
-- use `config.custom.user.name` in NixOS modules when one selected user is needed
+- use `config.username` in NixOS modules when one tracked user is needed
 
 Current state:
 

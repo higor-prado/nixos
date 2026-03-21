@@ -12,7 +12,6 @@
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), and repo-wide primary-user semantics |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
-| `modules/options/repo-runtime-contracts.nix` | Runtime contracts for `custom.host.role`, `custom.user.name`, and shared HM wiring |
 
 ## Boundary rules
 
@@ -29,7 +28,7 @@
    software profile/pack overrides instead.
 
 5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer narrow facts
-   such as `config.custom.user.name`, existing lower-level state, or the tracked
+   such as `config.username`, existing lower-level state, or the tracked
    user runtime module.
 
 6. **`openssh.authorizedKeys.keys` not tracked** — must be in an untracked private override file (see the tracked `*.nix.example` files for shape).

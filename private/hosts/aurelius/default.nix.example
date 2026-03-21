@@ -1,12 +1,9 @@
 # Copy to ./default.nix (untracked) and adjust with Aurelius-specific access policy.
-{ config, lib, ... }:
+{ lib, ... }:
 let
-  userName = config.custom.user.name;
+  userName = "your-user";
 in
 {
-  # Override the compatibility username with the real operator account.
-  custom.user.name = lib.mkForce "your-user";
-
   # Optional: make user declarations immutable once fully declared here.
   users.mutableUsers = lib.mkForce false;
   users.users.${userName}.openssh.authorizedKeys.keys = [

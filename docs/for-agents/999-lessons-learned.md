@@ -14,7 +14,7 @@
 10. Keep root `docs/for-agents/` for durable operating docs. Put active execution plans under `docs/for-agents/plans/`, active progress logs under `docs/for-agents/current/`, and archive completed execution docs under `docs/for-agents/archive/`.
 11. For this repo/user, prioritize performance and compatibility over ideology/licensing preferences when choosing technical paths.
 12. For local matrix/validation scripts, prefer `builtins.getFlake "path:$PWD"` over git URL refs when you need live working-tree behavior; git/index snapshots can hide unstaged fixes.
-13. Dendritic repo philosophy: the context shape is the condition. Feature inclusion in a host is the condition. Do not use `custom.host.role` as a conditional inside feature or hardware modules; `custom.host.role` is only a contract signal for validation scripts.
+13. Dendritic repo philosophy: the context shape is the condition. Feature inclusion in a host is the condition. Do not reintroduce `custom.host.role` or any similar role selector into the runtime just to satisfy validation scripts.
 14. In Nix modules, use `mkIf` instead of eager `optionalAttrs` for conditions that depend on `config`, otherwise fixed-point evaluation can recurse.
 15. Keep one canonical validation runner and make CI/local wrappers delegate to it.
 16. Docs drift checks should target a bounded living-docs set; scanning all historical docs creates false failures and discourages maintenance.
@@ -22,14 +22,14 @@
 18. When a test fails or ownership/architecture placement is disputed, stop execution and understand the real cause before changing code. If the fix would affect ownership, structure, or expected architecture, get explicit human validation before applying it.
 19. In feature migrations or reorganizations, name owner files after user-facing capabilities and avoid abstract buckets that hide ownership.
 20. If no tracked host selects a leftover feature path, delete it instead of preserving dead code, dead flake inputs, or speculative architecture.
-21. Canonical outputs now come from the repo-local dendritic runtime. Host inventory lives under `repo.hosts.*`, tracked users under `repo.hosts.<host>.trackedUsers`, and concrete systems under `configurations.nixos.*.module`.
+21. Canonical outputs now come from the repo-local dendritic runtime. The repo-wide tracked user lives under `username`, and concrete systems under `configurations.nixos.*.module`.
 22. Home Manager modules should be published under `flake.modules.homeManager.*` and wired concretely by the host. HM-specific APIs such as `lib.hm.dag.entryAfter` and `config.xdg.configHome` are available inside those lower-level HM modules.
 23. Canonical tracked user definition now lives in `modules/users/<user>.nix` as published `flake.modules.nixos.<user>` and `flake.modules.homeManager.<user>` modules plus the repo-wide `username` fact.
 24. New files under `modules/` must be `git add`-ed before `nix eval` — the repo's auto-import path only sees git-tracked files.
 25. Do not mirror feature inclusion into dedicated `custom.<feature>.enable` booleans just for validation. Prefer checking real configuration state or declared topology directly.
 26. Generic helpers belong in root `lib/`, not in repo-specific private or feature subtrees.
 27. Root `hosts/` was retired in favor of `hardware/` for machine-specific files; `modules/hosts/` is the top-level host inventory and configuration layer.
-28. Host ownership contract: `hardware/<host>/default.nix` owns `custom.host.role`, while `modules/hosts/<host>.nix` must declare at least one tracked host user under `repo.hosts.<host>.trackedUsers` and set the concrete `custom.user.name`.
+28. `hardware/<host>/default.nix` owns only machine-specific hardware imports and defaults. Script-only classifications must not leak back into the runtime surface.
 29. Desktop composition baseline duplication is intentional explicitness in this repo's composition model. Each composition owns its complete baseline for clarity.
 30. `hardware/host-descriptors.nix` is script-only integration metadata. Do not mirror runtime host facts there unless a real script consumer needs them.
 31. Speculative parameterization options should exist only when multiple real values are supported. A single-value enum option is architectural noise.
@@ -41,7 +41,7 @@
 37. Upstream module imports that materially shape a concrete host session or system should stay explicit in the host composition. Do not hide major host composition edges behind framework-like helpers just to reduce import lines.
 38. If a lower-level module is meant to be universal, publish it once under `flake.modules.*` and import it consistently from each concrete host module. Do not recreate implicit global include layers unless they buy real simplicity.
 39. Server-specific policy (mutableUsers, no autologin, no documentation, SSH hardening) belongs in a dedicated published feature module, not inline in a host block. Host files should stay focused on inventory plus concrete imports.
-40. In the local runtime, host-aware Home Manager is just another lower-level HM module. It should use direct flake inputs captured by the owner, narrow facts such as `config.custom.user.name`, or existing lower-level state; no mutual-routing battery is needed in the canonical path.
+40. In the local runtime, host-aware Home Manager is just another lower-level HM module. It should use direct flake inputs captured by the owner, narrow facts such as `config.username`, or existing lower-level state; no mutual-routing battery is needed in the canonical path.
 41. Keep historical migration material clearly secondary. Do not let old compatibility stories override the canonical dendritic runtime.
 42. Use `~/git/dendritic` as the pattern reference. Historical framework-specific material is for migration/audit context only; canonical runtime decisions should be validated against the repo-local top-level modules first.
 43. Host-operator shell commands that reference a concrete machine, repo checkout, or remote target belong in the concrete host module, not in the shared shell feature.

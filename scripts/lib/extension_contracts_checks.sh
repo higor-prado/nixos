@@ -4,27 +4,6 @@
 # shellcheck disable=SC1091
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/set_ops.sh"
 
-extc_is_allowed_host_role_assignment() {
-  local file="$1"
-  [[ "$file" == "modules/features/core-options.nix" ]] || [[ "$file" == hardware/*/default.nix ]]
-}
-
-extc_check_assignment_scope() {
-  local label="$1"
-  local pattern="$2"
-  local checker="$3"
-  local fail_fn="$4"
-  local line file
-
-  while IFS= read -r line; do
-    [[ -z "$line" ]] && continue
-    file="${line%%:*}"
-    if ! "$checker" "$file"; then
-      "$fail_fn" "${label} assignment outside contract: ${line}"
-    fi
-  done < <(rg -n --glob '*.nix' "$pattern" hardware modules flake.nix || true)
-}
-
 extc_check_set_sync() {
   local left_label="$1"
   local left_file="$2"
@@ -58,7 +37,7 @@ extc_require_pattern_in_file() {
 extc_check_host_descriptor_matches_defaults() {
   local fail_fn="$1"
   local -n host_dirs_ref="$2"
-  local host runtime_role host_file host_module_file
+  local host host_file host_module_file
 
   for host in "${host_dirs_ref[@]}"; do
     host_file="hardware/${host}/default.nix"
@@ -72,14 +51,6 @@ extc_check_host_descriptor_matches_defaults() {
       continue
     fi
 
-    runtime_role="$(extc_host_runtime_role "${host}" 2>/dev/null || true)"
-
-    if [[ -z "$runtime_role" ]]; then
-      "$fail_fn" "host '${host}' must expose a runtime custom.host.role"
-    elif ! rg -q "custom\\.host\\.role = \"${runtime_role}\";" "$host_file"; then
-      "$fail_fn" "host '${host}' default.nix must set custom.host.role = \"${runtime_role}\""
-    fi
-
     if extc_host_descriptor_has_legacy_desktop_selector "$host" 2>/dev/null; then
       "$fail_fn" "host '${host}' descriptor must not declare a legacy desktop selector field"
     fi
@@ -88,18 +59,6 @@ extc_check_host_descriptor_matches_defaults() {
     legacy_desktop_selector_pattern+='profile[[:space:]]*='
     if rg -q "$legacy_desktop_selector_pattern" "$host_file"; then
       "$fail_fn" "host '${host}' default.nix must not declare a legacy desktop selector assignment"
-    fi
-
-    if [[ "$runtime_role" == "desktop" ]]; then
-      if ! rg -q 'desktop-[a-z0-9-]+' "$host_module_file"; then
-        "$fail_fn" "desktop host '${host}' modules/hosts/${host}.nix must include a desktop-* composition module"
-      fi
-    fi
-
-    local tracked_users_count
-    tracked_users_count="$(extc_host_tracked_users_count "${host}" 2>/dev/null || true)"
-    if [[ -z "$tracked_users_count" || "$tracked_users_count" == "0" ]]; then
-      "$fail_fn" "host '${host}' must declare at least one tracked host user under repo.hosts.${host}.trackedUsers"
     fi
 
     if rg -q '^[[:space:]]*environment\.systemPackages[[:space:]]*=' "$host_file"; then

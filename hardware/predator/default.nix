@@ -20,6 +20,4 @@
   ]
   ++ lib.optional (builtins.pathExists ../../private/hosts/predator/default.nix) ../../private/hosts/predator/default.nix;
 
-  # Host role (contract signal for validation scripts)
-  custom.host.role = "desktop";
 }

@@ -1,5 +1,6 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 let
+  topConfig = config;
   dmsCommonSettings = {
     systemd = {
       enable = false;
@@ -15,10 +16,10 @@ in
 {
   flake.modules = {
     nixos.dms =
-      { config, ... }:
+      nixosArgs@{ ... }:
       let
-        userName = config.custom.user.name;
-        homeDir = config.users.users.${userName}.home;
+        userName = topConfig.username;
+        homeDir = nixosArgs.config.users.users.${userName}.home;
       in
       {
         home-manager.sharedModules = [ inputs.dms.homeModules.dank-material-shell ];

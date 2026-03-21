@@ -4,7 +4,7 @@
 modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
-modules/options/    top-level runtime surfaces and contracts
+modules/options/    top-level runtime surfaces
 modules/users/      tracked user inventory + base account/HM modules
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
@@ -34,7 +34,7 @@ Files prefixed with `_` are skipped by auto-import (for example
 `shell/_starship-settings.nix`).
 
 Root `lib/` is for generic helper functions. `modules/options/` is for
-top-level runtime surfaces and contracts, not general-purpose helpers.
+top-level runtime surfaces, not general-purpose helpers.
 
 ## Desktop compositions
 
@@ -49,15 +49,9 @@ configuration:
 
 ```nix
 {
-  repo.hosts.<name> = {
-    system = "x86_64-linux";
-    role = "desktop";
-    trackedUsers = [ "higorprado" ];
-  };
-
   configurations.nixos.<name>.module = {
     imports = [ config.flake.modules.nixos.my-feature ];
-    home-manager.users.${user.userName}.imports = [
+    home-manager.users.${userName}.imports = [
       config.flake.modules.homeManager.my-feature
     ];
   };

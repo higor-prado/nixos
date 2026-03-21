@@ -16,12 +16,10 @@ Option declarations (`options.custom.*`, `options.host.*`) live only in
 
 ## 3. No hardcoded usernames in tracked files
 
-Tracked hosts must declare their tracked users under
-`repo.hosts.<host>.trackedUsers` in the host module. `custom.user.name` is a
-selected-user fact set inside the concrete host configuration and may still be
-`mkForce`-overridden in private files. Feature modules should consume narrow
-top-level facts such as `config.custom.user.name` or existing lower-level state,
-never by hardcoding real usernames in tracked files.
+Tracked runtime should use the repo-wide `username` fact directly where
+lower-level NixOS state genuinely needs one concrete user. Feature modules
+should consume narrow top-level facts such as `config.username` or existing
+lower-level state, never by hardcoding real usernames in tracked files.
 
 ## 4. Validation gates must pass
 
@@ -52,7 +50,7 @@ User-owned and host-aware HM modules are both published at the top level under
 `flake.modules.homeManager.*`. Hosts own the concrete wiring into
 `home-manager.users.<userName>.imports`. Host-aware lower-level modules should
 capture direct flake inputs from the owning top-level module or read narrow
-facts such as `config.custom.user.name`, not build a repo-local carrier object.
+facts such as `config.username`, not build a repo-local carrier object.
 
 ## 7. host-specific hardware stays in hardware/
 

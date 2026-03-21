@@ -52,22 +52,14 @@ let
   };
 in
 {
-  repo.hosts.predator = {
-    inherit system;
-    role = "desktop";
-    trackedUsers = [ "higorprado" ];
-  };
-
   configurations.nixos.predator.module =
     let
       inherit (config.flake.modules) homeManager nixos;
-      hostInventory = config.repo.hosts.${hostName};
       userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        nixos.repo-runtime-contracts
         nixos.system-base
         nixos.home-manager-settings
         nixos.networking
@@ -109,13 +101,8 @@ in
         nixos.xwayland
       ] ++ hardwareImports;
 
-      nixpkgs.hostPlatform = hostInventory.system;
+      nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
-
-      custom = {
-        host.role = hostInventory.role;
-        user.name = userName;
-      };
 
       environment.systemPackages = extraSystemPackages;
 

@@ -16,7 +16,6 @@ The repo uses the dendritic pattern on top of `flake-parts`.
 
 The canonical runtime is built from these top-level option surfaces:
 
-- `repo.hosts.<name>`: tracked host inventory
 - `username`: repo-wide tracked user identity
 - `flake.modules.nixos.<name>`: published lower-level NixOS modules
 - `flake.modules.homeManager.<name>`: published lower-level Home Manager modules
@@ -25,21 +24,6 @@ The canonical runtime is built from these top-level option surfaces:
 Concrete `nixosConfigurations` are materialized in
 `modules/options/configurations-nixos.nix` from
 `configurations.nixos.<name>.module`.
-
-## Host Inventory
-
-`modules/hosts/<name>.nix` owns the tracked inventory for each host:
-
-```nix
-repo.hosts.predator = {
-  system = "x86_64-linux";
-  role = "desktop";
-  trackedUsers = [ "higorprado" ];
-};
-```
-
-Inventory is data, not composition glue. It exists so concrete host modules can
-read tracked facts from `config.repo.hosts.<name>`.
 
 ## Concrete Host Composition
 
@@ -51,7 +35,6 @@ That module owns:
 - the host's NixOS `imports`
 - the host's Home Manager `imports`
 - `networking.hostName`
-- narrow runtime facts such as `custom.host.role` and `custom.user.name`
 - host-scoped package additions such as `environment.systemPackages`
 - host-operator overlays that only make sense on that machine, such as
   machine-specific Fish abbreviations
@@ -62,22 +45,15 @@ Example shape:
   configurations.nixos.predator.module =
     let
       inherit (config.flake.modules) homeManager nixos;
-      hostInventory = config.repo.hosts.predator;
-    hardwareImports = [ ../../hardware/predator/default.nix ];
-    userName = config.username;
+      userName = config.username;
+      hardwareImports = [ ../../hardware/predator/default.nix ];
   in
   {
     imports = [
       inputs.home-manager.nixosModules.home-manager
-      nixos.repo-runtime-contracts
       nixos.system-base
       nixos.fish
     ] ++ hardwareImports;
-
-    custom = {
-      host.role = hostInventory.role;
-      user.name = userName;
-    };
 
     home-manager.users.${userName} = {
       imports = [
@@ -145,24 +121,13 @@ Use one of these patterns:
   `{ inputs, ... }: { flake.modules.homeManager.foo = { pkgs, ... }: ...; }`
 - derive system-specific local packages inside the lower-level module from
   `pkgs` plus those captured `inputs`
-- read narrow runtime facts that the concrete host sets explicitly, for example
-  `config.custom.user.name`
+- read narrow top-level facts from the owning module, for example
+  `config.username`
 - read existing lower-level state such as `config.networking.hostName`,
   `config.home.username`, or `osConfig`
 
 Do not build a generic runtime carrier such as `repo.context` just to move
 host/user payload around.
-
-## Universal Runtime Contracts
-
-`modules/options/repo-runtime-contracts.nix` also owns the narrow runtime
-contracts that need to exist everywhere:
-
-- `custom.host.role`
-- `custom.user.name` as the selected tracked user for the concrete host
-- shared Home Manager modules such as Catppuccin wiring
-
-These are repo runtime contracts, not a feature-selection mechanism.
 
 ## Auto-Import and File Layout
 

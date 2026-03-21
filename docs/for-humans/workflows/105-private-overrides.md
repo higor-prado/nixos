@@ -1,16 +1,20 @@
 # Private Overrides
 
-## Set your real username
+## Set host-private user state
 
-In the gitignored host private override entry point. For shape, see
+In the gitignored host private override entry point, declare concrete user
+state directly with the real local username. For shape, see
 `private/hosts/aurelius/default.nix.example`:
 
 ```nix
-{ lib, ... }:
+{ ... }:
+let
+  userName = "your-real-username";
+in
 {
-  # Override the selected tracked user only when the real local operator
-  # account differs from the tracked default.
-  custom.user.name = lib.mkForce "your-real-username";
+  users.users.${userName}.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAA... your-key"
+  ];
 }
 ```
 
@@ -19,7 +23,7 @@ In the gitignored host private override entry point. For shape, see
 In the same gitignored host private override entry point:
 
 ```nix
-users.users.your-real-username.openssh.authorizedKeys.keys = [
+users.users.higorprado.openssh.authorizedKeys.keys = [
   "ssh-ed25519 AAAA... your-key"
 ];
 ```

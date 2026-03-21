@@ -42,31 +42,20 @@ let
   hostName = "my-host";
 in
 {
-  repo.hosts.${hostName} = {
-    system = "x86_64-linux";
-    role = "desktop";
-    trackedUsers = [ "higorprado" ];
-  };
-
   configurations.nixos.${hostName}.module =
     let
       inherit (config.flake.modules) homeManager nixos;
-      hostInventory = config.repo.hosts.${hostName};
       userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        nixos.repo-runtime-contracts
         nixos.system-base
         nixos.my-feature
       ];
 
-      custom = {
-        host.role = hostInventory.role;
-        user.name = userName;
-      };
-
+      nixpkgs.hostPlatform = "x86_64-linux";
+      networking.hostName = hostName;
       home-manager.users.${userName}.imports = [
         homeManager.higorprado
         homeManager.my-feature
@@ -99,7 +88,5 @@ Required files:
 
 - Desktop host must include a `desktop-*` composition module
 - `hardware/host-descriptors.nix` must stay script-only (`integrations` only)
-- `hardware/<name>/default.nix` must expose `custom.host.role`
-- `modules/hosts/<name>.nix` must declare at least one tracked host user under `repo.hosts.<name>.trackedUsers`
 - No `environment.systemPackages` in host default.nix
 - No `openssh.authorizedKeys.keys` in tracked host files

@@ -173,11 +173,6 @@ else
   warn "XDG_SESSION_ID is unset"
 fi
 
-host_role="$(nix eval --raw "path:$PWD#nixosConfigurations.${config_host}.config.custom.host.role")"
-if [ "$host_role" != "desktop" ]; then
-  fail "runtime smoke expects desktop host role for ${config_host}, got: ${host_role}"
-fi
-
 niri_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.niri.enable" | jq -r '.')"
 dms_enabled="$(nix eval --json --impure --expr "let cfg = (builtins.getFlake \"path:${PWD}\").nixosConfigurations.${config_host}.config; in builtins.hasAttr \"dsearch\" cfg.systemd.user.services" | jq -r '.')"
 keyrs_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.keyrs.enable" | jq -r '.')"

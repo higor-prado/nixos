@@ -81,9 +81,6 @@ check_experience() {
             inputs.keyrs.nixosModules.default
             ({ lib, ... }: {
               options.custom = {
-                host.role = lib.mkOption {
-                  type = lib.types.enum [ \"desktop\" \"server\" ];
-                };
                 niri.standaloneSession = lib.mkOption {
                   type = lib.types.bool;
                   default = false;
@@ -97,7 +94,6 @@ check_experience() {
             composition
             {
               networking.hostName = \"desktop-matrix\";
-              custom.host.role = \"desktop\";
               users.users.\"fixture-user\" = { isNormalUser = true; };
               home-manager.users.\"fixture-user\".home.stateVersion = \"25.11\";
               nixpkgs.config.allowUnfree = true;

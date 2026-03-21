@@ -8,21 +8,14 @@ let
   ];
 in
 {
-  repo.hosts.__HOST_NAME__ = {
-    role = "__HOST_ROLE__";
-    trackedUsers = [ "higorprado" ];
-  };
-
   configurations.nixos.__HOST_NAME__.module =
     let
       inherit (config.flake.modules) homeManager nixos;
-      hostInventory = config.repo.hosts.${hostName};
       userName = config.username;
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        nixos.repo-runtime-contracts
         nixos.system-base
         nixos.home-manager-settings
         nixos.networking
@@ -39,13 +32,8 @@ in
         nixos.ssh
       ] ++ hardwareImports;
 
-      nixpkgs.hostPlatform = hostInventory.system;
+      nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
-
-      custom = {
-        host.role = hostInventory.role;
-        user.name = userName;
-      };
 
       home-manager.users.${userName} = {
         imports = [

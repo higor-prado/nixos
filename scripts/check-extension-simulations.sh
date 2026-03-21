@@ -13,7 +13,7 @@ report_fail() {
   fail=1
 }
 
-# Verify that extendModules on aurelius keeps role=server and evaluates.
+# Verify that extendModules on aurelius still evaluates cleanly.
 server_json="$(
   nix eval --json --impure --expr "
     let
@@ -23,22 +23,14 @@ server_json="$(
           ({ lib, ... }: {
             networking.hostName = lib.mkForce \"synthetic-ext-host\";
           })
-          {
-            custom.host.role = \"server\";
-          }
         ];
       }).config;
     in
     {
-      role = cfg.custom.host.role;
       systemDrv = cfg.system.build.toplevel.drvPath;
     }
   "
 )"
-
-if [[ "$(jq -r '.role' <<<"$server_json")" != "server" ]]; then
-  report_fail "synthetic host simulation must keep role=server"
-fi
 
 if [[ "$(jq -r '.systemDrv' <<<"$server_json")" != /nix/store/* ]]; then
   report_fail "synthetic server host simulation produced invalid system drv path"

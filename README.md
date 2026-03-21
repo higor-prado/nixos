@@ -29,11 +29,10 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 11. `scripts/`: helper and verification scripts
 12. `docs/`: durable docs plus active/archived execution docs
 
-## Host Role Model
+## Host Model
 
-1. `custom.host.role = "desktop" | "server"` is a validation contract signal set in `hardware/<name>/default.nix`; it is consumed by validation scripts but must not be used as a conditional in module code.
-2. Desktop hosts select their desktop by importing a concrete composition module (e.g. `config.flake.modules.nixos.desktop-dms-on-niri`) in the host's explicit configuration module alongside the individual feature modules.
-3. `aurelius` is the tracked server host.
+1. Desktop hosts select their desktop by importing a concrete composition module (e.g. `config.flake.modules.nixos.desktop-dms-on-niri`) in the host's explicit configuration module alongside the individual feature modules.
+2. `aurelius` is the tracked server host.
 
 ## Documentation
 

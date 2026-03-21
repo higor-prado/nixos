@@ -51,8 +51,6 @@ report_fail() {
 
 require_cmds "extension-contracts" "find" "jq" "nix" "rg"
 
-extc_check_assignment_scope "custom.host.role" '^[[:space:]]*custom\.host\.role[[:space:]]*=' extc_is_allowed_host_role_assignment report_fail
-
 legacy_desktop_selector_pattern='^[[:space:]]*custom\.desktop\.'
 legacy_desktop_selector_pattern+='profile[[:space:]]*='
 legacy_host_selector_field="desktop""Profile"

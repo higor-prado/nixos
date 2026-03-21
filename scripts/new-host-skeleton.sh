@@ -151,8 +151,8 @@ if [[ "$host_role" == "desktop" ]]; then
   cat <<EOF2
 
 Next steps:
-  1. Adjust the system architecture, tracked users, and feature imports in ${host_module_file}.
-  2. Add any host-only package choices or upstream module imports directly in ${host_module_file}; keep repo.hosts.${host_name} for actual inventory only.
+  1. Adjust the system architecture and feature imports in ${host_module_file}.
+  2. Add any host-only package choices or upstream module imports directly in ${host_module_file}.
   3. Adjust the descriptor integrations and hardware imports.
 EOF2
 else

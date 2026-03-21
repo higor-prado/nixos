@@ -8,19 +8,9 @@ Each host is declared in `hardware/host-descriptors.nix` and has a corresponding
 `hardware/host-descriptors.nix` lists script-only integration metadata
 (`disko`, `homeManager`, etc.).
 
-`modules/hosts/<name>.nix` declares host inventory plus one concrete dendritic
+`modules/hosts/<name>.nix` declares one concrete dendritic
 configuration that composes published feature modules and imports hardware
 config.
-
-`hardware/<name>/default.nix` owns the explicit runtime role signal
-`custom.host.role` plus machine-specific hardware/default imports.
-
-## Host roles
-
-| Role | Purpose |
-|------|---------|
-| `desktop` | Full desktop with home-manager, Wayland compositor |
-| `server` | Minimal headless, SSH only |
 
 ## Adding a new host
 
