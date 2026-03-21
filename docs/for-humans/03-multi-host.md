@@ -30,7 +30,7 @@ See [workflow: add a host](workflows/103-add-host.md).
 
 ## predator
 
-Desktop workstation. Acer Predator laptop with NVIDIA RTX 4060 Max-Q.
+Laptop workstation. Acer Predator with NVIDIA RTX 4060 Max-Q.
 Runs Niri compositor via DMS greeter. Full home-manager config.
 
 ## aurelius

@@ -8,7 +8,7 @@ Files under `private/users/*/` and `private/hosts/*/` are gitignored.
 Do not read, create, or reference them in tracked files.
 Run `./scripts/check-repo-public-safety.sh` before committing.
 
-## 2. Options belong in feature owners, top-level facts, or option modules only
+## 2. Options belong in feature owners, top-level facts, or the narrow tracked user owner only
 
 Option declarations (`options.custom.*`, `options.host.*`) live only in
 `modules/features/`, `modules/nixos.nix`, or the narrow tracked user owner when

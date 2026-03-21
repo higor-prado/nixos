@@ -11,10 +11,8 @@
 | `llm-agents` | Claude Code, Codex, Crush, Kilocode, Opencode |
 | `dev-tools` | bat, eza, gh, jq, fd, tree, sd, uv, nixfmt |
 | `dev-devenv` | devenv, cachix, devc, direnv+nix-direnv |
-| `tui-yazi` | Yazi file manager |
-| `tui-lazygit` | Lazygit TUI |
-| `tui-lazydocker` | Lazydocker TUI |
-| `tui-zellij` | Zellij terminal multiplexer |
+| `monitoring-tools` | htop, btop, bottom, fastfetch |
+| `tui-tools` | Lazygit, Lazydocker, Yazi, Zellij |
 
 ## devenv / devc
 

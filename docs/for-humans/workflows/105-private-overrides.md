@@ -20,19 +20,9 @@ in
 
 ## Add SSH keys
 
-In the same gitignored host private override entry point:
-
-```nix
-{ ... }:
-let
-  userName = "your-real-username";
-in
-{
-  users.users.${userName}.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAA... your-key"
-  ];
-}
-```
+In the same gitignored host private override entry point, add
+`users.users.${userName}.openssh.authorizedKeys.keys` under the same concrete
+user definition shown above.
 
 ## Home-manager private config
 
