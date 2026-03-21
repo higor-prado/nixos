@@ -1,8 +1,30 @@
 { ... }:
 {
   flake.modules.homeManager.dev-devenv =
-    { lib, pkgs, ... }:
+    { pkgs, ... }:
     let
+      devenvTemplatesFlake = pkgs.runCommandLocal "devc-templates-flake" { } ''
+        mkdir -p "$out/config/devenv-templates"
+        cp -r ${../../../config/devenv-templates}/. "$out/config/devenv-templates/"
+
+        {
+          echo '{'
+          echo '  description = "Embedded devenv templates for devc";'
+          echo '  outputs = { self }: {'
+          echo '    templates = {'
+
+          for dir in ${../../../config/devenv-templates}/*; do
+            name="$(basename "$dir")"
+            [ -d "$dir" ] || continue
+            printf '      %s = { path = ./config/devenv-templates/%s; description = "devenv project template (%s)"; };\n' "$name" "$name" "$name"
+          done
+
+          echo '      default = { path = ./config/devenv-templates/python; description = "devenv project template (python)"; };'
+          echo '    };'
+          echo '  };'
+          echo '}'
+        } > "$out/flake.nix"
+      '';
       devc = pkgs.writeShellApplication {
         name = "devc";
         runtimeInputs = with pkgs; [
@@ -23,7 +45,8 @@
             devc python .
 
           Environment:
-            DEVC_FLAKE  Flake reference that exposes templates (default: path:$HOME/nixos)
+            DEVC_FLAKE  Flake reference that exposes templates
+                        (default: embedded tracked templates)
           EOF
           }
 
@@ -39,7 +62,7 @@
               ;;
           esac
 
-          flake_ref="''${DEVC_FLAKE:-path:$HOME/nixos}"
+          flake_ref="''${DEVC_FLAKE:-path:${devenvTemplatesFlake}}"
 
           if [[ "$1" == "list" ]]; then
             nix flake show "$flake_ref" --json \
@@ -79,12 +102,10 @@
         config.global.hide_env_diff = true;
       };
 
-      xdg.configFile."direnv/direnvrc".text = lib.mkForce (
-        builtins.readFile (
-          pkgs.runCommand "devenv-direnvrc" { buildInputs = [ pkgs.devenv ]; } ''
-            devenv direnvrc > $out
-          ''
-        )
+      xdg.configFile."direnv/direnvrc".source = (
+        pkgs.runCommand "devenv-direnvrc" { buildInputs = [ pkgs.devenv ]; } ''
+          devenv direnvrc > $out
+        ''
       );
     };
 }

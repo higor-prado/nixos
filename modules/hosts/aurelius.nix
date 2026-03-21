@@ -13,38 +13,69 @@ in
     let
       inherit (config.flake.modules) homeManager nixos;
       userName = config.username;
-    in
-    {
-      imports = [
+
+      nixosInfrastructure = [
         inputs.home-manager.nixosModules.home-manager
         nixos.system-base
         nixos.home-manager-settings
+        nixos.nixpkgs-settings
+        nixos.nix-settings
+      ];
+      nixosCoreServices = [
         nixos.networking
+        nixos.docker
+        nixos.forgejo
+        nixos.mosh
+        nixos.node-exporter
         nixos.security
         nixos.keyboard
-        nixos.nixpkgs-settings
         nixos.maintenance
         nixos.tailscale
-        nixos.higorprado
-        nixos.nix-settings
-        nixos.packages-server-tools
-        nixos.packages-system-tools
         nixos.fish
         nixos.ssh
-      ] ++ hardwareImports;
+      ];
+      nixosUserTools = [
+        nixos.higorprado
+        nixos.editor-neovim
+        nixos.packages-toolchains
+        nixos.packages-server-tools
+        nixos.packages-system-tools
+      ];
+
+      hmUserTools = [
+        homeManager.higorprado
+        homeManager.core-user-packages
+        homeManager.docker
+        homeManager.git-gh
+        homeManager.monitoring-tools
+        homeManager.ssh
+      ];
+      hmShell = [
+        homeManager.fish
+        homeManager.starship
+        homeManager.terminal-tmux
+        homeManager.tui-tools
+      ];
+      hmDev = [
+        homeManager.dev-devenv
+        homeManager.dev-tools
+        homeManager.editor-neovim
+        homeManager.packages-toolchains
+      ];
+    in
+    {
+      imports =
+        nixosInfrastructure
+        ++ nixosCoreServices
+        ++ nixosUserTools
+        ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
 
       home-manager = {
         users.${userName} = {
-          imports = [
-            homeManager.higorprado
-            homeManager.core-user-packages
-            homeManager.fish
-            homeManager.git-gh
-            homeManager.ssh
-          ];
+          imports = hmUserTools ++ hmShell ++ hmDev;
 
           programs.fish.shellAbbrs = {
             naui = "nh os info";
