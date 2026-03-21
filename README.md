@@ -14,6 +14,16 @@ This is the source of truth for:
 
 The goal is reproducible, explicit, and maintainable configuration with clear ownership boundaries.
 
+## Runtime Status
+
+This repo now uses a repo-local dendritic runtime on top of `flake-parts`.
+It no longer depends on `den` for host composition, user routing, or feature
+publication.
+The repo stopped using `den` because the upstream is still at `v0`, surface API
+changes are still expected, there is not yet a strong deprecation or
+compatibility guarantee, and recent routing changes caused regressions and
+migration churn in this repo.
+
 ## Repo Shape
 
 1. `hardware/`: machine-specific files only
