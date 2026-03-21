@@ -15,6 +15,7 @@ Abbreviations (fish):
 - `naus` — update lockfile + switch aurelius
 - `naub` — update lockfile + build only
 - `naut` — update lockfile + test (no activate)
+- `adev` — open a persistent tmux dev session over SSH
 
 ## Check health
 
@@ -22,6 +23,12 @@ Abbreviations (fish):
 ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'
 # Or use the abbreviation:
 naust
+```
+
+## Remote dev session
+
+```bash
+adev
 ```
 
 ## Clean store

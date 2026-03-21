@@ -36,6 +36,8 @@ let
     naub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
     naut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
     naus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/nixos/result-aurelius\" -e passwordless";
+    adev = "ssh -t aurelius 'tmux new -As dev'";
+    amdev = "mosh aurelius -- tmux new -As dev";
     naui = "ssh aurelius 'nh os info'";
     nausi = "ssh aurelius 'nh os info'";
     naust = "ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
@@ -110,6 +112,7 @@ in
       ];
       hmShell = [
         homeManager.fish
+        homeManager.mosh
         homeManager.starship
         homeManager.terminal-tmux
         homeManager.terminals

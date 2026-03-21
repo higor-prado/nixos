@@ -2,8 +2,9 @@
 
 ## Set host-private user state
 
-In the gitignored host private override entry point, declare concrete user
-state directly with the real local username. For shape, see
+If a gitignored host private override needs to target a concrete local user
+attr path, bind that host-local username there. This is private host wiring,
+not the tracked runtime's canonical `username` fact. For shape, see
 `private/hosts/aurelius/default.nix.example`:
 
 ```nix
@@ -38,4 +39,4 @@ For shape, see `private/users/higorprado/default.nix.example`:
 
 ## Examples
 
-See `*.nix.example` files for the expected shape without real values.
+See tracked `*.example` files for the expected shape without real values.

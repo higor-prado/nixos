@@ -3,15 +3,15 @@
 ## Goal
 
 Turn `aurelius` into a repo-native server and remote-development host using the
-existing dendritic runtime of this repo, while translating the generic roadmap
-in `docs/for-agents/current/reference.md` into explicit host composition,
+existing dendritic runtime of this repo, while translating the temporary
+generic roadmap material into explicit host composition,
 narrow feature owners, and declarative service ownership. Backups are
 intentionally excluded for now.
 
 ## Scope
 
 In scope:
-- reframe the temporary roadmap in `docs/for-agents/current/reference.md`
+- reframe the temporary external roadmap material into repo-native tracked work
 - plan `aurelius` foundation changes for Docker, remote dev, and service hosting
 - plan Attic, Forgejo, observability, GitHub runner, and Tailscale/exit-node work
 - define where new runtime should live: host file, feature owner, hardware, or
@@ -57,6 +57,16 @@ Out of scope:
   - [hardware/aurelius/disko.nix](/home/higorprado/nixos/hardware/aurelius/disko.nix)
   - [hardware/aurelius/hardware-configuration.nix](/home/higorprado/nixos/hardware/aurelius/hardware-configuration.nix)
   - [hardware/aurelius/performance.nix](/home/higorprado/nixos/hardware/aurelius/performance.nix)
+- The first clean implementation slices are already in tracked runtime:
+  - Docker foundation on `aurelius`
+  - remote dev baseline
+  - cross-arch `dev-devenv` fix
+  - Mosh
+  - node exporter
+  - Forgejo
+- Those kept slices are now under a separate quality sweep in
+  [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md)
+  so the active plan does not silently overstate their completeness.
 - Several features proposed by the temporary roadmap already exist and should
   be reused instead of reinvented:
   - [modules/features/system/docker.nix](/home/higorprado/nixos/modules/features/system/docker.nix)
@@ -88,6 +98,10 @@ Out of scope:
 
 - The active roadmap for `aurelius` is expressed in repo-native terms rather
   than generic ad hoc snippets.
+- The `aurelius` host owner is organized like the healthy `predator` owner:
+  - grouped `nixos*` import lists by concern
+  - grouped `hm*` import lists by concern
+  - no raw inline `home-manager.users.${user}.imports = [ ... ]` dump
 - Each new concern has a clear owner:
   - host composition in `modules/hosts/aurelius.nix`
   - reusable service behavior in narrow `modules/features/system/*.nix`
@@ -97,6 +111,12 @@ Out of scope:
   user's home directory as the canonical tracked service model.
 - No active plan introduces a generic automation bucket when service-owned
   timers/maintenance would be clearer.
+- Service slices distinguish three different states explicitly:
+  - enabled in declarative runtime
+  - healthy on the host itself
+  - consumable through the intended access path from the real client or operator host
+- No service slice is treated as complete merely because `systemd` is green or
+  the service answers on `127.0.0.1` inside `aurelius`.
 - The roadmap is ordered by real dependency and value:
   1. foundation
   2. remote development
@@ -105,12 +125,70 @@ Out of scope:
   5. service-owned maintenance
 - Backup is explicitly deferred and does not leak into the implementation plan.
 
+## Quality Bar
+
+Every implementation slice must satisfy all of the following:
+
+1. **Ownership discipline**
+   - host files only compose published modules and concrete host state
+   - no inline module attrsets mixed into import lists
+   - no secret-file conditionals, `pathExists` gating, or host-owner hacks
+   - no “temporary” tracked glue that would be embarrassing to keep if the
+     slice became permanent
+
+2. **Host-owner readability**
+   - `aurelius.nix` must remain visually comparable to `predator.nix`
+   - imports must stay grouped by concern in named local lists
+   - no long raw inline payloads dumped directly into `imports`,
+     `home-manager.users.*`, or ad hoc `let` clutter
+
+3. **Feature reuse before new code**
+   - reuse an existing published owner whenever the concern already exists
+   - if a new module is needed, it must own a real concern, not just hide an
+     ugly inline block from the host file
+   - do not create buckets like `*-stack`, `*-automation`, or `*-runtime`
+     unless the concern is genuinely cohesive and narrow
+
+4. **Code shape must be production-worthy**
+   - no fallback logic that hides real misconfiguration
+   - no half-configured service slices that still need obvious tracked cleanup
+   - no local “for now” structure that violates the repo pattern
+   - if the clean version is not ready, the slice stays deferred
+
+5. **Access semantics are explicit**
+   - each service must state whether it is:
+     - local-only on `aurelius`
+     - reachable from `predator`
+     - reachable via Tailscale/Serve/reverse proxy
+   - `ROOT_URL`, bind address, firewall, and operator docs must agree
+
+6. **Validation matches the claim**
+   - local-only services must be tested from `aurelius`
+   - remotely consumed services must be tested from the real consumer path
+     (normally `predator`)
+   - “service is active” is not enough when the slice claims operator access
+   - architecture-sensitive changes must be validated on the real target path,
+     not assumed from local `x86_64` success
+
+7. **Docs describe reality, not aspiration**
+   - workflow docs may document only access paths that were actually validated
+   - plans must not silently upgrade a local-only service into a remotely
+     consumable one
+   - any new guidance added to living docs must match the repo rules and the
+     current runtime shape exactly
+
+8. **Completion requires runtime proof**
+   - each slice must define the exact command or probe that proves the intended
+     behavior
+   - if that proof does not exist yet, the slice remains partial or deferred
+   - “it builds” is necessary but not sufficient when the slice claims runtime
+     behavior, operator workflow, or cross-host usability
+
 ## Phases
 
 ### Phase 0: Baseline
 
 Targets:
-- [docs/for-agents/current/reference.md](/home/higorprado/nixos/docs/for-agents/current/reference.md)
 - [modules/hosts/aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
 - [docs/for-humans/workflows/106-deploy-aurelius.md](/home/higorprado/nixos/docs/for-humans/workflows/106-deploy-aurelius.md)
 
@@ -146,6 +224,13 @@ Targets:
 
 Changes:
 - add `nixos.docker` and `homeManager.docker` to `aurelius`
+- reshape `aurelius.nix` so the host owner stays readable while it grows:
+  - `nixosInfrastructure`
+  - `nixosCoreServices`
+  - `nixosUserTools`
+  - `hmUserTools`
+  - `hmShell`
+  - `hmDev`
 - define the baseline exposure policy for future services:
   - keep public ports closed by default
   - prefer localhost listeners or Tailscale-only access
@@ -193,6 +278,12 @@ Changes:
   - `homeManager.monitoring-tools`
   - `homeManager.packages-toolchains`
 - keep tmux as the primary persistence model for remote development
+- accept Mosh as part of the remote-dev baseline:
+  - server-side enablement through a narrow published owner
+  - client install through a published HM owner
+  - `aurelius`-specific fish abbreviations stay predator-owned
+- keep the host owner shape consistent with `predator` instead of regressing into
+  a long inline HM imports list
 - verify the ARM-specific `btop-cuda` concern before changing it
 - if `btop-cuda` is wrong on `aarch64`, fix it in the narrow feature owner
   instead of papering over it with an ugly host-local override
@@ -218,16 +309,21 @@ Targets:
 
 Changes:
 - model Attic as tracked declarative runtime, not as a loose home-directory compose stack
-- choose implementation in this order:
-  1. native NixOS service if simple and stable enough
-  2. repo-owned containerized service if native is not the right fit
-- keep quota, data path, and secrets explicit
+- use the native `services.atticd` NixOS module as the default implementation:
+  - it already provides `StateDirectory = "atticd"`
+  - it already supports a private `environmentFile`
+  - it already validates structured TOML settings
+- keep quota, data path, bind address, and secrets explicit
+- treat a containerized Attic deployment as fallback only if a concrete native-module
+  limitation appears during implementation
 - separate server bring-up from client integration if that reduces risk
 
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
 - if predator client wiring is added, build predator too
+- if the slice claims predator can consume the cache, prove it from predator
+  with the real cache endpoint and client config in place
 
 Diff expectation:
 - `aurelius` can host a binary cache without ad hoc service files in home
@@ -247,10 +343,21 @@ Changes:
 - prefer a real service owner over loose compose definitions in `~/services/forgejo`
 - keep credentials, registration policy, and SSH/HTTP exposure explicit
 - defer mirror automation until the service itself is stable
+- treat local-only bring-up and remote access as two separate states:
+  - local-only on `127.0.0.1` is acceptable as an intermediate slice
+  - remote consumption from `predator` requires a later explicit access slice
 
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
+- if the slice is local-only:
+  - verify `forgejo.service` is active on `aurelius`
+  - verify the listener is bound exactly as declared
+  - verify `curl -I` locally on `aurelius`
+- if the slice claims remote usability from `predator`:
+  - verify name resolution or the chosen access path from `predator`
+  - verify `curl -I` from `predator` against the real URL
+  - verify `ROOT_URL` matches the validated access path
 
 Diff expectation:
 - `aurelius` gains a declarative private Git service
@@ -275,6 +382,9 @@ Changes:
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
+- local-only exporter slices must be proved from `aurelius`
+- any Prometheus/Grafana slice that claims remote use must be proved from the
+  real consumer path
 
 Diff expectation:
 - `aurelius` exposes host metrics first, then grows into a monitoring host in controlled slices
@@ -322,11 +432,16 @@ Changes:
 - keep operator shortcuts in the host owner that uses them:
   - predator-owned access abbreviations stay in predator
   - no generic shell feature pollution
+- move service URLs in docs only after the chosen access model is actually live
+- do not document `http://aurelius:<port>` as a consumer URL unless predator
+  can really resolve and reach it
 
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
 - if predator changes, build predator too
+- verify the selected access path from predator with the real consumer command
+- verify the documented URL matches the tested access path exactly
 
 Diff expectation:
 - service exposure and exit-node behavior are added only when they have real consumers
@@ -382,3 +497,18 @@ Commit target:
   canonical tracked model.
 - The active plan does not recommend a generic automation bucket by default.
 - The active plan follows the repository scaffold and living-doc rules.
+- The plan now encodes the same quality standard expected from the runtime:
+  - clean host-owner composition
+  - narrow real feature ownership
+  - no tracked transitional glue
+  - no hidden misconfiguration fallbacks
+- Service-oriented slices now require explicit access semantics:
+  - local-only
+  - predator-consumable
+  - externally exposed
+- No slice is considered complete based only on local host health when the
+  intended user story is remote consumption.
+- Operator-facing docs and abbreviations may describe only the access path that
+  has been validated from the actual consumer host.
+- A slice is not “done” merely because it evaluates or builds; it must also
+  satisfy the repo's structural style and runtime-proof requirements.
