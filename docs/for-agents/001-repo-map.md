@@ -96,7 +96,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## lib/
 
-- `lib/_helpers.nix` — small generic helper set (currently `portalExecPath`)
+- `lib/_helpers.nix` — small generic helper set (`portalExecPath`, `portalPathOverrides`)
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
 ## config/apps/
 
