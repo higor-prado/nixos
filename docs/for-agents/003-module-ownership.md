@@ -9,15 +9,14 @@
 | `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
 | `modules/nixos.nix` | Top-level structural NixOS runtime surface |
 | `modules/flake-parts.nix` | Enables the `flake.modules.*` surface |
-| `modules/meta.nix` | Narrow repo-wide facts such as `username` |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
-| `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), and repo-wide primary-user semantics |
+| `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), repo-wide primary-user semantics, and user-owned facts such as `username` when they are truly that user's identity |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
 
 ## Boundary rules
 
-1. **Option declarations only in `modules/features/`, `modules/nixos.nix`, or `modules/meta.nix`** — enforced by
+1. **Option declarations only in `modules/features/`, `modules/nixos.nix`, or the narrow tracked user owner that really owns the fact** — enforced by
    `scripts/check-option-declaration-boundary.sh`.
 
 2. **Hardware config only in `hardware/<name>/`** — NVIDIA driver, disk layout,

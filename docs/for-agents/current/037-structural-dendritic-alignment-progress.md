@@ -27,9 +27,8 @@ Commands run:
 
 Findings:
 - `flake.dendritic` has no active consumer in runtime code.
-- `inventory.nix` is no longer inventory; it is just the repo-wide `username`
-  fact and should be renamed to root-level `modules/meta.nix`, matching the
-  dendritic reference more closely.
+- `inventory.nix` was no longer inventory; it had become just the repo-wide
+  `username` fact and needed to move to a more honest owner.
 - The tracked username still has duplicate ownership between
   `modules/options/inventory.nix` and `modules/users/higorprado.nix`.
 - The desktop composition modules are more indirect than necessary.
@@ -49,15 +48,15 @@ Validation:
 ## Phase 2: Username Fact Aligned With The Reference
 
 Changes:
-- Replaced `modules/options/inventory.nix` with root-level `modules/meta.nix`,
-  matching the `dendritic` example more closely.
-- Made `flake.nix` import `./modules/meta.nix` explicitly and exclude it from
-  the recursive `import-tree` import, so the `username` fact is deterministic
-  and no longer depends on tree traversal order.
+- Replaced `modules/options/inventory.nix` with a dedicated owner for the
+  `username` fact.
+- Made `flake.nix` import that owner explicitly and exclude it from the
+  recursive `import-tree` import, so the `username` fact is deterministic and
+  no longer depends on tree traversal order.
 - Updated `modules/users/higorprado.nix` to consume `config.username` instead
   of hardcoding `userName = "higorprado"`.
 - Updated live architecture/ownership docs and the option-boundary gate to
-  treat `modules/meta.nix` as the narrow fact owner it now is.
+  treat the tracked user owner as the place that owns that fact.
 
 Validation:
 - `nix eval .#nixosConfigurations.predator.config.home-manager.users.higorprado.home.username`

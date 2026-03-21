@@ -80,10 +80,5 @@
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        ./modules/meta.nix
-        (inputs.import-tree.matchNot ".*/modules/meta\\.nix$" ./modules)
-      ];
-    };
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
