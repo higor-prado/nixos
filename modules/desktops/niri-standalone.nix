@@ -15,18 +15,9 @@
       let
         mutableCopy = import ../../lib/mutable-copy.nix { inherit lib; };
         helpers = import ../../lib/_helpers.nix;
-        portalExecPath = helpers.portalExecPath;
       in
       {
-        xdg.configFile."systemd/user/xdg-desktop-portal.service.d/override.conf".text = ''
-          [Service]
-          Environment=PATH=${portalExecPath}
-        '';
-
-        xdg.configFile."systemd/user/xdg-desktop-portal-gtk.service.d/override.conf".text = ''
-          [Service]
-          Environment=PATH=${portalExecPath}
-        '';
+        xdg.configFile = helpers.portalPathOverrides;
 
         home.activation.provisionNiriStandaloneCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] (
           mutableCopy.mkCopyOnce {

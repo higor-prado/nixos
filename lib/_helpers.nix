@@ -1,4 +1,4 @@
-{
+rec {
   # Standard portal exec PATH for systemd user services
   portalExecPath =
     "%h/.nix-profile/bin:"
@@ -7,4 +7,16 @@
     + "/nix/profile/bin:"
     + "/nix/var/nix/profiles/default/bin:"
     + "/run/current-system/sw/bin";
+
+  # xdg.configFile entries that fix the portal PATH for niri desktop compositions
+  portalPathOverrides = {
+    "systemd/user/xdg-desktop-portal.service.d/override.conf".text = ''
+      [Service]
+      Environment=PATH=${portalExecPath}
+    '';
+    "systemd/user/xdg-desktop-portal-gtk.service.d/override.conf".text = ''
+      [Service]
+      Environment=PATH=${portalExecPath}
+    '';
+  };
 }
