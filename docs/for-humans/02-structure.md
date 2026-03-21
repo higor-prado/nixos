@@ -31,6 +31,9 @@ dendritic module that publishes lower-level NixOS and/or Home Manager modules:
 }
 ```
 
+Files prefixed with `_` are skipped by auto-import (for example
+`shell/_starship-settings.nix`).
+
 Root `lib/` is for generic helper functions. `modules/nixos.nix`,
 `modules/flake-parts.nix`, and `modules/users/higorprado.nix` are runtime
 surfaces, not general-purpose helpers.
