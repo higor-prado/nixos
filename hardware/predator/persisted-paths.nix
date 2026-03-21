@@ -18,6 +18,7 @@
     "/etc/ssh/ssh_host_ecdsa_key"
     "/etc/ssh/ssh_host_ecdsa_key.pub"
     "/var/lib/systemd/random-seed"
+    "/etc/wireguard/wg0.conf"
   ];
 
   # Candidate paths intentionally ignored for now.

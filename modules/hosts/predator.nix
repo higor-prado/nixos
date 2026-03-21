@@ -56,50 +56,104 @@ in
     let
       inherit (config.flake.modules) homeManager nixos;
       userName = config.username;
-    in
-    {
-      imports = [
+
+      nixosInfrastructure = [
         inputs.home-manager.nixosModules.home-manager
         nixos.system-base
         nixos.home-manager-settings
+        nixos.nixpkgs-settings
+        nixos.nix-settings
+        nixos.nix-settings-desktop
+      ];
+      nixosCoreServices = [
         nixos.networking
+        nixos.networking-avahi
+        nixos.networking-resolved
+        nixos.networking-wireguard-client
         nixos.security
         nixos.keyboard
-        nixos.nixpkgs-settings
         nixos.maintenance
+        nixos.maintenance-smartd
         nixos.tailscale
         nixos.audio
-        nixos.gnome-keyring
         nixos.bluetooth
+        nixos.upower
+        nixos.podman
+        nixos.docker
+      ];
+      nixosDesktop = [
         inputs.niri.nixosModules.niri
         inputs.dms.nixosModules.dank-material-shell
         inputs.dms.nixosModules.greeter
         inputs.keyrs.nixosModules.default
         nixos.desktop-dms-on-niri
         nixos.dms
-        nixos.maintenance-smartd
-        nixos.networking-avahi
-        nixos.networking-resolved
-        nixos.niri
-        nixos.nix-settings-desktop
-        nixos.podman
-        nixos.upower
-        nixos.higorprado
-        nixos.editor-neovim
         nixos.fcitx5
         nixos.gaming
+        nixos.gnome-keyring
         nixos.keyrs
-        nixos.nix-settings
         nixos.nautilus
+        nixos.niri
+        nixos.xwayland
+      ];
+      nixosUserTools = [
+        nixos.editor-neovim
+        nixos.fish
+        nixos.higorprado
         nixos.packages-docs-tools
         nixos.packages-fonts
         nixos.packages-system-tools
         nixos.packages-toolchains
-        nixos.docker
-        nixos.fish
         nixos.ssh
-        nixos.xwayland
-      ] ++ hardwareImports;
+      ];
+
+      hmUserTools = [
+        homeManager.higorprado
+        homeManager.backup-service
+        homeManager.core-user-packages
+        homeManager.docker
+        homeManager.git-gh
+        homeManager.monitoring-tools
+        homeManager.ssh
+      ];
+      hmShell = [
+        homeManager.fish
+        homeManager.starship
+        homeManager.terminal-tmux
+        homeManager.terminals
+        homeManager.tui-tools
+      ];
+      hmDesktop = [
+        homeManager.desktop-base
+        homeManager.desktop-apps
+        homeManager.desktop-viewers
+        homeManager.desktop-dms-on-niri
+        homeManager.dms
+        homeManager.dms-wallpaper
+        homeManager.fcitx5
+        homeManager.gaming
+        homeManager.media-cava
+        homeManager.media-tools
+        homeManager.music-client
+        homeManager.nautilus
+        homeManager.niri
+        homeManager.theme-base
+        homeManager.theme-zen
+        homeManager.wayland-tools
+      ];
+      hmDev = [
+        homeManager.dev-devenv
+        homeManager.dev-tools
+        homeManager.editor-emacs
+        homeManager.editor-neovim
+        homeManager.editor-vscode
+        homeManager.editor-zed
+        homeManager.packages-toolchains
+      ];
+    in
+    {
+      imports =
+        nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
@@ -110,43 +164,7 @@ in
 
       home-manager = {
         users.${userName} = {
-          imports = [
-            homeManager.higorprado
-            homeManager.backup-service
-            homeManager.core-user-packages
-            homeManager.desktop-apps
-            homeManager.desktop-viewers
-            homeManager.desktop-dms-on-niri
-            homeManager.dms
-            homeManager.dms-wallpaper
-            homeManager.docker
-            homeManager.fcitx5
-            homeManager.fish
-            homeManager.git-gh
-            homeManager.gaming
-            homeManager.media-cava
-            homeManager.media-tools
-            homeManager.music-client
-            homeManager.monitoring-tools
-            homeManager.nautilus
-            homeManager.niri
-            homeManager.packages-toolchains
-            homeManager.ssh
-            homeManager.starship
-            homeManager.terminal-tmux
-            homeManager.tui-tools
-            homeManager.dev-tools
-            homeManager.dev-devenv
-            homeManager.desktop-base
-            homeManager.editor-emacs
-            homeManager.editor-neovim
-            homeManager.editor-vscode
-            homeManager.editor-zed
-            homeManager.terminals
-            homeManager.theme-base
-            homeManager.theme-zen
-            homeManager.wayland-tools
-          ];
+          imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
 
           home.packages = llmAgentsHomePackages;
 
