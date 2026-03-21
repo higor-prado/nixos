@@ -85,6 +85,7 @@ check_experience() {
         flake = builtins.getFlake \"path:${repo_root}\";
         inherit (flake.modules) nixos;
         system = \"x86_64-linux\";
+        username = \"higorprado\";
         inputs = flake.inputs;
         lib = flake.inputs.nixpkgs.lib;
         composition = nixos.\"${module_name}\";
@@ -101,8 +102,8 @@ ${feature_modules}
             {
               nixpkgs.hostPlatform.system = system;
               networking.hostName = \"desktop-matrix\";
-              users.users.\"higorprado\" = { isNormalUser = true; };
-              home-manager.users.\"higorprado\".home.stateVersion = \"25.11\";
+              users.users.\${username} = { isNormalUser = true; };
+              home-manager.users.\${username}.home.stateVersion = \"25.11\";
               nixpkgs.config.allowUnfree = true;
               boot.isContainer = true;
               networking.useHostResolvConf = lib.mkForce false;

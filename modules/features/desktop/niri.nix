@@ -1,13 +1,12 @@
 { config, inputs, ... }:
 let
-  topConfig = config;
+  userName = config.username;
 in
 {
   flake.modules = {
     nixos.niri =
       { config, lib, pkgs, ... }:
       let
-        userName = topConfig.username;
         system = pkgs.stdenv.hostPlatform.system;
         niriPackage = inputs.niri.packages.${system}.niri-unstable;
         xwaylandSatellitePackage = inputs.niri.packages.${system}.xwayland-satellite-unstable;

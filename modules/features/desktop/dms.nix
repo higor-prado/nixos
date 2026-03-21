@@ -1,6 +1,6 @@
 { config, inputs, ... }:
 let
-  topConfig = config;
+  userName = config.username;
   dmsCommonSettings = {
     systemd = {
       enable = false;
@@ -18,7 +18,6 @@ in
     nixos.dms =
       nixosArgs@{ ... }:
       let
-        userName = topConfig.username;
         homeDir = nixosArgs.config.users.users.${userName}.home;
       in
       {

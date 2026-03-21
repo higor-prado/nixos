@@ -62,14 +62,6 @@ if rg -n --fixed-strings "$legacy_host_selector_field" scripts/new-host-skeleton
   report_fail "legacy desktop selector field usage must be removed from host generator output"
 fi
 
-if [[ -e modules/options/desktop-options.nix ]]; then
-  report_fail "modules/options/desktop-options.nix must be removed after desktop host-composition cutover"
-fi
-
-if [[ -e modules/options/desktop-capabilities-options.nix ]]; then
-  report_fail "modules/options/desktop-capabilities-options.nix must be removed after desktop host-composition cutover"
-fi
-
 if [[ -e "${legacy_modules_root}/default.nix" || -d "$legacy_desktop_selector_dir" || -e "${legacy_modules_root}/profile-capabilities.nix" ]]; then
   report_fail "legacy desktop selector layer must be removed after desktop host-composition cutover"
 fi

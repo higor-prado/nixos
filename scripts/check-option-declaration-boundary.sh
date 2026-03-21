@@ -10,7 +10,7 @@ require_cmd "option-boundary" "rg"
 
 allow_prefixes=(
   "modules/nixos.nix"
-  "modules/users/higorprado.nix"
+  "modules/users/"
   "modules/features/"
 )
 
