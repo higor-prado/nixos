@@ -9,7 +9,7 @@
 | `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
 | `modules/nixos.nix` | Top-level structural NixOS runtime surface |
 | `modules/flake-parts.nix` | Enables the `flake.modules.*` surface |
-| `hardware/<name>/` | Machine-specific hardware, boot, disks |
+| `hardware/<name>/` | Machine-specific hardware, boot, disks, persistence/reset |
 | `modules/features/core/home-manager-settings.nix` | HM framework settings |
 | `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), repo-wide primary-user semantics, and user-owned facts such as `username` when they are truly that user's identity |
 | `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
@@ -20,13 +20,16 @@
    `scripts/check-option-declaration-boundary.sh`.
 
 2. **Hardware config only in `hardware/<name>/`** — NVIDIA driver, disk layout,
-   TPM/LUKS, boot loader settings belong here, not in features.
+   TPM/LUKS, boot loader settings, persistence, and storage-reset logic belong
+   here, not in features.
 
 3. **Reusable config belongs in features** — if a host setting could apply to
    other hosts, promote it to a published lower-level module in `modules/features/`.
 
-4. **`environment.systemPackages` not in `hardware/<name>/default.nix`** — use
-   software profile/pack overrides instead.
+4. **Software policy does not belong in `hardware/` unless it is directly part
+   of the machine support surface** — package overlays and unrelated runtime
+   policy stay out of `hardware/`. Keep `environment.systemPackages` out of
+   `hardware/<name>/default.nix`.
 
 5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer narrow facts
    such as `config.username`, existing lower-level state, or the tracked

@@ -80,7 +80,7 @@ See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix
 See [workflow: add a host](../for-humans/workflows/103-add-host.md).
 
 Required files:
-- `hardware/<name>/default.nix`: hardware imports + runtime role
+- `hardware/<name>/default.nix`: hardware imports + machine-owned defaults
 - `modules/hosts/<name>.nix`: top-level host inventory entry plus `configurations.nixos.<name>.module`
 
 ## Extension contracts enforced by scripts

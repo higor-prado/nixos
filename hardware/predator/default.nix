@@ -12,7 +12,6 @@
     ./hardware/audio-pipewire.nix
     ./hardware/encryption.nix
     ./boot.nix
-    ./overlays.nix
     ./packages.nix
     ./performance.nix
     ./impermanence.nix

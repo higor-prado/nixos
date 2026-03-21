@@ -11,7 +11,7 @@ modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides
 lib/                generic helper functions reused by tracked modules
-hardware/<name>/    hardware, disko, boot, overlays (host-specific)
+hardware/<name>/    hardware, disko, boot, persistence/reset (host-specific)
 pkgs/               custom packages (linuwu-sense, etc.)
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
 scripts/            validation gates
@@ -63,4 +63,5 @@ in
 ## Hardware files
 
 `hardware/<name>/` contains machine-specific configs that cannot be generalized:
-hardware-configuration.nix, disko.nix, hardware/, boot.nix, overlays.nix.
+hardware-configuration.nix, disko.nix, hardware/, boot.nix, persistence/reset.
+Host-specific package overlays do not belong there.

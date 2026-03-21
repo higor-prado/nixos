@@ -55,9 +55,11 @@ facts such as `config.username`, not build a repo-local carrier object.
 
 ## 7. host-specific hardware stays in hardware/
 
-Machine-specific config (hardware-configuration.nix, disko.nix, NVIDIA drivers,
-LUKS, boot loader) lives in `hardware/<name>/`. If config is reusable across
-hosts, promote it to a published lower-level module in `modules/features/`.
+Machine-specific config (hardware-configuration.nix, disko.nix, boot,
+device-specific quirks, TPM/LUKS, persistence/reset) lives in `hardware/<name>/`.
+Package overlays and other host software policy do not belong there. If config
+is reusable across hosts, promote it to a published lower-level module in
+`modules/features/`.
 
 ## 8. Keep commits focused
 

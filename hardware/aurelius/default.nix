@@ -17,6 +17,4 @@
   };
   boot.initrd.systemd.enable = true;
 
-  # Host-specific metadata
-  system.stateVersion = lib.mkForce "25.11";
 }

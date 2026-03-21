@@ -14,7 +14,7 @@ modules/users/      tracked user owner modules; `higorprado.nix` also owns `user
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides (gitignored)
-hardware/<name>/       machine-specific: hardware, disko, boot, overlays
+hardware/<name>/       machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
@@ -120,7 +120,7 @@ and are owned by the adjacent feature. Current example:
 ## hardware/predator/
 
 ```
-default.nix              thin entry: imports hardware/*, boot.nix, overlays.nix, …
+default.nix              thin entry: imports hardware/*, boot.nix, packages.nix, …
 hardware-configuration.nix  nixos-generate-config output
 disko.nix                disk layout (btrfs, LUKS)
 hardware/
@@ -130,7 +130,8 @@ hardware/
   audio-pipewire.nix     WirePlumber HDMI audio rules
   encryption.nix         TPM2+LUKS, swap, resume
 boot.nix                 GRUB+EFI boot loader
-overlays.nix             khal, dsearch fixes
 packages.nix             predator-specific packages
 performance.nix          OOM, sysctl, ananicy, CPU governor, nix daemon scheduling
+impermanence.nix         persistent machine state for predator
+root-reset.nix           initrd root-subvolume reset for predator
 ```
