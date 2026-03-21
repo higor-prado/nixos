@@ -23,7 +23,7 @@ top level.
 |-------|---------------|
 | `modules/features/` | Feature-owned lower-level modules |
 | `modules/desktops/` | Desktop composition lower-level modules |
-| `modules/hosts/` | Host inventory + concrete configuration declarations |
+| `modules/hosts/` | Host owner files + concrete configuration declarations |
 | `hardware/<name>/` | Hardware, disks, boot — machine-specific only |
 | `private/` | Private overrides (gitignored) |
 

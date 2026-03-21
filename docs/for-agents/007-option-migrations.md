@@ -1,27 +1,13 @@
 # Option Migrations
 
-Status: retired
+Status: retired.
 
-The temporary option-migration compatibility layer has been removed from the live
-repo.
+There is no live option-migration compatibility layer in the tracked repo.
 
-Current policy:
+Current rule:
 
-1. Do not keep long-lived removed-option compatibility shims in tracked hosts.
-2. When removing a custom option, update the owning docs and affected hosts in the
-   same change.
-3. Validate the result with the normal gate set:
+1. Remove dead option shims instead of preserving them long-term.
+2. Update the owning docs and affected hosts in the same change.
+3. Validate with the normal gate set.
 
-```bash
-./scripts/run-validation-gates.sh structure
-./scripts/check-config-contracts.sh
-```
-
-Historical note:
-
-1. The repo previously used a dedicated registry-driven gate to keep
-   removed-option compatibility messages alive during a large runtime
-   migration.
-2. That migration was completed, the tracked repo stopped using the removed
-   options, and the compatibility layer was intentionally deleted to simplify the
-   workflow.
+Historical execution details now live under `docs/for-agents/archive/`.

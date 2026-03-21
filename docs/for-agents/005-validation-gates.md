@@ -36,7 +36,7 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-extension-contracts.sh` | Host source-tree contracts and onboarding shape |
 | `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |
 | `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
-| `check-validation-source-of-truth.sh` | Shared script inventory and CI/stage routing contracts |
+| `check-validation-source-of-truth.sh` | Shared script registry and CI/stage routing contracts |
 | `check-docs-drift.sh` | Living docs only reference paths that still exist |
 | `tests/scripts/run-validation-gates-fixture-test.sh` | Fixture-based structure-stage orchestration contract |
 | `tests/scripts/new-host-skeleton-fixture-test.sh` | Fixture-based host generator contract |
@@ -77,7 +77,7 @@ Current documented shared auxiliary tools:
 - `check-changed-files-quality.sh`
   - targeted shell/script hygiene check used during script-heavy refactors
 - `report-persistence-candidates.sh`
-  - diagnostic helper that compares likely root-state candidates against the declared predator persistence inventory
+  - diagnostic helper that compares likely root-state candidates against the declared predator persisted paths
 
 ## Validation layers
 

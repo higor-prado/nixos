@@ -73,6 +73,7 @@ One logical change per commit. Use the commit strategy:
 
 - Active execution plans live in `docs/for-agents/plans/`.
 - Active progress logs live in `docs/for-agents/current/`.
+- Keep those directories small: scaffolds plus genuinely active work only.
 - Completed plans move to `docs/for-agents/archive/plans/`.
 - Completed log tracks move to `docs/for-agents/archive/log-tracks/`.
 - Use the tracked scaffolds when creating new docs:

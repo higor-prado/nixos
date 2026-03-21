@@ -14,20 +14,14 @@ This is the source of truth for:
 
 The goal is reproducible, explicit, and maintainable configuration with clear ownership boundaries.
 
-## Repository Structure
+## Repo Shape
 
-1. `flake.nix`: entrypoint and wiring
-2. `hardware/`: host hardware configuration
-3. `modules/features/`: feature owners (NixOS + home-manager fragments)
-4. `modules/desktops/`: concrete desktop composition modules
-5. `modules/hosts/`: host inventory and concrete host configurations
-6. `modules/nixos.nix`, `modules/flake-parts.nix`, `modules/users/`: runtime surfaces for structure, flake-parts integration, and tracked user identity
-7. `modules/users/`: tracked user owner modules
-8. `lib/`: generic helper functions used by tracked modules
-9. `config/`: app/config payload files and helper payloads
-10. `pkgs/`: custom derivations
-11. `scripts/`: helper and verification scripts
-12. `docs/`: durable docs plus active/archived execution docs
+1. `hardware/`: machine-specific files only
+2. `modules/features/`: reusable feature owners
+3. `modules/desktops/`: concrete desktop compositions
+4. `modules/hosts/`: concrete host owner files
+5. `modules/nixos.nix`, `modules/flake-parts.nix`, `modules/users/`: structural runtime surfaces
+6. `config/`, `pkgs/`, `lib/`, `scripts/`, `tests/`, `docs/`: payloads, helpers, tooling, and docs
 
 ## Host Model
 
@@ -36,14 +30,9 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 
 ## Documentation
 
-1. Human workflows and explanations:
-   - start: `docs/for-humans/00-start-here.md`
-   - workflows: `docs/for-humans/workflows/101-switch-and-rollback.md`
-2. Agent operations and contracts:
-   - start: `docs/for-agents/000-operating-rules.md`
-   - repo map: `docs/for-agents/001-repo-map.md`
-   - active execution docs: `docs/for-agents/plans/`, `docs/for-agents/current/`
-   - archived execution docs: `docs/for-agents/archive/`
+1. Main docs index: `docs/README.md`
+2. Human start point: `docs/for-humans/00-start-here.md`
+3. Agent start point: `docs/for-agents/000-operating-rules.md`
 
 ## Validation Commands
 

@@ -8,8 +8,7 @@
 5. `docs/for-agents/004-private-safety.md`
 6. `docs/for-agents/005-validation-gates.md`
 7. `docs/for-agents/006-extensibility.md`
-8. `docs/for-agents/007-option-migrations.md`
-9. `docs/for-agents/999-lessons-learned.md`
+8. `docs/for-agents/999-lessons-learned.md`
 
 ## Agent Docs Organization Rule
 1. Root (`docs/for-agents/`) is only for critical operating docs (numbered 000–009 and 999).

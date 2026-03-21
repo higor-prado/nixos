@@ -81,7 +81,7 @@ See [workflow: add a host](../for-humans/workflows/103-add-host.md).
 
 Required files:
 - `hardware/<name>/default.nix`: hardware imports + machine-owned defaults
-- `modules/hosts/<name>.nix`: top-level host inventory entry plus `configurations.nixos.<name>.module`
+- `modules/hosts/<name>.nix`: top-level host owner module plus `configurations.nixos.<name>.module`
 
 ## Extension contracts enforced by scripts
 

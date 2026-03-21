@@ -25,12 +25,15 @@ Navigation guide for this NixOS configuration repository.
 | [for-agents/004-private-safety.md](for-agents/004-private-safety.md) | Private info handling |
 | [for-agents/005-validation-gates.md](for-agents/005-validation-gates.md) | Validation pyramid, how to run |
 | [for-agents/006-extensibility.md](for-agents/006-extensibility.md) | Extension contracts |
-| [for-agents/007-option-migrations.md](for-agents/007-option-migrations.md) | Historical note: option migration system retired |
 | [for-agents/999-lessons-learned.md](for-agents/999-lessons-learned.md) | Hard-won lessons |
 
 Active execution docs live under:
 - `for-agents/plans/`
 - `for-agents/current/`
+
+In normal operation, those directories should contain only:
+- the tracked scaffolds
+- actually active work items
 
 Completed execution docs are archived under:
 - `for-agents/archive/plans/`

@@ -7,14 +7,14 @@ Authoritative map of where things live in this dendritic-first repository.
 ```
 modules/features/   53+ feature modules grouped under category folders
 modules/desktops/   2 concrete desktop compositions
-modules/hosts/      one file per host inventory + concrete configuration
+modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
 modules/flake-parts.nix enables `flake.modules.*`
 modules/users/      tracked user owner modules; `higorprado.nix` also owns `username`
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides (gitignored)
-hardware/<name>/       machine-specific: hardware, disko, boot, persistence/reset
+hardware/<name>/    machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
@@ -108,6 +108,11 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `archive/plans/` — completed execution plans no longer needed as active guides
 - `archive/log-tracks/` — completed progress logs kept only as historical record
+
+## docs/for-agents active work
+
+- `plans/` — scaffolds plus genuinely active execution plans
+- `current/` — scaffolds plus genuinely active progress logs
 
 ## Feature-private underscore files
 

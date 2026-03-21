@@ -6,7 +6,7 @@
 |----------|------|
 | `modules/features/**/*.nix` | Feature behavior, published lower-level NixOS/HM modules, option declarations |
 | `modules/desktops/*.nix` | Desktop composition lower-level modules |
-| `modules/hosts/*.nix` | Host inventory, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
+| `modules/hosts/*.nix` | Host owner files, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
 | `modules/nixos.nix` | Top-level structural NixOS runtime surface |
 | `modules/flake-parts.nix` | Enables the `flake.modules.*` surface |
 | `hardware/<name>/` | Machine-specific hardware, boot, disks, persistence/reset |
