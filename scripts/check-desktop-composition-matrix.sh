@@ -9,6 +9,9 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/nix_eval.sh"
 enter_repo_root "${BASH_SOURCE[0]}"
 repo_root="$(pwd)"
+username="$(
+  nix_eval_sole_hm_user_for_host predator
+)"
 
 report_fail() {
   log_fail "desktop-matrix" "$1"
@@ -85,7 +88,7 @@ check_experience() {
         flake = builtins.getFlake \"path:${repo_root}\";
         inherit (flake.modules) nixos;
         system = \"x86_64-linux\";
-        username = \"higorprado\";
+        username = \"${username}\";
         inputs = flake.inputs;
         lib = flake.inputs.nixpkgs.lib;
         composition = nixos.\"${module_name}\";

@@ -48,10 +48,9 @@ report_fail() {
 
 require_cmds "extension-contracts" "find" "jq" "nix" "rg"
 
-legacy_desktop_selector_pattern='^[[:space:]]*custom\.desktop\.'
-legacy_desktop_selector_pattern+='profile[[:space:]]*='
-legacy_host_selector_field="desktop""Profile"
-legacy_modules_root="modules/pro""files"
+legacy_desktop_selector_pattern='^[[:space:]]*custom\.desktop\.profile[[:space:]]*='
+legacy_host_selector_field="desktopProfile"
+legacy_modules_root="modules/profiles"
 legacy_desktop_selector_dir="${legacy_modules_root}/desktop"
 
 if rg -n --glob '*.nix' "$legacy_desktop_selector_pattern" hardware modules flake.nix >/dev/null; then

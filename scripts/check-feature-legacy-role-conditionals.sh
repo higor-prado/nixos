@@ -10,8 +10,7 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 enter_repo_root "${BASH_SOURCE[0]}"
 
 results="$(
-  grep -rn 'mkIf.*custom\.host\.role\|custom\.host\.role.*mkIf' modules/features/ \
-    2>/dev/null || true
+  rg -n 'mkIf.*custom\.host\.role|custom\.host\.role.*mkIf' modules/features || true
 )"
 
 if [[ -n "$results" ]]; then

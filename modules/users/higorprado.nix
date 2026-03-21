@@ -13,7 +13,7 @@ let
 in
 {
   options.username = lib.mkOption {
-    type = lib.types.str;
+    type = lib.types.singleLineStr;
     readOnly = true;
     default = "higorprado";
     description = "Canonical tracked user name for repo-owned user modules.";
