@@ -30,7 +30,7 @@ printf 'shader-cache\n' >"$tmpdir/var/cache/steam/state"
 printf 'tmp-state\n' >"$tmpdir/var/tmp/steam/state"
 printf 'root-state\n' >"$tmpdir/root/state"
 
-cat >"$tmpdir/inventory.nix" <<EOF
+cat >"$tmpdir/persisted-paths.nix" <<EOF
 {
   directories = [
     "${tmpdir}/etc/NetworkManager/system-connections"
@@ -49,7 +49,7 @@ cat >"$tmpdir/inventory.nix" <<EOF
 EOF
 
 output_file="$tmpdir/report.out"
-PERSISTENCE_INVENTORY_FILE="$tmpdir/inventory.nix" \
+PERSISTENCE_DECLARED_PATHS_FILE="$tmpdir/persisted-paths.nix" \
 PERSISTENCE_ETC_ROOT="$tmpdir/etc" \
 PERSISTENCE_VAR_LIB_ROOT="$tmpdir/var/lib" \
 PERSISTENCE_VAR_CACHE_ROOT="$tmpdir/var/cache" \

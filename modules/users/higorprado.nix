@@ -2,13 +2,11 @@
 let
   userName = config.username;
   homeDirectory = "/home/${userName}";
-  primaryGroup = userName;
   homeStateVersion = "25.11";
-  primaryUserGroups = [
+  userExtraGroups = [
     "wheel"
     "networkmanager"
   ];
-  extraGroups = primaryUserGroups;
   privateModule = ../../private/users + "/${userName}/default.nix";
 in
 {
@@ -23,13 +21,13 @@ in
     flake.modules.nixos.higorprado =
       { pkgs, ... }:
       {
-        users.groups.${primaryGroup} = { };
+        users.groups.${userName} = { };
         users.users.${userName} = {
           isNormalUser = true;
           home = homeDirectory;
-          group = primaryGroup;
+          group = userName;
           shell = pkgs.fish;
-          inherit extraGroups;
+          extraGroups = userExtraGroups;
         };
       };
 
