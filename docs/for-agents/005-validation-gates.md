@@ -35,7 +35,6 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-config-contracts.sh` | Role/feature/selected-user invariants |
 | `check-extension-contracts.sh` | Host source-tree contracts and onboarding shape |
 | `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |
-| `check-extension-simulations.sh` | Synthetic host extension eval checks |
 | `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
 | `check-validation-source-of-truth.sh` | Shared script inventory and CI/stage routing contracts |
 | `check-docs-drift.sh` | Living docs only reference paths that still exist |

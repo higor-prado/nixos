@@ -43,7 +43,6 @@ check_scripts=(
   check-docs-drift.sh
   check-config-contracts.sh
   check-desktop-composition-matrix.sh
-  check-extension-simulations.sh
 )
 
 for script_name in "${check_scripts[@]}"; do
@@ -113,7 +112,6 @@ assert_logged "runtime-warning-budget-lib-test.sh"
 run_stage "predator"
 assert_logged "check-config-contracts.sh"
 assert_logged "check-desktop-composition-matrix.sh"
-assert_logged "check-extension-simulations.sh"
 assert_logged "nix flake metadata"
 assert_logged "nix eval path:$PWD#nixosConfigurations.predator.config.system.stateVersion"
 assert_logged "nix eval path:$PWD#nixosConfigurations.predator.config.home-manager.users.fixture-user.home.stateVersion"

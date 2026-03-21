@@ -8,7 +8,6 @@ scripts/check-desktop-composition-matrix.sh	gate-check	desktop composition eval 
 scripts/check-docs-drift.sh	gate-check	documentation drift gate invoked by run-validation-gates.sh
 scripts/check-extension-contracts.sh	gate-check	extension contract gate invoked by run-validation-gates.sh
 scripts/check-feature-publisher-name-match.sh	gate-check	structure gate enforcing lesson 35: feature file name must match at least one published lower-level module name
-scripts/check-extension-simulations.sh	gate-check	extension simulation gate invoked by run-validation-gates.sh
 scripts/check-bare-host-in-includes.sh	gate-check	structure gate forbidding bare host lambdas in module lists; lower-level modules must use explicit top-level facts or direct flake inputs
 scripts/check-feature-legacy-role-conditionals.sh	gate-check	structure gate forbidding reintroduction of the removed legacy host-role selector in modules/features/
 scripts/check-flake-inputs-used.sh	gate-check	structure gate enforcing lesson 20: no unused flake inputs

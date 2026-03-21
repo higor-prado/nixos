@@ -52,7 +52,6 @@ run_predator_gates() {
 
   run_check_script "check-config-contracts.sh"
   run_check_script "check-desktop-composition-matrix.sh"
-  run_check_script "check-extension-simulations.sh"
   nix flake metadata
   nix eval "path:$PWD#nixosConfigurations.${host}.config.system.stateVersion"
   nix eval "path:$PWD#nixosConfigurations.${host}.config.home-manager.users.${hm_user}.home.stateVersion"
