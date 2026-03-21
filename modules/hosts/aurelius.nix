@@ -45,15 +45,15 @@ in
             homeManager.git-gh
             homeManager.ssh
           ];
-        };
-      };
 
-      programs.fish.shellAbbrs = {
-        naui = "nh os info";
-        nausi = "nh os info";
-        naust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
-        nauc = "nh clean all";
-        nauct = "systemctl status nh-clean.timer --no-pager";
+          programs.fish.shellAbbrs = {
+            naui = "nh os info";
+            nausi = "nh os info";
+            naust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
+            nauc = "nh clean all";
+            nauct = "systemctl status nh-clean.timer --no-pager";
+          };
+        };
       };
 
       services.openssh.settings.KbdInteractiveAuthentication = false;
