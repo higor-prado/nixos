@@ -8,8 +8,8 @@
   explicitamente aposentado.
 - `README.md`, `docs/README.md` e `AGENTS.md` ainda repetem parte demais do
   mapa/documentação operacional.
-- A documentação viva ainda alterna entre `host inventory`, `script inventory`
-  e outras palavras que já não descrevem o runtime atual com precisão.
+- A documentação viva ainda alterna entre termos herdados e palavras que
+  descrevem o runtime atual com mais precisão.
 
 ## Execution Log
 

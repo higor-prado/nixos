@@ -3,7 +3,7 @@
 ```
 modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
-modules/hosts/      one file per host with concrete composition
+modules/hosts/      host owner files with concrete composition
 modules/nixos.nix   structural NixOS runtime surface
 modules/flake-parts.nix enables `flake.modules.*`
 modules/users/      tracked user owner modules; `higorprado.nix` also owns `username`

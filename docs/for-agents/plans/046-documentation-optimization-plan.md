@@ -30,10 +30,9 @@ Hoje o problema principal da documentação não é falta de informação. É:
    dizem partes parecidas com framing diferente
 
 3. **terminologia ainda irregular**
-   - ainda aparece “inventory” em alguns lugares onde o repo já não pensa mais
-     assim
-   - parte dos docs fala em “host inventory”, outra parte em “host owner”
-   - o mesmo vale para “persistence inventory” vs “persisted paths”
+   - ainda aparece vocabulário herdado em alguns lugares
+   - parte dos docs usa termos mais honestos do que outros
+   - o mesmo vale para nomes antigos vs nomes atuais como `persisted paths`
 
 4. **histórico misturado com guidance vivo**
    - `plans/` e `current/` ainda carregam muita história de migração
@@ -213,14 +212,14 @@ Workflows should be checked for:
 Terms that should be normalized in living docs:
 
 - prefer `host owner file` or `host file`
-  - avoid `host inventory` unless the text is explicitly about historical
-    migration context
+  - avoid vocabulário herdado salvo quando o texto tratar explicitamente de
+    contexto histórico
 
 - prefer `persisted paths`
-  - avoid `persistence inventory`
+  - avoid nomes herdados para a lista de persistência
 
 - prefer `shared script registry`
-  - avoid `script inventory`
+  - avoid nomes herdados para catálogo de scripts
 
 - prefer `tracked user owner`
   - avoid confusing “top-level user fact” phrasing that implies import order or

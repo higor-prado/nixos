@@ -67,7 +67,8 @@ Example shape:
 Concrete host composition is explicit on purpose. The host file is where the
 repo says what that machine actually is.
 
-Keep runtime-only payload local to the host file when it is not inventory-like.
+Keep runtime-only payload local to the host file when it is not a narrow shared
+repo fact.
 Examples:
 
 - hardware module import lists
@@ -143,7 +144,7 @@ Auto-import is provided by `import-tree`.
 
 - no `specialArgs` / `extraSpecialArgs` pass-through
 - no generic host generator that hides real host composition
-- no inventory-driven feature toggles that replace explicit host imports
+- no data-driven feature toggles that replace explicit host imports
 - no repo-local mini-framework around the runtime
 - no host-aware logic smuggled through bare `{ host }:` lambdas in module lists
 
