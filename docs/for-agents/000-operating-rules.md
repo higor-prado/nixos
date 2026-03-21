@@ -11,9 +11,9 @@ Run `./scripts/check-repo-public-safety.sh` before committing.
 ## 2. Options belong in feature owners, top-level facts, or option modules only
 
 Option declarations (`options.custom.*`, `options.host.*`) live only in
-`modules/features/`, `modules/nixos.nix`, or the root-level `modules/meta.nix`
-fact owner. Never declare options in `hardware/`, `private/`, or other
-locations.
+`modules/features/`, `modules/nixos.nix`, or the narrow tracked user owner when
+it owns the canonical user identity fact. Never declare options in
+`hardware/`, `private/`, or other locations.
 
 ## 3. No hardcoded usernames in tracked files
 

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   userName = config.username;
   homeDirectory = "/home/${userName}";
@@ -12,28 +12,37 @@ let
   privateModule = ../../private/users + "/${userName}/default.nix";
 in
 {
-  flake.modules.nixos.higorprado =
-    { pkgs, ... }:
-    {
-      users.groups.${primaryGroup} = { };
-      users.users.${userName} = {
-        isNormalUser = true;
-        home = homeDirectory;
-        group = primaryGroup;
-        shell = pkgs.fish;
-        inherit extraGroups;
-      };
-    };
+  options.username = lib.mkOption {
+    type = lib.types.str;
+    readOnly = true;
+    default = "higorprado";
+    description = "Canonical tracked user name for repo-owned user modules.";
+  };
 
-  flake.modules.homeManager.higorprado =
-    { lib, ... }:
-    {
-      home = {
-        username = userName;
-        inherit homeDirectory;
-        stateVersion = homeStateVersion;
+  config = {
+    flake.modules.nixos.higorprado =
+      { pkgs, ... }:
+      {
+        users.groups.${primaryGroup} = { };
+        users.users.${userName} = {
+          isNormalUser = true;
+          home = homeDirectory;
+          group = primaryGroup;
+          shell = pkgs.fish;
+          inherit extraGroups;
+        };
       };
 
-      imports = lib.optional (builtins.pathExists privateModule) privateModule;
-    };
+    flake.modules.homeManager.higorprado =
+      { lib, ... }:
+      {
+        home = {
+          username = userName;
+          inherit homeDirectory;
+          stateVersion = homeStateVersion;
+        };
+
+        imports = lib.optional (builtins.pathExists privateModule) privateModule;
+      };
+  };
 }

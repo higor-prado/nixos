@@ -10,8 +10,7 @@ modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host inventory + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
 modules/flake-parts.nix enables `flake.modules.*`
-modules/meta.nix    narrow repo-wide facts such as `username`
-modules/users/      tracked user inventory + base account/HM modules
+modules/users/      tracked user owner modules; `higorprado.nix` also owns `username`
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides (gitignored)
@@ -28,7 +27,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `modules/nixos.nix` — materializes `flake.nixosConfigurations` from `configurations.nixos.*.module`
 - `modules/flake-parts.nix` — enables the `flake-parts` published-module surface
-- `modules/meta.nix` — the repo-wide `username` fact
+- `modules/users/higorprado.nix` — tracked user publishers plus the canonical `username` fact
 
 ## modules/features/ — category layout
 
@@ -84,7 +83,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 ## modules/users/
 
-- `modules/users/higorprado.nix` — narrow tracked user identity plus base NixOS user and Home Manager module publishers
+- `modules/users/higorprado.nix` — tracked user identity, canonical `username`, base NixOS user publisher, and base Home Manager module publisher
 
 ## private/
 

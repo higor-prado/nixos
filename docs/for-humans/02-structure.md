@@ -6,8 +6,7 @@ modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host with concrete composition
 modules/nixos.nix   structural NixOS runtime surface
 modules/flake-parts.nix enables `flake.modules.*`
-modules/meta.nix    narrow repo-wide facts such as `username`
-modules/users/      tracked user owner modules
+modules/users/      tracked user owner modules; `higorprado.nix` also owns `username`
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides
@@ -36,7 +35,7 @@ Files prefixed with `_` are skipped by auto-import (for example
 `shell/_starship-settings.nix`).
 
 Root `lib/` is for generic helper functions. `modules/nixos.nix`,
-`modules/flake-parts.nix`, and `modules/meta.nix` are the top-level runtime
+`modules/flake-parts.nix`, and `modules/users/higorprado.nix` are runtime
 surfaces, not general-purpose helpers.
 
 ## Desktop compositions

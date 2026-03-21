@@ -30,7 +30,7 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | Script | Checks |
 |--------|--------|
 | `check-desktop-capability-usage.sh` | Legacy desktop selector references stay out of active Nix code |
-| `check-option-declaration-boundary.sh` | Options declared only in feature owners, `modules/meta.nix`, or `modules/nixos.nix` |
+| `check-option-declaration-boundary.sh` | Options declared only in feature owners, `modules/nixos.nix`, or the narrow tracked user owner |
 | `check-flake-pattern.sh` | Flake input naming and wiring policy |
 | `check-config-contracts.sh` | Role/feature/selected-user invariants |
 | `check-extension-contracts.sh` | Host source-tree contracts and onboarding shape |

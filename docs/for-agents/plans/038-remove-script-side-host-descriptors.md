@@ -13,7 +13,7 @@ In scope:
 - `scripts/new-host-skeleton.sh`
 - related fixture tests/docs/registry entries
 - final alignment of root-level runtime surface paths (`modules/nixos.nix`,
-  `modules/flake-parts.nix`, `modules/meta.nix`)
+  `modules/flake-parts.nix`, tracked user owner)
 
 Out of scope:
 - feature behavior changes
@@ -23,7 +23,7 @@ Out of scope:
 ## Current State
 
 - Runtime structure is now close to the `dendritic` reference:
-  - `modules/meta.nix`
+  - tracked user owner carrying `username`
   - `modules/nixos.nix`
   - `modules/flake-parts.nix`
 - Parallel host metadata is not used by the runtime.

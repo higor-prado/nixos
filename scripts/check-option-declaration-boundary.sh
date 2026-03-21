@@ -9,8 +9,8 @@ enter_repo_root "${BASH_SOURCE[0]}"
 require_cmd "option-boundary" "rg"
 
 allow_prefixes=(
-  "modules/meta.nix"
   "modules/nixos.nix"
+  "modules/users/higorprado.nix"
   "modules/features/"
 )
 
