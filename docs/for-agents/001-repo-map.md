@@ -59,6 +59,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `desktop/wayland-tools.nix`, `desktop/xwayland.nix`, `desktop/fcitx5.nix`
 
 **Dev / Editors / LLM**
+- `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
 - `dev/editor-neovim.nix` — Neovim + LSP packages + nvim config sync; nixos block sets PAM fd/process limits for LSP socket creation
 - `dev/editor-vscode.nix` — VS Code with extensions
 - `dev/editor-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon

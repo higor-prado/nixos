@@ -8,6 +8,7 @@
 | `editor-vscode` | VS Code with extensions |
 | `editor-emacs` | Emacs (pgtk), Doom setup |
 | `editor-zed` | Zed editor |
+| `llm-agents` | Claude Code, Codex, Crush, Kilocode, Opencode |
 | `dev-tools` | bat, eza, gh, jq, fd, tree, sd, uv, nixfmt |
 | `dev-devenv` | devenv, cachix, devc, direnv+nix-direnv |
 | `tui-yazi` | Yazi file manager |

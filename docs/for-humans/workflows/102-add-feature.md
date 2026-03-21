@@ -46,15 +46,9 @@ payload, keep it in the host composition instead of inventing a repo-wide
 carrier or broad option surface.
 
 ```nix
-home-manager.users.${user.userName} = {
-  imports = [
-    homeManager.my-feature
-  ];
-
-  home.packages = [
-    customPkgs.some-tool
-  ];
-};
+home-manager.users.${userName}.imports = [
+  homeManager.my-feature
+];
 ```
 
 Avoid this:
@@ -77,19 +71,19 @@ let
   inherit (config.flake.modules) homeManager nixos;
 in
 {
-imports = [
-  nixos.my-feature
-];
+  imports = [
+    nixos.my-feature
+  ];
 
-home-manager.users.${userName}.imports = [
-  homeManager.my-feature
-];
+  home-manager.users.${userName}.imports = [
+    homeManager.my-feature
+  ];
 }
 ```
 
 ## 3. Declare options if needed
 
-If the feature needs custom options, declare them in the feature file that owns them or in the narrow contract module that owns that concern.
+If the feature needs custom options, declare them in the feature file that owns them or in another narrow owner that genuinely owns that concern.
 
 ## 4. Verify
 

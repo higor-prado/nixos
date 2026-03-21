@@ -23,9 +23,15 @@ in
 In the same gitignored host private override entry point:
 
 ```nix
-users.users.higorprado.openssh.authorizedKeys.keys = [
-  "ssh-ed25519 AAAA... your-key"
-];
+{ ... }:
+let
+  userName = "your-real-username";
+in
+{
+  users.users.${userName}.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAA... your-key"
+  ];
+}
 ```
 
 ## Home-manager private config

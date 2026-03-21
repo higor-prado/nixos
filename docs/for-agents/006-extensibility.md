@@ -4,7 +4,7 @@
 
 1. Create `modules/features/<category>/<name>.nix` as a top-level dendritic module
 2. Publish lower-level modules under `flake.modules.nixos.*` and/or `flake.modules.homeManager.*`
-3. If the feature needs custom options, declare them in the feature owner or the narrow contract module that owns that concern
+3. If the feature needs custom options, declare them in the feature owner or another narrow owner that genuinely owns that concern
 4. Add the published lower-level modules to the host's explicit import lists in `modules/hosts/<host>.nix`
 5. Verify with `./scripts/check-extension-contracts.sh`
 
