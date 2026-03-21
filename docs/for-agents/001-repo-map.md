@@ -115,6 +115,14 @@ docs/for-agents/archive/ archived plans and log tracks
 - `plans/` — scaffolds plus genuinely active execution plans
 - `current/` — scaffolds plus genuinely active progress logs
 
+## Feature-private underscore files
+
+Files prefixed with `_` under `modules/features/` are skipped by auto-import
+and are owned by the adjacent feature. Current example:
+
+- `modules/features/shell/_starship-settings.nix` — starship config data used only by
+  `modules/features/shell/starship.nix`
+
 ## hardware/predator/
 
 ```
