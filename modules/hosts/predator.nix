@@ -6,14 +6,6 @@ let
     pkgs = inputs.nixpkgs.legacyPackages.${system};
     inherit inputs;
   };
-  llmAgentsPkgs = inputs.llm-agents.packages.${system} or { };
-  llmAgentsHomePackages = with llmAgentsPkgs; [
-    claude-code
-    codex
-    crush
-    kilocode-cli
-    opencode
-  ];
   hostName = "predator";
   hardwareImports = [
     inputs.disko.nixosModules.disko
@@ -148,6 +140,7 @@ in
         homeManager.editor-neovim
         homeManager.editor-vscode
         homeManager.editor-zed
+        homeManager.llm-agents
         homeManager.packages-toolchains
       ];
     in
@@ -165,8 +158,6 @@ in
       home-manager = {
         users.${userName} = {
           imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
-
-          home.packages = llmAgentsHomePackages;
 
           programs.fish.shellAbbrs = operatorFishAbbrs;
         };

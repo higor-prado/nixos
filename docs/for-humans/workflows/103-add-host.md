@@ -52,13 +52,10 @@ the host or derive them directly from the owner's captured inputs. Keep
 runtime-only payload local to the host file. Example:
 
 ```nix
-let
-  llmAgentsHomePackages = with inputs.llm-agents.packages.${system}; [
-    claude-code
-    codex
-  ];
-in {
-  home-manager.users.${userName}.home.packages = llmAgentsHomePackages;
+{
+  home-manager.users.${userName}.programs.fish.shellAbbrs = {
+    my-host-op = "echo host-only";
+  };
 }
 ```
 
