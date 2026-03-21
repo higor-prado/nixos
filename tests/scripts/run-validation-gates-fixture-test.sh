@@ -32,14 +32,13 @@ EOF2
 
 check_scripts=(
   check-bare-host-in-includes.sh
-  check-feature-role-conditionals.sh
+  check-feature-legacy-role-conditionals.sh
   check-flake-inputs-used.sh
   check-desktop-capability-usage.sh
   check-option-declaration-boundary.sh
   check-flake-pattern.sh
   check-extension-contracts.sh
   check-feature-publisher-name-match.sh
-  check-dendritic-host-onboarding-contracts.sh
   check-validation-source-of-truth.sh
   check-docs-drift.sh
   check-config-contracts.sh
@@ -54,7 +53,6 @@ done
 test_scripts=(
   run-validation-gates-fixture-test.sh
   new-host-skeleton-fixture-test.sh
-  dendritic-host-onboarding-contracts-fixture-test.sh
   report-persistence-candidates-test.sh
   runtime-warning-budget-lib-test.sh
 )
@@ -98,19 +96,17 @@ run_stage() {
 
 run_stage "structure"
 assert_logged "check-bare-host-in-includes.sh"
-assert_logged "check-feature-role-conditionals.sh"
+assert_logged "check-feature-legacy-role-conditionals.sh"
 assert_logged "check-flake-inputs-used.sh"
 assert_logged "check-desktop-capability-usage.sh"
 assert_logged "check-option-declaration-boundary.sh"
 assert_logged "check-flake-pattern.sh"
 assert_logged "check-extension-contracts.sh"
 assert_logged "check-feature-publisher-name-match.sh"
-assert_logged "check-dendritic-host-onboarding-contracts.sh"
 assert_logged "check-validation-source-of-truth.sh"
 assert_logged "check-docs-drift.sh"
 assert_logged "run-validation-gates-fixture-test.sh"
 assert_logged "new-host-skeleton-fixture-test.sh"
-assert_logged "dendritic-host-onboarding-contracts-fixture-test.sh"
 assert_logged "report-persistence-candidates-test.sh"
 assert_logged "runtime-warning-budget-lib-test.sh"
 

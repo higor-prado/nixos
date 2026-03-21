@@ -31,7 +31,7 @@
 27. Root `hosts/` was retired in favor of `hardware/` for machine-specific files; `modules/hosts/` is the top-level host inventory and configuration layer.
 28. `hardware/<host>/default.nix` owns only machine-specific hardware imports and defaults. Script-only classifications must not leak back into the runtime surface.
 29. Desktop composition baseline duplication is intentional explicitness in this repo's composition model. Each composition owns its complete baseline for clarity.
-30. `hardware/host-descriptors.nix` is script-only integration metadata. Do not mirror runtime host facts there unless a real script consumer needs them.
+30. Do not keep parallel host metadata files just to help scripts. Tooling must derive host facts from the real repo structure, not the other way around.
 31. Speculative parameterization options should exist only when multiple real values are supported. A single-value enum option is architectural noise.
 32. Do not build a repo-local `config.host.*`, `repo.context`, or HM `_module.args.host` bridge. Host-aware lower-level modules should use explicit top-level facts, direct flake inputs captured by the owner, or existing lower-level state.
 33. For system-owned user services that only need per-user overrides, prefer Home Manager drop-ins via `xdg.configFile."systemd/user/<unit>.service.d/override.conf"` instead of redefining partial `systemd.user.services.<name>` units in HM.

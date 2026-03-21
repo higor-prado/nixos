@@ -24,6 +24,25 @@ composition_module_name() {
   esac
 }
 
+feature_module_expr() {
+  case "$1" in
+    dms-on-niri)
+      cat <<'EOF2'
+            nixos.niri
+            nixos.dms
+EOF2
+      ;;
+    niri-standalone)
+      cat <<'EOF2'
+            nixos.niri
+EOF2
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 # Expected composition-level parameters per composition.
 # Only composition parameterization is checked here (standalone, greeter).
 # Feature program enablement is verified by the predator full build gate.
@@ -48,10 +67,14 @@ EOF2
 
 check_experience() {
   local experience="$1"
-  local module_name expected_json json system_drv expected actual key
+  local module_name feature_modules expected_json json system_drv expected actual key
 
   module_name="$(composition_module_name "$experience")" || {
     report_fail "missing module name for experience '$experience'"
+    return 1
+  }
+  feature_modules="$(feature_module_expr "$experience")" || {
+    report_fail "missing feature module mapping for experience '$experience'"
     return 1
   }
   expected_json="$(expected_feature_json "$experience")" || return 1
@@ -60,42 +83,26 @@ check_experience() {
     nix_eval_json_expr "
       let
         flake = builtins.getFlake \"path:${repo_root}\";
+        inherit (flake.modules) nixos;
         system = \"x86_64-linux\";
-        pkgs = flake.inputs.nixpkgs.legacyPackages.\${system};
         inputs = flake.inputs;
-        customPkgs = import \"${repo_root}/pkgs\" {
-          inherit pkgs inputs;
-        };
         lib = flake.inputs.nixpkgs.lib;
-        composition = flake.modules.nixos.\"${module_name}\";
+        composition = nixos.\"${module_name}\";
         systemConfig = lib.nixosSystem {
           inherit system;
-          specialArgs = {
-            inherit inputs customPkgs;
-          };
           modules = [
             inputs.niri.nixosModules.niri
             inputs.dms.nixosModules.dank-material-shell
             inputs.dms.nixosModules.greeter
             inputs.home-manager.nixosModules.home-manager
             inputs.keyrs.nixosModules.default
-            ({ lib, ... }: {
-              options.custom = {
-                niri.standaloneSession = lib.mkOption {
-                  type = lib.types.bool;
-                  default = false;
-                };
-              };
-
-              config = {
-                nixpkgs.hostPlatform.system = system;
-              };
-            })
+${feature_modules}
             composition
             {
+              nixpkgs.hostPlatform.system = system;
               networking.hostName = \"desktop-matrix\";
-              users.users.\"fixture-user\" = { isNormalUser = true; };
-              home-manager.users.\"fixture-user\".home.stateVersion = \"25.11\";
+              users.users.\"higorprado\" = { isNormalUser = true; };
+              home-manager.users.\"higorprado\".home.stateVersion = \"25.11\";
               nixpkgs.config.allowUnfree = true;
               boot.isContainer = true;
               networking.useHostResolvConf = lib.mkForce false;

@@ -3,7 +3,6 @@ scripts/audit-system-up-to-date.sh	shared-aux	optional local audit/report genera
 scripts/check-changed-files-quality.sh	shared-aux	targeted shell/script hygiene check for changed files
 scripts/check-config-contracts.sh	gate-check	config contract gate invoked by run-validation-gates.sh
 scripts/check-declarative-paths.sh	audit-leaf	audit-only leaf check for declarative path drift
-scripts/check-dendritic-host-onboarding-contracts.sh	gate-check	host onboarding contract gate invoked by run-validation-gates.sh
 scripts/check-desktop-capability-usage.sh	gate-check	structure gate invoked by run-validation-gates.sh
 scripts/check-desktop-composition-matrix.sh	gate-check	desktop composition eval gate invoked by run-validation-gates.sh
 scripts/check-docs-drift.sh	gate-check	documentation drift gate invoked by run-validation-gates.sh
@@ -11,7 +10,7 @@ scripts/check-extension-contracts.sh	gate-check	extension contract gate invoked 
 scripts/check-feature-publisher-name-match.sh	gate-check	structure gate enforcing lesson 35: feature file name must match at least one published lower-level module name
 scripts/check-extension-simulations.sh	gate-check	extension simulation gate invoked by run-validation-gates.sh
 scripts/check-bare-host-in-includes.sh	gate-check	structure gate forbidding bare host lambdas in module lists; lower-level modules must use explicit top-level facts or direct flake inputs
-scripts/check-feature-role-conditionals.sh	gate-check	structure gate enforcing lesson 13: mkIf custom.host.role forbidden in modules/features/
+scripts/check-feature-legacy-role-conditionals.sh	gate-check	structure gate forbidding reintroduction of the removed legacy host-role selector in modules/features/
 scripts/check-flake-inputs-used.sh	gate-check	structure gate enforcing lesson 20: no unused flake inputs
 scripts/check-flake-pattern.sh	gate-check	flake wiring gate invoked by run-validation-gates.sh
 scripts/check-flake-tracked.sh	audit-leaf	audit-only leaf check for tracked flake consistency

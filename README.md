@@ -21,7 +21,7 @@ The goal is reproducible, explicit, and maintainable configuration with clear ow
 3. `modules/features/`: feature owners (NixOS + home-manager fragments)
 4. `modules/desktops/`: concrete desktop composition modules
 5. `modules/hosts/`: host inventory and concrete host configurations
-6. `modules/options/`: top-level runtime surfaces and contracts
+6. `modules/nixos.nix`, `modules/flake-parts.nix`, `modules/meta.nix`: top-level runtime surfaces
 7. `modules/users/`: tracked user inventory + base user modules
 8. `lib/`: generic helper functions used by tracked modules
 9. `config/`: app/config payload files and helper payloads

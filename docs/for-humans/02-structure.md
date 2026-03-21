@@ -3,9 +3,11 @@
 ```
 modules/features/   53+ feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
-modules/hosts/      one file per host inventory + concrete configuration
-modules/options/    top-level runtime surfaces
-modules/users/      tracked user inventory + base account/HM modules
+modules/hosts/      one file per host with concrete composition
+modules/nixos.nix   structural NixOS runtime surface
+modules/flake-parts.nix enables `flake.modules.*`
+modules/meta.nix    narrow repo-wide facts such as `username`
+modules/users/      tracked user owner modules
 modules/systems.nix supported flake systems
 modules/templates.nix flake template outputs
 private/            private overrides
@@ -33,8 +35,9 @@ dendritic module that publishes lower-level NixOS and/or Home Manager modules:
 Files prefixed with `_` are skipped by auto-import (for example
 `shell/_starship-settings.nix`).
 
-Root `lib/` is for generic helper functions. `modules/options/` is for
-top-level runtime surfaces, not general-purpose helpers.
+Root `lib/` is for generic helper functions. `modules/nixos.nix`,
+`modules/flake-parts.nix`, and `modules/meta.nix` are the top-level runtime
+surfaces, not general-purpose helpers.
 
 ## Desktop compositions
 
@@ -44,16 +47,16 @@ experience.
 
 ## Host files
 
-`modules/hosts/<name>.nix` declares host inventory and one concrete
-configuration:
+`modules/hosts/<name>.nix` declares one concrete configuration:
 
 ```nix
+let
+  inherit (config.flake.modules) nixos homeManager;
+in
 {
   configurations.nixos.<name>.module = {
-    imports = [ config.flake.modules.nixos.my-feature ];
-    home-manager.users.${userName}.imports = [
-      config.flake.modules.homeManager.my-feature
-    ];
+    imports = [ nixos.my-feature ];
+    home-manager.users.${userName}.imports = [ homeManager.my-feature ];
   };
 }
 ```

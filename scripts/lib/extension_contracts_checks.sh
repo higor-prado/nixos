@@ -34,7 +34,7 @@ extc_require_pattern_in_file() {
   fi
 }
 
-extc_check_host_descriptor_matches_defaults() {
+extc_check_host_defaults_contracts() {
   local fail_fn="$1"
   local -n host_dirs_ref="$2"
   local host host_file host_module_file
@@ -49,10 +49,6 @@ extc_check_host_descriptor_matches_defaults() {
     if [[ ! -f "$host_module_file" ]]; then
       "$fail_fn" "host '${host}' missing modules/hosts/${host}.nix"
       continue
-    fi
-
-    if extc_host_descriptor_has_legacy_desktop_selector "$host" 2>/dev/null; then
-      "$fail_fn" "host '${host}' descriptor must not declare a legacy desktop selector field"
     fi
 
     local legacy_desktop_selector_pattern='custom\.desktop\.'

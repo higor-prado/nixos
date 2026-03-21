@@ -11,15 +11,9 @@ Create a new file in modules/desktops/ (e.g. modules/desktops/my-desktop.nix):
 { ... }:
 {
   flake.modules.nixos.desktop-my-desktop = { lib, pkgs, ... }: {
-    imports = [
-      ({ ... }: {
-        services.greetd.enable = lib.mkDefault true;
-        xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
-      })
-      {
-        config.custom.niri.standaloneSession = false;
-      }
-    ];
+    services.greetd.enable = lib.mkDefault true;
+    xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
+    custom.niri.standaloneSession = false;
   };
 
   flake.modules.homeManager.desktop-my-desktop = { lib, ... }: {
@@ -34,15 +28,20 @@ In `modules/hosts/<host>.nix`, import the composition modules alongside the
 feature modules it configures:
 
 ```nix
-imports = [
-  config.flake.modules.nixos.desktop-my-desktop
-  config.flake.modules.nixos.niri
-];
+let
+  inherit (config.flake.modules) nixos homeManager;
+in
+{
+  imports = [
+    nixos.desktop-my-desktop
+    nixos.niri
+  ];
 
-home-manager.users.${user.userName}.imports = [
-  config.flake.modules.homeManager.desktop-my-desktop
-  config.flake.modules.homeManager.niri
-];
+  home-manager.users.${userName}.imports = [
+    homeManager.desktop-my-desktop
+    homeManager.niri
+  ];
+}
 ```
 
 ## 3. Verify

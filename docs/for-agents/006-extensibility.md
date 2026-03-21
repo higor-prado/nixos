@@ -80,13 +80,12 @@ See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix
 See [workflow: add a host](../for-humans/workflows/103-add-host.md).
 
 Required files:
-- `hardware/host-descriptors.nix`: descriptor entry
 - `hardware/<name>/default.nix`: hardware imports + runtime role
 - `modules/hosts/<name>.nix`: top-level host inventory entry plus `configurations.nixos.<name>.module`
 
 ## Extension contracts enforced by scripts
 
 - Desktop host must include a `desktop-*` composition module
-- `hardware/host-descriptors.nix` must stay script-only (`integrations` only)
+- Tracked hosts must have both `hardware/<name>/default.nix` and `modules/hosts/<name>.nix`
 - No `environment.systemPackages` in host default.nix
 - No `openssh.authorizedKeys.keys` in tracked host files

@@ -1,15 +1,15 @@
-{ ... }:
+{ config, ... }:
 let
-  userName = "higorprado";
-  homeDirectory = "/home/higorprado";
-  primaryGroup = "higorprado";
+  userName = config.username;
+  homeDirectory = "/home/${userName}";
+  primaryGroup = userName;
   homeStateVersion = "25.11";
   primaryUserGroups = [
     "wheel"
     "networkmanager"
   ];
   extraGroups = primaryUserGroups;
-  privateModule = ../../private/users/higorprado/default.nix;
+  privateModule = ../../private/users + "/${userName}/default.nix";
 in
 {
   flake.modules.nixos.higorprado =

@@ -4,19 +4,10 @@
     nixos.desktop-niri-standalone =
       { lib, pkgs, ... }:
       {
-        imports = [
-          (
-            { ... }:
-            {
-              services.greetd.enable = lib.mkDefault true;
-              systemd.user.services.niri-flake-polkit.enable = lib.mkDefault false;
-              xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
-            }
-          )
-          {
-            config.custom.niri.standaloneSession = true;
-          }
-        ];
+        services.greetd.enable = lib.mkDefault true;
+        systemd.user.services.niri-flake-polkit.enable = lib.mkDefault false;
+        xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
+        custom.niri.standaloneSession = true;
       };
 
     homeManager.desktop-niri-standalone =

@@ -9,7 +9,8 @@ enter_repo_root "${BASH_SOURCE[0]}"
 require_cmd "option-boundary" "rg"
 
 allow_prefixes=(
-  "modules/options/"
+  "modules/meta.nix"
+  "modules/nixos.nix"
   "modules/features/"
 )
 
@@ -46,4 +47,4 @@ if [[ -n "$violations" ]]; then
   exit 1
 fi
 
-echo "[option-boundary] ok: option declarations limited to option modules"
+echo "[option-boundary] ok: option declarations limited to allowed option owners"

@@ -10,20 +10,7 @@ This creates:
 - `hardware/<host-name>/default.nix`
 - `modules/hosts/<host-name>.nix`
 
-## 2. Add descriptor
-
-Add to `hardware/host-descriptors.nix`:
-
-```nix
-<host-name> = {
-  integrations = {
-    disko = true;
-    homeManager = true;
-  };
-};
-```
-
-## 3. Create host module
+## 2. Create host module
 
 The generated `modules/hosts/<host-name>.nix` already uses the current dendritic runtime shape:
 
@@ -75,14 +62,14 @@ in {
 }
 ```
 
-## 4. Add hardware config
+## 3. Add hardware config
 
 Add hardware files under `hardware/<host-name>/`:
 - `hardware-configuration.nix` (nixos-generate-config output)
 - `disko.nix` (disk layout, if using disko)
 - `hardware/` split files (GPU, laptop, encryption, etc.)
 
-## 5. Verify
+## 4. Verify
 
 ```bash
 git add hardware/<host-name>/default.nix modules/hosts/<host-name>.nix

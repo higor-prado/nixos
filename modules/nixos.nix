@@ -28,8 +28,5 @@ in
   config.flake = {
     nixosConfigurations = nixosConfigurations;
     checks = checks;
-    dendritic = {
-      inherit nixosConfigurations checks;
-    };
   };
 }

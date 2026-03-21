@@ -30,11 +30,10 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | Script | Checks |
 |--------|--------|
 | `check-desktop-capability-usage.sh` | Legacy desktop selector references stay out of active Nix code |
-| `check-option-declaration-boundary.sh` | Options declared only in allowed locations |
+| `check-option-declaration-boundary.sh` | Options declared only in feature owners, `modules/meta.nix`, or `modules/nixos.nix` |
 | `check-flake-pattern.sh` | Flake input naming and wiring policy |
 | `check-config-contracts.sh` | Role/feature/selected-user invariants |
-| `check-extension-contracts.sh` | Host descriptor/module contracts |
-| `check-dendritic-host-onboarding-contracts.sh` | Host descriptor onboarding contract shape |
+| `check-extension-contracts.sh` | Host source-tree contracts and onboarding shape |
 | `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |
 | `check-extension-simulations.sh` | Synthetic host extension eval checks |
 | `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
@@ -42,7 +41,6 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 | `check-docs-drift.sh` | Living docs only reference paths that still exist |
 | `tests/scripts/run-validation-gates-fixture-test.sh` | Fixture-based structure-stage orchestration contract |
 | `tests/scripts/new-host-skeleton-fixture-test.sh` | Fixture-based host generator contract |
-| `tests/scripts/dendritic-host-onboarding-contracts-fixture-test.sh` | Fixture-based host onboarding contract |
 | `tests/scripts/report-persistence-candidates-test.sh` | Fixture coverage for the persistence report helper |
 | `tests/scripts/runtime-warning-budget-lib-test.sh` | Library contract for runtime warning budgeting |
 
@@ -114,7 +112,6 @@ contracts:
 ```bash
 bash tests/scripts/run-validation-gates-fixture-test.sh
 bash tests/scripts/new-host-skeleton-fixture-test.sh
-bash tests/scripts/dendritic-host-onboarding-contracts-fixture-test.sh
 bash tests/scripts/report-persistence-candidates-test.sh
 bash tests/scripts/runtime-warning-budget-lib-test.sh
 ```

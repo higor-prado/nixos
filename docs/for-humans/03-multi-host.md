@@ -2,15 +2,12 @@
 
 ## How hosts are declared
 
-Each host is declared in `hardware/host-descriptors.nix` and has a corresponding
-`modules/hosts/<name>.nix` file.
+Each tracked host has:
+- `hardware/<name>/default.nix`
+- `modules/hosts/<name>.nix`
 
-`hardware/host-descriptors.nix` lists script-only integration metadata
-(`disko`, `homeManager`, etc.).
-
-`modules/hosts/<name>.nix` declares one concrete dendritic
-configuration that composes published feature modules and imports hardware
-config.
+`modules/hosts/<name>.nix` declares one concrete dendritic configuration that
+composes published feature modules and imports hardware config.
 
 ## Adding a new host
 
@@ -20,8 +17,8 @@ Use the skeleton script:
 scripts/new-host-skeleton.sh <host-name> [desktop|server] [desktop-experience]
 ```
 
-Then add the descriptor integrations to `hardware/host-descriptors.nix` and
-adjust the generated `modules/hosts/<name>.nix` imports.
+Then adjust the generated `modules/hosts/<name>.nix` imports and hardware files
+as needed.
 
 See [workflow: add a host](workflows/103-add-host.md).
 

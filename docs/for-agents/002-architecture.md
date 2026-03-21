@@ -6,8 +6,9 @@ Authoritative architecture for the tracked repo.
 
 The repo uses the dendritic pattern on top of `flake-parts`.
 
-- `flake.nix` evaluates `inputs.flake-parts.lib.mkFlake` and auto-imports
-  `./modules` through `import-tree`.
+- `flake.nix` evaluates `inputs.flake-parts.lib.mkFlake`, imports
+  `./modules/meta.nix` explicitly, and auto-imports the rest of `./modules`
+  through `import-tree`.
 - Every tracked non-entry-point Nix file under `modules/` is a top-level module.
 - Lower-level NixOS and Home Manager modules are published as top-level values,
   not imported through `specialArgs` or hidden helper frameworks.
@@ -17,12 +18,13 @@ The repo uses the dendritic pattern on top of `flake-parts`.
 The canonical runtime is built from these top-level option surfaces:
 
 - `username`: repo-wide tracked user identity
+- `modules/meta.nix`: owner of the repo-wide `username` fact
 - `flake.modules.nixos.<name>`: published lower-level NixOS modules
 - `flake.modules.homeManager.<name>`: published lower-level Home Manager modules
 - `configurations.nixos.<name>.module`: concrete host configurations
 
 Concrete `nixosConfigurations` are materialized in
-`modules/options/configurations-nixos.nix` from
+`modules/nixos.nix` from
 `configurations.nixos.<name>.module`.
 
 ## Concrete Host Composition
@@ -151,7 +153,7 @@ Auto-import is provided by `import-tree`.
 When understanding the repo, read in this order:
 
 1. `flake.nix`
-2. `modules/options/*.nix`
+2. `modules/meta.nix`, `modules/nixos.nix`, and `modules/flake-parts.nix`
 3. `modules/hosts/<name>.nix`
 4. `modules/users/<name>.nix`
 5. `modules/features/**` and `modules/desktops/**`

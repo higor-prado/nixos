@@ -134,17 +134,6 @@ fi
 cat <<EOF2
 [new-host-skeleton] created ${host_file}
 [new-host-skeleton] created ${host_module_file}
-
-Add this descriptor entry to hardware/host-descriptors.nix:
-
-  ${host_name} = {
-    integrations = {
-      # toggle host integrations as needed
-      # disko = true;
-      # homeManager = true;
-      # terminal = true;
-    };
-  };
 EOF2
 
 if [[ "$host_role" == "desktop" ]]; then
@@ -153,14 +142,14 @@ if [[ "$host_role" == "desktop" ]]; then
 Next steps:
   1. Adjust the system architecture and feature imports in ${host_module_file}.
   2. Add any host-only package choices or upstream module imports directly in ${host_module_file}.
-  3. Adjust the descriptor integrations and hardware imports.
+  3. Adjust the hardware imports and any host-specific desktop behavior.
 EOF2
 else
   cat <<EOF2
 
 Next steps:
   1. Adjust the system architecture and server feature list in ${host_module_file}.
-  2. Add disko/hardware imports in ${host_file} if this stops being an eval-only skeleton.
+  2. Add hardware imports in ${host_file} if this stops being an eval-only skeleton.
 EOF2
 fi
 
