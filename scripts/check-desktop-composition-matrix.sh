@@ -46,6 +46,24 @@ EOF2
   esac
 }
 
+greeter_expr() {
+  case "$1" in
+    dms-on-niri)
+      cat <<'EOF2'
+        cfg.programs.dank-material-shell.greeter.compositor.name
+EOF2
+      ;;
+    niri-standalone)
+      cat <<'EOF2'
+        null
+EOF2
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 # Expected composition-level parameters per composition.
 # Only composition parameterization is checked here (standalone, greeter).
 # Feature program enablement is verified by the predator full build gate.
@@ -58,7 +76,7 @@ EOF2
       ;;
     niri-standalone)
       cat <<'EOF2'
-{"standalone":true,"greeter":"niri"}
+{"standalone":true,"greeter":null}
 EOF2
       ;;
     *)
@@ -70,7 +88,7 @@ EOF2
 
 check_experience() {
   local experience="$1"
-  local module_name feature_modules expected_json json system_drv expected actual key
+  local module_name feature_modules greeter_expr_text expected_json json system_drv expected actual key
 
   module_name="$(composition_module_name "$experience")" || {
     report_fail "missing module name for experience '$experience'"
@@ -78,6 +96,10 @@ check_experience() {
   }
   feature_modules="$(feature_module_expr "$experience")" || {
     report_fail "missing feature module mapping for experience '$experience'"
+    return 1
+  }
+  greeter_expr_text="$(greeter_expr "$experience")" || {
+    report_fail "missing greeter expression for experience '$experience'"
     return 1
   }
   expected_json="$(expected_feature_json "$experience")" || return 1
@@ -121,18 +143,20 @@ ${feature_modules}
       in
       {
         standalone = cfg.custom.niri.standaloneSession;
+        greeter = ${greeter_expr_text};
         systemDrv = cfg.system.build.toplevel.drvPath;
       }
     "
   )"
 
-  key="standalone"
-  expected="$(jq -r ".${key}" <<<"$expected_json")"
-  actual="$(jq -r ".${key}" <<<"$json")"
-  if [[ "$actual" != "$expected" ]]; then
-    report_fail "${experience} feature '${key}' expected '${expected}', got '${actual}'"
-    return 1
-  fi
+  for key in standalone greeter; do
+    expected="$(jq -r ".${key}" <<<"$expected_json")"
+    actual="$(jq -r ".${key}" <<<"$json")"
+    if [[ "$actual" != "$expected" ]]; then
+      report_fail "${experience} feature '${key}' expected '${expected}', got '${actual}'"
+      return 1
+    fi
+  done
 
   system_drv="$(jq -r '.systemDrv' <<<"$json")"
   if [[ "$system_drv" != /nix/store/* ]]; then

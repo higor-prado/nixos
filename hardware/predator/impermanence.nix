@@ -1,6 +1,6 @@
 { ... }:
 let
-  inventory = import ./_persistence-inventory.nix;
+  persistedPaths = import ./persisted-paths.nix;
 in
 {
   # Persistent storage must be mounted early because it carries machine identity,
@@ -9,7 +9,7 @@ in
 
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = inventory.directories;
-    files = inventory.files;
+    directories = persistedPaths.directories;
+    files = persistedPaths.files;
   };
 }

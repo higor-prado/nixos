@@ -9,7 +9,7 @@ enter_repo_root "${BASH_SOURCE[0]}"
 scope="persist-candidates"
 host="${1:-predator}"
 persistence_root="${2:-/persist}"
-inventory_file="${PERSISTENCE_INVENTORY_FILE:-${REPO_ROOT}/hardware/${host}/_persistence-inventory.nix}"
+declared_paths_file="${PERSISTENCE_DECLARED_PATHS_FILE:-${REPO_ROOT}/hardware/${host}/persisted-paths.nix}"
 etc_root="${PERSISTENCE_ETC_ROOT:-/etc}"
 var_lib_root="${PERSISTENCE_VAR_LIB_ROOT:-/var/lib}"
 var_cache_root="${PERSISTENCE_VAR_CACHE_ROOT:-/var/cache}"
@@ -21,9 +21,9 @@ require_cmds "$scope" nix jq du find readlink sort
 tmp_json="$(mktemp_file_scoped "$scope")"
 trap 'rm -f "$tmp_json"' EXIT
 
-nix eval --json --file "${inventory_file}" directories >"${tmp_json}.dirs"
-nix eval --json --file "${inventory_file}" files >"${tmp_json}.files"
-nix eval --impure --json --expr "let inv = import ${inventory_file}; in inv.ignored or []" >"${tmp_json}.ignored"
+nix eval --json --file "${declared_paths_file}" directories >"${tmp_json}.dirs"
+nix eval --json --file "${declared_paths_file}" files >"${tmp_json}.files"
+nix eval --impure --json --expr "let declared = import ${declared_paths_file}; in declared.ignored or []" >"${tmp_json}.ignored"
 
 declare -A persisted=()
 declare -a persisted_paths=()

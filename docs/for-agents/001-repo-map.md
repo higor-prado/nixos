@@ -133,5 +133,6 @@ boot.nix                 GRUB+EFI boot loader
 packages.nix             predator-specific packages
 performance.nix          OOM, sysctl, ananicy, CPU governor, nix daemon scheduling
 impermanence.nix         persistent machine state for predator
+persisted-paths.nix      declared persisted directories/files for predator
 root-reset.nix           initrd root-subvolume reset for predator
 ```
