@@ -36,6 +36,7 @@ in
         nixos.keyboard
         nixos.maintenance
         nixos.tailscale
+        nixos.tailscale-exit-node
         nixos.fish
         nixos.ssh
       ];
