@@ -142,11 +142,10 @@ In progress
   - the owner was corrected to publish:
     - `networking.firewall.interfaces.tailscale0.allowedUDPPortRanges = [{ from = 60000; to = 61000; }]`
   - after deployment, the firewall state evaluated correctly on `aurelius`
-  - the runtime path is still partial because `mosh` to the Tailscale path hits
-    a real Tailscale SSH interactive check, and local `~/.ssh/config`
-    permissions on `predator` are also bad for `mosh`
-  - the slice therefore remains honestly partial instead of being promoted to
-    complete
+  - the real operator path was later retested from `predator` with:
+    - `mosh --family=inet aurelius -- tmux new -As dev`
+  - that test entered the remote `tmux` session successfully on `aurelius`
+  - the slice is therefore complete
 
 ### Slice 3
 
@@ -366,9 +365,9 @@ In progress
 | Slice | Evaluates | Builds / deploys | Healthy on host | Usable by intended consumer | Status |
 |------|------|------|------|------|------|
 | Docker foundation | yes | yes | yes | n/a | complete |
-| Remote dev baseline | yes | yes | yes | partially; `adev` path is documented, `amdev` not fully proved | partial |
+| Remote dev baseline | yes | yes | yes | yes; `adev` and `amdev` paths both proved | complete |
 | `dev-devenv` usability | yes | yes | yes | yes on `aurelius` for `devc list` / template materialization | complete |
-| Mosh | yes | yes | server side yes | predator-side activated workflow not fully proved | partial |
+| Mosh | yes | yes | yes | yes; real `mosh --family=inet aurelius -- tmux new -As dev` path proved | complete |
 | Attic server + producer flow | yes | yes | yes | yes; normal predator build consumption still depends on private override facts | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
