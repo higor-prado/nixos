@@ -1,0 +1,10 @@
+# Private host service overrides for Aurelius.
+{ ... }:
+{
+  # Optional: GitHub runner wiring for Aurelius.
+  # custom.githubRunner = {
+  #   url = "https://github.com/owner/repository";
+  #   tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
+  #   runnerGroup = "Default";
+  # };
+}

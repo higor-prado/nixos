@@ -456,9 +456,12 @@ Changes:
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
+- `nix eval --json .#nixosConfigurations.aurelius.config.services.github-runners`
 
 Diff expectation:
 - the runner becomes part of tracked runtime rather than an external sidecar
+- if private runner binding is absent, the slice remains partial and the service
+  stays unevaluated as an active runtime unit
 
 Commit target:
 - `feat(ci): add aurelius github runner`

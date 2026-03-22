@@ -4,6 +4,9 @@ let
   userName = "your-user";
 in
 {
+  # Optional: split host-private service bindings into ./services.nix.
+  # imports = [ ./services.nix ];
+
   # Optional: make user declarations immutable once fully declared here.
   users.mutableUsers = lib.mkForce false;
   users.users.${userName}.openssh.authorizedKeys.keys = [

@@ -301,6 +301,30 @@ In progress
     the root endpoint rejects `HEAD` but still proves the service is reachable
     over the intended access path
 
+### Slice 8
+
+- Added a narrow tracked owner for GitHub Actions runner support:
+  - [github-runner.nix](/home/higorprado/nixos/modules/features/system/github-runner.nix)
+- Wired `aurelius` cleanly to compose `nixos.github-runner`.
+- Kept deployment binding out of tracked runtime through narrow private facts:
+  - `custom.githubRunner.url`
+  - `custom.githubRunner.tokenFile`
+  - `custom.githubRunner.runnerGroup`
+- Added tracked private-example shape for Aurelius service wiring:
+  - [services.nix.example](/home/higorprado/nixos/private/hosts/aurelius/services.nix.example)
+  - [default.nix.example](/home/higorprado/nixos/private/hosts/aurelius/default.nix.example)
+- Validation:
+  - `./scripts/run-validation-gates.sh structure` passed
+  - `nix eval --raw path:$PWD#nixosConfigurations.aurelius.config.system.build.toplevel.drvPath`
+    passed
+  - `nix eval --json path:$PWD#nixosConfigurations.aurelius.config.services.github-runners`
+    returned `{}`
+- Honest classification:
+  - the owner shape is correct and tracked safely
+  - the slice remains partial because the evaluated Aurelius runtime does not
+    yet include a private runner binding, so there is still no local service
+    proof on the real host
+
 ## Final State
 
 - Execution has started.
@@ -314,6 +338,8 @@ In progress
 - Slice 3 added node-exporter as a local-only monitoring primitive.
 - Slice 6 established the Attic server and automatic producer flow on
   `aurelius`, plus the complete shared-cache flow for `predator`.
+- Slice 8 added the tracked GitHub runner owner and private-example shape, but
+  local runtime proof is still blocked by missing private binding on `aurelius`.
 - Slice 4 was removed from active runtime because its access model was not
   actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
@@ -333,3 +359,4 @@ In progress
 | Attic server + producer flow | yes | yes | yes | yes; normal predator build consumption still depends on private override facts | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
+| GitHub runner | yes | yes | not yet | no; missing private binding and host proof | partial |
