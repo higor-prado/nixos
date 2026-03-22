@@ -60,4 +60,22 @@ In progress
 - The repo now has a narrow tracked GitHub runner owner for `aurelius`.
 - The host owner stayed clean.
 - No token or repository binding was tracked.
-- The slice remains open until private binding exists and the local runner service is proved on `aurelius`.
+- A real private binding now exists in the gitignored Aurelius override:
+  - `url = "https://github.com/higorprado/nixos"`
+  - `tokenFile = "~/.config/github-runner/aurelius.token"`
+- Real host deployment was attempted with:
+  - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
+- After the token file was created on the host, the same deployment command passed.
+- Real host proof now shows:
+  - `github-runner` system user exists
+  - `/var/lib/github-runner-aurelius` and `/var/lib/github-runner-aurelius/work` exist with the correct ownership
+  - `github-runner-aurelius.service` is `active (running)`
+  - the configure step logged:
+    - `Connected to GitHub`
+    - `Runner successfully added`
+    - `Listening for Jobs`
+- Honest classification:
+  - local runtime proof is complete
+  - GitHub-side registration proof is complete
+  - workflow-job execution proof is still absent
+  - the slice therefore remains partial until one real workflow job runs successfully on this runner

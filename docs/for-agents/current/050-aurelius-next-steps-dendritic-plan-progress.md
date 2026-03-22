@@ -320,10 +320,17 @@ In progress
   - `nix eval --json path:$PWD#nixosConfigurations.aurelius.config.services.github-runners`
     returned `{}`
 - Honest classification:
-  - the owner shape is correct and tracked safely
-  - the slice remains partial because the evaluated Aurelius runtime does not
-    yet include a private runner binding, so there is still no local service
-    proof on the real host
+  - first pass proved only the tracked owner shape
+  - after adding the gitignored Aurelius private binding and token file:
+    - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
+      passed
+    - `github-runner-aurelius.service` became `active (running)`
+    - the journal showed:
+      - `Connected to GitHub`
+      - `Runner successfully added`
+      - `Listening for Jobs`
+  - the slice is still partial because no real GitHub workflow job has yet been
+    proved on this runner
 
 ## Final State
 
@@ -338,8 +345,9 @@ In progress
 - Slice 3 added node-exporter as a local-only monitoring primitive.
 - Slice 6 established the Attic server and automatic producer flow on
   `aurelius`, plus the complete shared-cache flow for `predator`.
-- Slice 8 added the tracked GitHub runner owner and private-example shape, but
-  local runtime proof is still blocked by missing private binding on `aurelius`.
+- Slice 8 added the tracked GitHub runner owner and private-example shape, then
+  proved local runtime plus GitHub registration on `aurelius`; only workflow
+  execution proof remains open.
 - Slice 4 was removed from active runtime because its access model was not
   actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
@@ -359,4 +367,4 @@ In progress
 | Attic server + producer flow | yes | yes | yes | yes; normal predator build consumption still depends on private override facts | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
-| GitHub runner | yes | yes | not yet | no; missing private binding and host proof | partial |
+| GitHub runner | yes | yes | yes | partially; registered and listening, but no workflow job proof yet | partial |
