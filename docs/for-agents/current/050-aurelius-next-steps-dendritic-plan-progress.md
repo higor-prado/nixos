@@ -223,6 +223,9 @@ In progress
 - Slice 4 was removed from active runtime because its access model was not
   actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
+- Forgejo was later reintroduced through a dedicated narrow follow-up with a
+  real Tailscale consumer path from `predator`; that work is tracked in
+  [054-forgejo-predator-access-plan.md](/home/higorprado/nixos/docs/for-agents/plans/054-forgejo-predator-access-plan.md).
 - Backup remains explicitly out of scope for this cycle.
 
 ## Current Proof Matrix
@@ -234,4 +237,4 @@ In progress
 | `dev-devenv` usability | yes | yes | yes | yes on `aurelius` for `devc list` / template materialization | complete |
 | Mosh | yes | yes | server side yes | predator-side activated workflow not fully proved | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
-| Forgejo | removed | removed | removed from active runtime | no proved consumer path | deferred |
+| Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
