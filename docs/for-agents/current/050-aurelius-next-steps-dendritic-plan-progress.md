@@ -165,7 +165,7 @@ In progress
 - Started the first service-hosting slice that does not require external
   secrets.
 - Added a narrow NixOS owner:
-  - [forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
+  - a temporary Forgejo owner that was later removed from active runtime
 - Wired `aurelius` to import `nixos.forgejo`.
 - Kept the first cut intentionally conservative:
   - `HTTP_ADDR = "127.0.0.1"`
@@ -185,6 +185,12 @@ In progress
     - `forgejo.service` is `active` and `enabled`
     - Forgejo listens only on `127.0.0.1:3000`
     - `curl -I http://127.0.0.1:3000` returns `HTTP/1.1 200 OK`
+- Later re-audit result:
+  - this slice was not actually complete
+  - the service never had a proved consumer access model
+  - a later attempt to "align" URL semantics was only cosmetic
+  - the slice was therefore removed from active runtime instead of being kept
+    under a false-done label
 
 ### Slice 5
 
@@ -202,7 +208,6 @@ In progress
   - cross-arch `dev-devenv` fix
   - Mosh
   - node exporter
-  - Forgejo
 
 ## Final State
 
@@ -212,10 +217,21 @@ In progress
 - Slice 2 found a real cross-architecture blocker in
   [dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix),
   then fixed it in the narrow owner and completed remote validation.
-- Slice 2 still requires a quality correction because `devc` currently assumes a
-  host-local repo clone path that does not exist on `aurelius`.
+- Slice 2 later received a real usability fix: `devc` no longer depends on a
+  host-local repo clone at `~/nixos`.
 - Slice 3 added node-exporter as a local-only monitoring primitive.
-- Slice 4 added Forgejo as a local-only tracked Git service; later review showed
-  that local-only URL semantics also needed tightening.
+- Slice 4 was removed from active runtime because its access model was not
+  actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
 - Backup remains explicitly out of scope for this cycle.
+
+## Current Proof Matrix
+
+| Slice | Evaluates | Builds / deploys | Healthy on host | Usable by intended consumer | Status |
+|------|------|------|------|------|------|
+| Docker foundation | yes | yes | yes | n/a | complete |
+| Remote dev baseline | yes | yes | yes | partially; `adev` path is documented, `amdev` not fully proved | partial |
+| `dev-devenv` usability | yes | yes | yes | yes on `aurelius` for `devc list` / template materialization | complete |
+| Mosh | yes | yes | server side yes | predator-side activated workflow not fully proved | partial |
+| node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
+| Forgejo | removed | removed | removed from active runtime | no proved consumer path | deferred |
