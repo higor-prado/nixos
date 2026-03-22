@@ -209,6 +209,47 @@ In progress
   - Mosh
   - node exporter
 
+### Slice 6
+
+- Attic work moved from the earlier server-only shape to the correct shared
+  cache model for `predator`.
+- The runtime is now split into narrow owners:
+  - [attic-server.nix](/home/higorprado/nixos/modules/features/system/attic-server.nix)
+  - [attic-local-publisher.nix](/home/higorprado/nixos/modules/features/system/attic-local-publisher.nix)
+  - [attic-publisher.nix](/home/higorprado/nixos/modules/features/system/attic-publisher.nix)
+  - [attic-client.nix](/home/higorprado/nixos/modules/features/system/attic-client.nix)
+- Host composition stayed clean:
+  - `aurelius` composes:
+    - `nixos.attic-server`
+    - `nixos.attic-local-publisher`
+  - `predator` composes:
+    - `nixos.attic-publisher`
+    - `nixos.attic-client`
+- Private deployment facts remain in the gitignored host override for
+  `predator`, including:
+  - consumer endpoint/public key
+  - producer endpoint/cache/token file
+- Proof executed:
+  - the `aurelius` server path remains healthy
+  - a real `x86_64-linux` proof derivation was built on `predator`
+  - a temporary `watch-store` session using the tracked `predator` producer
+    wiring published that path to the Attic cache on `aurelius`
+  - the path was confirmed in the remote cache
+  - the path was deleted from the local `predator` store
+  - `nix-store --realise` on `predator` fetched it back from the configured
+    private Attic substituter
+  - `nh os test path:$PWD` on `predator` activated the tracked
+    `attic-watch-store.service`
+  - `journalctl -u attic-watch-store.service` on `predator` then showed real
+    publish activity from subsequent normal host changes
+  - a later real `predator` build produced
+    `/nix/store/hqyd9pndgg5h7q69sblxxxw0acvlbady-attic-predator-proof-live-1774148431`
+    and that path was confirmed in the Attic cache on `aurelius`
+- Current honest classification:
+  - the Attic shared-cache slice is complete
+  - `aurelius` serves the cache
+  - `predator` publishes automatically and consumes automatically
+
 ## Final State
 
 - Execution has started.
@@ -220,6 +261,8 @@ In progress
 - Slice 2 later received a real usability fix: `devc` no longer depends on a
   host-local repo clone at `~/nixos`.
 - Slice 3 added node-exporter as a local-only monitoring primitive.
+- Slice 6 established the Attic server and automatic producer flow on
+  `aurelius`, plus the complete shared-cache flow for `predator`.
 - Slice 4 was removed from active runtime because its access model was not
   actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
@@ -236,5 +279,6 @@ In progress
 | Remote dev baseline | yes | yes | yes | partially; `adev` path is documented, `amdev` not fully proved | partial |
 | `dev-devenv` usability | yes | yes | yes | yes on `aurelius` for `devc list` / template materialization | complete |
 | Mosh | yes | yes | server side yes | predator-side activated workflow not fully proved | partial |
+| Attic server + producer flow | yes | yes | yes | yes; normal predator build consumption still depends on private override facts | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |

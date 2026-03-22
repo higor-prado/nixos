@@ -58,6 +58,8 @@ in
         nixos.nixpkgs-settings
         nixos.nix-settings
         nixos.nix-settings-desktop
+        nixos.attic-publisher
+        nixos.attic-client
       ];
       nixosCoreServices = [
         nixos.networking

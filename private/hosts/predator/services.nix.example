@@ -3,4 +3,17 @@
 {
   # Example:
   # services.someService.settings.endpoint = "http://internal-host.local";
+
+  # Optional: private Attic consumer wiring for this host.
+  # custom.attic.client = {
+  #   endpoint = "http://aurelius.example.ts.net:8080/aurelius";
+  #   publicKey = "aurelius:replace-with-public-key";
+  # };
+
+  # Optional: private Attic producer wiring for this host.
+  # custom.attic.publisher = {
+  #   endpoint = "http://aurelius.example.ts.net:8080";
+  #   cache = "aurelius";
+  #   tokenFile = "/home/<user>/.config/attic/predator-publisher.token";
+  # };
 }

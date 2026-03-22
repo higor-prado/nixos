@@ -7,6 +7,8 @@ Real-world settings that must never be committed:
 - Personal dotfile paths
 - Theme/font preferences
 - Host-local secrets and machine-specific auth material
+- Host-private service endpoints and public keys that are safe to share
+  operationally but should not be hardcoded into the tracked runtime
 
 ## Location
 
@@ -24,6 +26,11 @@ Tracked example files show the expected shape without real values:
 - `private/hosts/predator/default.nix.example`
 - `private/hosts/aurelius/default.nix.example`
 - `private/users/higorprado/default.nix.example`
+
+Examples may also include host-private service wiring such as:
+- Attic consumer endpoint/public key for `predator`
+- Attic publisher endpoint/cache/token file for `predator`
+- Host-local advertised service URLs for `aurelius`
 
 ## Priority
 

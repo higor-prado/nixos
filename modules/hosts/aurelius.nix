@@ -22,6 +22,8 @@ in
         nixos.nix-settings
       ];
       nixosCoreServices = [
+        nixos.attic-server
+        nixos.attic-local-publisher
         nixos.networking
         nixos.docker
         nixos.forgejo
@@ -64,11 +66,7 @@ in
       ];
     in
     {
-      imports =
-        nixosInfrastructure
-        ++ nixosCoreServices
-        ++ nixosUserTools
-        ++ hardwareImports;
+      imports = nixosInfrastructure ++ nixosCoreServices ++ nixosUserTools ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
