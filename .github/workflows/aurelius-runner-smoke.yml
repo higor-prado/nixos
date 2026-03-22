@@ -22,10 +22,10 @@ jobs:
       - name: Prove Runner Identity
         run: |
           set -euo pipefail
-          echo "hostname=$(hostname)"
+          echo "hostname=$(uname -n)"
           echo "arch=$(uname -m)"
           echo "user=$(id -un)"
-          test "$(hostname)" = "aurelius"
+          test "$(uname -n)" = "aurelius"
           test "$(uname -m)" = "aarch64"
 
       - name: Prove Docker Access
@@ -37,7 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           printf 'runner=%s\narch=%s\ntime=%s\n' \
-            "$(hostname)" \
+            "$(uname -n)" \
             "$(uname -m)" \
             "$(date -Iseconds)" \
             > runner-smoke.txt
