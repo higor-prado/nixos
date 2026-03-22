@@ -3,9 +3,11 @@
   flake.modules.nixos.prometheus =
     { ... }:
     {
+      networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 9090 ];
+
       services.prometheus = {
         enable = true;
-        listenAddress = "127.0.0.1";
+        listenAddress = "0.0.0.0";
         port = 9090;
         globalConfig.scrape_interval = "15s";
         scrapeConfigs = [

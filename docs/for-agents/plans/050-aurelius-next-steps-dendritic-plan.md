@@ -63,7 +63,7 @@ Out of scope:
     - Docker foundation on `aurelius`
     - cross-arch `dev-devenv` fix
     - node exporter as a local-only metrics primitive
-    - Prometheus as a local-only metrics collector on `aurelius`
+    - Prometheus with predator-consumable Tailscale access
     - Forgejo with predator-consumable Tailscale access
     - Attic shared cache with predator producer and consumer flow proved end to end
   - partial:
