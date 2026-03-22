@@ -336,6 +336,35 @@ In progress
     - the runner group had to allow public repositories
     - the proven workflow shape used `group: Default` plus explicit labels
 
+### Slice 9
+
+- Added the next narrow observability owner:
+  - [grafana.nix](/home/higorprado/nixos/modules/features/system/grafana.nix)
+- Wired `aurelius` to compose `nixos.grafana`.
+- Kept the owner narrow and service-owned:
+  - `networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3001 ]`
+  - Grafana binds to `0.0.0.0:3001`
+  - `ROOT_URL` is the Tailscale endpoint
+  - Prometheus is provisioned declaratively as the default datasource through
+    `services.grafana.provision.datasources.settings`
+- Kept the baseline secret-free:
+  - no private override
+  - no tracked admin credential
+  - anonymous Viewer access only
+  - login form disabled
+- Added a `system.activationScripts.grafana-secret-key` block to the owner
+  that generates `/var/lib/grafana/secret-key` on first activation if absent,
+  so the bootstrap step is fully declarative and self-healing
+- Wired git-tracked and committed:
+  - `modules/features/system/grafana.nix`
+  - `modules/hosts/aurelius.nix` (adds `nixos.grafana` to composition)
+  - `docs/for-agents/plans/060-aurelius-grafana-baseline.md`
+- Deployed via `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
+- Runtime proof:
+  - `grafana.service` is `active (running)` on `aurelius`
+  - `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3001/` → `200`
+  - `curl -s -o /dev/null -w "HTTP %{http_code}" http://aurelius.your-tailnet.ts.net:3001/api/health` from `predator` → `HTTP 200`
+
 ## Final State
 
 - Execution has started.
@@ -372,3 +401,4 @@ In progress
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
 | GitHub runner | yes | yes | yes | yes; proved with successful org-wide workflow jobs on `nixos` and `keyrs` | complete |
+| Grafana | yes | yes | yes | yes; `curl http://aurelius.your-tailnet.ts.net:3001/api/health` from `predator` → HTTP 200; Prometheus datasource provisioned declaratively | complete |

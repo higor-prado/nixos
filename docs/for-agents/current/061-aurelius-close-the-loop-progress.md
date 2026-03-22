@@ -22,7 +22,27 @@ In progress
 
 ### Slice 1 — Phase 0: baseline commits
 
+- Verified working-tree diffs: `predator.nix` (amdev IPv4 fix), `llm-agents.nix`
+  (copilot-cli), `flake.lock` (four input updates) — all dendritic-compliant
+- Committed each in a focused commit; held back `aurelius.nix` until grafana.nix
+  was tracked
+- Gates passed: `./scripts/run-validation-gates.sh structure`
+- Evals passed: both `predator` and `aurelius` toplevel drvPaths returned
+
 ### Slice 2 — Phase 1: grafana
+
+- `git add`-ed `grafana.nix`, `aurelius.nix`, `060-aurelius-grafana-baseline.md`
+- Added `system.activationScripts.grafana-secret-key` to `grafana.nix`: generates
+  `/var/lib/grafana/secret-key` on first activation if absent
+- Committed in two commits: initial module + activation script fix
+- Gates passed: `./scripts/run-validation-gates.sh structure`,
+  `./scripts/check-docs-drift.sh`, `./scripts/check-repo-public-safety.sh`
+- Deployed: `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
+- Runtime proof:
+  - `grafana.service` is `active (running)` on aurelius
+  - `curl http://127.0.0.1:3001/` → HTTP 200 (local)
+  - `curl http://aurelius.your-tailnet.ts.net:3001/api/health` → HTTP 200 (from predator)
+  - Prometheus datasource provisioned declaratively
 
 ### Slice 3 — Phase 2: attic-publisher fix
 
