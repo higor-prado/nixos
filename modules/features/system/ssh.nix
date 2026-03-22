@@ -9,6 +9,7 @@
           KbdInteractiveAuthentication = false;
           PermitRootLogin = "no";
           PasswordAuthentication = false;
+          AuthenticationMethods = "publickey";
         };
       };
     };
