@@ -1,8 +1,21 @@
 { ... }:
 {
   flake.modules.nixos.grafana =
-    { ... }:
+    { lib, pkgs, ... }:
     {
+      # Generate a persistent secret key on first activation if absent.
+      # The file is owned by grafana and not tracked anywhere — it survives
+      # rebuilds as long as /var/lib/grafana is preserved.
+      system.activationScripts.grafana-secret-key = lib.stringAfter [ "users" "groups" ] ''
+        keyFile=/var/lib/grafana/secret-key
+        if [ ! -f "$keyFile" ]; then
+          mkdir -p /var/lib/grafana
+          ${pkgs.openssl}/bin/openssl rand -base64 32 > "$keyFile"
+          chown grafana:grafana "$keyFile"
+          chmod 600 "$keyFile"
+        fi
+      '';
+
       networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3001 ];
 
       services.grafana = {
