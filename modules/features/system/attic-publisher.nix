@@ -7,7 +7,7 @@
       cache = config.custom.attic.publisher.cache;
       tokenFile = config.custom.attic.publisher.tokenFile;
       atticClient = lib.getExe' pkgs.attic-client "attic";
-      watchStoreScript = pkgs.writeShellScript "attic-watch-store-remote" ''
+      postBuildHookScript = pkgs.writeShellScript "attic-post-build-hook" ''
         set -euo pipefail
 
         export HOME=/var/lib/attic-publisher
@@ -16,8 +16,8 @@
 
         token="$(cat ${lib.escapeShellArg tokenFile})"
 
-        ${atticClient} login --set-default remote ${lib.escapeShellArg endpoint} "$token" >/dev/null
-        exec ${atticClient} watch-store remote:${lib.escapeShellArg cache}
+        ${atticClient} login --set-default remote ${lib.escapeShellArg endpoint} "$token" >/dev/null 2>&1
+        ${atticClient} push remote:${lib.escapeShellArg cache} $OUT_PATHS 2>/dev/null || true
       '';
     in
     {
@@ -56,18 +56,7 @@
           ];
         }
         (lib.mkIf (endpoint != null) {
-          systemd.services.attic-watch-store = {
-            description = "Watch the local Nix store and publish new paths to the remote Attic cache";
-            after = [ "network-online.target" ];
-            wants = [ "network-online.target" ];
-            wantedBy = [ "multi-user.target" ];
-            serviceConfig = {
-              ExecStart = watchStoreScript;
-              Restart = "always";
-              RestartSec = "10s";
-              StateDirectory = "attic-publisher";
-            };
-          };
+          nix.settings.post-build-hook = postBuildHookScript;
         })
       ];
     };
