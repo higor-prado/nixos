@@ -348,7 +348,8 @@ Changes:
 - keep credentials, registration policy, and SSH/HTTP exposure explicit
 - defer mirror automation until the service itself is stable
 - treat local-only bring-up and remote access as two separate states:
-  - local-only on `127.0.0.1` is acceptable as an intermediate slice
+  - local-only on `127.0.0.1` is acceptable only as an intermediate slice
+  - local-only bring-up does not satisfy the final Forgejo goal for this roadmap
   - remote consumption from `predator` requires a later explicit access slice
 
 Validation:
@@ -364,10 +365,15 @@ Validation:
   - verify `ROOT_URL` matches the validated access path
 
 Diff expectation:
-- `aurelius` gains a declarative private Git service
+- `aurelius` gains either:
+  - a validated intermediate local-only Forgejo bring-up that remains explicitly
+    partial in the roadmap
+  - or a validated predator-consumable private Git service once the access model
+    is actually implemented
 
 Commit target:
-- `feat(forgejo): add aurelius git service`
+- `feat(forgejo): add aurelius local-only bring-up`
+- `feat(forgejo): expose aurelius git service to predator`
 
 ### Phase 5: Observability
 
@@ -516,3 +522,11 @@ Commit target:
   has been validated from the actual consumer host.
 - A slice is not “done” merely because it evaluates or builds; it must also
   satisfy the repo's structural style and runtime-proof requirements.
+- Removing a bad slice from active runtime counts only as integrity repair; it
+  does not count as delivering the capability that the roadmap still intends to
+  add.
+- A deferred slice is not a completed slice. It remains open work until it is:
+  - explicitly removed from the roadmap scope
+  - or implemented with its real access model and proof bar
+- For service slices like Forgejo, local-only health is never the final success
+  condition when the intended user story is real operator use from `predator`.
