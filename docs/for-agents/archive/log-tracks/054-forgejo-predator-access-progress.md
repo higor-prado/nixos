@@ -6,7 +6,7 @@ Completed
 
 ## Related Plan
 
-- [054-forgejo-predator-access-plan.md](/home/higorprado/nixos/docs/for-agents/plans/054-forgejo-predator-access-plan.md)
+- [054-forgejo-predator-access-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/054-forgejo-predator-access-plan.md)
 
 ## Baseline
 

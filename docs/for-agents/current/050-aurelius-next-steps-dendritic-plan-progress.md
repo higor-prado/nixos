@@ -225,7 +225,7 @@ In progress
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
 - Forgejo was later reintroduced through a dedicated narrow follow-up with a
   real Tailscale consumer path from `predator`; that work is tracked in
-  [054-forgejo-predator-access-plan.md](/home/higorprado/nixos/docs/for-agents/plans/054-forgejo-predator-access-plan.md).
+  [054-forgejo-predator-access-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/054-forgejo-predator-access-plan.md).
 - Backup remains explicitly out of scope for this cycle.
 
 ## Current Proof Matrix

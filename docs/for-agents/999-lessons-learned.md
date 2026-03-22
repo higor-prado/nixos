@@ -48,6 +48,9 @@
 44. When replacing an old framework battery, restore its behavior explicitly in the new owner. Syntax migration alone is not parity if semantic effects like primary-user admin groups disappear.
 45. Keep repo-wide user semantics narrow. Base account shape and truly cross-host admin semantics belong in `modules/users/<user>.nix`; host-specific groups like device or service access belong in the concrete host module.
 46. Keep the active docs surface small. Completed plans/logs belong in `archive/`; living docs should describe the current repo, not retell the migration.
+47. For service slices, keep service semantics in the service owner. URLs, bind policy, and service-specific firewall openings do not belong in the host file unless they are genuinely host-only facts rather than service behavior.
+48. A service slice is not complete until the intended consumer path is proved from the real consumer host. Host-local `systemd` health and localhost `curl` only prove the host side.
+49. When a service slice is recovered from a false-done state, treat “remove the bad version” as integrity repair only. Delivery happens only after the clean owner shape and the real consumer path are both proved.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO

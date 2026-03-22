@@ -186,6 +186,23 @@ Every implementation slice must satisfy all of the following:
    - “it builds” is necessary but not sufficient when the slice claims runtime
      behavior, operator workflow, or cross-host usability
 
+9. **Service semantics stay in the service owner**
+   - URLs, bind policy, and service-specific firewall openings belong in the
+     feature owner, not in the host file
+   - host files should compose the owner, not restate the service's meaning
+   - move a setting into the host only if it is truly concrete host-only state
+     rather than service behavior
+
+10. **Service execution must follow a two-step proof flow**
+   - first prove the owner shape is correct:
+     - host composes the feature cleanly
+     - service semantics live in the owner
+     - docs do not overclaim
+   - then prove runtime from both ends that matter:
+     - the host itself
+     - the real consumer path
+   - do not mix these into one fuzzy “working” judgment
+
 ## Phases
 
 ### Phase 0: Baseline
@@ -329,6 +346,8 @@ Validation:
 
 Diff expectation:
 - `aurelius` can host a binary cache without ad hoc service files in home
+- if the slice stops at local-only bring-up, it stays explicitly partial until a
+  real consumer path is proved
 
 Commit target:
 - `feat(attic): add aurelius binary cache server`
@@ -353,6 +372,8 @@ Changes:
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
+- verify the host file still only composes `nixos.forgejo` and does not carry
+  Forgejo-specific URL, firewall, or service attrsets
 - if the slice is local-only:
   - verify `forgejo.service` is active on `aurelius`
   - verify the listener is bound exactly as declared
@@ -448,6 +469,7 @@ Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
 - if predator changes, build predator too
+- verify the service owner still owns its own URL and exposure semantics
 - verify the selected access path from predator with the real consumer command
 - verify the documented URL matches the tested access path exactly
 
@@ -528,3 +550,6 @@ Commit target:
   - or implemented with its real access model and proof bar
 - For service slices like Forgejo, local-only health is never the final success
   condition when the intended user story is real operator use from `predator`.
+- Before a service slice is called complete, verify that the host file remains a
+  pure composition owner and that service semantics did not leak back into the
+  host during implementation.
