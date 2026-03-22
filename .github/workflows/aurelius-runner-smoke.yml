@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Prove Runner Identity
         run: |
@@ -43,7 +43,7 @@ jobs:
             > runner-smoke.txt
 
       - name: Upload Smoke Marker
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: aurelius-runner-smoke
           path: runner-smoke.txt
