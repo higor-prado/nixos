@@ -64,6 +64,7 @@ Out of scope:
     - cross-arch `dev-devenv` fix
     - node exporter as a local-only metrics primitive
     - Forgejo with predator-consumable Tailscale access
+    - Attic shared cache with predator producer and consumer flow proved end to end
   - partial:
     - remote-dev baseline because the activated predator-side `amdev`
       workflow is still unproved
@@ -333,6 +334,16 @@ Changes:
   - it already supports a private `environmentFile`
   - it already validates structured TOML settings
 - keep quota, data path, bind address, and secrets explicit
+- derive only the narrow local server facts in tracked runtime:
+  - bind address
+  - local publisher endpoint
+  - cache name from `config.networking.hostName`
+- keep deployment-specific consumer facts out of tracked runtime:
+  - public endpoint
+  - public signing key
+  - any host-private advertised URL
+- if a predator-side consumer owner is added, it must read only narrow private
+  deployment facts and must not hardcode them in the host owner or feature owner
 - treat a containerized Attic deployment as fallback only if a concrete native-module
   limitation appears during implementation
 - separate server bring-up from client integration if that reduces risk
@@ -340,14 +351,21 @@ Changes:
 Validation:
 - `./scripts/run-validation-gates.sh structure`
 - `nix build --no-link .#nixosConfigurations.aurelius.config.system.build.toplevel`
+- verify `attic-cache-bootstrap.service` exits successfully on `aurelius`
+- verify `attic-watch-store.service` stays active on `aurelius`
+- build a new proof path on `aurelius` and verify the watch-store service pushes
+  it automatically
+- verify the public cache endpoint serves `nix-cache-info`
 - if predator client wiring is added, build predator too
 - if the slice claims predator can consume the cache, prove it from predator
   with the real cache endpoint and client config in place
 
 Diff expectation:
 - `aurelius` can host a binary cache without ad hoc service files in home
-- if the slice stops at local-only bring-up, it stays explicitly partial until a
-  real consumer path is proved
+- the tracked runtime owns the producer path
+- consumer deployment facts remain private and narrow
+- if the slice stops before normal predator builds can consume the cache
+  automatically, it stays explicitly partial
 
 Commit target:
 - `feat(attic): add aurelius binary cache server`
