@@ -63,11 +63,12 @@ Out of scope:
     - Docker foundation on `aurelius`
     - cross-arch `dev-devenv` fix
     - node exporter as a local-only metrics primitive
+    - Prometheus as a local-only metrics collector on `aurelius`
     - Forgejo with predator-consumable Tailscale access
     - Attic shared cache with predator producer and consumer flow proved end to end
   - partial:
     - remote-dev baseline because the activated predator-side `amdev`
-      workflow is still unproved
+      workflow is still blocked by the real access path
 - The proof-based reclassification is tracked by
   [053-aurelius-no-false-done-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/053-aurelius-no-false-done-plan.md).
 - Several features proposed by the temporary roadmap already exist and should

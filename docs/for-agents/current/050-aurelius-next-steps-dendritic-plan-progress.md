@@ -136,6 +136,17 @@ In progress
 - Quality note:
   - this slice proved the server side and predator HM build path
   - it did not yet prove the activated predator-side `amdev` operator workflow
+- Later runtime re-check:
+  - `mosh aurelius -- ...` still failed after the first tracked slice because the
+    owner had not opened the Mosh UDP range on `tailscale0`
+  - the owner was corrected to publish:
+    - `networking.firewall.interfaces.tailscale0.allowedUDPPortRanges = [{ from = 60000; to = 61000; }]`
+  - after deployment, the firewall state evaluated correctly on `aurelius`
+  - the runtime path is still partial because `mosh` to the Tailscale path hits
+    a real Tailscale SSH interactive check, and local `~/.ssh/config`
+    permissions on `predator` are also bad for `mosh`
+  - the slice therefore remains honestly partial instead of being promoted to
+    complete
 
 ### Slice 3
 
@@ -249,6 +260,33 @@ In progress
   - the Attic shared-cache slice is complete
   - `aurelius` serves the cache
   - `predator` publishes automatically and consumes automatically
+
+### Slice 7
+
+- Started the next observability slice without pulling Grafana or a broad
+  monitoring bucket.
+- Added a narrow NixOS owner:
+  - [prometheus.nix](/home/higorprado/nixos/modules/features/system/prometheus.nix)
+- Wired `aurelius` to import `nixos.prometheus`.
+- Kept the service local-only and narrow:
+  - `listenAddress = "127.0.0.1"`
+  - `port = 9090`
+  - one scrape job for the already-tracked local node exporter at
+    `127.0.0.1:9100`
+- Validation:
+  - `./scripts/run-validation-gates.sh structure` passed
+  - `nix eval --json path:$PWD#nixosConfigurations.aurelius.config.services.prometheus.enable`
+    returned `true`
+  - `nix eval --json path:$PWD#nixosConfigurations.aurelius.config.services.prometheus.port`
+    returned `9090`
+  - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius`
+    passed
+  - runtime checks on `aurelius` confirmed:
+    - `prometheus.service` is `active` and `enabled`
+    - Prometheus listens only on `127.0.0.1:9090`
+    - `curl http://127.0.0.1:9090/-/ready` returns readiness
+    - `curl http://127.0.0.1:9090/api/v1/targets` shows the local node exporter
+      target configured
 
 ## Final State
 
