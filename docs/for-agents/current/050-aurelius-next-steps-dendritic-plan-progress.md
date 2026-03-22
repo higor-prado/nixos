@@ -269,7 +269,8 @@ In progress
   - [prometheus.nix](/home/higorprado/nixos/modules/features/system/prometheus.nix)
 - Wired `aurelius` to import `nixos.prometheus`.
 - Kept the service local-only and narrow:
-  - `listenAddress = "127.0.0.1"`
+  - initial cut:
+    - `listenAddress = "127.0.0.1"`
   - `port = 9090`
   - one scrape job for the already-tracked local node exporter at
     `127.0.0.1:9100`
@@ -283,10 +284,22 @@ In progress
     passed
   - runtime checks on `aurelius` confirmed:
     - `prometheus.service` is `active` and `enabled`
-    - Prometheus listens only on `127.0.0.1:9090`
-    - `curl http://127.0.0.1:9090/-/ready` returns readiness
-    - `curl http://127.0.0.1:9090/api/v1/targets` shows the local node exporter
-      target configured
+    - Prometheus initially listened on `127.0.0.1:9090`
+    - `curl http://127.0.0.1:9090/-/ready` returned readiness
+    - `curl http://127.0.0.1:9090/api/v1/targets` showed the local node exporter
+      target configured and later `health: "up"`
+- Follow-up access correction:
+  - Prometheus was then moved from local-only to the same Tailscale-only access
+    pattern used by the other remote services
+  - the owner now publishes:
+    - `networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 9090 ]`
+    - `services.prometheus.listenAddress = "0.0.0.0"`
+  - remote validation from `predator` confirmed:
+    - `curl -I http://aurelius.your-tailnet.ts.net:9090/`
+      returns `HTTP/1.1 405 Method Not Allowed`
+  - that `405` is acceptable proof of HTTP reachability for Prometheus because
+    the root endpoint rejects `HEAD` but still proves the service is reachable
+    over the intended access path
 
 ## Final State
 
