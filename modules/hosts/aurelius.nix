@@ -24,7 +24,6 @@ in
       nixosCoreServices = [
         nixos.networking
         nixos.docker
-        nixos.forgejo
         nixos.mosh
         nixos.node-exporter
         nixos.security

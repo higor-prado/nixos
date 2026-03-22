@@ -32,11 +32,12 @@ Out of scope:
 
 - The umbrella execution plan is
   [050-aurelius-next-steps-dendritic-plan.md](/home/higorprado/nixos/docs/for-agents/plans/050-aurelius-next-steps-dendritic-plan.md).
-- The first quality-sweep attempt is
-  [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md).
+- The first quality-sweep attempt is archived as
+  [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/archive/plans/052-aurelius-quality-sweep.md).
 - The active progress material currently includes:
   - [050-aurelius-next-steps-dendritic-plan-progress.md](/home/higorprado/nixos/docs/for-agents/current/050-aurelius-next-steps-dendritic-plan-progress.md)
-  - [052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/current/052-aurelius-quality-sweep-progress.md)
+- Historical sweep output is archived as:
+  - [052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/archive/log-tracks/052-aurelius-quality-sweep-progress.md)
 - Known concrete failures of execution discipline already identified:
   - a slice was treated as complete when only local host health had been proved
   - a follow-up "fix" tried to realign semantics instead of admitting the slice
@@ -44,14 +45,14 @@ Out of scope:
   - a subplan meant to remove previous gambiarras still admitted a new
     maquiagem-style correction
 - The currently affected areas are:
-  - [modules/features/system/forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
+  - the removed Forgejo slice formerly owned by `modules/features/system/forgejo.nix`
   - [modules/features/dev/dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix)
   - [modules/hosts/aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
   - [modules/hosts/predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
   - [docs/for-agents/plans/050-aurelius-next-steps-dendritic-plan.md](/home/higorprado/nixos/docs/for-agents/plans/050-aurelius-next-steps-dendritic-plan.md)
   - [docs/for-agents/current/050-aurelius-next-steps-dendritic-plan-progress.md](/home/higorprado/nixos/docs/for-agents/current/050-aurelius-next-steps-dendritic-plan-progress.md)
-  - [docs/for-agents/plans/052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md)
-  - [docs/for-agents/current/052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/current/052-aurelius-quality-sweep-progress.md)
+  - [docs/for-agents/archive/plans/052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/archive/plans/052-aurelius-quality-sweep.md)
+  - [docs/for-agents/archive/log-tracks/052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/archive/log-tracks/052-aurelius-quality-sweep-progress.md)
 - The healthy reference remains:
   - [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix)
   - the operating docs under `docs/for-agents/000-007`
@@ -77,8 +78,8 @@ Out of scope:
 Targets:
 - [050-aurelius-next-steps-dendritic-plan.md](/home/higorprado/nixos/docs/for-agents/plans/050-aurelius-next-steps-dendritic-plan.md)
 - [050-aurelius-next-steps-dendritic-plan-progress.md](/home/higorprado/nixos/docs/for-agents/current/050-aurelius-next-steps-dendritic-plan-progress.md)
-- [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md)
-- [052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/current/052-aurelius-quality-sweep-progress.md)
+- [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/archive/plans/052-aurelius-quality-sweep.md)
+- [052-aurelius-quality-sweep-progress.md](/home/higorprado/nixos/docs/for-agents/archive/log-tracks/052-aurelius-quality-sweep-progress.md)
 
 Changes:
 - list every slice currently implied to be ready or kept
@@ -125,7 +126,7 @@ Commit target:
 ### Phase 2: Remove Cosmetic Runtime Corrections
 
 Targets:
-- [modules/features/system/forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
+- the removed Forgejo slice formerly owned by `modules/features/system/forgejo.nix`
 - [modules/hosts/aurelius.nix](/home/higorprado/nixos/modules/hosts/aurelius.nix)
 - any related docs that depended on those cosmetic corrections
 

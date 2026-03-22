@@ -57,16 +57,20 @@ Out of scope:
   - [hardware/aurelius/disko.nix](/home/higorprado/nixos/hardware/aurelius/disko.nix)
   - [hardware/aurelius/hardware-configuration.nix](/home/higorprado/nixos/hardware/aurelius/hardware-configuration.nix)
   - [hardware/aurelius/performance.nix](/home/higorprado/nixos/hardware/aurelius/performance.nix)
-- The first clean implementation slices are already in tracked runtime:
-  - Docker foundation on `aurelius`
-  - remote dev baseline
-  - cross-arch `dev-devenv` fix
-  - Mosh
-  - node exporter
-  - Forgejo
-- Those kept slices are now under a separate quality sweep in
-  [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md)
-  so the active plan does not silently overstate their completeness.
+- The currently kept `aurelius` slices now have explicit status instead of a
+  blanket "done" label:
+  - complete:
+    - Docker foundation on `aurelius`
+    - cross-arch `dev-devenv` fix
+    - node exporter as a local-only metrics primitive
+  - partial:
+    - remote-dev baseline because the activated predator-side `amdev`
+      workflow is still unproved
+  - deferred/removed from active runtime:
+    - Forgejo, because there is still no proved access model and the slice was
+      previously inflated beyond its proof
+- The proof-based reclassification is tracked by
+  [053-aurelius-no-false-done-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/053-aurelius-no-false-done-plan.md).
 - Several features proposed by the temporary roadmap already exist and should
   be reused instead of reinvented:
   - [modules/features/system/docker.nix](/home/higorprado/nixos/modules/features/system/docker.nix)

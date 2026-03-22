@@ -6,7 +6,7 @@ Completed
 
 ## Related Plan
 
-- [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/plans/052-aurelius-quality-sweep.md)
+- [052-aurelius-quality-sweep.md](/home/higorprado/nixos/docs/for-agents/archive/plans/052-aurelius-quality-sweep.md)
 
 ## Baseline
 
@@ -33,9 +33,8 @@ Completed
     of assuming a repo clone at `~/nixos`
   - [dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix)
     no longer uses `lib.mkForce` for `direnv/direnvrc`
-  - [forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
-    now uses local-only URL semantics (`127.0.0.1`) that match the validated
-    access path
+  - the then-tracked Forgejo slice was cosmetically re-aligned to local-only
+    URL semantics instead of being honestly downgraded
 - Corrected active docs:
   - removed the unvalidated `amdev` path from
     [106-deploy-aurelius.md](/home/higorprado/nixos/docs/for-humans/workflows/106-deploy-aurelius.md)
@@ -63,8 +62,8 @@ Completed
   - `ssh aurelius 'devc list'` now returns the embedded tracked templates
   - `ssh aurelius 'devc python <tmpdir>'` now materializes template files
   - `nix eval --raw path:$PWD#nixosConfigurations.aurelius.config.services.forgejo.settings.server.ROOT_URL`
-    now returns `http://127.0.0.1:3000/`
-  - `ssh aurelius 'curl -I http://127.0.0.1:3000'` returns `HTTP/1.1 200 OK`
+    returned `http://127.0.0.1:3000/` during that sweep
+  - `ssh aurelius 'curl -I http://127.0.0.1:3000'` returned `HTTP/1.1 200 OK`
   - `ssh aurelius 'curl http://127.0.0.1:9100/metrics'` returns exporter metrics
 
 - Remaining honesty constraint:
@@ -74,9 +73,10 @@ Completed
 
 ## Final State
 
-- Runtime and active docs have been corrected.
-- Behavioral proofs for `devc`, Forgejo local-only, and node exporter were rerun
-  on the real `aurelius` host.
+- Runtime and active docs were corrected relative to the baseline understood at
+  that time.
+- Behavioral proofs for `devc`, the then-local-only Forgejo slice, and node
+  exporter were rerun on the real `aurelius` host.
 - The full repo gate rerun completed successfully:
   - `./scripts/run-validation-gates.sh all`
   - `./scripts/check-docs-drift.sh`
@@ -87,3 +87,7 @@ Completed
   - server side proved
   - predator HM build proved
   - full activated predator-side workflow still not counted as proved
+- This archived sweep was later superseded by
+  [053-aurelius-no-false-done-plan.md](/home/higorprado/nixos/docs/for-agents/archive/plans/053-aurelius-no-false-done-plan.md),
+  which removed the Forgejo slice from active runtime instead of keeping the
+  cosmetic local-only URL alignment.

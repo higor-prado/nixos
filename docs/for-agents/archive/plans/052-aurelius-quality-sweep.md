@@ -41,7 +41,7 @@ Out of scope:
   - [dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix)
   - [mosh.nix](/home/higorprado/nixos/modules/features/system/mosh.nix)
   - [node-exporter.nix](/home/higorprado/nixos/modules/features/system/node-exporter.nix)
-  - [forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
+  - the then-tracked Forgejo owner, which was later removed from active runtime
 - The current active docs surface also still contains
   [reference.md](/home/higorprado/nixos/docs/for-agents/current/reference.md),
   which is temporary external source material and not a repo-authored active
@@ -115,7 +115,7 @@ Commit target:
 ### Phase 1: Fix Runtime Semantics
 
 Targets:
-- [forgejo.nix](/home/higorprado/nixos/modules/features/system/forgejo.nix)
+- the then-tracked Forgejo owner
 - [dev-devenv.nix](/home/higorprado/nixos/modules/features/dev/dev-devenv.nix)
 
 Changes:
