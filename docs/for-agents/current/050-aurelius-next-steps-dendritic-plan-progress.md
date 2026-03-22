@@ -321,7 +321,8 @@ In progress
     returned `{}`
 - Honest classification:
   - first pass proved only the tracked owner shape
-  - after adding the gitignored Aurelius private binding and token file:
+  - after adding the gitignored Aurelius private binding and token file on the
+    target host:
     - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
       passed
     - `github-runner-aurelius.service` became `active (running)`
@@ -329,8 +330,12 @@ In progress
       - `Connected to GitHub`
       - `Runner successfully added`
       - `Listening for Jobs`
-  - the slice is still partial because no real GitHub workflow job has yet been
-    proved on this runner
+  - later follow-up proved real workflow execution:
+    - `higor-prado/nixos` smoke workflow succeeded
+    - `higor-prado/keyrs` smoke workflow succeeded
+  - the org-wide path required two additional real facts:
+    - the runner group had to allow public repositories
+    - the proven workflow shape used `group: Default` plus explicit labels
 
 ## Final State
 
@@ -346,8 +351,8 @@ In progress
 - Slice 6 established the Attic server and automatic producer flow on
   `aurelius`, plus the complete shared-cache flow for `predator`.
 - Slice 8 added the tracked GitHub runner owner and private-example shape, then
-  proved local runtime plus GitHub registration on `aurelius`; only workflow
-  execution proof remains open.
+  proved local runtime, GitHub registration, and real workflow execution on
+  `aurelius` across org repositories.
 - Slice 4 was removed from active runtime because its access model was not
   actually solved.
 - Slice 5 reset the later bad drift and kept only the clean validated runtime.
@@ -367,4 +372,4 @@ In progress
 | Attic server + producer flow | yes | yes | yes | yes; normal predator build consumption still depends on private override facts | partial |
 | node exporter | yes | yes | yes | yes for local-only monitoring claim | complete |
 | Forgejo | yes | yes | yes | yes via `http://aurelius.your-tailnet.ts.net:3000/` from `predator` | complete |
-| GitHub runner | yes | yes | yes | partially; registered and listening, but no workflow job proof yet | partial |
+| GitHub runner | yes | yes | yes | yes; proved with successful org-wide workflow jobs on `nixos` and `keyrs` | complete |

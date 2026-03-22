@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress
+Complete
 
 ## Related Plan
 
@@ -60,9 +60,7 @@ In progress
 - The repo now has a narrow tracked GitHub runner owner for `aurelius`.
 - The host owner stayed clean.
 - No token or repository binding was tracked.
-- A real private binding now exists in the gitignored Aurelius override:
-  - `url = "https://github.com/higorprado/nixos"`
-  - `tokenFile = "~/.config/github-runner/aurelius.token"`
+- A real private binding now exists in the gitignored Aurelius override.
 - Real host deployment was attempted with:
   - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
 - After the token file was created on the host, the same deployment command passed.
@@ -74,8 +72,19 @@ In progress
     - `Connected to GitHub`
     - `Runner successfully added`
     - `Listening for Jobs`
+- The binding was later migrated from repo scope to org scope:
+  - `url = "https://github.com/higor-prado"`
+  - `runnerGroup = "Default"`
+- Org-level runtime proof now also exists:
+  - the runner is online in `higor-prado`
+  - the proven workflow shape for org jobs is:
+    - `runs-on.group = "Default"`
+    - labels `self-hosted`, `aurelius`, `nixos`, `aarch64`
+- Workflow-job execution proof is complete:
+  - `higor-prado/nixos` runner smoke succeeded
+  - `higor-prado/keyrs` runner smoke succeeded
 - Honest classification:
+  - tracked owner proof is complete
   - local runtime proof is complete
   - GitHub-side registration proof is complete
-  - workflow-job execution proof is still absent
-  - the slice therefore remains partial until one real workflow job runs successfully on this runner
+  - workflow-job execution proof is complete
