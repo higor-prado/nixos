@@ -51,6 +51,7 @@
 47. For service slices, keep service semantics in the service owner. URLs, bind policy, and service-specific firewall openings do not belong in the host file unless they are genuinely host-only facts rather than service behavior.
 48. A service slice is not complete until the intended consumer path is proved from the real consumer host. Host-local `systemd` health and localhost `curl` only prove the host side.
 49. When a service slice is recovered from a false-done state, treat “remove the bad version” as integrity repair only. Delivery happens only after the clean owner shape and the real consumer path are both proved.
+50. When a feature is gated behind private binding, add at least one synthetic eval with a fake non-secret binding before claiming the owner shape is correct. Lazy `mkIf` paths can hide broken references until the real binding appears.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO

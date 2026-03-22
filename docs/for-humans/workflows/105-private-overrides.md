@@ -29,7 +29,8 @@ user definition shown above.
 
 If a host needs deployment-specific service facts that must not be hardcoded in
 tracked runtime, place them in the gitignored host private override. For shape,
-see `private/hosts/predator/services.nix.example`:
+see `private/hosts/predator/services.nix.example` and
+`private/hosts/aurelius/services.nix.example`:
 
 ```nix
 { ... }:
@@ -43,6 +44,12 @@ see `private/hosts/predator/services.nix.example`:
     endpoint = "http://aurelius.example.ts.net:8080";
     cache = "aurelius";
     tokenFile = "/home/<user>/.config/attic/predator-publisher.token";
+  };
+
+  custom.githubRunner = {
+    url = "https://github.com/owner/repository";
+    tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
+    runnerGroup = "Default";
   };
 }
 ```

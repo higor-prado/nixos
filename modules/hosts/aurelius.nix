@@ -27,6 +27,7 @@ in
         nixos.networking
         nixos.docker
         nixos.forgejo
+        nixos.github-runner
         nixos.mosh
         nixos.node-exporter
         nixos.prometheus

@@ -31,6 +31,7 @@ Examples may also include host-private service wiring such as:
 - Attic consumer endpoint/public key for `predator`
 - Attic publisher endpoint/cache/token file for `predator`
 - Host-local advertised service URLs for `aurelius`
+- GitHub runner repository binding and token file for `aurelius`
 
 ## Priority
 
