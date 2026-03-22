@@ -47,12 +47,19 @@ see `private/hosts/predator/services.nix.example` and
   };
 
   custom.githubRunner = {
-    url = "https://github.com/owner/repository";
+    url = "https://github.com/owner-or-organization";
     tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
     runnerGroup = "Default";
   };
 }
 ```
+
+Important:
+- `custom.githubRunner.tokenFile` is read on the target host
+- for an org-wide runner, the working shape is organization URL plus
+  `runnerGroup = "Default"`
+- if the repositories are public, the GitHub runner group must allow public
+  repositories
 
 ## Home-manager private config
 

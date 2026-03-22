@@ -33,6 +33,11 @@ Examples may also include host-private service wiring such as:
 - Host-local advertised service URLs for `aurelius`
 - GitHub runner repository binding and token file for `aurelius`
 
+Important:
+- when a private override points to a file path such as a token file, that path
+  is interpreted on the target host where the service runs, not on the machine
+  that runs `nh`
+
 ## Priority
 
 Private config uses `lib.mkForce` or higher-priority `mkOverride` to take
