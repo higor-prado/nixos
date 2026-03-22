@@ -1,0 +1,49 @@
+name: aurelius-runner-smoke
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: aurelius-runner-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on:
+      - self-hosted
+      - aurelius
+      - nixos
+      - aarch64
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prove Runner Identity
+        run: |
+          set -euo pipefail
+          echo "hostname=$(hostname)"
+          echo "arch=$(uname -m)"
+          echo "user=$(id -un)"
+          test "$(hostname)" = "aurelius"
+          test "$(uname -m)" = "aarch64"
+
+      - name: Prove Docker Access
+        run: |
+          set -euo pipefail
+          docker version --format '{{.Server.Version}}'
+
+      - name: Emit Smoke Marker
+        run: |
+          set -euo pipefail
+          printf 'runner=%s\narch=%s\ntime=%s\n' \
+            "$(hostname)" \
+            "$(uname -m)" \
+            "$(date -Iseconds)" \
+            > runner-smoke.txt
+
+      - name: Upload Smoke Marker
+        uses: actions/upload-artifact@v4
+        with:
+          name: aurelius-runner-smoke
+          path: runner-smoke.txt
