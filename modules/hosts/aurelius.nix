@@ -29,6 +29,7 @@ in
         nixos.forgejo
         nixos.mosh
         nixos.node-exporter
+        nixos.prometheus
         nixos.security
         nixos.keyboard
         nixos.maintenance
