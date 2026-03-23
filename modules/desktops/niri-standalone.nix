@@ -1,13 +1,23 @@
-{ ... }:
+{ config, inputs, ... }:
+let
+  userName = config.username;
+in
 {
   flake.modules = {
     nixos.desktop-niri-standalone =
       { lib, pkgs, ... }:
+      let
+        system = pkgs.stdenv.hostPlatform.system;
+        niriPackage = inputs.niri.packages.${system}.niri-unstable;
+      in
       {
         services.greetd.enable = lib.mkDefault true;
+        services.greetd.settings.default_session.command =
+          lib.mkOverride 100 "${niriPackage}/bin/niri --session";
+        services.greetd.settings.default_session.user =
+          lib.mkOverride 100 userName;
         systemd.user.services.niri-flake-polkit.enable = lib.mkDefault false;
         xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
-        custom.niri.standaloneSession = true;
       };
 
     homeManager.desktop-niri-standalone =

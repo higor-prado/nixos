@@ -1,11 +1,22 @@
 # Private host service overrides for Aurelius.
 { ... }:
 {
-  # Optional: GitHub runner wiring for Aurelius.
+  # GitHub runner wiring.
   # `tokenFile` is read on the target host, not on the machine that runs `nh`.
   # services.github-runners.aurelius = {
   #   url = "https://github.com/owner-or-organization";
   #   tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
   #   runnerGroup = "Default";
+  # };
+
+  # Deployment-specific service domains.
+  # services.grafana.settings.server = {
+  #   domain = "your-host.your-tailnet.ts.net";
+  #   root_url = "http://your-host.your-tailnet.ts.net:3001/";
+  # };
+  #
+  # services.forgejo.settings.server = {
+  #   DOMAIN = "your-host.your-tailnet.ts.net";
+  #   ROOT_URL = "http://your-host.your-tailnet.ts.net:3000/";
   # };
 }

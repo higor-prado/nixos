@@ -21,7 +21,7 @@ Publish the lower-level module(s) your feature owns.
 }
 ```
 
-### Pattern 2 — Needs one narrow semantic input
+### Pattern 2 — Rare case: truly owned semantic input
 
 Declare a narrow feature-owned option only when the feature genuinely owns that
 input:
@@ -44,6 +44,9 @@ input:
 If the host-specific part is just a local package selection or one-off runtime
 payload, keep it in the host composition instead of inventing a repo-wide
 carrier or broad option surface.
+
+In this repo, this is the exception, not the default. Most feature files should
+look like Pattern 1 and let host or desktop composition be the condition.
 
 ```nix
 home-manager.users.${userName}.imports = [
@@ -81,7 +84,7 @@ in
 }
 ```
 
-## 3. Declare options if needed
+## 3. Declare options only when the feature truly owns the fact
 
 If the feature needs custom options, declare them in the feature file that owns them or in another narrow owner that genuinely owns that concern.
 

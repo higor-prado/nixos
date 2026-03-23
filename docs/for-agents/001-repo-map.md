@@ -69,7 +69,8 @@ docs/for-agents/archive/ archived plans and log tracks
 
 **System**
 - `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
-- `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`, `system/tailscale-exit-node.nix` (exit-node capability; aurelius only)
+- `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
+- `system/networking-wireguard-client.nix`, `system/networking-wireguard-server.nix`
 - `system/docker.nix`, `system/podman.nix`, `system/keyrs.nix`
 - `system/keyboard.nix`, `system/upower.nix`
 - `system/maintenance.nix` (fstrim, universal SSD trim), `system/maintenance-smartd.nix` (smartd health monitoring, desktop-only), `system/maintenance-disk-alert.nix` (root filesystem usage alert; aurelius only), `system/backup-service.nix`
