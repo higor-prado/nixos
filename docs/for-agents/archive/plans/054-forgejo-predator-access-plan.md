@@ -41,7 +41,7 @@ Out of scope:
 - The real Tailscale DNS name observed on `aurelius` is:
   - `aurelius.your-tailnet.ts.net`
 - The Tailscale IP observed on `aurelius` is:
-  - `100.98.224.110`
+  - `100.x.x.x`
 - The current healthy reference for host-owner readability remains
   [predator.nix](/home/higorprado/nixos/modules/hosts/predator.nix).
 
