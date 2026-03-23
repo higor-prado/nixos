@@ -2,15 +2,18 @@
 { ... }:
 {
   # Optional: private Attic consumer wiring for this host.
-  # custom.attic.client = {
-  #   endpoint = "http://aurelius.example.ts.net:8080/aurelius";
-  #   publicKey = "aurelius:replace-with-public-key";
+  # nix.settings = {
+  #   extra-substituters = [ "http://aurelius.example.ts.net:8080/aurelius" ];
+  #   extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
   # };
 
   # Optional: private Attic producer wiring for this host.
-  # custom.attic.publisher = {
-  #   endpoint = "http://aurelius.example.ts.net:8080";
-  #   cache = "aurelius";
-  #   tokenFile = "/home/<user>/.config/attic/predator-publisher.token";
+  # environment.etc."attic/publisher.conf" = {
+  #   mode = "0400";
+  #   text = ''
+  #     ENDPOINT=http://aurelius.example.ts.net:8080
+  #     CACHE=aurelius
+  #     TOKEN_FILE=/home/<user>/.config/attic/predator-publisher.token
+  #   '';
   # };
 }

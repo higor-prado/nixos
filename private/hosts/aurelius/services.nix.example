@@ -3,7 +3,7 @@
 {
   # Optional: GitHub runner wiring for Aurelius.
   # `tokenFile` is read on the target host, not on the machine that runs `nh`.
-  # custom.githubRunner = {
+  # services.github-runners.aurelius = {
   #   url = "https://github.com/owner-or-organization";
   #   tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
   #   runnerGroup = "Default";

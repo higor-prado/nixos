@@ -2,7 +2,7 @@
 
 ## Status
 
-Complete
+In progress
 
 ## Related Plan
 
@@ -19,14 +19,14 @@ Complete
 
 ### Slice 1
 
-- Restored narrow tracked option contracts for:
+- Reverted the mistaken custom option surface from:
   - [attic-client.nix](/home/higorprado/nixos/modules/features/system/attic-client.nix)
   - [attic-publisher.nix](/home/higorprado/nixos/modules/features/system/attic-publisher.nix)
   - [github-runner.nix](/home/higorprado/nixos/modules/features/system/github-runner.nix)
-- Re-aligned the real private overrides to those tracked contracts:
+- Re-aligned the real private overrides back to the repo-native direct shape:
   - `private/hosts/aurelius/services.nix`
   - `private/hosts/predator/services.nix`
-- Reduced one Attic publisher smell while keeping the post-build-hook shape:
+- Kept the Attic publisher hardening while restoring the direct contract:
   - added explicit tmpfiles for `/var/lib/attic-publisher`
   - removed silent `|| true` swallowing and replaced it with explicit stderr logging
 
@@ -52,38 +52,20 @@ Complete
 
 ### Slice 4
 
-- Revalidated the reconciled tracked contract locally:
-  - `./scripts/check-repo-public-safety.sh` passed
-  - `./scripts/check-docs-drift.sh` passed
-  - `./scripts/run-validation-gates.sh structure` passed
-  - `nix eval --raw path:$PWD#nixosConfigurations.predator.config.system.build.toplevel.drvPath` passed
-  - `nix eval --raw path:$PWD#nixosConfigurations.aurelius.config.system.build.toplevel.drvPath` passed
-- Revalidated local runtime shaping after the restored Attic contract:
-  - `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` passed
-  - the resulting build output showed the restored automatic Attic wiring in use:
-    - `attic-post-build-hook.drv` was rebuilt
-    - `extra-substituters`/`extra-trusted-public-keys` were active through the
-      tracked owner again
-    - the build consumed real cache paths from
-      `http://your-attic-host:8080/aurelius`
-- The only remaining proof gap is remote host re-application with the narrowed
-  private `sudo` surface was closed after Tailscale SSH access was approved:
-  - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless`
-    got past the old Tailscale SSH gate and into real closure copy on the host
-  - direct remote proof on `aurelius` also showed the reduced `NOPASSWD` set is
-    sufficient for the real operator flow:
-    - `sudo --non-interactive /run/current-system/sw/bin/nix --version`
-    - `sudo --non-interactive /nix/var/nix/profiles/system/bin/switch-to-configuration test`
+- Revalidated the narrowed private `sudo` surface on `aurelius` directly:
+  - `sudo --non-interactive /run/current-system/sw/bin/nix --version`
+  - `sudo --non-interactive /nix/var/nix/profiles/system/bin/switch-to-configuration test`
+- The remote deploy path also got past the old Tailscale SSH interactive gate
+  and into real closure copy on the host.
 
 ## Current State
 
-- Decision taken for Attic: restore the narrow tracked option contract
-  (`custom.attic.client.*` and `custom.attic.publisher.*`) instead of keeping
-  undocumented raw private wiring.
-- Tracked code, tracked examples, and the real private overrides are back on the
-  same contract for:
-  - Attic client
-  - Attic publisher
-  - GitHub runner
-- The private `sudo` surface on `aurelius` is now narrower while still covering
-  the proven remote operator path.
+- The first attempted fix was wrong because it reintroduced custom option
+  surfaces that this repo does not use for this kind of feature wiring.
+- The correct target shape is:
+  - feature import is the condition
+  - tracked feature owns only stable payload
+  - private overrides inject concrete facts directly into the real lower-level
+    NixOS options
+- The private `sudo` surface on `aurelius` is still narrower while covering the
+  proven remote operator path.

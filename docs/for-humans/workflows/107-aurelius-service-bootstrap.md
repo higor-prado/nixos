@@ -36,7 +36,7 @@ These are GitHub settings, not NixOS state:
 ```nix
 { ... }:
 {
-  custom.githubRunner = {
+  services.github-runners.aurelius = {
     url = "https://github.com/<org>";
     tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
     runnerGroup = "Default";
@@ -93,6 +93,27 @@ runner group plus labels.
 1. Put the private host bindings in the gitignored overrides:
 - `private/hosts/aurelius/services.nix`
 - `private/hosts/predator/services.nix`
+
+Shape on `predator`:
+
+```nix
+{ ... }:
+{
+  environment.etc."attic/publisher.conf" = {
+    mode = "0400";
+    text = ''
+      ENDPOINT=http://your-attic-host:8080
+      CACHE=aurelius
+      TOKEN_FILE=/home/<user>/.config/attic/predator-publisher.token
+    '';
+  };
+
+  nix.settings = {
+    extra-substituters = [ "http://your-attic-host:8080/aurelius" ];
+    extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
+  };
+}
+```
 
 2. Create the Attic server env file on `aurelius`:
 
