@@ -2,7 +2,7 @@
 
 ## Goal
 
-Identify the exact failure mode preventing the Aurelius GitHub runner from registering at the `higor-prado` organization scope, without making further speculative runtime changes.
+Identify the exact failure mode preventing the Aurelius GitHub runner from registering at the `your-org` organization scope, without making further speculative runtime changes.
 
 ## Scope
 
@@ -28,7 +28,7 @@ Out of scope:
 ## Current State
 
 - [github-runner.nix](/home/higorprado/nixos/modules/features/system/github-runner.nix) wires `services.github-runners.aurelius`
-- private binding at `private/hosts/aurelius/services.nix` points to `https://github.com/higor-prado`
+- private binding at `private/hosts/aurelius/services.nix` points to `https://github.com/your-org`
 - `runnerGroup = "Default"` is currently set privately
 - `nh os test path:$PWD#aurelius --target-host aurelius --build-host aurelius -e passwordless` fails on service activation
 - `github-runner-aurelius.service` fails in `ExecStartPre` during configure
@@ -36,8 +36,8 @@ Out of scope:
   - `POST https://api.github.com/actions/runner-registration`
   - `404 Not Found`
 - the PAT in `~/.config/github-runner/aurelius.token` can call:
-  - `GET /orgs/higor-prado/actions/runners`
-  - `POST /orgs/higor-prado/actions/runners/registration-token`
+  - `GET /orgs/your-org/actions/runners`
+  - `POST /orgs/your-org/actions/runners/registration-token`
 
 ## Desired End State
 
@@ -153,5 +153,5 @@ Commit target:
 - the exact cause of the organization registration failure is isolated with evidence
 - the fix, if any, is minimal and directly tied to that cause
 - `github-runner-aurelius.service` starts successfully against the org scope
-- the runner appears in `higor-prado` organization runners
+- the runner appears in `your-org` organization runners
 - no additional speculative feature work is mixed into the debugging slice

@@ -330,8 +330,8 @@ In progress
       - `Runner successfully added`
       - `Listening for Jobs`
   - later follow-up proved real workflow execution:
-    - `higor-prado/nixos` smoke workflow succeeded
-    - `higor-prado/keyrs` smoke workflow succeeded
+    - `your-org/nixos` smoke workflow succeeded
+    - `your-org/keyrs` smoke workflow succeeded
   - the org-wide path required two additional real facts:
     - the runner group had to allow public repositories
     - the proven workflow shape used `group: Default` plus explicit labels

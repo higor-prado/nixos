@@ -49,7 +49,7 @@ Completed
     - `curl -I http://127.0.0.1:3000` returns `HTTP/1.1 200 OK`
   - predator-side:
     - `getent ahostsv4 aurelius.your-tailnet.ts.net` resolves to
-      `100.98.224.110`
+      `100.x.x.x`
     - `curl -I http://aurelius.your-tailnet.ts.net:3000/` returns
       `HTTP/1.1 200 OK`
 

@@ -73,16 +73,16 @@ Complete
     - `Runner successfully added`
     - `Listening for Jobs`
 - The binding was later migrated from repo scope to org scope:
-  - `url = "https://github.com/higor-prado"`
+  - `url = "https://github.com/your-org"`
   - `runnerGroup = "Default"`
 - Org-level runtime proof now also exists:
-  - the runner is online in `higor-prado`
+  - the runner is online in `your-org`
   - the proven workflow shape for org jobs is:
     - `runs-on.group = "Default"`
     - labels `self-hosted`, `aurelius`, `nixos`, `aarch64`
 - Workflow-job execution proof is complete:
-  - `higor-prado/nixos` runner smoke succeeded
-  - `higor-prado/keyrs` runner smoke succeeded
+  - `your-org/nixos` runner smoke succeeded
+  - `your-org/keyrs` runner smoke succeeded
 - Honest classification:
   - tracked owner proof is complete
   - local runtime proof is complete
