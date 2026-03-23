@@ -24,7 +24,10 @@ devc python my-project       # new Python project from template
 devc python .                # init template in current dir
 ```
 
-Templates live in `config/devenv-templates/`.
+By default, `devc` uses the repo's tracked embedded template set. To point it at
+another flake that exposes `templates`, override `DEVC_FLAKE`.
+
+The tracked template sources live in `config/devenv-templates/`.
 
 ## direnv
 

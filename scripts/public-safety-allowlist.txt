@@ -1,3 +1,6 @@
 ^(\./)?scripts/check-repo-public-safety\.sh:
 ^(\./)?scripts/public-safety-allowlist\.txt:
 ^(\./)?modules/users/higorprado\.nix:
+^(\./)?private/hosts/aurelius/networking\.nix\.example:
+^(\./)?private/hosts/predator/networking\.nix\.example:
+^(\./)?docs/for-agents/plans/065-audit-064-remediation\.md:

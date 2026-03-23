@@ -13,38 +13,75 @@ in
     let
       inherit (config.flake.modules) homeManager nixos;
       userName = config.username;
-    in
-    {
-      imports = [
+
+      nixosInfrastructure = [
         inputs.home-manager.nixosModules.home-manager
         nixos.system-base
         nixos.home-manager-settings
+        nixos.nixpkgs-settings
+        nixos.nix-settings
+      ];
+      nixosCoreServices = [
+        nixos.attic-server
+        nixos.attic-local-publisher
         nixos.networking
+        nixos.docker
+        nixos.docker-health-check
+        nixos.forgejo
+        nixos.grafana
+        nixos.github-runner
+        nixos.mosh
+        nixos.node-exporter
+        nixos.prometheus
         nixos.security
         nixos.keyboard
-        nixos.nixpkgs-settings
         nixos.maintenance
+        nixos.maintenance-disk-alert
+        nixos.networking-wireguard-server
         nixos.tailscale
-        nixos.higorprado
-        nixos.nix-settings
-        nixos.packages-server-tools
-        nixos.packages-system-tools
         nixos.fish
         nixos.ssh
-      ] ++ hardwareImports;
+      ];
+      nixosUserTools = [
+        nixos.higorprado
+        nixos.editor-neovim
+        nixos.packages-toolchains
+        nixos.packages-server-tools
+        nixos.packages-system-tools
+      ];
+
+      hmUserTools = [
+        homeManager.higorprado
+        homeManager.core-user-packages
+        homeManager.docker
+        homeManager.git-gh
+        homeManager.monitoring-tools
+        homeManager.ssh
+      ];
+      hmShell = [
+        homeManager.fish
+        homeManager.starship
+        homeManager.terminal-tmux
+        homeManager.tui-tools
+      ];
+      hmDev = [
+        homeManager.dev-devenv
+        homeManager.dev-tools
+        homeManager.editor-neovim
+        homeManager.packages-toolchains
+      ];
+    in
+    {
+      imports = nixosInfrastructure ++ nixosCoreServices ++ nixosUserTools ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
 
+      users.users.${userName}.extraGroups = [ "docker" ];
+
       home-manager = {
         users.${userName} = {
-          imports = [
-            homeManager.higorprado
-            homeManager.core-user-packages
-            homeManager.fish
-            homeManager.git-gh
-            homeManager.ssh
-          ];
+          imports = hmUserTools ++ hmShell ++ hmDev;
 
           programs.fish.shellAbbrs = {
             naui = "nh os info";
@@ -55,7 +92,5 @@ in
           };
         };
       };
-
-      services.openssh.settings.KbdInteractiveAuthentication = false;
     };
 }

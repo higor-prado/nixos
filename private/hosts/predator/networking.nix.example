@@ -1,6 +1,43 @@
 # Private host networking values (LAN DNS, internal domains, local routes).
-{ ... }:
+#
+# WireGuard client tunnels on predator are managed by NetworkManager.
+# NM connections are persisted via /etc/NetworkManager/system-connections.
+# Source .conf files live at ~/.config/wireguard/{wg-br,wg-us}.conf.
+# To import: nmcli connection import type wireguard file ~/.config/wireguard/wg-br.conf
+{ pkgs, ... }:
 {
-  # Example:
-  # services.resolved.settings.Resolve.DNS = [ "X.X.X.X" ];
+  # Example: mDNS-based dynamic DNS resolver.
+  # Resolves a local host via avahi and sets it as the system DNS.
+  #
+  # services.resolved.settings.Resolve.FallbackDNS = [ ];
+  #
+  # systemd.services.update-mdns-dns = {
+  #   description = "Resolve <host>.local and apply it as resolver DNS";
+  #   after = [ "network-online.target" "avahi-daemon.service" "systemd-resolved.service" ];
+  #   wants = [ "network-online.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = "${pkgs.writeShellScript "update-mdns-dns" ''
+  #       set -euo pipefail
+  #       host="your-dns-host.local"
+  #       iface="$(${pkgs.iproute2}/bin/ip route show default | ${pkgs.gawk}/bin/awk '{print $5; exit}')"
+  #       [ -z "$iface" ] && exit 0
+  #       ip="$(${pkgs.avahi}/bin/avahi-resolve-host-name -4 "$host" 2>/dev/null | ${pkgs.gawk}/bin/awk '{print $2; exit}' || true)"
+  #       [ -z "$ip" ] && exit 0
+  #       ${pkgs.systemd}/bin/resolvectl dns "$iface" "$ip" || exit 0
+  #       ${pkgs.systemd}/bin/resolvectl domain "$iface" "~." || exit 0
+  #     ''}";
+  #   };
+  #   wantedBy = [ "multi-user.target" ];
+  # };
+  #
+  # systemd.timers.update-mdns-dns = {
+  #   description = "Refresh resolver DNS";
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     OnBootSec = "30s";
+  #     OnUnitActiveSec = "2min";
+  #     Unit = "update-mdns-dns.service";
+  #   };
+  # };
 }

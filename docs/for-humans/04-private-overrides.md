@@ -3,10 +3,12 @@
 ## What goes in private overrides
 
 Real-world settings that must never be committed:
-- Your actual username
 - SSH authorized keys
 - Personal dotfile paths
 - Theme/font preferences
+- Host-local secrets and machine-specific auth material
+- Host-private service endpoints and public keys that are safe to share
+  operationally but should not be hardcoded into the tracked runtime
 
 ## Location
 
@@ -22,14 +24,27 @@ private/users/higorprado/default.nix # home-manager private config
 Tracked example files show the expected shape without real values:
 
 - `private/hosts/predator/default.nix.example`
+- `private/hosts/aurelius/default.nix.example`
 - `private/users/higorprado/default.nix.example`
+
+Examples may also include host-private service wiring such as:
+- Attic consumer endpoint/public key for `predator`
+- Attic publisher endpoint/cache/token file for `predator`
+- Host-local advertised service URLs for `aurelius`
+- GitHub runner repository binding and token file for `aurelius`
+
+Important:
+- when a private override points to a file path such as a token file, that path
+  is interpreted on the target host where the service runs, not on the machine
+  that runs `nh`
 
 ## Priority
 
 Private config uses `lib.mkForce` or higher-priority `mkOverride` to take
-precedence over tracked defaults. The tracked runtime uses the canonical
-`username` fact, and tracked lower-level modules should read that fact when one
-concrete operator account is part of the runtime.
+precedence over tracked defaults. The tracked runtime already owns the
+canonical `username` fact. Private overrides are only for genuinely local
+details such as SSH keys, secret values, or host-local user attr paths that
+must not be tracked.
 
 ## Gitignore
 

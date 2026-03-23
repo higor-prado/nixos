@@ -6,8 +6,10 @@
       config.services.openssh = {
         enable = true;
         settings = {
+          KbdInteractiveAuthentication = false;
           PermitRootLogin = "no";
           PasswordAuthentication = false;
+          AuthenticationMethods = "publickey";
         };
       };
     };
