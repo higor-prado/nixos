@@ -26,6 +26,7 @@ in
         nixos.attic-local-publisher
         nixos.networking
         nixos.docker
+        nixos.docker-health-check
         nixos.forgejo
         nixos.grafana
         nixos.github-runner
@@ -35,6 +36,7 @@ in
         nixos.security
         nixos.keyboard
         nixos.maintenance
+        nixos.maintenance-disk-alert
         nixos.tailscale
         nixos.tailscale-exit-node
         nixos.fish
