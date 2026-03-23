@@ -65,6 +65,12 @@ Important:
 - if the repositories are public, the GitHub runner group must allow public
   repositories
 
+WireGuard concrete tunnel facts follow the same rule: put them in the gitignored
+host-private networking overrides using real lower-level NixOS options such as
+`networking.wg-quick.interfaces.*` and `networking.nat.*`. For shape, see:
+- `private/hosts/aurelius/networking.nix.example`
+- `private/hosts/predator/networking.nix.example`
+
 ## Home-manager private config
 
 In the gitignored home private override entry point (imported if it exists).

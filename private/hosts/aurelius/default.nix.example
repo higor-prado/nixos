@@ -1,56 +1,39 @@
 # Copy to ./default.nix (untracked) and adjust with Aurelius-specific access policy.
-{ lib, ... }:
+{ config, ... }:
 let
   userName = "your-user";
 in
 {
-  # Optional: split host-private service bindings into ./services.nix.
-  # imports = [ ./services.nix ];
+  imports = [
+    ./networking.nix
+    ./services.nix
+  ];
 
-  # Optional: make user declarations immutable once fully declared here.
-  users.mutableUsers = lib.mkForce false;
   users.users.${userName}.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAA... replace-with-real-key"
   ];
 
-  # Optional: if automation requires passwordless sudo, scope it carefully.
-  # security.sudo.extraRules = [
-  #   {
-  #     users = [ userName ];
-  #     commands = [
-  #       {
-  #         command = "/run/current-system/sw/bin/nixos-rebuild";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/run/current-system/sw/bin/nix-env";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/nix/store/*/bin/nix-env";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/run/current-system/sw/bin/nix";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/nix/store/*/bin/nix";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/run/current-system/sw/bin/nh";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/nix/var/nix/profiles/system/bin/switch-to-configuration";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #       {
-  #         command = "/nix/store/*/bin/switch-to-configuration";
-  #         options = [ "NOPASSWD" ];
-  #       }
-  #     ];
-  #   }
-  # ];
+  security.sudo.extraRules = [
+    {
+      users = [ userName ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nix";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/nix/store/*/bin/nix";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/nix/var/nix/profiles/system/bin/switch-to-configuration";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/nix/store/*/bin/switch-to-configuration";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 }

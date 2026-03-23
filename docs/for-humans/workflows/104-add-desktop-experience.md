@@ -8,12 +8,18 @@ that publishes the lower-level modules for a concrete desktop setup.
 Create a new file in modules/desktops/ (e.g. modules/desktops/my-desktop.nix):
 
 ```nix
-{ ... }:
+{ config, ... }:
+let
+  userName = config.username;
+in
 {
   flake.modules.nixos.desktop-my-desktop = { lib, pkgs, ... }: {
     services.greetd.enable = lib.mkDefault true;
     xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
-    custom.niri.standaloneSession = false;
+    services.greetd.settings.default_session.command =
+      lib.mkOverride 2000 "/run/current-system/sw/bin/true";
+    services.greetd.settings.default_session.user =
+      lib.mkOverride 2000 userName;
   };
 
   flake.modules.homeManager.desktop-my-desktop = { lib, ... }: {
@@ -43,6 +49,10 @@ in
   ];
 }
 ```
+
+Keep the session decision in the desktop composition. Do not push that decision
+into the lower-level feature through a synthetic `custom.*` option when the
+composition import already is the condition.
 
 ## 3. Verify
 

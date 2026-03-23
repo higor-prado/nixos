@@ -8,6 +8,7 @@ fully expressible in tracked Nix alone.
 - host composition for Aurelius
 - Attic server, client, and publisher owners
 - GitHub runner owner
+- WireGuard server base owner
 - Prometheus, node-exporter, Forgejo, Grafana, Docker, and related service wiring
 - Grafana secret key (auto-generated on first activation via activation script)
 
@@ -18,9 +19,11 @@ These files are intentionally private and must exist on the target hosts.
 On `aurelius`:
 - `/etc/atticd/atticd.env`
 - `/home/<user>/.config/github-runner/aurelius.token`
+- `/home/<user>/.config/wireguard/<interface>.key`
 
 On `predator`:
 - `/home/<user>/.config/attic/predator-publisher.token`
+- `/home/<user>/.config/wireguard/<interface>.key`
 
 ## What external control-plane state still exists
 
@@ -102,14 +105,14 @@ Shape on `predator`:
   environment.etc."attic/publisher.conf" = {
     mode = "0400";
     text = ''
-      ENDPOINT=http://your-attic-host:8080
+      ENDPOINT=http://aurelius.your-tailnet.ts.net:8080
       CACHE=aurelius
       TOKEN_FILE=/home/<user>/.config/attic/predator-publisher.token
     '';
   };
 
   nix.settings = {
-    extra-substituters = [ "http://your-attic-host:8080/aurelius" ];
+    extra-substituters = [ "http://aurelius.your-tailnet.ts.net:8080/aurelius" ];
     extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
   };
 }
@@ -133,6 +136,7 @@ umask 077; cat > /home/<user>/.config/attic/predator-publisher.token
 
 ```bash
 ssh aurelius 'systemctl status atticd.service --no-pager -l'
+curl -fsSL http://aurelius.your-tailnet.ts.net:8080/aurelius/nix-cache-info
 nh os test path:$HOME/nixos
 ```
 
@@ -192,24 +196,49 @@ ssh aurelius 'chmod 600 ~/.ssh/id_rsa'
 If the authorized key in `private/hosts/aurelius/default.nix` changes, update the
 file before deploying — otherwise you will lose SSH access after activation.
 
-## Enable Tailscale exit node
+## Bootstrap WireGuard BR VPN
 
-After the first deploy (or after a wipe), aurelius will NOT automatically advertise
-itself as a Tailscale exit node. The kernel routing capability is enabled by Nix
-(`useRoutingFeatures = "server"` via `nixos.tailscale-exit-node`), but advertising
-requires a one-time command:
+WireGuard is now the intended VPN path between `predator` and `aurelius`.
+Tailscale can remain enabled for management access, but it is no longer the
+traffic-routing mechanism for this VPN role.
+
+1. Put the concrete server binding in `private/hosts/aurelius/networking.nix`.
+   For shape, see:
+   - `private/hosts/aurelius/networking.nix.example`
+
+2. Put the concrete client binding in `private/hosts/predator/networking.nix`.
+   For shape, see:
+   - `private/hosts/predator/networking.nix.example`
+
+3. Create the private key files on the correct hosts:
 
 ```bash
-ssh aurelius 'sudo tailscale set --advertise-exit-node'
+ssh aurelius 'install -d -m 700 /home/<user>/.config/wireguard'
+ssh predator 'install -d -m 700 /home/<user>/.config/wireguard'
 ```
 
-Then approve the exit node in the Tailscale Admin console:
-- Go to the Machines tab
-- Find aurelius
-- Enable "Use as exit node"
+4. Apply `aurelius` first, then `predator`:
 
-This approval survives host reboots and rebuilds as long as the Tailscale node
-identity is preserved (i.e., `/var/lib/tailscale/` is not wiped).
+```bash
+nh os test path:$HOME/nixos#aurelius \
+  --target-host aurelius \
+  --build-host aurelius \
+  -e passwordless
+
+nh os test path:$HOME/nixos
+```
+
+5. Verify runtime:
+
+```bash
+ssh aurelius 'systemctl status wg-quick-<interface>.service --no-pager -l; wg show; ip addr show <interface>'
+sudo systemctl status wg-quick-<interface>.service --no-pager -l
+wg show
+ip route
+```
+
+If this VPN is configured as a full tunnel, also verify that `predator` public
+egress now exits through `aurelius`.
 
 ## Pre-wipe checklist
 
@@ -236,6 +265,6 @@ If a host is rebuilt from scratch, the recovery order is:
 1. restore gitignored private overrides
 2. recreate private token/env files on the correct host
 3. reapply the host with `nh os test` or `nh os switch`
-4. run exit-node advertise command if needed
+4. recreate WireGuard private key files if needed
 5. complete Forgejo web UI setup if `/var/lib/forgejo/` was not restored
 6. verify the service journal, not only `nix eval`

@@ -11,8 +11,6 @@
           server = {
             HTTP_ADDR = "0.0.0.0";
             HTTP_PORT = 3000;
-            DOMAIN = "aurelius.your-tailnet.ts.net";
-            ROOT_URL = "http://aurelius.your-tailnet.ts.net:3000/";
             DISABLE_SSH = true;
           };
 
