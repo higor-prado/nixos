@@ -3,6 +3,7 @@
 { ... }:
 {
   imports = [
+    ./auth.nix
     ./networking.nix
     ./services.nix
     ./hardware-local.nix
