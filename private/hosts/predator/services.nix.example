@@ -1,9 +1,6 @@
 # Private host service overrides (tokens/URLs/host-local endpoints).
 { ... }:
 {
-  # Example:
-  # services.someService.settings.endpoint = "http://internal-host.local";
-
   # Optional: private Attic consumer wiring for this host.
   # custom.attic.client = {
   #   endpoint = "http://aurelius.example.ts.net:8080/aurelius";
