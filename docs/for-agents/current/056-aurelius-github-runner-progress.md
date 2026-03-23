@@ -34,9 +34,9 @@ Complete
   - explicit work directory
   - docker-capable service wiring
 - Private binding remains outside tracked runtime:
-  - `custom.githubRunner.url`
-  - `custom.githubRunner.tokenFile`
-  - `custom.githubRunner.runnerGroup`
+  - `services.github-runners.aurelius.url`
+  - `services.github-runners.aurelius.tokenFile`
+  - `services.github-runners.aurelius.runnerGroup`
 - Validation:
   - `./scripts/run-validation-gates.sh structure` passed
   - `nix eval --raw path:$PWD#nixosConfigurations.aurelius.config.system.build.toplevel.drvPath` passed

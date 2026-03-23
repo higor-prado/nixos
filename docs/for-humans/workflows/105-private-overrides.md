@@ -35,18 +35,21 @@ see `private/hosts/predator/services.nix.example` and
 ```nix
 { ... }:
 {
-  custom.attic.client = {
-    endpoint = "http://aurelius.example.ts.net:8080/aurelius";
-    publicKey = "aurelius:replace-with-public-key";
+  nix.settings = {
+    extra-substituters = [ "http://aurelius.example.ts.net:8080/aurelius" ];
+    extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
   };
 
-  custom.attic.publisher = {
-    endpoint = "http://aurelius.example.ts.net:8080";
-    cache = "aurelius";
-    tokenFile = "/home/<user>/.config/attic/predator-publisher.token";
+  environment.etc."attic/publisher.conf" = {
+    mode = "0400";
+    text = ''
+      ENDPOINT=http://aurelius.example.ts.net:8080
+      CACHE=aurelius
+      TOKEN_FILE=/home/<user>/.config/attic/predator-publisher.token
+    '';
   };
 
-  custom.githubRunner = {
+  services.github-runners.aurelius = {
     url = "https://github.com/owner-or-organization";
     tokenFile = "/home/<user>/.config/github-runner/aurelius.token";
     runnerGroup = "Default";
@@ -55,8 +58,8 @@ see `private/hosts/predator/services.nix.example` and
 ```
 
 Important:
-- `custom.githubRunner.tokenFile` is read on the target host
-- `custom.attic.publisher.tokenFile` is read on the host that publishes
+- `services.github-runners.aurelius.tokenFile` is read on the target host
+- `TOKEN_FILE` inside `/etc/attic/publisher.conf` is read on the host that publishes
 - for an org-wide runner, the working shape is organization URL plus
   `runnerGroup = "Default"`
 - if the repositories are public, the GitHub runner group must allow public

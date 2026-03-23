@@ -151,10 +151,13 @@ Cons:
 This plan is complete only when one option is chosen explicitly and the rest of
 the repo aligns to it.
 
-Decision taken during execution:
-- use **Option A**
-- restore the narrow tracked option contract for Attic
-- keep private facts private, but stop teaching undocumented raw private wiring
+Correction after re-reading the repo pattern:
+- do **not** introduce new custom option surfaces for these features
+- in this repo, feature import already decides the feature exists
+- private deployment facts should be injected directly into the real lower-level
+  NixOS options in gitignored overrides
+- Attic therefore follows **Option B**
+- GitHub runner follows the same direct private wiring rule
 
 ## Phases
 
