@@ -1,25 +1,70 @@
 { ... }:
 {
   flake.modules.nixos.attic-publisher =
-    { lib, pkgs, ... }:
+    { config, lib, pkgs, ... }:
     let
+      endpoint = config.custom.attic.publisher.endpoint;
+      cache = config.custom.attic.publisher.cache;
+      tokenFile = config.custom.attic.publisher.tokenFile;
       atticClient = lib.getExe' pkgs.attic-client "attic";
-      configFile = "/etc/attic/publisher.conf";
-    in
-    {
-      # Hook reads ENDPOINT, CACHE, TOKEN_FILE from /etc/attic/publisher.conf at runtime.
-      # Create that file in private/hosts/<host>/services.nix.
-      nix.settings.post-build-hook = pkgs.writeShellScript "attic-post-build-hook" ''
+      postBuildHookScript = pkgs.writeShellScript "attic-post-build-hook" ''
         set -euo pipefail
-        [ -f ${lib.escapeShellArg configFile} ] || exit 0
-        # shellcheck source=/dev/null
-        source ${lib.escapeShellArg configFile}
+
         export HOME=/var/lib/attic-publisher
         export XDG_CONFIG_HOME=/var/lib/attic-publisher/.config
         mkdir -p "$HOME" "$XDG_CONFIG_HOME"
-        token="$(cat "$TOKEN_FILE")"
-        ${atticClient} login --set-default remote "$ENDPOINT" "$token" >/dev/null 2>&1
-        ${atticClient} push remote:"$CACHE" $OUT_PATHS 2>/dev/null || true
+
+        token="$(cat ${lib.escapeShellArg tokenFile})"
+
+        ${atticClient} login --set-default remote ${lib.escapeShellArg endpoint} "$token" >/dev/null 2>&1
+        if ! ${atticClient} push remote:${lib.escapeShellArg cache} $OUT_PATHS; then
+          echo "attic post-build push failed for remote:${lib.escapeShellArg cache}" >&2
+        fi
       '';
+    in
+    {
+      options.custom.attic.publisher = {
+        endpoint = lib.mkOption {
+          type = lib.types.nullOr lib.types.singleLineStr;
+          default = null;
+          description = "Private Attic API endpoint used by automatic publishers.";
+        };
+
+        cache = lib.mkOption {
+          type = lib.types.nullOr lib.types.singleLineStr;
+          default = null;
+          description = "Remote Attic cache name used by the publisher.";
+        };
+
+        tokenFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.singleLineStr;
+          default = null;
+          description = "Path to a private token file used by the automatic Attic publisher.";
+        };
+      };
+
+      config = lib.mkMerge [
+        {
+          assertions = [
+            {
+              assertion =
+                let
+                  allUnset = endpoint == null && cache == null && tokenFile == null;
+                  allSet = endpoint != null && cache != null && tokenFile != null;
+                in
+                allUnset || allSet;
+              message = "custom.attic.publisher.endpoint, cache, and tokenFile must be set together.";
+            }
+          ];
+        }
+        (lib.mkIf (endpoint != null) {
+          systemd.tmpfiles.rules = [
+            "d /var/lib/attic-publisher 0700 root root -"
+            "d /var/lib/attic-publisher/.config 0700 root root -"
+          ];
+
+          nix.settings.post-build-hook = postBuildHookScript;
+        })
+      ];
     };
 }

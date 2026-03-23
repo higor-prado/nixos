@@ -112,11 +112,14 @@ umask 077; cat > /home/<user>/.config/attic/predator-publisher.token
 
 ```bash
 ssh aurelius 'systemctl status atticd.service --no-pager -l'
-ssh aurelius 'journalctl -u attic-post-build-hook.service --no-pager -n 30'
+nh os test path:$HOME/nixos
 ```
 
 Note: Attic publishing now runs via `nix.settings.post-build-hook`, not a persistent
-daemon. The hook fires after each build and pushes resulting paths to the cache.
+daemon. There is no `attic-post-build-hook.service` to inspect.
+
+To verify publisher wiring on `predator`, trigger a real build and then confirm
+the resulting path exists in the remote cache.
 
 ## Bootstrap Grafana
 

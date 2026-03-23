@@ -56,6 +56,7 @@ see `private/hosts/predator/services.nix.example` and
 
 Important:
 - `custom.githubRunner.tokenFile` is read on the target host
+- `custom.attic.publisher.tokenFile` is read on the host that publishes
 - for an org-wide runner, the working shape is organization URL plus
   `runnerGroup = "Default"`
 - if the repositories are public, the GitHub runner group must allow public
