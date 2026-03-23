@@ -1,19 +1,25 @@
 # Private host service overrides (tokens/URLs/host-local endpoints).
 { ... }:
 {
-  # Optional: private Attic consumer wiring for this host.
-  # nix.settings = {
-  #   extra-substituters = [ "http://aurelius.example.ts.net:8080/aurelius" ];
-  #   extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
-  # };
-
-  # Optional: private Attic producer wiring for this host.
+  # Attic publisher wiring.
   # environment.etc."attic/publisher.conf" = {
   #   mode = "0400";
   #   text = ''
-  #     ENDPOINT=http://aurelius.example.ts.net:8080
-  #     CACHE=aurelius
+  #     ENDPOINT=http://your-attic-host:8080
+  #     CACHE=your-cache
   #     TOKEN_FILE=/home/<user>/.config/attic/predator-publisher.token
   #   '';
   # };
+
+  # Attic client substituter.
+  # nix.settings = {
+  #   extra-substituters = [ "http://your-attic-host:8080/your-cache" ];
+  #   extra-trusted-public-keys = [ "your-cache:replace-with-public-key" ];
+  # };
+
+  # nh flake path.
+  # programs.nh.flake = "path:/home/<user>/nixos";
+
+  # Operator abbreviations with deployment-specific endpoints.
+  # programs.fish.shellAbbrs.amdev = "mosh --family=inet --bind-server=$(getent ahostsv4 your-host.ts.net | awk 'NR==1 { print $1 }') your-host -- tmux new -As dev";
 }

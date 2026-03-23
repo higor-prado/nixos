@@ -37,8 +37,8 @@ in
         nixos.keyboard
         nixos.maintenance
         nixos.maintenance-disk-alert
+        nixos.networking-wireguard-server
         nixos.tailscale
-        nixos.tailscale-exit-node
         nixos.fish
         nixos.ssh
       ];

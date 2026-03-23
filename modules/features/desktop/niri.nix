@@ -1,18 +1,12 @@
-{ config, inputs, ... }:
-let
-  userName = config.username;
-in
+{ inputs, ... }:
 {
   flake.modules = {
     nixos.niri =
-      { config, lib, pkgs, ... }:
+      { pkgs, ... }:
       let
         system = pkgs.stdenv.hostPlatform.system;
         niriPackage = inputs.niri.packages.${system}.niri-unstable;
         xwaylandSatellitePackage = inputs.niri.packages.${system}.xwayland-satellite-unstable;
-        niriStandaloneSession = config.custom.niri.standaloneSession;
-        sessionPriority = if niriStandaloneSession then 100 else 2000;
-        sessionCommand = if niriStandaloneSession then "${niriPackage}/bin/niri --session" else "/run/current-system/sw/bin/true";
         niriPortalConfig = {
           default = [ "gtk" ];
           "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
@@ -22,16 +16,7 @@ in
         };
       in
       {
-        options.custom.niri.standaloneSession = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Run Niri as a standalone session (greetd launches niri directly) instead of via DMS.";
-        };
-
         config = {
-          services.greetd.settings.default_session.command = lib.mkOverride sessionPriority sessionCommand;
-          services.greetd.settings.default_session.user = lib.mkOverride sessionPriority userName;
-
           xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
           xdg.portal.config.niri = niriPortalConfig;
 
