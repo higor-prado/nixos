@@ -77,6 +77,8 @@ in
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
 
+      users.users.${userName}.extraGroups = [ "docker" ];
+
       home-manager = {
         users.${userName} = {
           imports = hmUserTools ++ hmShell ++ hmDev;
