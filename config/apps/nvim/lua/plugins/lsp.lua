@@ -71,6 +71,13 @@ return {
                 cmd = { "nil" },
                 filetypes = { "nix" },
             }
+
+            -- Markdown: use markdown-oxide, disable marksman (injected by lang.markdown extra)
+            opts.servers["marksman"] = { enabled = false }
+            opts.servers["markdown_oxide"] = opts.servers["markdown_oxide"] or {
+                cmd = { "markdown-oxide" },
+                filetypes = { "markdown" },
+            }
         end,
     },
 }
