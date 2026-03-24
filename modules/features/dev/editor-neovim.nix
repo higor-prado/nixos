@@ -86,7 +86,7 @@
           gopls
           gotools
           gofumpt
-          marksman
+          markdown-oxide
           shfmt
         ];
 
