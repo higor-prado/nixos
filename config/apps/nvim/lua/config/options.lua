@@ -6,3 +6,6 @@
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
+
+-- Spell check: Portuguese (primary) + English (for technical terms)
+vim.opt.spelllang = { "pt_br", "en" }
