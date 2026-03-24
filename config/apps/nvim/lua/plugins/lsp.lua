@@ -77,6 +77,8 @@ return {
             opts.servers["markdown_oxide"] = opts.servers["markdown_oxide"] or {
                 cmd = { "markdown-oxide" },
                 filetypes = { "markdown" },
+                root_dir = require("lspconfig.util").root_pattern(".git", ".obsidian"),
+                single_file_support = true,
             }
         end,
     },
