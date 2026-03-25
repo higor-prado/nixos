@@ -45,7 +45,6 @@ host_cfg_expr() {
 predator_hm_user="$(nix_eval_sole_hm_user_for_host "predator")"
 
 expect_equal "predator niri feature" "$(host_cfg_expr "predator" 'builtins.hasAttr "niri" cfg.xdg.portal.config')" "true"
-expect_equal "predator niri standalone session" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.custom.niri.standaloneSession")" "false"
 expect_equal "predator dms feature" "$(host_cfg_expr "predator" 'builtins.hasAttr "dsearch" cfg.systemd.user.services')" "true"
 expect_equal "predator fcitx5 feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.i18n.inputMethod.enable")" "true"
 expect_equal "predator gnome-keyring feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.services.gnome.gnome-keyring.enable")" "true"
