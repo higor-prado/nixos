@@ -33,12 +33,13 @@ in
     {
       config.programs.fish = {
         enable = true;
+
         shellAbbrs = baseAbbrs;
       };
     };
 
   flake.modules.homeManager.fish =
-    { ... }:
+    { pkgs, ... }:
     {
       catppuccin.fish.enable = true;
       programs.zoxide = {
@@ -48,6 +49,12 @@ in
       };
       programs.fish = {
         enable = true;
+        plugins = [
+          {
+            name = "fzf.fish";
+            src = pkgs.fishPlugins.fzf;
+          }
+        ];
         shellAbbrs = baseAbbrs // homeManagerOnlyAbbrs;
         interactiveShellInit = ''
           # Suppress default greeting
