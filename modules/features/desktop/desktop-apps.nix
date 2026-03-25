@@ -24,7 +24,15 @@
         };
       };
 
-      programs.chromium.enable = true;
+      programs.chromium = {
+        enable = true;
+        commandLineArgs = [
+          "--ozone-platform-hint=auto"
+          "--ozone-platform=wayland"
+          "--enable-features=WaylandWindowDecorations"
+          "--disable-gpu-compositing"
+        ];
+      };
       programs.brave.enable = true;
 
       home.packages = [
