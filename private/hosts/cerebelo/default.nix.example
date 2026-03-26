@@ -1,0 +1,22 @@
+# Copy to ./default.nix (untracked) and fill with real values.
+{ config, ... }:
+let
+  userName = config.username;
+in
+{
+  users.users.${userName}.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAA... replace-with-real-key"
+  ];
+
+  security.sudo.extraRules = [
+    {
+      users = [ userName ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+}

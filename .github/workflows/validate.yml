@@ -158,3 +158,31 @@ jobs:
       - name: Aurelius Validation Gates
         run: |
           ./scripts/run-validation-gates.sh aurelius
+
+  cerebelo-eval:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run_full == 'true')
+    runs-on: ubuntu-latest
+    needs: lint-structure
+    timeout-minutes: 60
+    concurrency:
+      group: validate-full-cerebelo-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: Install CI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Cerebelo Validation Gates
+        run: |
+          ./scripts/run-validation-gates.sh cerebelo
