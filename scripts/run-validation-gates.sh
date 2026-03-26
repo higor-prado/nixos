@@ -67,6 +67,14 @@ run_aurelius_gates() {
   nix eval "path:$PWD#nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system"
 }
 
+run_cerebelo_gates() {
+  local host
+  host="$(validation_stage_host "cerebelo")"
+  echo "[validation-gates] cerebelo gates"
+  nix eval "path:$PWD#nixosConfigurations.${host}.config.system.stateVersion"
+  nix eval "path:$PWD#nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system"
+}
+
 run_named_host_stage() {
   case "$1" in
     predator)
@@ -74,6 +82,9 @@ run_named_host_stage() {
       ;;
     aurelius)
       run_aurelius_gates
+      ;;
+    cerebelo)
+      run_cerebelo_gates
       ;;
     *)
       echo "[validation-gates] unknown host stage: $1" >&2
@@ -84,12 +95,13 @@ run_named_host_stage() {
 
 usage() {
   cat <<'EOF2'
-Usage: scripts/run-validation-gates.sh [structure|predator|aurelius|all]
+Usage: scripts/run-validation-gates.sh [structure|predator|aurelius|cerebelo|all]
 
 Commands:
   structure       Run structure/policy gates only.
   predator        Run predator eval/build gates only.
   aurelius        Run aurelius eval-only gates.
+  cerebelo        Run cerebelo eval-only gates.
   all             Run structure + declared host validation stages (default).
 EOF2
 }
@@ -105,6 +117,9 @@ case "$stage" in
     ;;
   aurelius)
     run_aurelius_gates
+    ;;
+  cerebelo)
+    run_cerebelo_gates
     ;;
   all)
     run_structure_gates
