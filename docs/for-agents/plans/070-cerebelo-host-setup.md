@@ -153,9 +153,10 @@ Basear no modelo de aurelius com ajustes para SBC:
 ```nix
 { ... }:
 {
-  # zram: melhor opção para ARM sem swap em disco
-  # — comprime páginas frias na RAM em vez de ir ao disco lento
-  # — com RK3588S + 8 GB, memoryPercent=100 = até 8 GB de swap comprimido
+  # zram: latência menor que qualquer NVMe (fica na RAM) e zero desgaste de escrita
+  # — comprime páginas frias na RAM com zstd antes de qualquer I/O
+  # — com RK3588S + 8 GB, memoryPercent=100 = até ~8 GB de swap comprimido
+  # Alternativa: swapfile no NVMe como overflow secundário se workloads excederem zram
   zramSwap.enable = true;
   zramSwap.memoryPercent = 100;
   zramSwap.algorithm = "zstd";
