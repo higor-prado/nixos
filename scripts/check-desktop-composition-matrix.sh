@@ -71,12 +71,12 @@ expected_feature_json() {
   case "$1" in
     dms-on-niri)
       cat <<'EOF2'
-{"standalone":false,"greeter":"niri"}
+{"greeter":"niri"}
 EOF2
       ;;
     niri-standalone)
       cat <<'EOF2'
-{"standalone":true,"greeter":null}
+{"greeter":null}
 EOF2
       ;;
     *)
@@ -142,14 +142,13 @@ ${feature_modules}
         cfg = systemConfig.config;
       in
       {
-        standalone = cfg.custom.niri.standaloneSession;
         greeter = ${greeter_expr_text};
         systemDrv = cfg.system.build.toplevel.drvPath;
       }
     "
   )"
 
-  for key in standalone greeter; do
+  for key in greeter; do
     expected="$(jq -r ".${key}" <<<"$expected_json")"
     actual="$(jq -r ".${key}" <<<"$json")"
     if [[ "$actual" != "$expected" ]]; then
