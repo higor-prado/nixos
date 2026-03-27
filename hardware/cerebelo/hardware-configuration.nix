@@ -2,6 +2,9 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  # DTB obrigatório para RK3588S — sem isso: sem ethernet, sem HDMI, sem periféricos
+  hardware.deviceTree.name = "rockchip/rk3588s-orangepi-5.dtb";
+
   boot.initrd.availableKernelModules = [ "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
@@ -12,11 +15,11 @@
     fsType = "ext4";
   };
 
-  # Partição de firmware U-Boot (nvme0n1p1)
-  fileSystems."/boot/firmware" = {
+  # Partição de boot U-Boot (nvme0n1p1) — montada em /boot para nixos-rebuild escrever na FAT
+  fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
-    options = [ "nofail" "noauto" ];
+    options = [ "umask=0077" ];
   };
 
   # HDD Seagate 2 TB para dados
