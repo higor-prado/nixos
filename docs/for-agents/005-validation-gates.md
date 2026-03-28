@@ -78,6 +78,12 @@ Current documented shared auxiliary tools:
   - targeted shell/script hygiene check used during script-heavy refactors
 - `report-persistence-candidates.sh`
   - diagnostic helper that compares likely root-state candidates against the declared predator persisted paths
+- `check-sd-boot.sh`
+  - cerebelo one-shot helper: mounts SD/eMMC FAT partition and prints extlinux.conf for boot troubleshooting
+- `fix-cerebelo-nvme.sh`
+  - cerebelo one-shot helper: mounts NVMe root for inspection and recovery during bootstrap
+- `flash-cerebelo-sd.sh`
+  - cerebelo one-shot helper: flashes vanilla nixos-rk3588 SD image to recover from a non-bootable cerebelo
 
 ## Validation layers
 

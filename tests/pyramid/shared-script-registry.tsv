@@ -22,3 +22,6 @@ scripts/new-host-skeleton.sh	shared-aux	shared host onboarding generator validat
 scripts/report-persistence-candidates.sh	shared-aux	diagnostic helper that compares live root-state candidates against the declared predator persistence inventory
 scripts/report-maintainability-kpis.sh	shared-aux	shared KPI/report helper for tooling-size and repo-health tracking
 scripts/run-validation-gates.sh	gate-runner	canonical shared validation entrypoint
+scripts/check-sd-boot.sh	shared-aux	cerebelo one-shot helper: inspect extlinux.conf on SD/eMMC FAT partition
+scripts/fix-cerebelo-nvme.sh	shared-aux	cerebelo one-shot helper: mount and inspect NVMe root for boot troubleshooting
+scripts/flash-cerebelo-sd.sh	shared-aux	cerebelo one-shot helper: flash vanilla nixos-rk3588 SD image for recovery

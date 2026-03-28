@@ -4,6 +4,7 @@ let
 in
 {
   imports = [
+    ./board.nix
     ./hardware-configuration.nix
     ./performance.nix
   ] ++ lib.optional (builtins.pathExists ../../private/hosts/cerebelo/default.nix)
