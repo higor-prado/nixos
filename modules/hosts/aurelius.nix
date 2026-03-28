@@ -84,10 +84,13 @@ in
           imports = hmUserTools ++ hmShell ++ hmDev;
 
           programs.fish.shellAbbrs = {
-            naui = "nh os info";
-            nausi = "nh os info";
+            nau   = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+            naub  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+            naut  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+            naus  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+            naui  = "nh os info";
             naust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
-            nauc = "nh clean all";
+            nauc  = "nh clean all";
             nauct = "systemctl status nh-clean.timer --no-pager";
           };
         };
