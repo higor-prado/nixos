@@ -20,6 +20,7 @@ in
         nixos.home-manager-settings
         nixos.nixpkgs-settings
         nixos.nix-settings
+        nixos.rk3588-orangepi5
         nixos.networking
         nixos.security
         nixos.keyboard
