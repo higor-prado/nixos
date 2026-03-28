@@ -43,6 +43,7 @@
 39. When a feature depends on private binding, add at least one synthetic eval with fake non-secret values before claiming the owner shape is correct.
 40. When a regression appears after touching a subsystem, isolate that subsystem first. Prove or eliminate it before broadening the search.
 41. Do not add background automation, corrective behavior, or continuous checks as “resilience” unless the failure mode, expected benefit, and operational cost are all evidenced.
+42. When a hardware bootstrap path has an official upstream board stack, freeze that upstream contract first; do not keep iterating on generic boot guesses after the first mismatch.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO

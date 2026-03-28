@@ -9,6 +9,8 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    nixos-rk3588.url = "github:gnull/nixos-rk3588";
+
     import-tree.url = "github:vic/import-tree";
 
     impermanence = {
