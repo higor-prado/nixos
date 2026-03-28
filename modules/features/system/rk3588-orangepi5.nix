@@ -22,13 +22,7 @@ in
 
       boot.loader = {
         grub.enable = lib.mkForce false;
-        generic-extlinux-compatible = {
-          enable = lib.mkForce true;
-          # FAT partition is 200MB; one generation of device-tree-overlays
-          # alone is ~87MB. Keep only the current generation to avoid filling
-          # the partition when nixos-rebuild tries to write a rollback entry.
-          configurationLimit = 0;  # temporário: FAT de 200MB não comporta rollback; migrar para ext4 (plano 073)
-        };
+        generic-extlinux-compatible.enable = lib.mkForce true;
       };
 
       # The core module sets overlays = []; add the two overlays required for

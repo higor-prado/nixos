@@ -8,7 +8,7 @@ in
     fsType = lib.mkForce "ext4";
   };
 
-  fileSystems."/boot" = {
+  fileSystems."/boot/firmware" = {
     device = "/dev/disk/by-uuid/${storage.nvmeBootUuid}";
     fsType = "vfat";
     options = [ "umask=0077" ];
