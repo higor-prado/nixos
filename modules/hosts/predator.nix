@@ -42,6 +42,16 @@ let
     naust = "ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
     nauc = "ssh aurelius 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
     nauct = "ssh aurelius 'systemctl status nh-clean.timer --no-pager'";
+    ncb   = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+    ncbb  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/nixos/result-cerebelo\" -e passwordless";
+    ncbt  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/nixos/result-cerebelo\" -e passwordless";
+    ncbs  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/nixos/result-cerebelo\" -e passwordless";
+    cbdev = "ssh -t cerebelo 'tmux new -As dev'";
+    ncbi  = "ssh cerebelo 'nh os info'";
+    ncbsi = "ssh cerebelo 'nh os info'";
+    ncbst = "ssh cerebelo 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
+    ncbc  = "ssh cerebelo 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
+    ncbct = "ssh cerebelo 'systemctl status nh-clean.timer --no-pager'";
   };
 in
 {

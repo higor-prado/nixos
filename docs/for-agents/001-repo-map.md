@@ -144,3 +144,13 @@ impermanence.nix         persistent machine state for predator
 persisted-paths.nix      declared persisted directories/files for predator
 root-reset.nix           initrd root-subvolume reset for predator
 ```
+
+## hardware/cerebelo/
+
+```
+default.nix              thin entry: imports board.nix, hardware-configuration.nix, performance.nix, and private override
+board.nix                Orange Pi 5 (RK3588S) board config: extlinux boot loader + device tree overlays
+hardware-configuration.nix  nixos-generate-config output (NVMe root, no /boot/firmware mount)
+performance.nix          CPU governor, sysctl tweaks for RK3588S
+storage-identifiers.nix  NVMe root UUID — sourced by default.nix for kernelParams
+```
