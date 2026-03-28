@@ -27,6 +27,7 @@
       catppuccin.yazi.enable = true;
       catppuccin.zellij.enable = true;
       catppuccin.starship.enable = true;
+      catppuccin.fish.enable = true;
       catppuccin.alacritty.enable = true;
       catppuccin.foot.enable = true;
       catppuccin.ghostty.enable = true;
