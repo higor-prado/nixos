@@ -68,11 +68,14 @@ run_aurelius_gates() {
 }
 
 run_cerebelo_gates() {
-  local host
+  local host hm_user
   host="$(validation_stage_host "cerebelo")"
+  hm_user="$(nix_eval_sole_hm_user_for_host "$host")"
   echo "[validation-gates] cerebelo gates"
+  run_check_script "check-config-contracts.sh"
   nix eval "path:$PWD#nixosConfigurations.${host}.config.system.stateVersion"
   nix eval "path:$PWD#nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system"
+  nix eval "path:$PWD#nixosConfigurations.${host}.config.home-manager.users.${hm_user}.home.stateVersion"
 }
 
 run_named_host_stage() {
