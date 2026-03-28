@@ -62,7 +62,10 @@ in
     {
       imports = nixosInfrastructure ++ nixosCoreServices ++ nixosUserTools ++ hardwareImports;
 
-      _module.args.rk3588 = { inherit pkgsKernel; nixpkgs = upstreamNixpkgs; };
+      _module.args.rk3588 = {
+        inherit pkgsKernel;
+        nixpkgs = upstreamNixpkgs;
+      };
       # dtb-install.nix in the core module requires this in its function
       # signature but does not use it on extlinux systems.
       _module.args.nixos-generators = null;
@@ -74,11 +77,14 @@ in
         imports = hmUserTools ++ hmShell ++ hmDev;
 
         programs.fish.shellAbbrs = {
-          ncbi  = "nh os info";
-          ncbsi = "nh os info";
-          ncbst = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
-          ncbc  = "nh clean all";
-          ncbct = "systemctl status nh-clean.timer --no-pager";
+          ncu   = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+          ncub  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+          ncut  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+          ncus  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
+          ncui  = "nh os info";
+          ncust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
+          ncuc  = "nh clean all";
+          ncuct = "systemctl status nh-clean.timer --no-pager";
         };
       };
     };
