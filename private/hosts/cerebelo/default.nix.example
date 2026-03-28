@@ -19,4 +19,24 @@ in
       ];
     }
   ];
+
+  # Attic cache publisher — pushes cerebelo's Nix store to the aurelius cache.
+  # Generate the token on aurelius once:
+  #   ssh aurelius 'atticd-atticadm make-token --sub cerebelo-publisher \
+  #     --validity 10y --pull aurelius --push aurelius'
+  # Save the output to ~/.config/attic/cerebelo-publisher.token on cerebelo.
+  environment.etc."attic/publisher.conf" = {
+    mode = "0400";
+    text = ''
+      ENDPOINT=http://your-attic-host:8080
+      CACHE=aurelius
+      TOKEN_FILE=/home/replace-with-real-user/.config/attic/cerebelo-publisher.token
+    '';
+  };
+
+  # Substituter so cerebelo can pull from the aurelius cache.
+  nix.settings = {
+    extra-substituters = [ "http://your-attic-host:8080/aurelius" ];
+    extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
+  };
 }
