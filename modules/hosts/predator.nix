@@ -109,6 +109,7 @@ in
 
       hmUserTools = [
         homeManager.higorprado
+        homeManager.keyboard
         homeManager.backup-service
         homeManager.core-user-packages
         homeManager.docker
