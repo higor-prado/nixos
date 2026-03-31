@@ -72,6 +72,7 @@ in
         ${topLevelMount}/${rootSubvolume}/nix \
         ${topLevelMount}/${rootSubvolume}/persist \
         ${topLevelMount}/${rootSubvolume}/root \
+        ${topLevelMount}/${rootSubvolume}/swap \
         ${topLevelMount}/${rootSubvolume}/tmp \
         ${topLevelMount}/${rootSubvolume}/var/log
 

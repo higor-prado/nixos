@@ -34,6 +34,10 @@
     "vm.max_map_count" = 2097152;
     # Suppress kswapd boost after reclaim (unnecessary overhead with ZRAM)
     "vm.watermark_boost_factor" = 0;
+    # Reserve 512 MB so the kernel can always run OOM killer and handle interrupts
+    "vm.min_free_kbytes" = 524288;
+    # Kill the task that triggered the OOM condition, not a random victim
+    "vm.oom_kill_allocating_task" = 1;
     # Widen low/high watermark gap — reduces kswapd wakeups under transient pressure
     "vm.watermark_scale_factor" = 125;
 

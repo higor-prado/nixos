@@ -26,7 +26,13 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  swapDevices = [ ];
+  fileSystems."/swap" = {
+    device = "/dev/mapper/cryptroot";
+    fsType = "btrfs";
+    options = [ "subvol=@swap" "compress=no" "noatime" "nofail" ];
+  };
+
+  swapDevices = [{ device = "/swap/swapfile"; }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
