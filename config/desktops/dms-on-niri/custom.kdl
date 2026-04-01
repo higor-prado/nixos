@@ -19,6 +19,7 @@ environment {
     ELECTRON_OZONE_PLATFORM_HINT "auto"  // Changed from "wayland" to match system setting
     QT_QPA_PLATFORMTHEME "gtk3"
     QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+    XMODIFIERS "@im=fcitx"
 }
 
 // ── Input Configuration ───────────────────────────────────────────────────
