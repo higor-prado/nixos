@@ -4,9 +4,20 @@
     nixos.gaming =
       { pkgs, ... }:
       {
+        # Expose /dev/ntsync for Wine/Proton synchronization acceleration.
+        boot.kernelModules = [ "ntsync" ];
+
         programs.steam = {
           enable = true;
           protontricks.enable = true;
+          package = pkgs.steam.override {
+            extraEnv = {
+              GTK_IM_MODULE = "fcitx";
+              SDL_IM_MODULE = "fcitx";
+              XMODIFIERS = "@im=fcitx";
+            };
+          };
+          extraPackages = [ pkgs.fcitx5-gtk ];
         };
 
         programs.gamemode = {

@@ -7,7 +7,6 @@ include "dms/windowrules.kdl"
 
 // DMS-on-Niri desktop experience overlay.
 
-spawn-at-startup "fcitx5" "-d"
 spawn-at-startup "xwayland-satellite"
 
 environment {
