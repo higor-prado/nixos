@@ -88,6 +88,7 @@ in
         inputs.keyrs.nixosModules.default
         nixos.desktop-dms-on-niri
         nixos.dms
+        nixos.fcitx5
         nixos.gaming
         nixos.gnome-keyring
         nixos.keyrs
@@ -131,6 +132,7 @@ in
         homeManager.desktop-dms-on-niri
         homeManager.dms
         homeManager.dms-wallpaper
+        homeManager.fcitx5
         homeManager.gaming
         homeManager.media-cava
         homeManager.media-tools
