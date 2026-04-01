@@ -54,6 +54,15 @@
       gtk = {
         enable = true;
         gtk4.enable = true;
+        gtk2.extraConfig = ''
+          gtk-im-module="fcitx"
+        '';
+        gtk3.extraConfig = {
+          gtk-im-module = "fcitx";
+        };
+        gtk4.extraConfig = {
+          gtk-im-module = "fcitx";
+        };
         theme = {
           name = gtkThemeName;
           package = gtkThemePackage;
