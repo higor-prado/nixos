@@ -22,7 +22,6 @@ require_cmds "desktop-matrix" "jq" "nix"
 composition_module_name() {
   case "$1" in
     dms-on-niri) echo "desktop-dms-on-niri" ;;
-    dms-on-hyprland) echo "desktop-dms-on-hyprland" ;;
     niri-standalone) echo "desktop-niri-standalone" ;;
     *) return 1 ;;
   esac
@@ -33,12 +32,6 @@ feature_module_expr() {
     dms-on-niri)
       cat <<'EOF2'
             nixos.niri
-            nixos.dms
-EOF2
-      ;;
-    dms-on-hyprland)
-      cat <<'EOF2'
-            nixos.hyprland
             nixos.dms
 EOF2
       ;;
@@ -56,11 +49,6 @@ EOF2
 greeter_expr() {
   case "$1" in
     dms-on-niri)
-      cat <<'EOF2'
-        cfg.programs.dank-material-shell.greeter.compositor.name
-EOF2
-      ;;
-    dms-on-hyprland)
       cat <<'EOF2'
         cfg.programs.dank-material-shell.greeter.compositor.name
 EOF2
@@ -84,11 +72,6 @@ expected_feature_json() {
     dms-on-niri)
       cat <<'EOF2'
 {"greeter":"niri"}
-EOF2
-      ;;
-    dms-on-hyprland)
-      cat <<'EOF2'
-{"greeter":"hyprland"}
 EOF2
       ;;
     niri-standalone)
@@ -184,7 +167,6 @@ ${feature_modules}
 
 for experience in \
   dms-on-niri \
-  dms-on-hyprland \
   niri-standalone; do
   check_experience "$experience"
 done
