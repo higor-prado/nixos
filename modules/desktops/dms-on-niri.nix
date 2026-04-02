@@ -13,7 +13,7 @@ in
         services.greetd.settings.default_session.user =
           lib.mkOverride 2000 userName;
         systemd.user.services.niri-flake-polkit.enable = lib.mkDefault false;
-        xdg.portal.extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
+        xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       };
 
     homeManager.desktop-dms-on-niri =
