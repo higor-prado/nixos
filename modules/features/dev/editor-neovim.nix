@@ -77,9 +77,9 @@
           taplo
           vtsls
           vscode-js-debug
-          nodePackages.typescript
-          nodePackages.vscode-langservers-extracted
-          nodePackages.bash-language-server
+          typescript
+          vscode-langservers-extracted
+          bash-language-server
           rust-analyzer
           lldb
           go

@@ -12,6 +12,7 @@ Usage: scripts/new-host-skeleton.sh <host-name> [desktop|server] [desktop-experi
 
 Examples:
   scripts/new-host-skeleton.sh zeus desktop dms-on-niri
+  scripts/new-host-skeleton.sh zeus desktop dms-on-hyprland
   scripts/new-host-skeleton.sh ci-runner server
 EOF2
 }
@@ -51,6 +52,29 @@ EOF2
           homeManager.dms
           homeManager.dms-wallpaper
           homeManager.niri
+          homeManager.wayland-tools
+EOF2
+      ;;
+    dms-on-hyprland)
+      cat <<'EOF2'
+
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
+        nixos.desktop-dms-on-hyprland
+        nixos.dms
+        nixos.hyprland
+        nixos.xwayland
+EOF2
+      printf '\n'
+      cat <<'EOF2'
+
+          homeManager.desktop-apps
+          homeManager.desktop-base
+          homeManager.desktop-dms-on-hyprland
+          homeManager.desktop-viewers
+          homeManager.dms
+          homeManager.dms-wallpaper
+          homeManager.hyprland
           homeManager.wayland-tools
 EOF2
       ;;
