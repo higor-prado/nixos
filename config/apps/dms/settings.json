@@ -23,9 +23,6 @@
     "niriLayoutGapsOverride": 5,
     "niriLayoutRadiusOverride": -1,
     "niriLayoutBorderSize": 2,
-    "hyprlandLayoutGapsOverride": 5,
-    "hyprlandLayoutRadiusOverride": -1,
-    "hyprlandLayoutBorderSize": 2,
     "mangoLayoutGapsOverride": -1,
     "mangoLayoutRadiusOverride": -1,
     "mangoLayoutBorderSize": -1,
@@ -224,11 +221,6 @@
             "hideWhenTyping": false,
             "hideAfterInactiveMs": 0
         },
-        "hyprland": {
-            "hideOnKeyPress": false,
-            "hideOnTouch": false,
-            "inactiveTimeout": 0
-        },
         "dwl": {
             "cursorHideTimeout": 0
         }
@@ -289,7 +281,6 @@
     "runDmsMatugenTemplates": true,
     "matugenTemplateGtk": true,
     "matugenTemplateNiri": true,
-    "matugenTemplateHyprland": true,
     "matugenTemplateMangowc": true,
     "matugenTemplateQt5ct": true,
     "matugenTemplateQt6ct": true,
@@ -445,7 +436,6 @@
             "disabled": true
         }
     },
-    "hyprlandOutputSettings": {},
     "displayProfiles": {},
     "activeDisplayProfile": {},
     "displayProfileAutoSelect": false,
