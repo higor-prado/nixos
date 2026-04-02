@@ -2,7 +2,7 @@
 #
 # WireGuard client tunnels on predator are managed by NetworkManager.
 # NM connections are persisted via /etc/NetworkManager/system-connections.
-# Source .conf files live at ~/.config/wireguard/{wg-br,wg-us}.conf.
+# Source .conf files live at ~/.config/wireguard/wg-br.conf.
 # To import: nmcli connection import type wireguard file ~/.config/wireguard/wg-br.conf
 { pkgs, ... }:
 {

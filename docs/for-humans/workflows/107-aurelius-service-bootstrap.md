@@ -23,7 +23,6 @@ On `aurelius`:
 
 On `predator`:
 - `/home/<user>/.config/attic/predator-publisher.token`
-- `/home/<user>/.config/wireguard/<interface>.key`
 
 ## What external control-plane state still exists
 
