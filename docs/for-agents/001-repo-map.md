@@ -5,8 +5,8 @@ Authoritative map of where things live in this dendritic-first repository.
 ## Top-level layout
 
 ```
-modules/features/   53+ feature modules grouped under category folders
-modules/desktops/   2 concrete desktop compositions
+modules/features/   54+ feature modules grouped under category folders
+modules/desktops/   3 concrete desktop compositions
 modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
 modules/flake-parts.nix enables `flake.modules.*`
@@ -49,6 +49,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
+- `desktop/hyprland.nix` — Hyprland Wayland compositor
 - `desktop/niri.nix` — Niri Wayland compositor
 - `desktop/dms.nix` — Dank Material Shell greeter
 - `desktop/dms-wallpaper.nix` — DMS wallpaper management
@@ -81,6 +82,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 | File | Published lower-level modules | Composites |
 |------|-------------------------------|-----------|
+| `dms-on-hyprland.nix` | `flake.modules.nixos.desktop-dms-on-hyprland`, `flake.modules.homeManager.desktop-dms-on-hyprland` | hyprland + dms + xdg-user-dirs + … |
 | `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
 | `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
 

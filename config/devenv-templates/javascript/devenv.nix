@@ -10,8 +10,8 @@
 
   packages = with pkgs; [
     nodejs_22
-    nodePackages.typescript
-    nodePackages.typescript-language-server  # vtsls alternative
+    typescript
+    typescript-language-server  # vtsls alternative
   ];
 
   enterShell = ''

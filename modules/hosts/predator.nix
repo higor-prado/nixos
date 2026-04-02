@@ -50,7 +50,7 @@ let
   };
 in
 {
-  configurations.nixos.predator.module =
+  configurations.nixos =
     let
       inherit (config.flake.modules) homeManager nixos;
       userName = config.username;
@@ -81,7 +81,7 @@ in
         nixos.podman
         nixos.docker
       ];
-      nixosDesktop = [
+      nixosDesktopNiri = [
         inputs.niri.nixosModules.niri
         inputs.dms.nixosModules.dank-material-shell
         inputs.dms.nixosModules.greeter
@@ -94,6 +94,20 @@ in
         nixos.keyrs
         nixos.nautilus
         nixos.niri
+        nixos.xwayland
+      ];
+      nixosDesktopHyprland = [
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
+        inputs.keyrs.nixosModules.default
+        nixos.desktop-dms-on-hyprland
+        nixos.dms
+        nixos.fcitx5
+        nixos.gaming
+        nixos.gnome-keyring
+        nixos.hyprland
+        nixos.keyrs
+        nixos.nautilus
         nixos.xwayland
       ];
       nixosUserTools = [
@@ -125,7 +139,7 @@ in
         homeManager.terminals
         homeManager.tui-tools
       ];
-      hmDesktop = [
+      hmDesktopNiri = [
         homeManager.desktop-base
         homeManager.desktop-apps
         homeManager.desktop-viewers
@@ -143,6 +157,24 @@ in
         homeManager.theme-zen
         homeManager.wayland-tools
       ];
+      hmDesktopHyprland = [
+        homeManager.desktop-base
+        homeManager.desktop-apps
+        homeManager.desktop-dms-on-hyprland
+        homeManager.desktop-viewers
+        homeManager.dms
+        homeManager.dms-wallpaper
+        homeManager.fcitx5
+        homeManager.gaming
+        homeManager.hyprland
+        homeManager.media-cava
+        homeManager.media-tools
+        homeManager.music-client
+        homeManager.nautilus
+        homeManager.theme-base
+        homeManager.theme-zen
+        homeManager.wayland-tools
+      ];
       hmDev = [
         homeManager.dev-devenv
         homeManager.dev-tools
@@ -153,24 +185,30 @@ in
         homeManager.llm-agents
         homeManager.packages-toolchains
       ];
+      mkPredatorConfig =
+        nixosDesktop: hmDesktop:
+        {
+          imports =
+            nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
+
+          nixpkgs.hostPlatform = system;
+          networking.hostName = hostName;
+
+          environment.systemPackages = extraSystemPackages;
+
+          users.users.${userName}.extraGroups = predatorUserExtraGroups;
+
+          home-manager = {
+            users.${userName} = {
+              imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
+
+              programs.fish.shellAbbrs = operatorFishAbbrs;
+            };
+          };
+        };
     in
     {
-      imports =
-        nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
-
-      nixpkgs.hostPlatform = system;
-      networking.hostName = hostName;
-
-      environment.systemPackages = extraSystemPackages;
-
-      users.users.${userName}.extraGroups = predatorUserExtraGroups;
-
-      home-manager = {
-        users.${userName} = {
-          imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
-
-          programs.fish.shellAbbrs = operatorFishAbbrs;
-        };
-      };
+      predator.module = mkPredatorConfig nixosDesktopNiri hmDesktopNiri;
+      "predator-hyprland".module = mkPredatorConfig nixosDesktopHyprland hmDesktopHyprland;
     };
 }
