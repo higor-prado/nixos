@@ -753,11 +753,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774869551,
-        "narHash": "sha256-0Dl3JP2DL2IBPvOMB+3ZovysAy8SraT3Q7u8/8OhBOE=",
+        "lastModified": 1775170534,
+        "narHash": "sha256-GhfjZMVfZJ+OkP8fxfSnM325lhaN8lOUeaLxrZlHsNQ=",
         "owner": "LargeModGames",
         "repo": "spotatui",
-        "rev": "38934777009a6e5925cf86ff6da03d53a588d274",
+        "rev": "7429a5ba3e8b00317af2b5173ac126013a44cda4",
         "type": "github"
       },
       "original": {
