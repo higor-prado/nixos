@@ -7,11 +7,10 @@
       customPkgs = import ../../../pkgs { inherit pkgs inputs; };
       dmsPackage = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell;
       dmsAwwwConfigTemplate = builtins.readFile ../../../config/apps/dms/dms-awww-config.toml.in;
-      awww = pkgs.writeShellScriptBin "awww" ''exec ${pkgs.swww}/bin/swww "$@"'';
       runDmsAwww = pkgs.writeShellApplication {
         name = "run-dms-awww";
         runtimeInputs = [
-          awww
+          pkgs.awww
           pkgs.matugen
         ];
         text = ''
@@ -22,7 +21,7 @@
     in
     {
       home.packages = [
-        awww
+        pkgs.awww
         customPkgs.dms-awww
       ];
       home.activation.provisionDmsSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
@@ -46,7 +45,7 @@
           };
           Service = {
             Type = "simple";
-            ExecStart = "${pkgs.swww}/bin/swww-daemon";
+            ExecStart = "${pkgs.awww}/bin/awww-daemon";
             Environment = [
               "HOME=%h"
               "XDG_RUNTIME_DIR=/run/user/%U"
