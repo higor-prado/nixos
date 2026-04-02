@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.homeManager.theme-base =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     let
       flavor = "mocha";
       accent = "lavender";
@@ -54,6 +54,7 @@
       gtk = {
         enable = true;
         gtk4.enable = true;
+        gtk4.theme = config.gtk.theme;
         theme = {
           name = gtkThemeName;
           package = gtkThemePackage;

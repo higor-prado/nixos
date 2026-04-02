@@ -127,6 +127,7 @@ ${feature_modules}
             {
               nixpkgs.hostPlatform.system = system;
               networking.hostName = \"desktop-matrix\";
+              system.stateVersion = \"26.05\";
               users.users.\${username} = { isNormalUser = true; };
               home-manager.users.\${username}.home.stateVersion = \"25.11\";
               nixpkgs.config.allowUnfree = true;

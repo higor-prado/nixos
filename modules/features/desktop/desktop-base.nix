@@ -7,6 +7,7 @@
       xdg.mimeApps.enable = true;
       xdg.userDirs = {
         enable = true;
+        setSessionVariables = true;
         desktop = "$HOME/Desktop";
         download = "$HOME/Downloads";
         templates = "$HOME/Templates";
