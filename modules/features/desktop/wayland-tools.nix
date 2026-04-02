@@ -6,7 +6,6 @@
       home.packages = with pkgs; [
         wlr-randr
         waybar
-        swww
         wl-clipboard
         libnotify
       ];
