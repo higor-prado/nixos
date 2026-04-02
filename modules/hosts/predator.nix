@@ -96,6 +96,19 @@ in
         nixos.niri
         nixos.xwayland
       ];
+      nixosDesktopNoctalia = [
+        inputs.niri.nixosModules.niri
+        inputs.keyrs.nixosModules.default
+        nixos.desktop-noctalia-on-niri
+        nixos.noctalia
+        nixos.fcitx5
+        nixos.gaming
+        nixos.gnome-keyring
+        nixos.keyrs
+        nixos.nautilus
+        nixos.niri
+        nixos.xwayland
+      ];
       nixosUserTools = [
         nixos.editor-neovim
         nixos.fish
@@ -143,6 +156,23 @@ in
         homeManager.theme-zen
         homeManager.wayland-tools
       ];
+      hmDesktopNoctalia = [
+        homeManager.desktop-base
+        homeManager.desktop-apps
+        homeManager.desktop-viewers
+        homeManager.desktop-noctalia-on-niri
+        homeManager.noctalia
+        homeManager.fcitx5
+        homeManager.gaming
+        homeManager.media-cava
+        homeManager.media-tools
+        homeManager.music-client
+        homeManager.nautilus
+        homeManager.niri
+        homeManager.theme-base
+        homeManager.theme-zen
+        homeManager.wayland-tools
+      ];
       hmDev = [
         homeManager.dev-devenv
         homeManager.dev-tools
@@ -177,5 +207,6 @@ in
     in
     {
       predator.module = mkPredatorConfig nixosDesktopNiri hmDesktopNiri;
+      predator-noctalia.module = mkPredatorConfig nixosDesktopNoctalia hmDesktopNoctalia;
     };
 }
