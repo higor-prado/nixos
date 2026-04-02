@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 // ── Startup Applications ──────────────────────────────────────────────────
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia-shell"
 spawn-at-startup "xwayland-satellite"  // VSCode needs Xwayland for keymap queries
 
 // ── Environment Variables ─────────────────────────────────────────────────
@@ -83,7 +83,7 @@ debug {
 binds {
     // ── Application Launchers ─────────────────────────────────────────────
     Super+Space hotkey-overlay-title="Application Launcher" {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle";
+        spawn "noctalia-shell" "ipc" "call" "launcher" "toggle";
     }
     Super+Ctrl+T hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
     Super+Ctrl+F hotkey-overlay-title="Open Nautilus" { spawn "nautilus"; }
@@ -99,7 +99,7 @@ binds {
 
     // ── Lock Screen ───────────────────────────────────────────────────────
     Super+Shift+L hotkey-overlay-title="Lock Screen" {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockscreen" "lock";
+        spawn "noctalia-shell" "ipc" "call" "lockscreen" "lock";
     }
 
     // ── Window Management ─────────────────────────────────────────────────
