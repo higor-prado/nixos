@@ -31,6 +31,7 @@ run_scan() {
     rg -n --no-heading --hidden \
       --glob '!.git/**' \
       --glob '!reports/**' \
+      --glob '!.claude/**' \
       "$pattern" . >"$raw_file" || true
   )
 
