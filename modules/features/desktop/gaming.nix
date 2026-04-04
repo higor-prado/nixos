@@ -18,7 +18,9 @@
               PROTON_USE_NTSYNC = "1";
               PROTON_ENABLE_NVAPI = "1";
               # Auto-update DLSS DLLs to latest version. Newer DLLs have
-              # better memory management and fix Frame Gen timing issues.
+              # better memory management (critical on 8GB VRAM budget).
+              # NOTE: DLSS Frame Generation is not implemented in Proton;
+              # only Super Resolution benefits from updated NGX DLLs.
               PROTON_ENABLE_NGX_UPDATER = "1";
               # Force upload heaps to system RAM instead of host-visible VRAM.
               # With ReBAR active (BAR1=8GB), VKD3D defaults to putting upload
