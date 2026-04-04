@@ -15,6 +15,18 @@
               GTK_IM_MODULE = "fcitx";
               SDL_IM_MODULE = "fcitx";
               XMODIFIERS = "@im=fcitx";
+              PROTON_USE_NTSYNC = "1";
+              PROTON_ENABLE_NVAPI = "1";
+              # Auto-update DLSS DLLs to latest version. Newer DLLs have
+              # better memory management and fix Frame Gen timing issues.
+              PROTON_ENABLE_NGX_UPDATER = "1";
+              # Force upload heaps to system RAM instead of host-visible VRAM.
+              # With ReBAR active (BAR1=8GB), VKD3D defaults to putting upload
+              # heaps in VRAM, which eats into the rendering budget on 8GB cards.
+              # NVIDIA Linux Vulkan driver already uses ~2x VRAM vs Windows
+              # (forums.developer.nvidia.com/t/vram-allocation-issues/239678),
+              # so reclaiming upload heap space is critical.
+              VKD3D_CONFIG = "no_upload_hvv";
             };
           };
           extraPackages = [ pkgs.fcitx5-gtk ];
@@ -51,6 +63,7 @@
           pkgs.lutris
           pkgs.protonplus
           pkgs.steam-run
+          pkgs.steam-tui
         ];
       };
   };
