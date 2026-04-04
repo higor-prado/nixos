@@ -5,7 +5,7 @@ Authoritative map of where things live in this dendritic-first repository.
 ## Top-level layout
 
 ```
-modules/features/   74+ feature modules grouped under category folders
+modules/features/   73+ feature modules grouped under category folders
 modules/desktops/   3 concrete desktop compositions
 modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
@@ -57,6 +57,8 @@ docs/for-agents/archive/ archived plans and log tracks
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/xwayland.nix`, `desktop/fcitx5.nix`
+- `desktop/noctalia.nix` — Noctalia shell (nixos + homeManager sides)
+- `desktop/flatpak.nix` — Flatpak support
 
 **Dev / Editors / LLM**
 - `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
@@ -83,6 +85,7 @@ docs/for-agents/archive/ archived plans and log tracks
 |------|-------------------------------|-----------|
 | `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
 | `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
+| `noctalia-on-niri.nix` | `flake.modules.nixos.desktop-noctalia-on-niri`, `flake.modules.homeManager.desktop-noctalia-on-niri` | niri + noctalia-shell |
 
 ## modules/users/
 
@@ -95,6 +98,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `private/hosts/predator/default.nix.example` (tracked) — shape for the predator host-private entry point at the same path without `.example`
 - `private/hosts/predator/auth.nix.example` (tracked) — shape for the predator host-private auth override
 - `private/hosts/aurelius/default.nix.example` (tracked) — shape for the aurelius host-private entry point at the same path without `.example`
+- `private/hosts/cerebelo/default.nix.example` (tracked) — shape for the cerebelo host-private entry point at the same path without `.example`
 
 ## lib/
 

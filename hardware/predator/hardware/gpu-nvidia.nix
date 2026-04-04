@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
+  services.lact.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
