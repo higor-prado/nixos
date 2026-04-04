@@ -44,43 +44,14 @@
                     mountpoint = "/persist";
                     mountOptions = [ "compress=zstd" "noatime" ];
                   };
-                };
-              };
-            };
-          };
-        };
-      };
-    };
-disk.home = {
-      type = "disk";
-      device = "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24023B803493";
-      content = {
-        type = "gpt";
-        partitions = {
-
-          luks = {
-            size = "100%";
-            content = {
-              type = "luks";
-              name = "crypthome";
-              content = {
-                type = "btrfs";
-                extraArgs = [ "-f" ];
-                subvolumes = {
-
                   "@home" = {
                     mountpoint = "/home";
-                    mountOptions = [
-                      "compress=zstd:3"
-                      "noatime"
-                    ];
+                    mountOptions = [ "compress=zstd:3" "noatime" ];
                   };
-
                 };
               };
             };
           };
-
         };
       };
     };
