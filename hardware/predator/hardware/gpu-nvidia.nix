@@ -64,6 +64,22 @@
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";
           }
+          # xwayland-satellite and Xwayland hold leaked VRAM buffers
+          # that are never freed. On 8GB cards this is critical.
+          {
+            pattern = {
+              feature = "procname";
+              matches = "xwayland-satell";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
+          {
+            pattern = {
+              feature = "procname";
+              matches = "Xwayland";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
         ];
 
         profiles = [

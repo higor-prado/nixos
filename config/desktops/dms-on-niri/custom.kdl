@@ -5,6 +5,21 @@ include "dms/layout.kdl"
 include "dms/outputs.kdl"
 include "dms/windowrules.kdl"
 
+
+output "eDP-1" {
+    off
+    mode "1920x1200@165.001"
+    scale 1
+    position x=0 y=0
+}
+
+output "HDMI-A-1" {
+    mode "3840x2160@143.988"
+    scale 1.5
+    position x=0 y=0
+}
+
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CUSTOM NIRI CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
@@ -64,6 +79,8 @@ layout {
     always-center-single-column
 
     focus-ring {
+        width 2
+
         active-color   "#b4befe"
         inactive-color "#8d9199"
         urgent-color   "#ffb4ab"
@@ -181,17 +198,36 @@ binds {
     Super+WheelScrollUp { focus-column-left; }
     Super+Alt+WheelScrollDown { move-column-right; }
     Super+Alt+WheelScrollUp { move-column-left; }
+    Super+Shift+WheelScrollDown { set-column-width "-10%"; }
+    Super+Shift+WheelScrollUp { set-column-width "+10%"; }
+
+    // ── Knobs ─────────────────────────────────────────────────────────────
+    XF86AudioRaiseVolume { focus-column-right; }
+    XF86AudioLowerVolume { focus-column-left; }
+    Super+XF86AudioRaiseVolume { focus-column-right; }
+    Super+XF86AudioLowerVolume { focus-column-left; }
+    Super+Ctrl+XF86AudioRaiseVolume { focus-window-or-workspace-down; }
+    Super+Ctrl+XF86AudioLowerVolume { focus-window-or-workspace-up; }
+    Super+Ctrl+Alt+XF86AudioRaiseVolume { move-window-down-or-to-workspace-down; }
+    Super+Ctrl+Alt+XF86AudioLowerVolume { move-window-up-or-to-workspace-up; }
+    Super+Alt+XF86AudioRaiseVolume { move-column-right; }
+    Super+Alt+XF86AudioLowerVolume { move-column-left; }
+    Super+Shift+XF86AudioRaiseVolume { set-column-width "+10%"; }
+    Super+Shift+XF86AudioLowerVolume { set-column-width "-10%"; }
+    Super+Shift+XF86AudioMute { set-column-width "50%"; }
+    XF86AudioMute { center-column; }
+    Super+XF86AudioMute { switch-preset-column-width; }
+
 
     // ── Audio Controls ────────────────────────────────────────────────────
-    XF86AudioRaiseVolume allow-when-locked=true {
+    Ctrl+XF86AudioRaiseVolume allow-when-locked=true {
         spawn "dms" "ipc" "audio" "increment" "3";
     }
-
-    XF86AudioLowerVolume allow-when-locked=true {
+    Ctrl+XF86AudioLowerVolume allow-when-locked=true {
         spawn "dms" "ipc" "audio" "decrement" "3";
     }
 
-    XF86AudioMute allow-when-locked=true {
+    Ctrl+XF86AudioMute allow-when-locked=true {
         spawn "dms" "ipc" "audio" "mute";
     }
     XF86AudioMicMute allow-when-locked=true {
@@ -256,8 +292,16 @@ window-rule {
     open-floating true
 }
 
+// ── Cyberpunk 2077 (Proton/XWayland) ─────────────────────────────────────
+window-rule {
+    match title=r#"Cyberpunk 2077"#
+    open-focused true
+    geometry-corner-radius 0
+    clip-to-geometry false
+}
+
 // ── Layer Rules ───────────────────────────────────────────────────────────
 layer-rule {
-    match namespace="^swww-daemon$"
+    match namespace="^awww-daemon$"
     place-within-backdrop true
 }
