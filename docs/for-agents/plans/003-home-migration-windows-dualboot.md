@@ -21,29 +21,19 @@ Out of scope:
 - Alterar qualquer outro módulo NixOS além de disko.nix e encryption.nix
 - Migrar dados do Windows ou qualquer configuração de jogos já existente
 
-## Current State
+## Current State (após Phases 0–3)
 
 Discos:
 - `nvme0n1` — Micron 3400 1TB, sistema NixOS
   - `nvme0n1p1` 512M: ESP em `/boot` (vfat)
   - `nvme0n1p2` 953.4G: LUKS `cryptroot` → btrfs com subvolumes
-    `@root`, `@nix`, `@log`, `@persist`, `@swap`
-- `nvme1n1` — WD Black SN850X 2TB, home
-  - `nvme1n1p1` 1.8T: LUKS `crypthome` → btrfs com subvolume `@home`
-    montado em `/home`
+    `@root`, `@nix`, `@log`, `@persist`, `@swap`, `@home`
+- `nvme1n1` — WD Black SN850X 2TB, ainda presente (aguarda Windows)
 
 Arquivos relevantes:
-- `hardware/predator/disko.nix` — declara `disk.system` e `disk.home`
-- `hardware/predator/hardware/encryption.nix` — habilita TPM2 para
-  `cryptroot` e `crypthome`
-- `hardware/predator/hardware-configuration.nix` — declara `/swap`
-  (subvol `@swap` no cryptroot); não precisa de alteração
-- `hardware/predator/impermanence.nix` — persiste `/persist`; `/home`
-  não está listado (já é volume persistente por natureza)
-- `hardware/predator/root-reset.nix` — cria `/home` como ponto de
-  montagem em `@root` no boot; não precisa de alteração
-
-Criptografia: ambos os discos desbloqueados via TPM2 (`tpm2-device=auto`).
+- `hardware/predator/disko.nix` — declara apenas `disk.system` com `@home`
+- `hardware/predator/hardware/encryption.nix` — TPM2 apenas para `cryptroot`
+- `/home` montado de `cryptroot` com `subvol=@home`
 
 Boot: GRUB EFI com `efiInstallAsRemovable = true`; escreve em
 `/EFI/BOOT/BOOTX64.EFI` no ESP do nvme0n1. Não depende de variáveis
@@ -70,7 +60,7 @@ Validation:
 
 ### Phase 1: Config NixOS — mover @home para o disco de sistema — concluída
 
-Commit: `feat(predatar): move @home to system disk, remove disk.home`
+Commit: `feat(predator): move @home to system disk, remove disk.home`
 
 Targets:
 - `hardware/predator/disko.nix`
