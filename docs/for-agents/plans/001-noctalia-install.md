@@ -235,7 +235,7 @@ Ler `modules/hosts/predator.nix` para entender a estrutura de slices (variáveis
 locais ou inline). Adicionar bloco `configurations.nixos.predator-noctalia`
 mantendo o `predator` original intocado. O novo bloco:
 
-- Herda todos os slices compartilhados (niri, xwayland, gaming, gnome-keyring,
+- Herda todos os slices compartilhados (niri, xwayland, gnome-keyring,
   keyrs, nautilus, fcitx5, wayland-tools, theme-base, theme-zen, media-cava,
   media-tools, music-client)
 - Substitui no nixos slice:
