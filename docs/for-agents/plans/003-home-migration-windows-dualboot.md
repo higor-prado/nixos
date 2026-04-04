@@ -61,23 +61,16 @@ EFI da firmware.
 
 ## Phases
 
-### Phase 0: Baseline
-
-Verificar estado atual e checar espaço disponível antes de qualquer mudança.
+### Phase 0: Baseline — concluída
 
 Validation:
-- `df -h /home` — anotar tamanho em uso de /home
-- `df -h /nix /persist /` — anotar espaço livre no nvme0n1 (btrfs reporta
-  espaço total do pool, não por subvolume; `btrfs filesystem usage /` dá
-  o número real)
-- Confirmar que tamanho usado em /home cabe no espaço livre do nvme0n1
-- `nix eval .#nixosConfigurations.predator.config.system.build.toplevel.drvPath`
-  — build limpo antes de qualquer alteração
-- `./scripts/run-validation-gates.sh`
+- /home: 53G usados, 842G livres no nvme0n1 — espaço ok
+- `nix eval` → ok
+- `./scripts/run-validation-gates.sh` → ok
 
-### Phase 1: Config NixOS — mover @home para o disco de sistema
+### Phase 1: Config NixOS — mover @home para o disco de sistema — concluída
 
-Alterar apenas dois arquivos. Sem `nixos-switch` ainda.
+Commit: `feat(predatar): move @home to system disk, remove disk.home`
 
 Targets:
 - `hardware/predator/disko.nix`
@@ -128,7 +121,7 @@ Diff expectation:
 Commit target:
 - `feat(predator): move @home to system disk, remove disk.home`
 
-### Phase 2: Migração dos dados
+### Phase 2: Migração dos dados — concluída
 
 Executar com o sistema rodando normalmente. O cryptroot já está desbloqueado;
 basta montar o pool btrfs em subvolid=5 para criar o subvolume novo e fazer
@@ -169,21 +162,11 @@ Validation:
 - Nenhum erro de rsync
 - Espaço ocupado em `/mnt/newhome` compatível com `du -sh /home`
 
-### Phase 3: Switch para nova config
+### Phase 3: Switch para nova config — concluída
 
-Ainda com os dois discos presentes. Aplicar o commit da Phase 1.
-
-```bash
-nh os switch path:$HOME/nixos
-```
-
-Após reboot:
-- `mount | grep home` — deve mostrar `/dev/mapper/cryptroot` com
-  `subvol=@home`, não mais `crypthome`
-- `ls /home/<user>` — dados presentes
-- Serviços críticos funcionando: `systemctl --failed`
-- `cryptsetup status crypthome` — deve falhar (device não está mais
-  sendo aberto pelo sistema); isso é esperado
+- `mount | grep home` → `cryptroot` com `subvol=@home`
+- `systemctl --failed` → 0 unidades
+- `crypthome` não ativo
 
 ### Phase 4: Verificar independência do disco de 2TB
 

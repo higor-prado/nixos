@@ -15,7 +15,7 @@ In scope:
 - Perfis GLVidHeapReuseRatio para XWayland em `hardware/predator/hardware/gpu-nvidia.nix`
 
 Out of scope:
-- DLSS Frame Generation (não implementado no Proton — veja nota abaixo)
+- DLSS Frame Generation com qualidade total (funciona no Proton 9.0+, mas CP2077 tem artefatos de ghosting por Streamline DLL desatualizado — veja nota abaixo)
 - Migração para gamescope
 - Configuração de HDR
 - Redução do gap VKD3D-Proton vs Windows nativo (problema arquitetural sem fix disponível)
