@@ -93,7 +93,7 @@ Changes:
     homeManager.noctalia =
       { pkgs, ... }:
       {
-        home.packages = [ inputs.noctalia-shell.packages.${pkgs.system}.default ];
+        home.packages = [ inputs.noctalia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default ];
       };
   };
 }
@@ -163,7 +163,7 @@ Derivado do DMS custom.kdl com as seguintes mudanças:
 1. Remover as 6 linhas `include "dms/..."` do topo
 2. Trocar spawn:
    - Remover: `spawn-at-startup "dms" "run"`
-   - Adicionar: `spawn-at-startup "qs" "-c" "noctalia-shell"`
+   - Adicionar: `spawn-at-startup "noctalia-shell"`
 3. Manter: `spawn-at-startup "xwayland-satellite"`
 4. Trocar keybinds DMS IPC por alternativas genéricas (refinar com `qs ipc show` pós-instalação):
    - Launcher: `spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle"`
@@ -235,7 +235,7 @@ Ler `modules/hosts/predator.nix` para entender a estrutura de slices (variáveis
 locais ou inline). Adicionar bloco `configurations.nixos.predator-noctalia`
 mantendo o `predator` original intocado. O novo bloco:
 
-- Herda todos os slices compartilhados (niri, xwayland, gaming, gnome-keyring,
+- Herda todos os slices compartilhados (niri, xwayland, gnome-keyring,
   keyrs, nautilus, fcitx5, wayland-tools, theme-base, theme-zen, media-cava,
   media-tools, music-client)
 - Substitui no nixos slice:
