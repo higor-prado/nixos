@@ -5,7 +5,7 @@ Authoritative map of where things live in this dendritic-first repository.
 ## Top-level layout
 
 ```
-modules/features/   54+ feature modules grouped under category folders
+modules/features/   71+ feature modules grouped under category folders
 modules/desktops/   3 concrete desktop compositions
 modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
@@ -95,6 +95,7 @@ docs/for-agents/archive/ archived plans and log tracks
 - `private/hosts/predator/default.nix.example` (tracked) — shape for the predator host-private entry point at the same path without `.example`
 - `private/hosts/predator/auth.nix.example` (tracked) — shape for the predator host-private auth override
 - `private/hosts/aurelius/default.nix.example` (tracked) — shape for the aurelius host-private entry point at the same path without `.example`
+- `private/hosts/cerebelo/default.nix.example` (tracked) — shape for the cerebelo host-private entry point at the same path without `.example`
 
 ## lib/
 
