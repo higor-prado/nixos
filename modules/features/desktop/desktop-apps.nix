@@ -47,6 +47,7 @@
         })
         pkgs.teams-for-linux
         pkgs.meld
+        pkgs.obsidian
       ];
 
       xdg.mimeApps = {
