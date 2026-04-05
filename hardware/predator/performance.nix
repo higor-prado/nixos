@@ -28,7 +28,7 @@
     "vm.dirty_background_ratio" = 5;
     # Compaction proactiveness (reduces latency from memory fragmentation)
     "vm.compaction_proactiveness" = 20;
-    # Transparent hugepages — better for dev/gaming workloads
+    # Transparent hugepages — better for dev workloads
     "vm.page-cluster" = 0; # Don't read-ahead swap pages (ZRAM is random-access)
     # Proton/Wine requires ≥524288; VSCode, Electron, JVM apps also benefit
     "vm.max_map_count" = 2097152;
@@ -90,7 +90,7 @@
   # NixOS default is ondemand via acpi-cpufreq. Force intel_pstate to match.
   boot.kernelParams = [
     "intel_pstate=active"
-    # THP only for apps that explicitly request them — gaming and JVM gains without always-mode latency cost
+    # THP only for apps that explicitly request them — JVM and app gains without always-mode latency cost
     "transparent_hugepage=madvise"
   ];
   powerManagement.cpuFreqGovernor = "powersave"; # intel_pstate HWP handles boost
