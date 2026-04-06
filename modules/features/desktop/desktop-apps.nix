@@ -22,6 +22,9 @@
           path = "y4loqr0b.default";
           extensions.force = true;
         };
+        policies = {
+          DisableTelemetry = true;
+        };
       };
 
       programs.chromium = {

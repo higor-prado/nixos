@@ -136,11 +136,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1775400798,
-        "narHash": "sha256-1x8Vy0yC8TU6VEbiuqOcu4FW4chwcNel4d4NasOox3c=",
+        "lastModified": 1775499060,
+        "narHash": "sha256-TnDn0NyAFHHl709oXC7OyksMhc13amgysARF8Axfzik=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "59826555391bd7210e82f100947e7ec4eb476174",
+        "rev": "e224417593effd1a31a5b9f60bc83e985af5de3d",
         "type": "github"
       },
       "original": {
@@ -307,11 +307,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775360939,
-        "narHash": "sha256-XUBlSgUFdvTh6+K5LcI5mJu5F5L8scmJDMRiZM484TM=",
+        "lastModified": 1775457580,
+        "narHash": "sha256-ikws/ssAmG20AGrEwBuwspwPlkubJu34mB+Uz2fJBJs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2097a5c82bdc099c6135eae4b111b78124604554",
+        "rev": "5de7dbd151b0bd65d45785553d4a22d832733ffc",
         "type": "github"
       },
       "original": {
@@ -402,11 +402,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1775399974,
-        "narHash": "sha256-uCjuOi5fN6Y/AfpWv/MH65CAoLEIHOg14PSrtzXGuJs=",
+        "lastModified": 1775486894,
+        "narHash": "sha256-JPl4+i8DuzCtvyd5lsvO1HudGBF5OXlkNyJJ0GbB6uw=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "c9e352e53c5164b68dd05acf5a87d5798b6aa003",
+        "rev": "1d2eae174c96e2ba8504813e3a5b5fa93964a768",
         "type": "github"
       },
       "original": {
@@ -427,11 +427,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1775397873,
-        "narHash": "sha256-JmRWkYnH6xHQh9TyHtC3Vgbc/F7e/bTtZ7e5xx5GLsE=",
+        "lastModified": 1775457047,
+        "narHash": "sha256-HXWISaieWkm+zcZkBbqDgu6yxlFX3JHxnVRv7mBH8Og=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "d61ac998c61d65c354ecb4653dc4daeebd599969",
+        "rev": "b9f29e2ade937c5fc8ae2d3fe8c026698c32c044",
         "type": "github"
       },
       "original": {
@@ -564,11 +564,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1775002709,
-        "narHash": "sha256-d3Yx83vSrN+2z/loBh4mJpyRqr9aAJqlke4TkpFmRJA=",
+        "lastModified": 1775305101,
+        "narHash": "sha256-/74n1oQPtKG52Yw41cbToxspxHbYz6O3vi+XEw16Qe8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bcd464ccd2a1a7cd09aa2f8d4ffba83b761b1d0e",
+        "rev": "36a601196c4ebf49e035270e10b2d103fe39076b",
         "type": "github"
       },
       "original": {
@@ -708,11 +708,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775170534,
-        "narHash": "sha256-GhfjZMVfZJ+OkP8fxfSnM325lhaN8lOUeaLxrZlHsNQ=",
+        "lastModified": 1775460117,
+        "narHash": "sha256-mpiG6uWk9bc9IY0790sZnmt+sOxmiVmA/D+Rp6nrIUE=",
         "owner": "LargeModGames",
         "repo": "spotatui",
-        "rev": "7429a5ba3e8b00317af2b5173ac126013a44cda4",
+        "rev": "6835ec5e31558d8c543c84552b03ff252f270fe5",
         "type": "github"
       },
       "original": {
