@@ -31,7 +31,6 @@
           type = "fcitx5";
           fcitx5.waylandFrontend = true;
         };
-        home.sessionVariables.QT_IM_MODULE = "fcitx";
         xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = ''
           [Desktop Entry]
           Hidden=true

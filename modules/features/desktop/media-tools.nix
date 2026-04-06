@@ -7,6 +7,7 @@
         pkgs.pavucontrol
         pkgs.vlc
         pkgs.yt-dlp
+        pkgs.stremio-linux-shell
       ];
     };
 }
