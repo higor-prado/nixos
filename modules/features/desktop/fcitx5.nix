@@ -24,12 +24,43 @@
       };
 
     homeManager.fcitx5 =
-      { lib, ... }:
+      { lib, pkgs, ... }:
+      let
+        waitForWaylandSocket = pkgs.writeShellScript "fcitx5-wait-for-wayland-socket" ''
+          set -eu
+
+          runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+          display_name="''${WAYLAND_DISPLAY:-wayland-1}"
+          socket="$runtime_dir/$display_name"
+
+          attempts=0
+          while [ "$attempts" -lt 50 ]; do
+            if [ -S "$socket" ]; then
+              exit 0
+            fi
+
+            sleep 0.2
+            attempts=$((attempts + 1))
+          done
+
+          echo "fcitx5-daemon: timed out waiting for Wayland socket $socket" >&2
+          exit 1
+        '';
+      in
       {
         i18n.inputMethod = {
           enable = true;
           type = "fcitx5";
           fcitx5.waylandFrontend = true;
+        };
+        home.sessionVariables.QT_IM_MODULE = "fcitx";
+        systemd.user.services.fcitx5-daemon = {
+          Unit.After = [ "niri.service" ];
+          Service = {
+            ExecStartPre = [ "${waitForWaylandSocket}" ];
+            Restart = "on-failure";
+            RestartSec = 1;
+          };
         };
         xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = ''
           [Desktop Entry]
