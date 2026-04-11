@@ -6,6 +6,10 @@ include "dms/outputs.kdl"
 include "dms/windowrules.kdl"
 
 
+// Monitor outputs below are predator-specific defaults.
+// Adjust for other hardware; this template is only provisioned once
+// (mutable-copy-once pattern).
+
 output "eDP-1" {
     off
     mode "1920x1200@165.001"
@@ -293,14 +297,6 @@ window-rule {
     match app-id=r#"org.gnome.Loupe"#
     match app-id=r#"nemo"# title="^.*Properties$"
     open-floating true
-}
-
-// ── Cyberpunk 2077 (Proton/XWayland) ─────────────────────────────────────
-window-rule {
-    match title=r#"Cyberpunk 2077"#
-    open-focused true
-    geometry-corner-radius 0
-    clip-to-geometry false
 }
 
 // ── Layer Rules ───────────────────────────────────────────────────────────
