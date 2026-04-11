@@ -89,6 +89,7 @@ in
         nixos.desktop-dms-on-niri
         nixos.dms
         nixos.fcitx5
+        nixos.gaming
         nixos.gnome-keyring
         nixos.keyrs
         nixos.nautilus
@@ -132,6 +133,7 @@ in
         homeManager.dms
         homeManager.dms-wallpaper
         homeManager.fcitx5
+        homeManager.gaming
         homeManager.media-cava
         homeManager.media-tools
         homeManager.music-client
