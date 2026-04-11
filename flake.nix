@@ -13,10 +13,9 @@
 
     import-tree.url = "github:vic/import-tree";
 
+    # impermanence uses its own nixpkgs/home-manager; no follows.
     impermanence = {
       url = "github:nix-community/impermanence";
-      inputs.nixpkgs.follows = "";
-      inputs.home-manager.follows = "";
     };
 
     disko = {
