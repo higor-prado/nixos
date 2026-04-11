@@ -247,3 +247,30 @@ upstream project convention. No issue.
 
 - **The dendritic pattern holds.** Auto-import via import-tree, published
   module surface, explicit host wiring — all consistent.
+
+---
+
+## Remaining Upstream Eval Warnings (Not Actionable Locally)
+
+These warnings originate from nixpkgs or upstream flake inputs. No local fix
+exists; they are tracked here to avoid re-discovery.
+
+### W1. xorg package set deprecated (predator only)
+
+```
+The xorg package set has been deprecated, 'xorg.libxcb' has been renamed to 'libxcb'
+```
+
+Source: `programs.xwayland.enable` in nixpkgs. Xwayland depends on xorg
+packages that nixpkgs is deprecating. Will resolve when nixpkgs updates the
+xwayland package to use the new names.
+
+### W3. x86_64-darwin last supported in 26.05 (predator only)
+
+```
+Nixpkgs 26.05 will be the last release to support x86_64-darwin
+```
+
+Source: global nixpkgs deprecation notice. The repo targets Linux only
+(`systems = [ "x86_64-linux" "aarch64-linux" ]`). The warning fires
+unconditionally during eval. No local reference to darwin exists.
