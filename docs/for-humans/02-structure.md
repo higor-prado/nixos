@@ -1,7 +1,7 @@
 # Repository Structure
 
 ```
-modules/features/   53+ feature modules grouped by category
+modules/features/   72 feature modules grouped by category
 modules/desktops/   2 concrete desktop compositions
 modules/hosts/      host owner files with concrete composition
 modules/nixos.nix   structural NixOS runtime surface
