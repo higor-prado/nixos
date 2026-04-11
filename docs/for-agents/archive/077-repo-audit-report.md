@@ -144,6 +144,14 @@ write the same pattern a second time, stop and extract."
 Severity is medium only because the helper is stable; it's low urgency but
 worth noting.
 
+**Decision: accepted as-is.** Reviewed during remediation plan 077. The
+import is a single trivial line per site (`import <path> { inherit lib; }`),
+the API surface is maximally stable (`lib -> { mkCopyOnce }`), and all viable
+DRY solutions require either `specialArgs` (forbidden), a flake-published option
+(over-engineering for a lib function), or `builtins.getFlake` (not available
+in lower-level modules). The cost of abstracting exceeds the cost of the
+repetition.
+
 ---
 
 ## Low Findings
