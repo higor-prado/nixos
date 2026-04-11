@@ -24,7 +24,7 @@ See [workflow: add a host](workflows/103-add-host.md).
 
 ## Current tracked hosts
 
-- `predator` and `aurelius` are the only tracked live hosts.
+- predator, aurelius, and cerebelo are the tracked live hosts.
 - new host onboarding is handled by the generator and its fixture tests, not by
   keeping tracked example hosts in the live configuration surface.
 
@@ -36,3 +36,9 @@ Runs Niri compositor via DMS greeter. Full home-manager config.
 ## aurelius
 
 Remote server. Minimal NixOS, SSH access, deployed from predator via `nh`.
+
+
+## cerebelo
+
+Orange Pi 5 (RK3588S), headless server. Booted from NVMe via extlinux.
+Uses the nixos-rk3588 upstream board stack. Deployed from predator via `nh`.

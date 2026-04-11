@@ -5,8 +5,8 @@ Authoritative map of where things live in this dendritic-first repository.
 ## Top-level layout
 
 ```
-modules/features/   71+ feature modules grouped under category folders
-modules/desktops/   3 concrete desktop compositions
+modules/features/   72 feature modules grouped under category folders
+modules/desktops/   2 concrete desktop compositions
 modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
 modules/flake-parts.nix enables `flake.modules.*`
