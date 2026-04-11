@@ -59,6 +59,7 @@
           vimAlias = true;
           withNodeJs = true;
           withPython3 = true;
+          withRuby = false;
         };
 
         home.activation.syncNvimConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
