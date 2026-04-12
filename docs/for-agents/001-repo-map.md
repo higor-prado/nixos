@@ -20,7 +20,7 @@ pkgs/               custom packages
 config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
 scripts/            validation gate scripts
 tests/              fixtures and test runners
-docs/for-agents/archive/ archived plans and log tracks
+docs/for-agents/archive/ archived plans, log tracks, and reports
 ```
 
 ## top-level runtime surfaces
@@ -112,6 +112,7 @@ docs/for-agents/archive/ archived plans and log tracks
 
 - `archive/plans/` — completed execution plans no longer needed as active guides
 - `archive/log-tracks/` — completed progress logs kept only as historical record
+- `archive/reports/` — audit and diagnostic reports
 
 ## docs/for-agents active work
 
