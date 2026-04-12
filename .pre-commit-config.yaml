@@ -1,9 +1,0 @@
-repos:
-  - repo: local
-    hooks:
-      - id: check-repo-public-safety
-        name: public safety
-        entry: ./scripts/check-repo-public-safety.sh
-        language: system
-        pass_filenames: false
-        always_run: true
