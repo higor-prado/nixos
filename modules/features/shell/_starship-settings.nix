@@ -1,7 +1,6 @@
 {
   conda.disabled = true;
   format = "[](red)$os$username$hostname[](bg:peach fg:red)$directory[](bg:yellow fg:peach)$git_branch$git_status[](fg:yellow bg:green)$c$rust$golang$nodejs$php$java$kotlin$haskell$python[](fg:green bg:lavender)$time[ ](fg:lavender)$cmd_duration$line_break$character";
-
   hostname.format = "[@$hostname]($style)";
   hostname.style = "bg:red fg:base bold";
   hostname.ssh_only = true;
