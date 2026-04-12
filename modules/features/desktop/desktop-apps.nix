@@ -32,8 +32,7 @@
         commandLineArgs = [
           "--ozone-platform-hint=auto"
           "--ozone-platform=wayland"
-          "--enable-features=WaylandWindowDecorations"
-          "--disable-gpu-compositing"
+          "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
         ];
       };
       programs.brave.enable = true;
@@ -44,8 +43,7 @@
           commandLineArgs = [
             "--ozone-platform-hint=auto"
             "--ozone-platform=wayland"
-            "--enable-features=WaylandWindowDecorations"
-            "--disable-gpu-compositing"
+            "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
           ];
         })
         pkgs.teams-for-linux
