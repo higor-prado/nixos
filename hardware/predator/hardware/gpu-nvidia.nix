@@ -8,10 +8,8 @@
     modesetting.enable = true;
     powerManagement.enable = true;
     powerManagement.finegrained = false;
-    # NOTE: nvidia-open currently fails to build against linuxPackages_latest
-    # (kernel 6.19.x API change in UVM path), so keep proprietary module mode.
-    # Revisit open=true when NVIDIA open driver supports this kernel line.
-    open = false;
+    # NVIDIA open kernel module. Supported on RTX 4060 (Ada) since driver 560+.
+    open = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
     dynamicBoost.enable = false;
   };
