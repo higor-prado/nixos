@@ -2,7 +2,7 @@
 
 {
   zramSwap.enable = true;
-  zramSwap.memoryPercent = 100;
+  zramSwap.memoryPercent = 50;
   zramSwap.algorithm = "zstd";
 
   # ══════════════════════════════════════════════
@@ -22,7 +22,7 @@
   # NixOS equivalent: explicit sysctl + ananicy-cpp
   boot.kernel.sysctl = {
     # ── Memory management ──
-    "vm.swappiness" = 180;
+    "vm.swappiness" = 100; # Balanced for high-RAM desktop with ZRAM (180 is for low-RAM)
     "vm.vfs_cache_pressure" = 50;
     "vm.dirty_ratio" = 10;
     "vm.dirty_background_ratio" = 5;
