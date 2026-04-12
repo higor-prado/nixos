@@ -38,8 +38,10 @@
     "vm.min_free_kbytes" = 524288;
     # Kill the task that triggered the OOM condition, not a random victim
     "vm.oom_kill_allocating_task" = 1;
-    # Widen low/high watermark gap — reduces kswapd wakeups under transient pressure
-    "vm.watermark_scale_factor" = 125;
+    # Widen low/high watermark gap slightly — reduces kswapd wakeups under transient pressure.
+    # 50 (0.5% of memory) balances early reclaim with unnecessary compression on 32GB RAM.
+    # min_free_kbytes=524288 already reserves 512MB as emergency; wide watermarks are redundant above 50.
+    "vm.watermark_scale_factor" = 50;
 
     # ── Scheduler ──
     "kernel.sched_autogroup_enabled" = 1;

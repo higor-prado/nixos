@@ -76,6 +76,7 @@ One logical change per commit. Use the commit strategy:
 - Keep those directories small: scaffolds plus genuinely active work only.
 - Completed plans move to `docs/for-agents/archive/plans/`.
 - Completed log tracks move to `docs/for-agents/archive/log-tracks/`.
+- Audit and diagnostic reports go to `docs/for-agents/archive/reports/`.
 - Use the tracked scaffolds when creating new docs:
   - `docs/for-agents/plans/000-plan-scaffold.md`
   - `docs/for-agents/current/000-log-track-scaffold.md`

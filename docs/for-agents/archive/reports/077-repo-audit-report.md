@@ -1,5 +1,14 @@
 # Repo Audit Report — 2026-04-11
 
+> **Status: All 7 medium findings resolved.** See per-finding notes below.
+>
+> **Resolution date: 2026-04-11** (same day as audit).
+>
+> **Additional fixes applied after audit:**
+> - Fixed neovim `withRuby` eval warning (aurelius/cerebelo: 0 warnings; predator: 2 upstream only)
+> - Removed dead `WLR_NO_HARDWARE_CURSORS=1` (Niri is Smithay, not wlroots)
+> - Tuned ZRAM for 32GB desktop (`swappiness` 180 -> 100, `memoryPercent` 100 -> 50)
+> - Suppressed `nixos-rk3588/pre-commit-hooks` stale override warnings
 Deep audit of the tracked repo surface: flake inputs, feature modules, host
 compositions, hardware files, config payloads, scripts, tests, and docs.
 
@@ -22,7 +31,7 @@ cosmetic concerns.
 
 ## Medium Findings
 
-### M1. Stale feature count in two docs
+### M1. Stale feature count in two docs ~~(resolved: fixed to `72`)~~
 
 **Files:**
 - `docs/for-agents/001-repo-map.md` line 8: says `71+`
@@ -36,7 +45,7 @@ significantly off.
 
 ---
 
-### M2. for-humans multi-host doc missing cerebelo
+### M2. for-humans multi-host doc missing cerebelo ~~(resolved: added cerebelo section)~~
 
 **File:** `docs/for-humans/03-multi-host.md` line 27
 
@@ -46,7 +55,7 @@ and active plan history. The doc needs a cerebelo section.
 
 ---
 
-### M3. Flake description is host-specific
+### M3. Flake description is host-specific ~~(resolved: changed to "NixOS multi-host configuration")~~
 
 **File:** `flake.nix` line 2
 
@@ -59,7 +68,7 @@ multi-host config, not predator-specific.
 
 ---
 
-### M4. Cyberpunk-specific window rule lives in the shared desktop config
+### M4. Cyberpunk-specific window rule lives in the shared desktop config ~~(resolved: removed)~~
 
 **File:** `config/desktops/dms-on-niri/custom.kdl` lines ~250-256
 
@@ -83,7 +92,7 @@ composition.
 
 ---
 
-### M5. Hardcoded monitor output config in shared desktop config
+### M5. Hardcoded monitor output config in shared desktop config ~~(resolved: added locality comment; accepted as-is for mutable-copy config)~~
 
 **File:** `config/desktops/dms-on-niri/custom.kdl` lines 9-19
 
@@ -99,7 +108,7 @@ different monitors adopts dms-on-niri, this will be wrong.
 
 ---
 
-### M6. impermanence follows empty strings instead of nixpkgs
+### M6. impermanence follows empty strings instead of nixpkgs ~~(resolved: removed empty follows, added comment explaining impermanence uses its own deps)~~
 
 **File:** `flake.nix` lines 17-19
 
