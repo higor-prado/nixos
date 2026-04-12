@@ -40,3 +40,19 @@ For devenv projects, `.envrc` contains `use devenv`.
 
 Nvim config lives in `config/apps/nvim/` and is synced to `~/.config/nvim/`
 on every `nixos-rebuild switch` via a home-manager activation script.
+
+## Pre-commit hooks
+
+The repo uses `pre-commit` to run safety checks before each commit:
+
+```bash
+nix run nixpkgs#pre-commit -- install   # one-time setup after clone
+```
+
+Currently enabled hooks:
+
+- **public safety** — blocks commits that contain private data (usernames,
+  SSH keys, emails, IPs) in tracked files.
+
+Bypass with `git commit --no-verify` if needed. CI also runs these checks
+on push as a fallback.
