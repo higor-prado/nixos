@@ -35,7 +35,14 @@
           "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
         ];
       };
-      programs.brave.enable = true;
+      programs.brave = {
+        enable = true;
+        commandLineArgs = [
+          "--ozone-platform-hint=auto"
+          "--ozone-platform=wayland"
+          "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
+        ];
+      };
 
       home.packages = [
         inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
