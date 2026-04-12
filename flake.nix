@@ -9,7 +9,13 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    nixos-rk3588.url = "github:gnull/nixos-rk3588";
+    nixos-rk3588 = {
+      url = "github:gnull/nixos-rk3588";
+      # pre-commit-hooks is nixos-rk3588's internal dev tooling; we don't use it.
+      # Override to suppress stale lock entries that produce
+      # "override for a non-existent input" warnings.
+      inputs.pre-commit-hooks.follows = "";
+    };
 
     import-tree.url = "github:vic/import-tree";
 
