@@ -16,6 +16,8 @@
               XMODIFIERS = "@im=fcitx";
               PROTON_USE_NTSYNC = "1";
               PROTON_ENABLE_NVAPI = "1";
+              # NVIDIA NGX — enables Proton's built-in NVIDIA RTX/DLSS updater,
+              # so DLSS-FSR and other NGX features stay current in Proton prefixes.
               PROTON_ENABLE_NGX_UPDATER = "1";
             };
           };
