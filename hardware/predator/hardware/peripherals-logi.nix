@@ -21,7 +21,6 @@
       RestartSec = 1;
     };
   };
-
   systemd.services."logid-restart@" = {
     description = "Restart logid when Logitech device appears (%I)";
     serviceConfig = {
@@ -35,6 +34,6 @@
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", TAG+="uaccess"
 
     # LogiOps - restart logid when Logitech device appears
-    ACTION=="add|change", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", TAG+="systemd", ENV{SYSTEMD_WANTS}+="logid-restart@%k.service"
+    ACTION=="add", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", TAG+="systemd", ENV{SYSTEMD_WANTS}+="logid-restart@%k.service"
   '';
 }
