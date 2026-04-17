@@ -85,7 +85,6 @@
           lldb
           go
           gopls
-          gotools
           gofumpt
           markdown-oxide
           shfmt

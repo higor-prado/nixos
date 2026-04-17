@@ -8,7 +8,6 @@
     go
     gopls           # Go LSP server
     gofumpt         # Go formatter (strict gofmt)
-    gotools         # Go tools
     golangci-lint   # Go linter (optional, add if needed)
     gore
     gomodifytags
