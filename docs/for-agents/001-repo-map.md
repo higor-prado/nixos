@@ -67,6 +67,9 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `dev/dev-tools.nix`, `dev/dev-devenv.nix`
 - `dev/packages-toolchains.nix`, `dev/packages-docs-tools.nix`
 
+
+**Media**
+- `media/aiostreams.nix` — AIOStreams Stremio addon aggregator (Docker container)
 **System**
 - `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
 - `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
