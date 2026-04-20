@@ -27,6 +27,7 @@ in
       ];
       nixosCoreServices = [
         nixos.networking
+        nixos.networking-resolved
         nixos.security
         nixos.keyboard
         nixos.maintenance
@@ -34,6 +35,8 @@ in
         nixos.fish
         nixos.ssh
         nixos.mosh
+        nixos.podman
+        nixos.aiostreams
       ];
       nixosUserTools = [
         nixos.higorprado

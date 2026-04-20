@@ -39,4 +39,12 @@ in
     extra-substituters = [ "http://your-attic-host:8080/aurelius" ];
     extra-trusted-public-keys = [ "aurelius:replace-with-public-key" ];
   };
+
+  # AIOStreams (Stremio addon aggregator).
+  # Generate SECRET_KEY: openssl rand -hex 32
+  # environment.etc."aiostreams/aiostreams.env".text = ''
+  #   SECRET_KEY=<paste-your-64-char-hex-key>
+  #   BASE_URL=https://cerebelo.tuna-hexatonic.ts.net
+  #   ADDON_PASSWORD=your-addon-password
+  # '';
 }
