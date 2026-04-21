@@ -2,6 +2,16 @@
 { ... }:
 {
   # Attic publisher wiring.
+
+  # Tailscale auth key for automatic login on boot.
+  # environment.etc."tailscale/authkey" = {
+  #   mode = "0400";
+  #   text = ''
+  #     tskey-auth-...
+  #   '';
+  # };
+
+  # services.tailscale.authKeyFile = "/etc/tailscale/authkey";
   # environment.etc."attic/publisher.conf" = {
   #   mode = "0400";
   #   text = ''
