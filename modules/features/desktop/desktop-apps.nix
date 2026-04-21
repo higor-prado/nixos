@@ -56,6 +56,7 @@
         pkgs.teams-for-linux
         pkgs.meld
         pkgs.obsidian
+        pkgs.super-productivity
       ];
 
       xdg.mimeApps = {
