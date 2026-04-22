@@ -44,6 +44,7 @@
 40. When a regression appears after touching a subsystem, isolate that subsystem first. Prove or eliminate it before broadening the search.
 41. Do not add background automation, corrective behavior, or continuous checks as “resilience” unless the failure mode, expected benefit, and operational cost are all evidenced.
 42. When a hardware bootstrap path has an official upstream board stack, freeze that upstream contract first; do not keep iterating on generic boot guesses after the first mismatch.
+43. Package ownership should follow the real owner: machine/runtime packages go to NixOS, user-interactive packages go to Home Manager, and mixed capabilities should be split instead of using `environment.systemPackages` as a catch-all.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
