@@ -1,9 +1,9 @@
 { ... }:
 {
-  flake.modules.nixos.packages-docs-tools =
+  flake.modules.homeManager.packages-docs-tools =
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      home.packages = with pkgs; [
         ghostscript
         tectonic
         mermaid-cli

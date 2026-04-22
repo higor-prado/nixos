@@ -45,7 +45,6 @@ in
       nixosUserTools = [
         nixos.higorprado
         nixos.editor-neovim
-        nixos.packages-toolchains
         nixos.packages-server-tools
         nixos.packages-system-tools
       ];
@@ -56,6 +55,7 @@ in
         homeManager.docker
         homeManager.git-gh
         homeManager.monitoring-tools
+        homeManager.packages-server-tools
         homeManager.ssh
       ];
       hmShell = [
