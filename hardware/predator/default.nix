@@ -12,7 +12,6 @@
     ./hardware/audio-pipewire.nix
     ./hardware/encryption.nix
     ./boot.nix
-    ./packages.nix
     ./performance.nix
     ./impermanence.nix
     ./root-reset.nix
