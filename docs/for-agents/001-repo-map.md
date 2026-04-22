@@ -29,6 +29,13 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `modules/flake-parts.nix` — enables the `flake-parts` published-module surface
 - `modules/users/higorprado.nix` — tracked user publishers plus the canonical `username` fact
 
+## Package ownership map
+
+- **NixOS modules** own machine/runtime concerns: services, boot/session plumbing, drivers, fonts, firewall/network support, `/etc` payloads, system users/groups, and packages required independently of any user home.
+- **Home Manager modules** own user environment concerns: CLI tools, editors, GUI apps, prompts, terminals, themes, user services, and packages primarily used interactively by the tracked user.
+- **Split a feature across both** when one capability needs both machine plumbing and user configuration.
+- **`hardware/<name>/` is not a package-policy bucket**. Keep package policy in feature owners or, if truly host-only, the concrete host owner.
+
 ## modules/features/ — category layout
 
 **Core**

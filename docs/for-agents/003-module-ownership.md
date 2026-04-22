@@ -31,11 +31,47 @@
    policy stay out of `hardware/`. Keep `environment.systemPackages` out of
    `hardware/<name>/default.nix`.
 
-5. **No hardcoded usernames in tracked `.nixos` blocks** — prefer narrow facts
+5. **Package ownership follows machine owner vs user owner**
+   - Prefer **NixOS** for machine-owned/runtime-owned packages: services,
+     boot/session plumbing, drivers, fonts, firewall/network support,
+     containers, PAM, `/etc` payloads, and tools that must exist independent of
+     any user home.
+   - Prefer **Home Manager** for user-interactive packages: CLI tools, GUI apps,
+     editors, prompts, terminals, themes, user-local helpers, and tools whose
+     main consumer is the tracked user inside a login session.
+   - If one capability spans both concerns, **split the feature** and publish
+     both `flake.modules.nixos.*` and `flake.modules.homeManager.*` owners.
+   - Do not use `environment.systemPackages` as a catch-all for "tools wanted on
+     this host" when the real owner is the user environment.
+
+6. **No hardcoded usernames in tracked `.nixos` blocks** — prefer narrow facts
    such as `config.username`, existing lower-level state, or the tracked
    user runtime module.
 
-6. **`openssh.authorizedKeys.keys` not tracked** — must be in an untracked private override file (see the tracked `*.nix.example` files for shape).
+7. **`openssh.authorizedKeys.keys` not tracked** — must be in an untracked private override file (see the tracked `*.nix.example` files for shape).
+
+## Package ownership examples
+
+### NixOS-owned examples
+
+- `modules/features/system/audio.nix` — PipeWire and realtime audio support
+- `modules/features/system/networking-wireguard-client.nix` — machine VPN behavior
+- `modules/features/desktop/packages-fonts.nix` — machine-wide fonts
+- `modules/desktops/dms-on-niri.nix` — login/session substrate
+
+### Home Manager-owned examples
+
+- `modules/features/shell/core-user-packages.nix` — user CLI tool set
+- `modules/features/desktop/desktop-apps.nix` — user desktop app choices
+- `modules/features/dev/dev-tools.nix` — user development workflow tools
+- `modules/features/desktop/theme-base.nix` — user theme and UI preferences
+
+### Split ownership examples
+
+- `modules/features/shell/fish.nix` — NixOS owns base shell availability; HM owns user UX
+- `modules/features/system/ssh.nix` — NixOS owns the daemon; HM owns client config
+- `modules/features/desktop/niri.nix` — NixOS owns compositor/runtime pieces; HM owns config materialization
+- `modules/features/dev/editor-neovim.nix` — NixOS owns PAM/session limits; HM owns editor package and user config
 
 ## Feature module checklist
 
