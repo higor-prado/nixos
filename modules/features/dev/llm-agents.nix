@@ -14,6 +14,7 @@
         llmAgentsPkgs.opencode
         llmAgentsPkgs.copilot-cli
         llmAgentsPkgs.omp
+        llmAgentsPkgs.pi
       ];
     };
 }
