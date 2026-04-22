@@ -12,7 +12,6 @@ let
     inputs.impermanence.nixosModules.impermanence
     ../../hardware/predator/default.nix
   ];
-  extraSystemPackages = [ customPkgs.predator-tui ];
   predatorUserExtraGroups = [
     "video"
     "audio"
@@ -63,7 +62,6 @@ in
         nixos.nix-settings
         nixos.nix-settings-desktop
         nixos.attic-publisher
-        nixos.attic-client
       ];
       nixosCoreServices = [
         nixos.networking
@@ -113,21 +111,21 @@ in
         nixos.editor-neovim
         nixos.fish
         nixos.higorprado
-        nixos.packages-docs-tools
         nixos.packages-fonts
         nixos.packages-system-tools
-        nixos.packages-toolchains
         nixos.ssh
       ];
 
       hmUserTools = [
         homeManager.higorprado
+        homeManager.attic-client
         homeManager.keyboard
         homeManager.backup-service
         homeManager.core-user-packages
         homeManager.docker
         homeManager.git-gh
         homeManager.monitoring-tools
+        homeManager.podman
         homeManager.ssh
       ];
       hmShell = [
@@ -181,6 +179,7 @@ in
         homeManager.editor-vscode
         homeManager.editor-zed
         homeManager.llm-agents
+        homeManager.packages-docs-tools
         homeManager.packages-toolchains
       ];
       mkPredatorConfig = nixosDesktop: hmDesktop: {
@@ -190,16 +189,23 @@ in
         nixpkgs.hostPlatform = system;
         networking.hostName = hostName;
 
-        environment.systemPackages = extraSystemPackages;
+        environment.systemPackages = [ inputs.nixpkgs.legacyPackages.${system}.tpm2-tools ];
 
         users.users.${userName}.extraGroups = predatorUserExtraGroups;
 
         home-manager = {
-          users.${userName} = {
-            imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
+          users.${userName} =
+            { pkgs, ... }:
+            {
+              imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
 
-            programs.fish.shellAbbrs = operatorFishAbbrs;
-          };
+              home.packages = [
+                customPkgs.predator-tui
+                pkgs.nvtopPackages.nvidia
+              ];
+
+              programs.fish.shellAbbrs = operatorFishAbbrs;
+            };
         };
       };
     in
