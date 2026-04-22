@@ -1,13 +1,19 @@
 { ... }:
 {
-  flake.modules.nixos.podman =
-    { pkgs, ... }:
-    {
-      virtualisation.podman = {
-        enable = true;
-        dockerCompat = false;
+  flake.modules = {
+    nixos.podman =
+      { ... }:
+      {
+        virtualisation.podman = {
+          enable = true;
+          dockerCompat = false;
+        };
       };
 
-      environment.systemPackages = [ pkgs.distrobox ];
-    };
+    homeManager.podman =
+      { pkgs, ... }:
+      {
+        home.packages = [ pkgs.distrobox ];
+      };
+  };
 }

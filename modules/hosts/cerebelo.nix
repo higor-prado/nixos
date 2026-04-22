@@ -23,7 +23,6 @@ in
         nixos.nixpkgs-settings
         nixos.nix-settings
         nixos.attic-publisher
-        nixos.attic-client
       ];
       nixosCoreServices = [
         nixos.networking
@@ -46,9 +45,12 @@ in
       ];
 
       hmUserTools = [
+        homeManager.attic-client
         homeManager.higorprado
         homeManager.core-user-packages
         homeManager.git-gh
+        homeManager.packages-server-tools
+        homeManager.podman
         homeManager.ssh
       ];
       hmShell = [
