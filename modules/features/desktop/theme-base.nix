@@ -35,7 +35,12 @@
       catppuccin.wezterm.enable = true;
       catppuccin.chromium.enable = true;
       catppuccin.brave.enable = true;
+      catppuccin.vivaldi.enable = true;
       catppuccin.firefox.profiles.default = {
+        enable = true;
+        force = true;
+      };
+      catppuccin.floorp.profiles.default = {
         enable = true;
         force = true;
       };
