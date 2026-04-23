@@ -3,12 +3,15 @@
   flake.modules.homeManager.desktop-apps =
     { pkgs, ... }:
     let
+      # Browsers other than Firefox, used to remove them from MIME web handlers
       nonFirefoxWebHandlers = [
         "brave-browser.desktop"
         "com.brave.Browser.desktop"
         "chromium-browser.desktop"
         "com.google.Chrome.desktop"
         "google-chrome.desktop"
+        "vivaldi-stable.desktop"
+        "floorp.desktop"
         "zen.desktop"
         "dms-open.desktop"
       ];
@@ -37,6 +40,30 @@
       };
       programs.brave = {
         enable = true;
+        commandLineArgs = [
+          "--ozone-platform-hint=auto"
+          "--ozone-platform=wayland"
+          "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
+        ];
+      };
+      programs.floorp = {
+        enable = true;
+        policies = {
+          DisableTelemetry = true;
+        };
+        profiles.default = {
+          id = 0;
+          isDefault = true;
+          extensions.force = true;
+        };
+      };
+
+      programs.vivaldi = {
+        enable = true;
+        package = pkgs.vivaldi.override {
+          proprietaryCodecs = true;
+          enableWidevine = true;
+        };
         commandLineArgs = [
           "--ozone-platform-hint=auto"
           "--ozone-platform=wayland"
