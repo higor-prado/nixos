@@ -17,7 +17,7 @@ private/            private overrides (gitignored)
 hardware/<name>/    machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
-config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
+config/             app config files and helper payloads (nvim, tmux, waybar, dunst, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
 scripts/            validation gate scripts
 tests/              fixtures and test runners
 docs/for-agents/archive/ archived plans, log tracks, and reports
@@ -64,6 +64,13 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/xwayland.nix`, `desktop/fcitx5.nix`
+- `desktop/hyprland.nix` — Hyprland Wayland compositor with hypridle and hyprlock integration
+- `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
+- `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
+- `desktop/dunst.nix` — Dunst notification daemon with copy-once config and catppuccin theming
+- `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
+- `desktop/noctalia.nix` — Noctalia shell environment integration
+- `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
 
 **Dev / Editors / LLM**
 - `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
@@ -117,6 +124,13 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `config/apps/zen/sync-catppuccin-theme.sh` — tracked shell payload used by
   `modules/features/desktop/theme-zen.nix` to sync Catppuccin assets into the
   live Zen profile during HM activation
+- `config/apps/waybar/` — tracked Waybar config and style templates provisioned by copy-once
+- `config/apps/htop/` — tracked htoprc provisioned by copy-once
+- `config/apps/logid/` — tracked LogiOps config provisioned by copy-once
+- `config/apps/mpd/` — tracked MPD config provisioned by copy-once
+- `config/apps/rmpc/` — tracked rmpc config provisioned by copy-once
+- `config/apps/dunst/` — tracked Dunst config template provisioned by copy-once
+- `config/apps/waypaper/` — tracked Waypaper config template provisioned by copy-once
 
 ## docs/for-agents/archive/
 
