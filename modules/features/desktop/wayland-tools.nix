@@ -5,7 +5,6 @@
     {
       home.packages = with pkgs; [
         wlr-randr
-        waybar
         wl-clipboard
         libnotify
         grim        # Wayland screenshot tool
