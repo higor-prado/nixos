@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.desktop-apps =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     let
       # Browsers other than Firefox, used to remove them from MIME web handlers
       nonFirefoxWebHandlers = [
@@ -18,6 +18,7 @@
     in
     {
       programs.firefox = {
+        configPath = "${config.xdg.configHome}/mozilla/firefox";
         enable = true;
         profiles.default = {
           id = 0;
