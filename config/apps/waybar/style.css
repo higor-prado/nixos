@@ -1,0 +1,78 @@
+@import "catppuccin.css";
+
+* {
+  font-family: "Symbols Nerd Font", "Sans";
+  font-size: 14px;
+}
+
+window#waybar {
+  background: alpha(@base, 0.85);
+  color: @text;
+  border-radius: 12px;
+}
+
+tooltip {
+  background: @mantle;
+  border: 1px solid @surface0;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: @text;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: @overlay0;
+  background: transparent;
+  border-radius: 8px;
+}
+
+#workspaces button.active {
+  color: @accent;
+  background: alpha(@surface0, 0.6);
+}
+
+#workspaces button.urgent {
+  color: @red;
+}
+
+#window {
+  padding: 0 12px;
+  color: @subtext1;
+}
+
+#clock,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#battery,
+#tray {
+  padding: 0 10px;
+  border-radius: 8px;
+  background: alpha(@surface0, 0.4);
+  color: @text;
+  margin: 2px 1px;
+}
+
+#clock {
+  color: @accent;
+  font-weight: bold;
+}
+
+#pulseaudio.muted {
+  color: @overlay0;
+}
+
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#battery.charging {
+  color: @green;
+}

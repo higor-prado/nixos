@@ -196,6 +196,7 @@ in
         homeManager.hyprland
         homeManager.rofi
         homeManager.media-cava
+        homeManager.waybar
         homeManager.media-tools
         homeManager.music-client
         homeManager.nautilus
