@@ -23,7 +23,7 @@ composition_module_name() {
   case "$1" in
     dms-on-niri) echo "desktop-dms-on-niri" ;;
     niri-standalone) echo "desktop-niri-standalone" ;;
-    *) return 1 ;;
+    hyprland-standalone) echo "desktop-hyprland-standalone" ;;
   esac
 }
 
@@ -38,6 +38,39 @@ EOF2
     niri-standalone)
       cat <<'EOF2'
             nixos.niri
+EOF2
+      ;;
+    hyprland-standalone)
+      cat <<'EOF2'
+            nixos.hyprland
+            nixos.dms
+EOF2
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+compositor_module_expr() {
+  case "$1" in
+    dms-on-niri)
+      cat <<'EOF2'
+            inputs.niri.nixosModules.niri
+            inputs.dms.nixosModules.dank-material-shell
+            inputs.dms.nixosModules.greeter
+EOF2
+      ;;
+    niri-standalone)
+      cat <<'EOF2'
+            inputs.niri.nixosModules.niri
+EOF2
+      ;;
+    hyprland-standalone)
+      cat <<'EOF2'
+            inputs.hyprland.nixosModules.default
+            inputs.dms.nixosModules.dank-material-shell
+            inputs.dms.nixosModules.greeter
 EOF2
       ;;
     *)
@@ -56,6 +89,11 @@ EOF2
     niri-standalone)
       cat <<'EOF2'
         null
+EOF2
+      ;;
+    hyprland-standalone)
+      cat <<'EOF2'
+        cfg.programs.dank-material-shell.greeter.compositor.name
 EOF2
       ;;
     *)
@@ -79,6 +117,11 @@ EOF2
 {"greeter":null}
 EOF2
       ;;
+    hyprland-standalone)
+      cat <<'EOF2'
+{"greeter":"hyprland"}
+EOF2
+      ;;
     *)
       report_fail "missing expected feature mapping for experience '$1'"
       return 1
@@ -88,7 +131,7 @@ EOF2
 
 check_experience() {
   local experience="$1"
-  local module_name feature_modules greeter_expr_text expected_json json system_drv expected actual key
+  local module_name feature_modules compositor_modules greeter_expr_text expected_json json system_drv expected actual key
 
   module_name="$(composition_module_name "$experience")" || {
     report_fail "missing module name for experience '$experience'"
@@ -96,6 +139,10 @@ check_experience() {
   }
   feature_modules="$(feature_module_expr "$experience")" || {
     report_fail "missing feature module mapping for experience '$experience'"
+    return 1
+  }
+  compositor_modules="$(compositor_module_expr "$experience")" || {
+    report_fail "missing compositor module mapping for experience '$experience'"
     return 1
   }
   greeter_expr_text="$(greeter_expr "$experience")" || {
@@ -117,9 +164,7 @@ check_experience() {
         systemConfig = lib.nixosSystem {
           inherit system;
           modules = [
-            inputs.niri.nixosModules.niri
-            inputs.dms.nixosModules.dank-material-shell
-            inputs.dms.nixosModules.greeter
+            ${compositor_modules}
             inputs.home-manager.nixosModules.home-manager
             inputs.keyrs.nixosModules.default
 ${feature_modules}
@@ -168,7 +213,8 @@ ${feature_modules}
 
 for experience in \
   dms-on-niri \
-  niri-standalone; do
+  niri-standalone \
+  hyprland-standalone; do
   check_experience "$experience"
 done
 
