@@ -47,6 +47,7 @@
       catppuccin.cava.enable = true;
       catppuccin.rofi.enable = true;
       catppuccin.waybar.enable = true;
+      catppuccin.dunst.enable = true;
       catppuccin.tmux = {
         enable = true;
         extraConfig = ''

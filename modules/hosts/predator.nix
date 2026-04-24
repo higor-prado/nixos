@@ -195,6 +195,8 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
+        homeManager.dunst
+        homeManager.waypaper
         homeManager.media-cava
         homeManager.waybar
         homeManager.media-tools

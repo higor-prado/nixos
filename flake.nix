@@ -83,6 +83,11 @@
       flake = false;
     };
 
+    waypaper-src = {
+      url = "github:anufrievroman/waypaper/2.8";
+      flake = false;
+    };
+
     rmpc = {
       url = "github:mierak/rmpc";
       inputs.nixpkgs.follows = "nixpkgs";
