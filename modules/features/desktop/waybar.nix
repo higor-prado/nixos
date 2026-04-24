@@ -8,10 +8,7 @@
     {
       programs.waybar.enable = true;
 
-      catppuccin.waybar = {
-        enable = true;
-        mode = "createLink";
-      };
+      catppuccin.waybar.mode = "createLink";
 
       home.activation.provisionWaybarConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {

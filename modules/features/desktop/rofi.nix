@@ -17,7 +17,5 @@
         display-window = "";
       };
     };
-
-    catppuccin.rofi.enable = true;
   };
 }
