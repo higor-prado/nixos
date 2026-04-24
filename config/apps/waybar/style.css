@@ -1,78 +1,112 @@
 @import "catppuccin.css";
 
+/* margin: top right bottom left */
+/* Spacing outside the element */
+
+/* padding: top right bottom left */
+/* Spacing inside the element */
+
 * {
-  font-family: "Symbols Nerd Font", "Sans";
-  font-size: 14px;
+    font-family: "JetBrains Mono Nerd Font";
+    font-size: 14px;
+    min-height: 0;
 }
 
 window#waybar {
-  background: alpha(@base, 0.85);
-  color: @text;
-  border-radius: 12px;
+    background-color: @base;
+    color: @lavender;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    border-radius: 0px;
+    transition-duration: 0.5s;
+    margin: 16px 16px;
 }
 
-tooltip {
-  background: @mantle;
-  border: 1px solid @surface0;
-  border-radius: 8px;
-}
-
-tooltip label {
-  color: @text;
-}
-
-#workspaces button {
-  padding: 0 8px;
-  color: @overlay0;
-  background: transparent;
-  border-radius: 8px;
-}
-
-#workspaces button.active {
-  color: @accent;
-  background: alpha(@surface0, 0.6);
-}
-
-#workspaces button.urgent {
-  color: @red;
-}
-
-#window {
-  padding: 0 12px;
-  color: @subtext1;
+#workspaces {
+    background-color: transparent;
+    padding: 0.2em;
+    margin-left: 8px;
 }
 
 #clock,
-#pulseaudio,
-#network,
-#cpu,
-#memory,
-#battery,
-#tray {
-  padding: 0 10px;
-  border-radius: 8px;
-  background: alpha(@surface0, 0.4);
-  color: @text;
-  margin: 2px 1px;
+#workspaces button {
+    border-radius: 8px;
+    padding: 2px 8px 2px 8px;
+    margin: 7px 4px 7px 4px;
+    border: 1px solid @lavender;
+    font-size: 14px;
 }
 
 #clock {
-  color: @accent;
-  font-weight: bold;
+    margin: 7px 0px 7px 0px;
+    padding: 2px 16px 2px 13px;
 }
 
-#pulseaudio.muted {
-  color: @overlay0;
+#workspaces button:hover {
+    color: @lavender;
+    background: @mantle;
 }
 
-#battery.warning {
-  color: @yellow;
+#workspaces button.active {
+    color: @mantle;
+    background: @lavender;
 }
 
-#battery.critical {
-  color: @red;
+#custom-launcher,
+#tray,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-dunst,
+#custom-powermenu,
+#custom-waypaper {
+    padding: 2px 16px 2px 13px;
+    margin: 7px 0px 7px 0px;
+    border-radius: 8px;
+    color: @lavender;
 }
 
-#battery.charging {
-  color: @green;
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-dunst,
+#custom-powermenu,
+#custom-waypaper {
+    background-color: @mantle;
+}
+
+#custom-dunst {
+    padding: 2px 16px 2px 13px;
+}
+
+#pulseaudio {
+    padding: 2px 20px 2px 17px;
+}
+
+#network {
+    padding: 2px 15px 2px 20px;
+}
+
+#custom-powermenu {
+    color: @crust;
+    background-color: @red;
+    margin-right: 10px;
+}
+
+@keyframes blink {
+    to {
+        background-color: rgba(30, 34, 42, 0.5);
+        color: #abb2bf;
+    }
+}
+
+label:focus {
+    background-color: #000000;
 }
