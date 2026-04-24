@@ -107,6 +107,21 @@ in
         nixos.niri
         nixos.xwayland
       ];
+      nixosDesktopHyprland = [
+        inputs.hyprland.nixosModules.default
+        inputs.keyrs.nixosModules.default
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
+        nixos.desktop-hyprland-standalone
+        nixos.dms
+        nixos.fcitx5
+        nixos.gaming
+        nixos.gnome-keyring
+        nixos.keyrs
+        nixos.hyprland
+        nixos.nautilus
+      ];
+
       nixosUserTools = [
         nixos.editor-neovim
         nixos.fish
@@ -171,6 +186,24 @@ in
         homeManager.theme-zen
         homeManager.wayland-tools
       ];
+      hmDesktopHyprland = [
+        homeManager.desktop-base
+        homeManager.desktop-apps
+        homeManager.desktop-hyprland-standalone
+        homeManager.desktop-viewers
+        homeManager.fcitx5
+        homeManager.gaming
+        homeManager.hyprland
+        homeManager.rofi
+        homeManager.media-cava
+        homeManager.media-tools
+        homeManager.music-client
+        homeManager.nautilus
+        homeManager.theme-base
+        homeManager.theme-zen
+        homeManager.wayland-tools
+      ];
+
       hmDev = [
         homeManager.dev-devenv
         homeManager.dev-tools
@@ -210,7 +243,8 @@ in
       };
     in
     {
-      predator.module = mkPredatorConfig nixosDesktopNiri hmDesktopNiri;
+      # predator.module = mkPredatorConfig nixosDesktopNiri hmDesktopNiri;
       # predator.module = mkPredatorConfig nixosDesktopNoctalia hmDesktopNoctalia;
+      predator.module = mkPredatorConfig nixosDesktopHyprland hmDesktopHyprland;
     };
 }

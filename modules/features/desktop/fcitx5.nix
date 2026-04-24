@@ -55,7 +55,7 @@
         };
         home.sessionVariables.QT_IM_MODULE = "fcitx";
         systemd.user.services.fcitx5-daemon = {
-          Unit.After = [ "niri.service" ];
+          Unit.After = [ "graphical-session.target" ];
           Service = {
             ExecStartPre = [ "${waitForWaylandSocket}" ];
             Restart = "on-failure";

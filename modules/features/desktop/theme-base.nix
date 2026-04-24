@@ -86,6 +86,10 @@
         gtk.enable = true;
       };
 
-      home.packages = [ pkgs.matugen ];
+      home.packages = [
+        pkgs.matugen
+        pkgs.bibata-cursors
+        pkgs.phinger-cursors
+      ];
     };
 }

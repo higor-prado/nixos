@@ -8,6 +8,8 @@
         waybar
         wl-clipboard
         libnotify
+        grim        # Wayland screenshot tool
+        slurp       # Wayland region selector
       ];
     };
 }

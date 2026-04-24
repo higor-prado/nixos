@@ -16,9 +16,9 @@ in
 {
   flake.modules = {
     nixos.dms =
-      nixosArgs@{ ... }:
+      { config, lib, ... }:
       let
-        homeDir = nixosArgs.config.users.users.${userName}.home;
+        homeDir = config.users.users.${userName}.home;
       in
       {
         nixpkgs.overlays = [
@@ -44,7 +44,7 @@ in
 
         programs.dank-material-shell.greeter = {
           enable = true;
-          compositor.name = "niri";
+          compositor.name = lib.mkDefault "niri";
           configHome = homeDir;
           configFiles = [ "${homeDir}/.config/DankMaterialShell/settings.json" ];
         };
