@@ -16,6 +16,7 @@
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages = with pkgs; [
+    egl-wayland
     nvidia-vaapi-driver
   ];
 
@@ -50,7 +51,7 @@
           {
             pattern = {
               feature = "procname";
-              matches = ".quickshell-wra";
+              matches = ".Hyprland-wrapped";
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";
           }
@@ -58,15 +59,6 @@
             pattern = {
               feature = "procname";
               matches = "code";
-            };
-            profile = "Limit Free Buffer Pool On Wayland Compositors";
-          }
-          # xwayland-satellite and Xwayland hold leaked VRAM buffers
-          # that are never freed. On 8GB cards this is critical.
-          {
-            pattern = {
-              feature = "procname";
-              matches = "xwayland-satell";
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";
           }
