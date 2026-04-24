@@ -34,3 +34,7 @@ private/**/*.nix
 .nvimlog
 **/.claude/
 .codex/
+
+
+# Nix store cache (stray directory)
+nix/
