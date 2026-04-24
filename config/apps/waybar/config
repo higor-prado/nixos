@@ -16,9 +16,9 @@
     "all-outputs": true,
     "format": "{icon}",
     "format-icons": {
-      "active": "",
-      "default": "",
-      "urgent": ""
+      "active": "\u25cf",
+      "default": "\u25cb",
+      "urgent": "\u25cf"
     },
     "persistent-workspaces": [1, 2, 3, 4, 5]
   },
