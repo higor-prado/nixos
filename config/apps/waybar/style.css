@@ -61,7 +61,7 @@ window#waybar {
 #backlight,
 #network,
 #pulseaudio,
-#custom-dunst,
+#custom-mako,
 #custom-powermenu,
 #custom-waypaper {
     padding: 2px 16px 2px 13px;
@@ -76,13 +76,13 @@ window#waybar {
 #backlight,
 #network,
 #pulseaudio,
-#custom-dunst,
+#custom-mako,
 #custom-powermenu,
 #custom-waypaper {
     background-color: @mantle;
 }
 
-#custom-dunst {
+#custom-mako {
     padding: 2px 16px 2px 13px;
 }
 

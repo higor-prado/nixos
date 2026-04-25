@@ -8,6 +8,7 @@
         pkgs.vlc
         pkgs.yt-dlp
         pkgs.stremio-linux-shell
+        pkgs.playerctl    # media playback control (used by powermenu suspend)
       ];
     };
 }

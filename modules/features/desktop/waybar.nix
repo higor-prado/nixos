@@ -6,7 +6,10 @@
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
     in
     {
-      programs.waybar.enable = true;
+      programs.waybar = {
+        enable = true;
+        systemd.enable = true;
+      };
 
       catppuccin.waybar.mode = "createLink";
 

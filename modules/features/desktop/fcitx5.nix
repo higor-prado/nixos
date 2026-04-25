@@ -39,7 +39,7 @@
               exit 0
             fi
 
-            sleep 0.2
+            ${pkgs.coreutils}/bin/sleep 0.2
             attempts=$((attempts + 1))
           done
 

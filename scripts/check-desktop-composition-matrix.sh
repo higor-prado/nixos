@@ -43,7 +43,7 @@ EOF2
     hyprland-standalone)
       cat <<'EOF2'
             nixos.hyprland
-            nixos.dms
+            nixos.regreet
 EOF2
       ;;
     *)
@@ -69,8 +69,6 @@ EOF2
     hyprland-standalone)
       cat <<'EOF2'
             inputs.hyprland.nixosModules.default
-            inputs.dms.nixosModules.dank-material-shell
-            inputs.dms.nixosModules.greeter
 EOF2
       ;;
     *)
@@ -93,7 +91,7 @@ EOF2
       ;;
     hyprland-standalone)
       cat <<'EOF2'
-        cfg.programs.dank-material-shell.greeter.compositor.name
+        (if cfg.programs.regreet.enable then true else false)
 EOF2
       ;;
     *)
@@ -119,7 +117,7 @@ EOF2
       ;;
     hyprland-standalone)
       cat <<'EOF2'
-{"greeter":"hyprland"}
+{"greeter":true}
 EOF2
       ;;
     *)
