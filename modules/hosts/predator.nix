@@ -3,7 +3,7 @@
 let
   system = "x86_64-linux";
   customPkgs = import ../../pkgs {
-    pkgs = inputs.nixpkgs.legacyPackages.${system};
+    pkgs = import inputs.nixpkgs { inherit system; config.allowUnfree = true; };
     inherit inputs;
   };
   hostName = "predator";
@@ -110,10 +110,8 @@ in
       nixosDesktopHyprland = [
         inputs.hyprland.nixosModules.default
         inputs.keyrs.nixosModules.default
-        inputs.dms.nixosModules.dank-material-shell
-        inputs.dms.nixosModules.greeter
         nixos.desktop-hyprland-standalone
-        nixos.dms
+        nixos.regreet
         nixos.fcitx5
         nixos.gaming
         nixos.gnome-keyring
@@ -195,7 +193,7 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
-        homeManager.dunst
+        homeManager.mako
         homeManager.waypaper
         homeManager.media-cava
         homeManager.waybar

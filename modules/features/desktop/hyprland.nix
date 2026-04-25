@@ -11,11 +11,10 @@
           enable = true;
           package = inputs.hyprland.packages.${system}.hyprland;
           xwayland.enable = true;
-          withUWSM = true;
+          withUWSM = false;
         };
 
         programs.hyprlock.enable = true;
-        services.hypridle.enable = true;
 
       };
 
@@ -23,17 +22,22 @@
       { lib, ... }:
       let
         helpers = import ../../../lib/_helpers.nix;
-        portalExecPath = helpers.portalExecPath;
+        mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
       in
       {
         wayland.windowManager.hyprland = {
           enable = true;
           extraConfig = "source = ~/.config/hypr/user.conf";
         };
-        xdg.configFile."systemd/user/xdg-desktop-portal-gnome.service.d/override.conf".text = ''
-          [Service]
-          Environment=PATH=${portalExecPath}
-        '';
+
+        services.hypridle.enable = true;
+
+        home.activation.provisionHypridleConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+          mutableCopy.mkCopyOnce {
+            source = ../../../config/apps/hypridle/hypridle.conf;
+            target = "$HOME/.config/hypr/hypridle.conf";
+          }
+        );
       };
   };
 }

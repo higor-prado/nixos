@@ -9,7 +9,7 @@
 
   "modules-left": ["hyprland/workspaces"],
   "modules-center": [ "clock"],
-  "modules-right": ["cpu", "memory", "temperature", "custom/waypaper", "tray", "network", "pulseaudio", "custom/dunst", "custom/powermenu"],
+  "modules-right": ["cpu", "memory", "temperature", "custom/waypaper", "tray", "network", "pulseaudio", "custom/mako", "custom/powermenu"],
 
 
   "hyprland/workspaces": {
@@ -52,10 +52,10 @@
       "on-click": "bash ~/.config/waybar/scripts/waypaper.sh"
   },
 
-  "custom/dunst": {
-      "exec": "bash ~/.config/waybar/scripts/dunst.sh",
+  "custom/mako": {
+      "exec": "bash ~/.config/waybar/scripts/mako.sh",
       "format": "{}",
-      "on-click": "dunstctl set-paused toggle",
+      "on-click": "bash ~/.config/waybar/scripts/mako-dnd.sh",
       "restart-interval": 1,
       "tooltip": false
   },

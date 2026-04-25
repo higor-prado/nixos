@@ -47,7 +47,7 @@
       catppuccin.cava.enable = true;
       catppuccin.rofi.enable = true;
       catppuccin.waybar.enable = true;
-      catppuccin.dunst.enable = true;
+      catppuccin.mako.enable = true;
       catppuccin.tmux = {
         enable = true;
         extraConfig = ''
@@ -77,7 +77,8 @@
           package = gtkThemePackage;
         };
         font = {
-          name = "Sans";
+          name = "JetBrains Mono Nerd Font";
+          package = pkgs.nerd-fonts.jetbrains-mono;
           size = 12;
         };
       };

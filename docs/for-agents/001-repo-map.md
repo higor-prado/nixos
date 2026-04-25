@@ -57,8 +57,9 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 
 **Desktop**
 - `desktop/niri.nix` — Niri Wayland compositor
-- `desktop/dms.nix` — Dank Material Shell greeter
-- `desktop/dms-wallpaper.nix` — DMS wallpaper management
+- `desktop/dms.nix` — Dank Material Shell greeter (Niri-only)
+- `desktop/dms-wallpaper.nix` — DMS wallpaper management (Niri-only)
+- `desktop/regreet.nix` — ReGreet greetd greeter with Catppuccin theming (Hyprland)
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
