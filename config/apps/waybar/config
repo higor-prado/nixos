@@ -9,7 +9,7 @@
 
   "modules-left": ["hyprland/workspaces"],
   "modules-center": [ "clock"],
-  "modules-right": ["group/hardware", "custom/waypaper", "tray", "pulseaudio", "custom/powermenu", "custom/mako"],
+  "modules-right": ["custom/waypaper", "group/hardware", "tray", "pulseaudio", "custom/mako", "custom/powermenu"],
 
   "hyprland/workspaces": {
 	"format": "{icon}",
@@ -24,13 +24,13 @@
 
   "cpu": {
     "interval": 10,
-    "format": " {usage}%",
+    "format": "  {usage}%",
     "max-length": 10
   },
 
   "memory": {
     "interval": 10,
-    "format": " {}%"
+    "format": "  {}%"
   },
 
   "temperature": {

@@ -60,7 +60,7 @@ window#waybar {
 
 #custom-separator {
     color: alpha(@lavender, 0.3);
-    margin: 0px 2px;
+    margin: 0px 8px;
 }
 
 #custom-powermenu,
