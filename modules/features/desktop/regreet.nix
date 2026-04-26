@@ -3,15 +3,7 @@
   flake.modules.nixos.regreet =
     { pkgs, ... }:
     let
-      flavor = "mocha";
-      accent = "lavender";
-      gtkSize = "standard";
-      gtkThemePackage = pkgs.catppuccin-gtk.override {
-        accents = [ accent ];
-        variant = flavor;
-        size = gtkSize;
-      };
-      gtkThemeName = "catppuccin-${flavor}-${accent}-${gtkSize}";
+      theme = import ./_theme-catalog.nix { inherit pkgs; };
       wallpaper = pkgs.nixos-artwork.wallpapers.catppuccin-mocha;
     in
     {
@@ -19,25 +11,15 @@
         enable = true;
 
         theme = {
-          name = gtkThemeName;
-          package = gtkThemePackage;
+          name = theme.gtkThemeName;
+          package = theme.gtkThemePackage;
         };
 
-        cursorTheme = {
-          name = "catppuccin-mocha-lavender-cursors";
-          package = pkgs.catppuccin-cursors.mochaLavender;
-        };
+        cursorTheme = theme.cursorTheme;
 
-        iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.papirus-icon-theme;
-        };
+        iconTheme = theme.iconTheme;
 
-        font = {
-          name = "JetBrains Mono Nerd Font";
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          size = 14;
-        };
+        font = theme.font // { size = 14; };
 
         extraCss = ''
           /* Catppuccin Mocha fine-tuning for ReGreet */

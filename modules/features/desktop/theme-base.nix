@@ -3,19 +3,11 @@
   flake.modules.homeManager.theme-base =
     { pkgs, config, ... }:
     let
-      flavor = "mocha";
-      accent = "lavender";
-      gtkSize = "standard";
-      gtkThemePackage = pkgs.catppuccin-gtk.override {
-        accents = [ accent ];
-        variant = flavor;
-        size = gtkSize;
-      };
-      gtkThemeName = "catppuccin-${flavor}-${accent}-${gtkSize}";
+      theme = import ./_theme-catalog.nix { inherit pkgs; };
     in
     {
       catppuccin = {
-        inherit flavor accent;
+        inherit (theme) flavor accent;
       };
       catppuccin.gtk.icon.enable = true;
       catppuccin.fzf.enable = true;
@@ -73,14 +65,10 @@
           gtk-im-module = "fcitx";
         };
         theme = {
-          name = gtkThemeName;
-          package = gtkThemePackage;
+          name = theme.gtkThemeName;
+          package = theme.gtkThemePackage;
         };
-        font = {
-          name = "JetBrains Mono Nerd Font";
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          size = 12;
-        };
+        font = theme.font // { size = 12; };
       };
 
       home.pointerCursor = {
