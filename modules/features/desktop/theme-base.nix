@@ -9,7 +9,7 @@
       catppuccin = {
         inherit (theme) flavor accent;
       };
-      catppuccin.gtk.icon.enable = true;
+      catppuccin.gtk.icon.enable = false;
       catppuccin.fzf.enable = true;
       catppuccin.btop.enable = true;
       catppuccin.bottom.enable = true;
@@ -64,6 +64,10 @@
         gtk4.extraConfig = {
           gtk-im-module = "fcitx";
         };
+        iconTheme = {
+          name = theme.iconTheme.name;
+          package = theme.iconTheme.package;
+        };
         theme = {
           name = theme.gtkThemeName;
           package = theme.gtkThemePackage;
@@ -72,16 +76,14 @@
       };
 
       home.pointerCursor = {
-        name = "phinger-cursors";
-        package = pkgs.phinger-cursors;
+        name = theme.cursorTheme.name;
+        package = theme.cursorTheme.package;
         size = 24;
         gtk.enable = true;
       };
 
       home.packages = [
         pkgs.matugen
-        pkgs.bibata-cursors
-        pkgs.phinger-cursors
       ];
     };
 }

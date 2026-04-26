@@ -46,6 +46,11 @@
 42. When a hardware bootstrap path has an official upstream board stack, freeze that upstream contract first; do not keep iterating on generic boot guesses after the first mismatch.
 43. Package ownership should follow the real owner: machine/runtime packages go to NixOS, user-interactive packages go to Home Manager, and mixed capabilities should be split instead of using `environment.systemPackages` as a catch-all.
 
+44. Waybar tray `icons` mapping matches by the SNI **`Id`** property (e.g. `nm-applet`, `udiskie`), NOT by the changing `IconName` property (e.g. `nm-signal-75`). Use `busctl --user get-property ... org.kde.StatusNotifierItem Id` to discover the correct key. Confirmed via `strace` on waybar: the mapping lookup happens on Id, while IconName-based keys are silently ignored.
+45. When debugging icon/theme resolution, `strace -e trace=openat -f` on the actual process reveals exactly which files GTK opens and in what order. This is more reliable than guessing icon names or checking theme indexes manually.
+46. Symbolic SVGs in GTK icon themes use `fill:currentColor` and are tinted by the widget's CSS `color` property. Non-symbolic (colored) SVGs in `panel/` directories are NOT affected by CSS color. Always map to `-symbolic` variants for CSS tinting.
+47. Do not assume a feature works because a user says it does. Verify the mechanism independently. In the tray icon case, the bluetooth mapping appeared to work but was actually matching by `Id` (`blueman`), not by `IconName` (`blueman-active`). Understanding the actual mechanism was required to replicate success on other items.
+
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
 > **The agent is responsible for the whole repo, not only the changes it is currently making.**
