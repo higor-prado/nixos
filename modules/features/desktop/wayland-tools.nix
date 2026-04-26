@@ -9,6 +9,7 @@
         libnotify
         grim        # Wayland screenshot tool
         slurp       # Wayland region selector
+        hyprpicker  # Hyprland color picker
       ];
     };
 }

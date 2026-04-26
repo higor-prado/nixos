@@ -193,10 +193,14 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
+        homeManager.wlogout
         homeManager.mako
+        homeManager.qt-theme
+        homeManager.session-applets
         homeManager.waypaper
         homeManager.media-cava
         homeManager.waybar
+        homeManager.satty
         homeManager.media-tools
         homeManager.music-client
         homeManager.nautilus

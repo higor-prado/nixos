@@ -5,6 +5,7 @@
     {
       home.packages = [
         pkgs.pavucontrol
+        pkgs.pamixer
         pkgs.vlc
         pkgs.yt-dlp
         pkgs.stremio-linux-shell
