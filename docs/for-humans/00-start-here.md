@@ -3,8 +3,9 @@
 This repo is a NixOS configuration for personal machines managed with a
 top-level dendritic pattern. It configures:
 
-- **predator** — Acer Predator desktop workstation (Wayland/Niri desktop)
+- **predator** — Acer Predator desktop workstation (Wayland/Hyprland desktop)
 - **aurelius** — remote server (minimal, SSH-accessible)
+- **cerebelo** — Orange Pi 5 (RK3588S) headless server
 
 ## How to build and switch
 
