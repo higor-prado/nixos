@@ -17,7 +17,7 @@ private/            private overrides (gitignored)
 hardware/<name>/    machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
-config/             app config files and helper payloads (nvim, tmux, waybar, dunst, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
+config/             app config files and helper payloads (nvim, tmux, waybar, mako, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
 scripts/            validation gate scripts
 tests/              fixtures and test runners
 docs/for-agents/archive/ archived plans, log tracks, and reports
@@ -68,7 +68,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/hyprland.nix` — Hyprland Wayland compositor with hypridle and hyprlock integration
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
 - `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
-- `desktop/dunst.nix` — Dunst notification daemon with copy-once config and catppuccin theming
+- `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
 - `desktop/noctalia.nix` — Noctalia shell environment integration
 - `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
@@ -130,7 +130,6 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `config/apps/logid/` — tracked LogiOps config provisioned by copy-once
 - `config/apps/mpd/` — tracked MPD config provisioned by copy-once
 - `config/apps/rmpc/` — tracked rmpc config provisioned by copy-once
-- `config/apps/dunst/` — tracked Dunst config template provisioned by copy-once
 - `config/apps/waypaper/` — tracked Waypaper config template provisioned by copy-once
 
 ## docs/for-agents/archive/
@@ -151,6 +150,7 @@ and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by
   `modules/features/shell/starship.nix`
+- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix` and `modules/features/desktop/regreet.nix`
 
 ## hardware/predator/
 
