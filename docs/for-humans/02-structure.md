@@ -1,8 +1,8 @@
 # Repository Structure
 
 ```
-modules/features/   72 feature modules grouped by category
-modules/desktops/   2 concrete desktop compositions
+modules/features/   feature modules grouped by category
+modules/desktops/   concrete desktop compositions
 modules/hosts/      host owner files with concrete composition
 modules/nixos.nix   structural NixOS runtime surface
 modules/flake-parts.nix enables `flake.modules.*`
@@ -13,7 +13,7 @@ private/            private overrides
 lib/                generic helper functions reused by tracked modules
 hardware/<name>/    hardware, disko, boot, persistence/reset (host-specific)
 pkgs/               custom packages (linuwu-sense, etc.)
-config/             app config files and helper payloads (nvim, tmux, logid, zen, devenv templates)
+config/             app config files and helper payloads (nvim, tmux, waybar, mako, logid, mpd, rmpc, waypaper, zen, devenv templates)
 scripts/            validation gates
 tests/              fixtures and test runners
 ```

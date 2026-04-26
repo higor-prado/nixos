@@ -31,7 +31,7 @@ See [workflow: add a host](workflows/103-add-host.md).
 ## predator
 
 Laptop workstation. Acer Predator with NVIDIA RTX 4060 Max-Q.
-Runs Niri compositor via DMS greeter. Full home-manager config.
+Currently runs Hyprland compositor (standalone composition). Full home-manager config.
 
 ## aurelius
 

@@ -1,7 +1,7 @@
 # NixOS Configuration Repository
 
 This repository contains the declarative NixOS + Home Manager setup for the
-tracked hosts `predator` and `aurelius`.
+tracked hosts `predator`, `aurelius`, and `cerebelo`.
 
 ## What This Repo Is
 
@@ -35,8 +35,9 @@ migration churn in this repo.
 
 ## Host Model
 
-1. Desktop hosts select their desktop by importing a concrete composition module (e.g. `config.flake.modules.nixos.desktop-dms-on-niri`) in the host's explicit configuration module alongside the individual feature modules.
-2. `aurelius` is the tracked server host.
+1. Desktop hosts select their desktop by importing a concrete composition module (e.g. `config.flake.modules.nixos.desktop-hyprland-standalone`) in the host's explicit configuration module alongside the individual feature modules.
+2. `predator` currently uses the Hyprland standalone composition.
+3. `aurelius` and `cerebelo` are tracked server hosts.
 
 ## Documentation
 
