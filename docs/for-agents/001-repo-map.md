@@ -5,8 +5,8 @@ Authoritative map of where things live in this dendritic-first repository.
 ## Top-level layout
 
 ```
-modules/features/   72 feature modules grouped under category folders
-modules/desktops/   2 concrete desktop compositions
+modules/features/   feature modules grouped under category folders
+modules/desktops/   concrete desktop compositions
 modules/hosts/      one file per host owner + concrete configuration
 modules/nixos.nix   structural NixOS configuration output surface
 modules/flake-parts.nix enables `flake.modules.*`
@@ -101,6 +101,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 |------|-------------------------------|-----------|
 | `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
 | `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
+| `noctalia-on-niri.nix` | `flake.modules.nixos.desktop-noctalia-on-niri`, `flake.modules.homeManager.desktop-noctalia-on-niri` | niri + noctalia session |
+| `hyprland-standalone.nix` | `flake.modules.nixos.desktop-hyprland-standalone`, `flake.modules.homeManager.desktop-hyprland-standalone` | hyprland standalone session (current predator selection) |
 
 ## modules/users/
 
