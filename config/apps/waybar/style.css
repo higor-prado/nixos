@@ -1,112 +1,74 @@
 @import "catppuccin.css";
 
-/* margin: top right bottom left */
-/* Spacing outside the element */
-
-/* padding: top right bottom left */
-/* Spacing inside the element */
+@define-color base-2 rgba(30, 30, 46, 0.5);
+@define-color surface1-1 rgba(69, 71, 90, 0.4);
 
 * {
     font-family: "JetBrains Mono Nerd Font";
-    font-size: 14px;
+    font-size: 16px;
+    border-radius: 8px;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: @base;
-    color: @lavender;
-    transition-property: background-color;
-    transition-duration: 0.5s;
-    border-radius: 0px;
-    transition-duration: 0.5s;
+    background-color: @base-2;
     margin: 16px 16px;
 }
 
 #workspaces {
     background-color: transparent;
-    padding: 0.2em;
-    margin-left: 8px;
 }
 
-#clock,
 #workspaces button {
-    border-radius: 8px;
-    padding: 2px 8px 2px 8px;
-    margin: 7px 4px 7px 4px;
-    border: 1px solid @lavender;
-    font-size: 14px;
-}
-
-#clock {
-    margin: 7px 0px 7px 0px;
-    padding: 2px 16px 2px 13px;
+    padding: 0px 9px 0px 4px;
+    color: @lavender;
 }
 
 #workspaces button:hover {
     color: @lavender;
-    background: @mantle;
+    background: @surface1-1;
 }
 
-#workspaces button.active {
-    color: @mantle;
-    background: @lavender;
-}
-
+#clock,
 #custom-launcher,
 #tray,
 #battery,
-#cpu,
-#memory,
-#temperature,
+#hardware,
 #backlight,
 #network,
 #pulseaudio,
 #custom-mako,
 #custom-powermenu,
 #custom-waypaper {
-    padding: 2px 16px 2px 13px;
-    margin: 7px 0px 7px 0px;
-    border-radius: 8px;
+    padding: 3px 13px;
+    margin: 3px 0px;
     color: @lavender;
-}
-
-#cpu,
-#memory,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#custom-mako,
-#custom-powermenu,
-#custom-waypaper {
     background-color: @mantle;
 }
 
-#custom-mako {
-    padding: 2px 16px 2px 13px;
+#hardware > widget {
+    margin: 0px 4px;
 }
 
-#pulseaudio {
-    padding: 2px 20px 2px 17px;
+#hardware > widget:first-child {
+    margin-left: 0px;
 }
 
-#network {
-    padding: 2px 15px 2px 20px;
+#hardware > widget:last-child {
+    margin-right: 0px;
+}
+
+#custom-separator {
+    color: alpha(@lavender, 0.3);
+    margin: 0px 2px;
+}
+
+#custom-powermenu,
+#custom-mako,
+#custom-waypaper {
+    padding-right: 16px;
 }
 
 #custom-powermenu {
-    color: @crust;
-    background-color: @red;
-    margin-right: 10px;
-}
-
-@keyframes blink {
-    to {
-        background-color: rgba(30, 34, 42, 0.5);
-        color: #abb2bf;
-    }
-}
-
-label:focus {
-    background-color: #000000;
+    color: @red;
 }

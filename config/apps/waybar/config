@@ -9,41 +9,45 @@
 
   "modules-left": ["hyprland/workspaces"],
   "modules-center": [ "clock"],
-  "modules-right": ["cpu", "memory", "temperature", "custom/waypaper", "tray", "network", "pulseaudio", "custom/mako", "custom/powermenu"],
-
+  "modules-right": ["group/hardware", "custom/waypaper", "tray", "pulseaudio", "custom/powermenu", "custom/mako"],
 
   "hyprland/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "on-click": "activate",
-    "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-    }
+	"format": "{icon}",
+	"format-icons": {
+		"active": "",
+		"default": ""
+	},
+	"persistent-workspaces": {
+		"*": 4,
+	}
   },
 
   "cpu": {
     "interval": 10,
-    "format": "  {usage}%",
+    "format": " {usage}%",
     "max-length": 10
   },
 
-
   "memory": {
     "interval": 10,
-    "format": "  {}%"
+    "format": " {}%"
   },
-
 
   "temperature": {
     "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
     "input-filename": "temp1_input",
     "format": " {temperatureC}°C",
     "on-click": "psensor"
+  },
+
+  "custom/separator": {
+      "format": "|",
+      "tooltip": false
+  },
+
+  "group/hardware": {
+      "orientation": "horizontal",
+      "modules": ["cpu", "custom/separator", "memory", "custom/separator", "temperature"]
   },
 
   "custom/waypaper": {
@@ -62,6 +66,28 @@
 
   "tray": {
       "spacing": 20,
+      "icon-size": 16,
+      "icons": {
+          "blueman": "bluetooth-symbolic",
+          "blueman-active": "bluetooth-symbolic",
+          "blueman-disabled": "bluetooth-symbolic",
+          "blueman-offline": "bluetooth-symbolic",
+          "blueman-tray": "bluetooth-symbolic",
+          "nm-applet": "network-wireless-symbolic",
+          "nm-signal-00": "network-wireless-signal-none-symbolic",
+          "nm-signal-25": "network-wireless-signal-weak-symbolic",
+          "nm-signal-50": "network-wireless-signal-ok-symbolic",
+          "nm-signal-75": "network-wireless-signal-good-symbolic",
+          "nm-signal-100": "network-wireless-signal-excellent-symbolic",
+          "nm-secure-signal-00": "network-wireless-signal-none-symbolic",
+          "nm-secure-signal-25": "network-wireless-signal-weak-secure-symbolic",
+          "nm-secure-signal-50": "network-wireless-signal-ok-secure-symbolic",
+          "nm-secure-signal-75": "network-wireless-signal-good-secure-symbolic",
+          "nm-secure-signal-100": "network-wireless-signal-excellent-secure-symbolic",
+          "nm-no-connection": "network-wireless-disconnected-symbolic",
+          "udiskie": "drive-removable-media-usb-symbolic",
+          "drive-removable-media-usb-panel": "drive-removable-media-usb-symbolic"
+      }
   },
 
   "pulseaudio": {
@@ -79,23 +105,20 @@
           "default": ["", "", ""]
       },
       "on-click-right": "pavucontrol",
-	    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-  },
-
-  "network": {
-      "format-wifi": "直  {signalStrength}%",
-      "format-ethernet": " wired",
-      "format-disconnected": "睊 ",
-      "on-click": "sh ~/.config/wofi/wifimenu.sh"
+	    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+	    "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+	    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
 
   "clock": {
       "format-alt": "<span> </span> {:%a %b %d}",
-      "format": "<span> </span> {:%H:%M}"
+      "format": "<span> </span> {:%H:%M}",
+      "tooltip": false
   },
 
   "custom/powermenu": {
       "format": "",
       "on-click": "bash ~/.config/rofi/powermenu/type-2/powermenu.sh",
+      "tooltip": false
   }
 }
