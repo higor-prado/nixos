@@ -27,6 +27,7 @@
       {
         wayland.windowManager.hyprland = {
           enable = true;
+          # user.conf is provisioned by the desktop composition module (e.g. hyprland-standalone.nix)
           extraConfig = "source = ~/.config/hypr/user.conf";
         };
 
