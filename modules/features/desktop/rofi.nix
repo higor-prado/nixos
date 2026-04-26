@@ -3,7 +3,6 @@
   flake.modules.homeManager.rofi = {
     programs.rofi = {
       enable = true;
-      terminal = "kitty";
       modes = [
         "drun"
         "run"

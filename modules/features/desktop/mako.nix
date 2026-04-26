@@ -9,7 +9,7 @@
           font = "JetBrains Mono Nerd Font 12";
           width = 500;
           height = 300;
-          margin = 15;
+          margin = 12;
           padding = 15;
           border-size = 2;
           border-radius = 15;
