@@ -1,11 +1,12 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.theme-zen =
-    { config, lib, pkgs, ... }:
+    { lib, pkgs, ... }:
     let
       customPkgs = import ../../../pkgs { inherit pkgs inputs; };
-      flavor = "mocha";
-      accent = "lavender";
+      theme = import ./_theme-catalog.nix { inherit pkgs; };
+      flavor = theme.flavor;
+      accent = theme.accent;
       capitalize =
         s:
         "${lib.toUpper (builtins.substring 0 1 s)}${
