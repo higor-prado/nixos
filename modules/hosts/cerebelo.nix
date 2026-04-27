@@ -67,12 +67,16 @@ in
     {
       imports = nixosInfrastructure ++ nixosCoreServices ++ nixosUserTools ++ hardwareImports;
 
+      # Upstream nixos-rk3588 board modules currently consume these module args.
+      # Keep this as a narrow board-compatibility bridge for cerebelo only.
+      # This is not a generic repo context pattern and should not be copied to
+      # unrelated host/feature modules.
       _module.args.rk3588 = {
         inherit pkgsKernel;
         nixpkgs = upstreamNixpkgs;
       };
-      # dtb-install.nix in the core module requires this in its function
-      # signature but does not use it on extlinux systems.
+      # dtb-install.nix in the upstream core module requires this in its
+      # function signature but does not use it on extlinux systems.
       _module.args.nixos-generators = null;
 
       nixpkgs.hostPlatform = system;

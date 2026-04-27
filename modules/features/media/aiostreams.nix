@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.aiostreams =
-    { config, lib, pkgs, ... }:
+    { pkgs, ... }:
     let
       dataDir = "/var/lib/aiostreams";
       envFile = "/etc/aiostreams/aiostreams.env";
@@ -39,6 +39,9 @@
         };
         path = [ pkgs.tailscale ];
         script = ''
+          # This repo currently tracks a single tailscale serve route owner on
+          # cerebelo (aiostreams). Reset keeps the serve config deterministic
+          # before we apply the intended route.
           tailscale serve reset
           tailscale serve --bg --yes http://127.0.0.1:${toString port}
         '';
