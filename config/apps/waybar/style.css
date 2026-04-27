@@ -3,7 +3,7 @@
 @define-color base-2 rgba(30, 30, 46, 0.5);
 @define-color base-3 rgba(30, 30, 46, 0.5);
 @define-color surface1-1 rgba(69, 71, 90, 0.4);
-@define-color lavender-1 rgba(180, 190, 254, 0.75);
+@define-color lavender-1 rgba(180, 190, 254, 1);
 
 * {
     font-family: "JetBrains Mono Nerd Font";
@@ -21,17 +21,15 @@ window#waybar {
 #hypr,
 #group-hypr {
     background-color: @base-3;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-radius: 14px;
 }
 
-#window,
 #custom-active-window {
     background-color: @lavender-1;
-    margin: 3px 2px 3px 15px;
-    padding: 0px 12px;
+    margin: 2px 2px 2px 12px;
+    padding: 0px 10px;
     color: @base;
-    min-width: 280px;
+    min-width: 250px;
     border-radius: 12px;
 }
 

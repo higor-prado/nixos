@@ -29,9 +29,11 @@
 
   "custom/active-window": {
     "exec": "bash ~/.config/waybar/scripts/active-window.sh",
-    "interval": 1,
-    "max-length": 36,
-    "tooltip": false
+    "restart-interval": 1,
+    "max-length": 25,
+    "tooltip": false,
+    "exec-on-event": false,
+    "align": 0
   },
 
   "cpu": {
@@ -78,6 +80,7 @@
     "exec": "bash ~/.config/waybar/scripts/mako.sh",
     "format": "{}",
     "on-click": "bash ~/.config/waybar/scripts/mako-dnd.sh",
+    "on-click-right": "bash ~/.config/waybar/scripts/mako-clear.sh",
     "restart-interval": 1,
     "tooltip": false
   },

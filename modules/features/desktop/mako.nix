@@ -20,6 +20,15 @@
           anchor = "top-right";
           layer = "overlay";
 
+          # Keep long-running command completion notifications useful without
+          # storing them in history after they expire.
+          "app-name=starship summary=\"Command finished\"" = {
+            history = false;
+            group-by = "app-name,summary,body";
+            ignore-timeout = true;
+            default-timeout = 5000;
+          };
+
           "urgency=critical" = {
             default-timeout = 0;
           };

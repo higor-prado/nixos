@@ -48,6 +48,14 @@
         }
       );
 
+      home.activation.provisionWaybarMakoClearScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/mako-clear.sh;
+          target = "$HOME/.config/waybar/scripts/mako-clear.sh";
+          mode = "0755";
+        }
+      );
+
       home.activation.provisionWaybarClipboardScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
           source = ../../../config/apps/waybar/scripts/clipboard-history.sh;
@@ -63,5 +71,6 @@
           mode = "0755";
         }
       );
+
     };
 }
