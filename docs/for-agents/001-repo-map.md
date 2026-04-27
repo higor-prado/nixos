@@ -154,7 +154,7 @@ and are owned by the adjacent feature. Current example:
 ## hardware/predator/
 
 ```
-default.nix              thin entry: imports hardware/*, boot.nix, packages.nix, …
+default.nix              thin entry: imports hardware/*, boot.nix, performance.nix, …
 hardware-configuration.nix  nixos-generate-config output
 disko.nix                disk layout (btrfs, LUKS)
 hardware/
@@ -164,7 +164,6 @@ hardware/
   audio-pipewire.nix     WirePlumber HDMI audio rules
   encryption.nix         TPM2+LUKS, swap, resume
 boot.nix                 GRUB+EFI boot loader
-packages.nix             predator-specific packages
 performance.nix          OOM, sysctl, ananicy, CPU governor, nix daemon scheduling
 impermanence.nix         persistent machine state for predator
 persisted-paths.nix      declared persisted directories/files for predator
