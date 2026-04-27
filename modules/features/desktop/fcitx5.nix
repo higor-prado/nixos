@@ -30,6 +30,10 @@
           enable = true;
           type = "fcitx5";
           fcitx5.waylandFrontend = true;
+          # Disable built-in clipboard addon — clipboard is managed by cliphist + wl-clip-persist
+          fcitx5.settings.addons = {
+            clipboard.globalSection.Enabled = "False";
+          };
         };
         home.sessionVariables.QT_IM_MODULE = "fcitx";
         systemd.user.services.fcitx5-daemon = {
