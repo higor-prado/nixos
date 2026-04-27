@@ -24,6 +24,14 @@ pkgs.runCommand "papirus-tray-patched" { } ''
       ["nm-secure-signal-100"]="16x16/symbolic/status/network-wireless-signal-excellent-secure-symbolic.svg"
       ["nm-no-connection"]="16x16/symbolic/status/network-wireless-disconnected-symbolic.svg"
       ["drive-removable-media-usb-panel"]="16x16/symbolic/devices/drive-removable-media-usb-symbolic.svg"
+
+      # Blueman SNI IDs and tray icon alias used by waybar tray icon mapping.
+      ["blueman"]="16x16/devices/bluetooth.svg"
+      ["blueman-active"]="16x16/devices/bluetooth.svg"
+      ["blueman-disabled"]="16x16/devices/bluetooth.svg"
+      ["blueman-offline"]="16x16/devices/bluetooth.svg"
+      ["blueman-tray"]="16x16/devices/bluetooth.svg"
+      ["bluetooth-symbolic"]="16x16/devices/bluetooth.svg"
   )
 
   SIZES="16x16 16x16@2x 22x22 24x24 32x32 48x48"
