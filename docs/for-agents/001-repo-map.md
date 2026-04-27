@@ -88,6 +88,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 **System**
 - `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
 - `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
+- `system/aurelius-attic-server.nix`, `system/aurelius-attic-local-publisher.nix`, `system/aurelius-github-runner.nix`
 - `system/networking-wireguard-client.nix`, `system/networking-wireguard-server.nix`
 - `system/docker.nix`, `system/podman.nix`, `system/keyrs.nix`
 - `system/keyboard.nix`, `system/upower.nix`
@@ -149,7 +150,8 @@ and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by
   `modules/features/shell/starship.nix`
-- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix` and `modules/features/desktop/regreet.nix`
+- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/regreet.nix`, and `modules/features/desktop/theme-zen.nix`
+- `modules/features/desktop/_papirus-tray-patched.nix` — feature-private icon-theme derivation helper used by `modules/features/desktop/_theme-catalog.nix` to keep tray symbolic icons color-stable in Waybar
 
 ## hardware/predator/
 
