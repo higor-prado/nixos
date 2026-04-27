@@ -37,5 +37,5 @@
    - `~/ops/nixos-private-scripts/bin`
 
 ## Mutable Config Note
-1. Some files are provisioned as mutable copy-once configs (for example `dms`).
+1. Some files are provisioned as mutable copy-once configs (for example `waybar`).
 2. Parity checks can fail when local runtime files intentionally diverge from templates.

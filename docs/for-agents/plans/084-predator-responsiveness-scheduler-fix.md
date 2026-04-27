@@ -13,7 +13,7 @@ In scope:
 - Provide an objective stress harness to validate responsiveness under load
 
 Out of scope:
-- Replacing Hyprland/Niri
+- Replacing desktop compositor choices
 - Replacing dbus-broker
 - GPU driver tuning changes
 
