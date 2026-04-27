@@ -69,7 +69,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/satty.nix` — Satty screenshot annotation program
 - `desktop/wlogout.nix` — Wlogout logout/power menu with Catppuccin theming
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
-- `desktop/hyprland.nix` — Hyprland Wayland compositor with hypridle and hyprlock integration
+- `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
 - `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming

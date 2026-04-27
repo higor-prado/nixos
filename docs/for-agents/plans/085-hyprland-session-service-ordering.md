@@ -546,7 +546,6 @@ Changes:
   - `wl-clip-persist.service`
   - `hyprpolkitagent.service`
   - `fcitx5-daemon.service`
-  - `hypridle.service`
   - `awww-daemon.service`
   - `xdg-desktop-portal-gtk.service`
   - `xdg-desktop-portal-hyprland.service`
