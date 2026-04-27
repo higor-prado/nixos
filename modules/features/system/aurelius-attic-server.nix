@@ -1,6 +1,7 @@
 { ... }:
 {
-  flake.modules.nixos.attic-server =
+  # Concrete Aurelius owner: Attic server + bootstrap for the local aurelius cache.
+  flake.modules.nixos.aurelius-attic-server =
     {
       lib,
       pkgs,

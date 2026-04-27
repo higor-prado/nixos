@@ -1,4 +1,4 @@
-{ ... }:
+_:
 {
   flake.modules.nixos.networking-wireguard-client =
     { pkgs, ... }:
