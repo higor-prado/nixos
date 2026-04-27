@@ -40,12 +40,12 @@ in
 {
   imports = [
     nixos.desktop-my-desktop
-    nixos.niri
+    nixos.hyprland
   ];
 
   home-manager.users.${userName}.imports = [
     homeManager.desktop-my-desktop
-    homeManager.niri
+    homeManager.hyprland
   ];
 }
 ```

@@ -73,7 +73,7 @@ in
 3. Add those published modules to the host's explicit NixOS/HM imports alongside the individual features they compose
 4. Verify with `./scripts/check-desktop-composition-matrix.sh`
 
-See `modules/desktops/dms-on-niri.nix` and `modules/desktops/niri-standalone.nix` for reference. Baseline duplication across composition files is intentional because each composition owns its own lower-level module payload.
+See `modules/desktops/hyprland-standalone.nix` for reference. Baseline duplication across composition files is intentional because each composition owns its own lower-level module payload.
 
 ## Adding a host
 

@@ -56,15 +56,12 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
-- `desktop/niri.nix` — Niri Wayland compositor
-- `desktop/dms.nix` — Dank Material Shell greeter (Niri-only)
-- `desktop/dms-wallpaper.nix` — DMS wallpaper management (Niri-only)
 - `desktop/regreet.nix` — ReGreet greetd greeter with Catppuccin theming (Hyprland)
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
-- `desktop/wayland-tools.nix`, `desktop/xwayland.nix`, `desktop/fcitx5.nix`
+- `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
 - `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie, cliphist, wl-clip-persist)
 - `desktop/satty.nix` — Satty screenshot annotation program
 - `desktop/wlogout.nix` — Wlogout logout/power menu with Catppuccin theming
@@ -74,7 +71,6 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
-- `desktop/noctalia.nix` — Noctalia shell environment integration
 - `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
 
 **Dev / Editors / LLM**
@@ -103,9 +99,6 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 
 | File | Published lower-level modules | Composites |
 |------|-------------------------------|-----------|
-| `dms-on-niri.nix` | `flake.modules.nixos.desktop-dms-on-niri`, `flake.modules.homeManager.desktop-dms-on-niri` | niri + dms + xdg-user-dirs + … |
-| `niri-standalone.nix` | `flake.modules.nixos.desktop-niri-standalone`, `flake.modules.homeManager.desktop-niri-standalone` | niri standalone session |
-| `noctalia-on-niri.nix` | `flake.modules.nixos.desktop-noctalia-on-niri`, `flake.modules.homeManager.desktop-noctalia-on-niri` | niri + noctalia session |
 | `hyprland-standalone.nix` | `flake.modules.nixos.desktop-hyprland-standalone`, `flake.modules.homeManager.desktop-hyprland-standalone` | hyprland standalone session (current predator selection) |
 
 ## modules/users/

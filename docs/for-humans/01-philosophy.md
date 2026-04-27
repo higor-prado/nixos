@@ -7,7 +7,7 @@ no shadow configs, no "also configure this in another file."
 
 ## Dendritic feature modules, not monolithic files
 
-Each feature (`fish`, `niri`, `editor-neovim`) is an independent top-level
+Each feature (`fish`, `hyprland`, `editor-neovim`) is an independent top-level
 module that publishes lower-level NixOS and/or Home Manager modules.
 Hosts compose by importing those published modules explicitly.
 

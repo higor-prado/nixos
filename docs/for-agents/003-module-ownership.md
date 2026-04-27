@@ -57,7 +57,7 @@
 - `modules/features/system/audio.nix` — PipeWire and realtime audio support
 - `modules/features/system/networking-wireguard-client.nix` — machine VPN behavior
 - `modules/features/desktop/packages-fonts.nix` — machine-wide fonts
-- `modules/desktops/dms-on-niri.nix` — login/session substrate (Niri-only)
+- `modules/desktops/hyprland-standalone.nix` — Hyprland desktop composition substrate
 - `modules/features/desktop/regreet.nix` — ReGreet greetd greeter (Hyprland)
 
 ### Home Manager-owned examples
@@ -71,7 +71,7 @@
 
 - `modules/features/shell/fish.nix` — NixOS owns base shell availability; HM owns user UX
 - `modules/features/system/ssh.nix` — NixOS owns the daemon; HM owns client config
-- `modules/features/desktop/niri.nix` — NixOS owns compositor/runtime pieces; HM owns config materialization
+- `modules/features/desktop/hyprland.nix` — NixOS owns compositor/runtime pieces; HM owns session bootstrap and user config materialization
 - `modules/features/dev/editor-neovim.nix` — NixOS owns PAM/session limits; HM owns editor package and user config
 
 ## Feature module checklist
