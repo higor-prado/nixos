@@ -34,7 +34,7 @@ in
 
   # Font
   font = {
-    name = "JetBrains Mono Nerd Font";
-    package = pkgs.nerd-fonts.jetbrains-mono;
+    name = "DejaVu Sans";
+    package = pkgs.dejavu_fonts;
   };
 }
