@@ -37,7 +37,10 @@
         };
         home.sessionVariables.QT_IM_MODULE = "fcitx";
         systemd.user.services.fcitx5-daemon = {
-          Unit.After = [ "graphical-session.target" ];
+          Unit = {
+            After = [ "graphical-session.target" ];
+            ConditionEnvironment = "WAYLAND_DISPLAY";
+          };
           Service = {
             Restart = "on-failure";
             RestartSec = 1;

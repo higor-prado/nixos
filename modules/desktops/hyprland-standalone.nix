@@ -35,6 +35,15 @@
         };
 
         xdg.configFile = helpers.portalPathOverrides // {
+          "systemd/user/xdg-desktop-portal-gtk.service.d/override.conf".text = ''
+            [Unit]
+            ConditionEnvironment=WAYLAND_DISPLAY
+
+            [Service]
+            Environment=PATH=${helpers.portalExecPath}
+            Restart=on-failure
+            RestartSec=2
+          '';
           "systemd/user/xdg-desktop-portal-hyprland.service.d/override.conf".text = ''
             [Service]
             Environment=PATH=${helpers.portalExecPath}

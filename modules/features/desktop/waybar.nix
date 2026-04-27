@@ -13,6 +13,11 @@
 
       catppuccin.waybar.mode = "createLink";
 
+      systemd.user.services.waybar = {
+        Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
+        Service.RestartSec = "2";
+      };
+
       home.activation.provisionWaybarConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
           source = ../../../config/apps/waybar/config;
