@@ -44,13 +44,6 @@
           {
             pattern = {
               feature = "procname";
-              matches = "niri";
-            };
-            profile = "Limit Free Buffer Pool On Wayland Compositors";
-          }
-          {
-            pattern = {
-              feature = "procname";
               matches = ".Hyprland-wrapped";
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";

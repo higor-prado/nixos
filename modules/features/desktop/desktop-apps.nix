@@ -13,7 +13,6 @@
         "vivaldi-stable.desktop"
         "floorp.desktop"
         "zen.desktop"
-        "dms-open.desktop"
       ];
     in
     {

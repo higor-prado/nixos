@@ -8,7 +8,7 @@ rec {
     + "/nix/var/nix/profiles/default/bin:"
     + "/run/current-system/sw/bin";
 
-  # Ready-to-use xdg.configFile entries for niri desktop compositions
+  # Ready-to-use xdg.configFile entries for desktop portal service overrides
   portalPathOverrides = {
     "systemd/user/xdg-desktop-portal.service.d/override.conf".text = ''
       [Service]
