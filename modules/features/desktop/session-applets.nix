@@ -18,8 +18,67 @@
 
       services.wl-clip-persist.enable = true;
 
-      # Fix restart limits for session applets that race with Wayland compositor startup
-      systemd.user.services.cliphist.Service.RestartSec = "2";
-      systemd.user.services.wl-clip-persist.Service.RestartSec = "2";
+      # Display-bound services must not start from a non-graphical user manager
+      # (for example SSH/linger before Hyprland exports WAYLAND_DISPLAY).
+      systemd.user.services = {
+        hyprpolkitagent = {
+          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
+          Service = {
+            Restart = "on-failure";
+            RestartSec = "2";
+          };
+        };
+
+        network-manager-applet = {
+          Unit = {
+            ConditionEnvironment = "WAYLAND_DISPLAY";
+            Wants = [ "waybar.service" ];
+            After = [ "waybar.service" ];
+          };
+          Service = {
+            Restart = "on-failure";
+            RestartSec = "2";
+          };
+        };
+
+        blueman-applet = {
+          Unit = {
+            ConditionEnvironment = "WAYLAND_DISPLAY";
+            Wants = [ "waybar.service" ];
+            After = [ "waybar.service" ];
+          };
+          Service = {
+            Restart = "on-failure";
+            RestartSec = "2";
+          };
+        };
+
+        udiskie = {
+          Unit = {
+            ConditionEnvironment = "WAYLAND_DISPLAY";
+            Wants = [ "waybar.service" ];
+            After = [ "waybar.service" ];
+          };
+          Service = {
+            Restart = "on-failure";
+            RestartSec = "2";
+          };
+        };
+
+        cliphist = {
+          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
+          Service.RestartSec = "2";
+        };
+
+        cliphist-images = {
+          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
+          Service.RestartSec = "2";
+        };
+
+        wl-clip-persist = {
+          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
+          Service.RestartSec = "2";
+        };
+      };
     };
 }

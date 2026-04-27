@@ -27,6 +27,7 @@
           Description = "swww wallpaper daemon (awww-daemon)";
           After = [ "graphical-session.target" ];
           PartOf = [ "graphical-session.target" ];
+          ConditionEnvironment = "WAYLAND_DISPLAY";
         };
         Service = {
           Type = "simple";
