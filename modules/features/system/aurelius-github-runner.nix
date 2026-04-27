@@ -1,6 +1,7 @@
 { ... }:
 {
-  flake.modules.nixos.github-runner =
+  # Concrete Aurelius owner: self-hosted GitHub runner service/profile.
+  flake.modules.nixos.aurelius-github-runner =
     { pkgs, ... }:
     let
       runnerUser = "github-runner";

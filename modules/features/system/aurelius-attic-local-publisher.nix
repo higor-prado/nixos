@@ -1,6 +1,7 @@
 { ... }:
 {
-  flake.modules.nixos.attic-local-publisher =
+  # Concrete Aurelius owner: watch-store publisher for the local aurelius cache.
+  flake.modules.nixos.aurelius-attic-local-publisher =
     {
       lib,
       pkgs,

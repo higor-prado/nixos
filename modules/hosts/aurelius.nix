@@ -22,14 +22,14 @@ in
         nixos.nix-settings
       ];
       nixosCoreServices = [
-        nixos.attic-server
-        nixos.attic-local-publisher
+        nixos.aurelius-attic-server
+        nixos.aurelius-attic-local-publisher
         nixos.networking
         nixos.docker
         nixos.docker-health-check
         nixos.forgejo
         nixos.grafana
-        nixos.github-runner
+        nixos.aurelius-github-runner
         nixos.mosh
         nixos.node-exporter
         nixos.prometheus
