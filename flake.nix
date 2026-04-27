@@ -29,21 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,11 +61,6 @@
     keyrs = {
       url = "github:higorprado/keyrs";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    dms-awww-src = {
-      url = "github:higorprado/dms-awww-integration";
-      flake = false;
     };
 
     waypaper-src = {
