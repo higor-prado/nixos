@@ -173,11 +173,12 @@ else
   warn "XDG_SESSION_ID is unset"
 fi
 
-niri_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.niri.enable" | jq -r '.')"
-dms_enabled="$(nix eval --json --impure --expr "let cfg = (builtins.getFlake \"path:${PWD}\").nixosConfigurations.${config_host}.config; in builtins.hasAttr \"dsearch\" cfg.systemd.user.services" | jq -r '.')"
+hyprland_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprland.enable" | jq -r '.')"
+regreet_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.regreet.enable" | jq -r '.')"
+hyprlock_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprlock.enable" | jq -r '.')"
 keyrs_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.keyrs.enable" | jq -r '.')"
 
-ok "config host=${config_host} features: niri=${niri_enabled} dms=${dms_enabled} keyrs=${keyrs_enabled}"
+ok "config host=${config_host} features: hyprland=${hyprland_enabled} regreet=${regreet_enabled} hyprlock=${hyprlock_enabled} keyrs=${keyrs_enabled}"
 
 if command -v gdbus >/dev/null 2>&1; then
   if gdbus call --session \
@@ -195,18 +196,14 @@ fi
 require_user_unit_active "xdg-desktop-portal.service"
 expect_user_unit_active "xdg-desktop-portal-gtk.service"
 
-if [ "$niri_enabled" = "true" ]; then
-  expect_user_unit_active "xdg-desktop-portal-gnome.service"
+if [ "$hyprland_enabled" = "true" ]; then
+  expect_user_unit_active "xdg-desktop-portal-hyprland.service"
 fi
 
 if [ "$keyrs_enabled" = "true" ]; then
   require_user_unit_enabled "keyrs.service"
 fi
 
-if [ "$dms_enabled" = "true" ]; then
-  require_user_unit_enabled "awww-daemon.service"
-  require_user_unit_enabled "dms-awww.service"
-fi
 
 tmp_log="$(mktemp_file_scoped runtime-smoke-log)"
 trap 'rm -f "$tmp_log"' EXIT

@@ -11,7 +11,7 @@ usage() {
 Usage: scripts/new-host-skeleton.sh <host-name> [desktop|server] [desktop-experience]
 
 Examples:
-  scripts/new-host-skeleton.sh zeus desktop dms-on-niri
+  scripts/new-host-skeleton.sh zeus desktop hyprland-standalone
   scripts/new-host-skeleton.sh ci-runner server
 EOF2
 }
@@ -30,47 +30,31 @@ render_template() {
 
 desktop_imports_for() {
   case "$1" in
-    dms-on-niri)
+    hyprland-standalone)
       cat <<'EOF2'
 
-        inputs.niri.nixosModules.niri
-        inputs.dms.nixosModules.dank-material-shell
-        inputs.dms.nixosModules.greeter
-        nixos.desktop-dms-on-niri
-        nixos.dms
-        nixos.niri
-        nixos.xwayland
+        inputs.hyprland.nixosModules.default
+        nixos.desktop-hyprland-standalone
+        nixos.regreet
+        nixos.hyprland
 EOF2
       printf '\n'
       cat <<'EOF2'
 
           homeManager.desktop-apps
           homeManager.desktop-base
-          homeManager.desktop-dms-on-niri
+          homeManager.desktop-hyprland-standalone
           homeManager.desktop-viewers
-          homeManager.dms
-          homeManager.dms-wallpaper
-          homeManager.niri
+          homeManager.hyprland
+          homeManager.mako
+          homeManager.qt-theme
+          homeManager.rofi
+          homeManager.satty
+          homeManager.session-applets
+          homeManager.waybar
           homeManager.wayland-tools
-EOF2
-      ;;
-    niri-standalone)
-      cat <<'EOF2'
-
-        inputs.niri.nixosModules.niri
-        nixos.desktop-niri-standalone
-        nixos.niri
-        nixos.xwayland
-EOF2
-      printf '\n'
-      cat <<'EOF2'
-
-          homeManager.desktop-apps
-          homeManager.desktop-base
-          homeManager.desktop-niri-standalone
-          homeManager.desktop-viewers
-          homeManager.niri
-          homeManager.wayland-tools
+          homeManager.waypaper
+          homeManager.wlogout
 EOF2
       ;;
     *)
@@ -82,7 +66,7 @@ EOF2
 
 host_name="${1:-}"
 host_role="${2:-desktop}"
-desktop_experience="${3:-dms-on-niri}"
+desktop_experience="${3:-hyprland-standalone}"
 
 if [[ "$host_name" == "-h" || "$host_name" == "--help" || "$host_name" == "help" ]]; then
   usage

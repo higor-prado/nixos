@@ -29,13 +29,10 @@ in
         nixos.packages-system-tools
         nixos.fish
         nixos.ssh
-        inputs.niri.nixosModules.niri
-        inputs.dms.nixosModules.dank-material-shell
-        inputs.dms.nixosModules.greeter
-        nixos.desktop-dms-on-niri
-        nixos.dms
-        nixos.niri
-        nixos.xwayland
+        inputs.hyprland.nixosModules.default
+        nixos.desktop-hyprland-standalone
+        nixos.regreet
+        nixos.hyprland
       ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
@@ -50,12 +47,18 @@ in
           homeManager.ssh
           homeManager.desktop-apps
           homeManager.desktop-base
-          homeManager.desktop-dms-on-niri
+          homeManager.desktop-hyprland-standalone
           homeManager.desktop-viewers
-          homeManager.dms
-          homeManager.dms-wallpaper
-          homeManager.niri
+          homeManager.hyprland
+          homeManager.mako
+          homeManager.qt-theme
+          homeManager.rofi
+          homeManager.satty
+          homeManager.session-applets
+          homeManager.waybar
           homeManager.wayland-tools
+          homeManager.waypaper
+          homeManager.wlogout
         ];
       };
     };

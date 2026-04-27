@@ -19,7 +19,7 @@ cp templates/new-host-skeleton/*.tpl "$fixture_repo/templates/new-host-skeleton/
 
 (
   cd "$fixture_repo" &&
-    bash scripts/new-host-skeleton.sh zeus desktop dms-on-niri >/dev/null &&
+    bash scripts/new-host-skeleton.sh zeus desktop hyprland-standalone >/dev/null &&
     bash scripts/new-host-skeleton.sh ci-runner server >/dev/null
 )
 
