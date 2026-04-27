@@ -90,24 +90,8 @@
     "icon-size": 16,
     "icons": {
       "blueman": "bluetooth-symbolic",
-      "blueman-active": "bluetooth-symbolic",
-      "blueman-disabled": "bluetooth-symbolic",
-      "blueman-offline": "bluetooth-symbolic",
-      "blueman-tray": "bluetooth-symbolic",
       "nm-applet": "network-wireless-symbolic",
-      "nm-signal-00": "network-wireless-signal-none-symbolic",
-      "nm-signal-25": "network-wireless-signal-weak-symbolic",
-      "nm-signal-50": "network-wireless-signal-ok-symbolic",
-      "nm-signal-75": "network-wireless-signal-good-symbolic",
-      "nm-signal-100": "network-wireless-signal-excellent-symbolic",
-      "nm-secure-signal-00": "network-wireless-signal-none-symbolic",
-      "nm-secure-signal-25": "network-wireless-signal-weak-secure-symbolic",
-      "nm-secure-signal-50": "network-wireless-signal-ok-secure-symbolic",
-      "nm-secure-signal-75": "network-wireless-signal-good-secure-symbolic",
-      "nm-secure-signal-100": "network-wireless-signal-excellent-secure-symbolic",
-      "nm-no-connection": "network-wireless-disconnected-symbolic",
-      "udiskie": "drive-removable-media-usb-symbolic",
-      "drive-removable-media-usb-panel": "drive-removable-media-usb-symbolic"
+      "udiskie": "drive-removable-media-usb-symbolic"
     }
   },
 
