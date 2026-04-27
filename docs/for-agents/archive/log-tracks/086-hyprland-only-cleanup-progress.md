@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress
+Completed
 
 ## Related Plan
 
@@ -76,13 +76,13 @@ In progress
 ### Slice 4
 
 - Updated living docs to remove deleted path references and Niri/DMS/Noctalia guidance.
-- Validation so far:
+- Validation:
   - `./scripts/check-docs-drift.sh`
   - `./scripts/run-validation-gates.sh structure`
 - Diff result:
   - docs drift caused by deleted desktop files was cleared.
 - Commit:
-  - pending
+  - `3e672b4 docs(desktop): document hyprland-only runtime`
 
 ## Final State
 
@@ -90,7 +90,11 @@ In progress
 - Predator is Hyprland-only in tracked host composition.
 - Live source no longer ships Niri/DMS/Noctalia modules or payloads.
 - Active scripts/tests now assume Hyprland-only desktop composition.
-- Remaining work:
-  - commit the living-doc updates;
-  - run final full validation and closure diff;
-  - review final `rg` output for intentional exceptions in active plan docs.
+- Living docs were updated so structure/docs drift gates pass.
+- Final validation completed:
+  - `./scripts/run-validation-gates.sh all`
+  - `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.<user>.home.path`
+  - `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel -o /tmp/predator-hyprland-only`
+  - `nix run nixpkgs#nvd -- diff /tmp/predator-hyprland-before-cleanup /tmp/predator-hyprland-only`
+  - `./scripts/check-repo-public-safety.sh`
+- Closure diff was small because predator already ran Hyprland before cleanup; the visible runtime delta was the removal of the obsolete persisted DMS greeter mount, while deleted Niri/DMS/Noctalia source mostly removed dormant code paths.
