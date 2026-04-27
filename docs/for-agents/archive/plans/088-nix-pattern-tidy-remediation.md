@@ -244,9 +244,9 @@ Audit finding addressed:
 
 Targets:
 
-- `modules/features/system/github-runner.nix`
-- `modules/features/system/attic-server.nix`
-- `modules/features/system/attic-local-publisher.nix`
+- `modules/features/system/aurelius-github-runner.nix`
+- `modules/features/system/aurelius-attic-server.nix`
+- `modules/features/system/aurelius-attic-local-publisher.nix`
 - `modules/hosts/aurelius.nix`
 - `docs/for-agents/001-repo-map.md` if feature list/docs mention these owners.
 
