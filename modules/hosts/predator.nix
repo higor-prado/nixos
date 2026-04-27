@@ -2,10 +2,6 @@
 { inputs, config, ... }:
 let
   system = "x86_64-linux";
-  customPkgs = import ../../pkgs {
-    pkgs = import inputs.nixpkgs { inherit system; config.allowUnfree = true; };
-    inherit inputs;
-  };
   hostName = "predator";
   hardwareImports = [
     inputs.disko.nixosModules.disko
@@ -171,6 +167,9 @@ in
         home-manager = {
           users.${userName} =
             { pkgs, ... }:
+            let
+              customPkgs = import ../../pkgs { inherit pkgs inputs; };
+            in
             {
               imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
 
