@@ -31,5 +31,37 @@
           target = "$HOME/.config/waybar/style.css";
         }
       );
+
+      home.activation.provisionWaybarMakoScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/mako.sh;
+          target = "$HOME/.config/waybar/scripts/mako.sh";
+          mode = "0755";
+        }
+      );
+
+      home.activation.provisionWaybarMakoDndScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/mako-dnd.sh;
+          target = "$HOME/.config/waybar/scripts/mako-dnd.sh";
+          mode = "0755";
+        }
+      );
+
+      home.activation.provisionWaybarClipboardScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/clipboard-history.sh;
+          target = "$HOME/.config/waybar/scripts/clipboard-history.sh";
+          mode = "0755";
+        }
+      );
+
+      home.activation.provisionWaybarActiveWindowScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/active-window.sh;
+          target = "$HOME/.config/waybar/scripts/active-window.sh";
+          mode = "0755";
+        }
+      );
     };
 }

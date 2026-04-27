@@ -7,19 +7,31 @@
   "margin-right": 8,
   "margin-top": 8,
 
-  "modules-left": ["hyprland/workspaces"],
-  "modules-center": [ "clock"],
-  "modules-right": ["custom/waypaper", "group/hardware", "tray", "pulseaudio", "custom/mako", "custom/powermenu"],
+  "modules-left": ["group/hypr"],
+  "modules-center": ["clock"],
+  "modules-right": ["custom/waypaper", "group/hardware", "tray", "pulseaudio", "custom/mako", "custom/clipboard", "custom/powermenu"],
+
+  "group/hypr": {
+    "orientation": "horizontal",
+    "modules": ["hyprland/workspaces", "custom/active-window"]
+  },
 
   "hyprland/workspaces": {
-	"format": "{icon}",
-	"format-icons": {
-		"active": "",
-		"default": ""
-	},
-	"persistent-workspaces": {
-		"*": 4,
-	}
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": 4
+    }
+  },
+
+  "custom/active-window": {
+    "exec": "bash ~/.config/waybar/scripts/active-window.sh",
+    "interval": 1,
+    "max-length": 36,
+    "tooltip": false
   },
 
   "cpu": {
@@ -41,84 +53,90 @@
   },
 
   "custom/separator": {
-      "format": "|",
-      "tooltip": false
+    "format": "|",
+    "tooltip": false
   },
 
   "group/hardware": {
-      "orientation": "horizontal",
-      "modules": ["cpu", "custom/separator", "memory", "custom/separator", "temperature"]
+    "orientation": "horizontal",
+    "modules": ["cpu", "custom/separator", "memory", "custom/separator", "temperature"]
   },
 
   "custom/waypaper": {
-      "format": "󰸉",
-      "tooltip-format": "Wallpaper",
-      "on-click": "bash ~/.config/waybar/scripts/waypaper.sh"
+    "format": "󰸉",
+    "tooltip-format": "Wallpaper",
+    "on-click": "bash ~/.config/waybar/scripts/waypaper.sh"
+  },
+
+  "custom/clipboard": {
+    "format": "󰅌",
+    "tooltip-format": "Clipboard history",
+    "on-click": "bash ~/.config/waybar/scripts/clipboard-history.sh"
   },
 
   "custom/mako": {
-      "exec": "bash ~/.config/waybar/scripts/mako.sh",
-      "format": "{}",
-      "on-click": "bash ~/.config/waybar/scripts/mako-dnd.sh",
-      "restart-interval": 1,
-      "tooltip": false
+    "exec": "bash ~/.config/waybar/scripts/mako.sh",
+    "format": "{}",
+    "on-click": "bash ~/.config/waybar/scripts/mako-dnd.sh",
+    "restart-interval": 1,
+    "tooltip": false
   },
 
   "tray": {
-      "spacing": 20,
-      "icon-size": 16,
-      "icons": {
-          "blueman": "bluetooth-symbolic",
-          "blueman-active": "bluetooth-symbolic",
-          "blueman-disabled": "bluetooth-symbolic",
-          "blueman-offline": "bluetooth-symbolic",
-          "blueman-tray": "bluetooth-symbolic",
-          "nm-applet": "network-wireless-symbolic",
-          "nm-signal-00": "network-wireless-signal-none-symbolic",
-          "nm-signal-25": "network-wireless-signal-weak-symbolic",
-          "nm-signal-50": "network-wireless-signal-ok-symbolic",
-          "nm-signal-75": "network-wireless-signal-good-symbolic",
-          "nm-signal-100": "network-wireless-signal-excellent-symbolic",
-          "nm-secure-signal-00": "network-wireless-signal-none-symbolic",
-          "nm-secure-signal-25": "network-wireless-signal-weak-secure-symbolic",
-          "nm-secure-signal-50": "network-wireless-signal-ok-secure-symbolic",
-          "nm-secure-signal-75": "network-wireless-signal-good-secure-symbolic",
-          "nm-secure-signal-100": "network-wireless-signal-excellent-secure-symbolic",
-          "nm-no-connection": "network-wireless-disconnected-symbolic",
-          "udiskie": "drive-removable-media-usb-symbolic",
-          "drive-removable-media-usb-panel": "drive-removable-media-usb-symbolic"
-      }
+    "spacing": 20,
+    "icon-size": 16,
+    "icons": {
+      "blueman": "bluetooth-symbolic",
+      "blueman-active": "bluetooth-symbolic",
+      "blueman-disabled": "bluetooth-symbolic",
+      "blueman-offline": "bluetooth-symbolic",
+      "blueman-tray": "bluetooth-symbolic",
+      "nm-applet": "network-wireless-symbolic",
+      "nm-signal-00": "network-wireless-signal-none-symbolic",
+      "nm-signal-25": "network-wireless-signal-weak-symbolic",
+      "nm-signal-50": "network-wireless-signal-ok-symbolic",
+      "nm-signal-75": "network-wireless-signal-good-symbolic",
+      "nm-signal-100": "network-wireless-signal-excellent-symbolic",
+      "nm-secure-signal-00": "network-wireless-signal-none-symbolic",
+      "nm-secure-signal-25": "network-wireless-signal-weak-secure-symbolic",
+      "nm-secure-signal-50": "network-wireless-signal-ok-secure-symbolic",
+      "nm-secure-signal-75": "network-wireless-signal-good-secure-symbolic",
+      "nm-secure-signal-100": "network-wireless-signal-excellent-secure-symbolic",
+      "nm-no-connection": "network-wireless-disconnected-symbolic",
+      "udiskie": "drive-removable-media-usb-symbolic",
+      "drive-removable-media-usb-panel": "drive-removable-media-usb-symbolic"
+    }
   },
 
   "pulseaudio": {
-      "format": "{icon}  {volume}%",
-      "format-bluetooth": "{icon} {volume}% {format_source}",
-      "format-bluetooth-muted": " {icon} {format_source}",
-      "format-muted": "婢",
-      "format-icons": {
-          "headphone": "",
-          "hands-free": "",
-          "headset": "",
-          "phone": "",
-          "portable": "",
-          "car": "",
-          "default": ["", "", ""]
-      },
-      "on-click-right": "pavucontrol",
-	    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-	    "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
-	    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{icon} {volume}% {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": "婢",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click-right": "pavucontrol",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
 
   "clock": {
-      "format-alt": "<span> </span> {:%a %b %d}",
-      "format": "<span> </span> {:%H:%M}",
-      "tooltip": false
+    "format-alt": "<span> </span> {:%a %b %d}",
+    "format": "<span> </span> {:%H:%M}",
+    "tooltip": false
   },
 
   "custom/powermenu": {
-      "format": "",
-      "on-click": "bash ~/.config/rofi/powermenu/type-2/powermenu.sh",
-      "tooltip": false
+    "format": "",
+    "on-click": "bash ~/.config/rofi/powermenu/type-2/powermenu.sh",
+    "tooltip": false
   }
 }
