@@ -14,14 +14,11 @@
           withUWSM = false;
         };
 
-        programs.hyprlock.enable = true;
-
       };
 
     homeManager.hyprland =
       { lib, pkgs, ... }:
       let
-        mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
         sessionStart = pkgs.writeShellScript "hyprland-session-start" ''
           set -euo pipefail
 
@@ -82,16 +79,6 @@
           extraConfig = "source = ~/.config/hypr/user.conf";
         };
 
-        services.hypridle.enable = true;
-
-        systemd.user.services.hypridle.Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
-
-        home.activation.provisionHypridleConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-          mutableCopy.mkCopyOnce {
-            source = ../../../config/apps/hypridle/hypridle.conf;
-            target = "$HOME/.config/hypr/hypridle.conf";
-          }
-        );
       };
   };
 }

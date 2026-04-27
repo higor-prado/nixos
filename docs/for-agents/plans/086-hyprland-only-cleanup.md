@@ -11,7 +11,7 @@ In scope:
 - Do the cleanup only on a new branch from the current Hyprland runtime.
 - Keep predator as a Hyprland standalone desktop.
 - Remove live Niri, DMS, DMS wallpaper, DMS AWWW, and Noctalia modules, inputs, payloads, tests, fixtures, scripts, and living documentation.
-- Keep Hyprland-related runtime: Hyprland, ReGreet/greetd, hypridle/hyprlock, xdg-desktop-portal-hyprland/gtk, Waybar, Rofi, Mako, session applets, Satty, Wlogout, Waypaper/AWWW, Keyrs, gaming, themes, and shared Wayland tools.
+- Keep Hyprland-related runtime: Hyprland, ReGreet/greetd, xdg-desktop-portal-hyprland/gtk, Waybar, Rofi, Mako, session applets, Satty, Wlogout, Waypaper/AWWW, Keyrs, gaming, themes, and shared Wayland tools. Do not keep automatic idle lock/DPMS through hypridle/hyprlock.
 - Keep historical archived docs unless they block a gate; history may mention removed desktops.
 
 Out of scope:
@@ -280,7 +280,7 @@ Validation:
 
 Diff expectation:
 - Expected removals: Niri compositor packages, xwayland-satellite if only Niri used it, Dank Material Shell/DSearch/DMS greeter pieces, Noctalia shell, DMS AWWW package/support, Noctalia Cachix config, DMS/Niri config payloads.
-- Expected retained: Hyprland, ReGreet/greetd, hyprlock/hypridle, xdg-desktop-portal-hyprland, xdg-desktop-portal-gtk, Waybar, Rofi, Mako, Satty, Wlogout, session applets, Waypaper/AWWW, Keyrs, shared Wayland tools, themes, gaming stack.
+- Expected retained: Hyprland, ReGreet/greetd, xdg-desktop-portal-hyprland, xdg-desktop-portal-gtk, Waybar, Rofi, Mako, Satty, Wlogout, session applets, Waypaper/AWWW, Keyrs, shared Wayland tools, themes, gaming stack. Expected removals also include automatic idle lock/DPMS pieces (`hypridle`/`hyprlock`).
 
 Commit target:
 - Fixup commits as needed, then keep logical commits focused per phase.
