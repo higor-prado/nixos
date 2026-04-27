@@ -19,201 +19,60 @@ report_fail() {
 
 require_cmds "desktop-matrix" "jq" "nix"
 
-composition_module_name() {
-  case "$1" in
-    dms-on-niri) echo "desktop-dms-on-niri" ;;
-    niri-standalone) echo "desktop-niri-standalone" ;;
-    hyprland-standalone) echo "desktop-hyprland-standalone" ;;
-  esac
-}
+json="$(
+  nix_eval_json_expr "
+    let
+      flake = builtins.getFlake \"path:${repo_root}\";
+      inherit (flake.modules) nixos;
+      system = \"x86_64-linux\";
+      username = \"${username}\";
+      inputs = flake.inputs;
+      lib = flake.inputs.nixpkgs.lib;
+      composition = nixos.\"desktop-hyprland-standalone\";
+      systemConfig = lib.nixosSystem {
+        inherit system;
+        modules = [
+          inputs.hyprland.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          inputs.keyrs.nixosModules.default
+          nixos.hyprland
+          nixos.regreet
+          composition
+          {
+            nixpkgs.hostPlatform.system = system;
+            networking.hostName = \"desktop-matrix\";
+            system.stateVersion = \"26.05\";
+            users.users.\${username} = { isNormalUser = true; };
+            home-manager.users.\${username}.home.stateVersion = \"25.11\";
+            nixpkgs.config.allowUnfree = true;
+            boot.isContainer = true;
+            networking.useHostResolvConf = lib.mkForce false;
+            fileSystems.\"/\" = {
+              device = \"none\";
+              fsType = \"tmpfs\";
+            };
+          }
+        ];
+      };
+      cfg = systemConfig.config;
+    in
+    {
+      greeter = if cfg.programs.regreet.enable then true else false;
+      systemDrv = cfg.system.build.toplevel.drvPath;
+    }
+  "
+)"
 
-feature_module_expr() {
-  case "$1" in
-    dms-on-niri)
-      cat <<'EOF2'
-            nixos.niri
-            nixos.dms
-EOF2
-      ;;
-    niri-standalone)
-      cat <<'EOF2'
-            nixos.niri
-EOF2
-      ;;
-    hyprland-standalone)
-      cat <<'EOF2'
-            nixos.hyprland
-            nixos.regreet
-EOF2
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
+if [[ "$(jq -r '.greeter' <<<"$json")" != "true" ]]; then
+  report_fail "hyprland-standalone feature 'greeter' expected 'true'"
+  exit 1
+fi
 
-compositor_module_expr() {
-  case "$1" in
-    dms-on-niri)
-      cat <<'EOF2'
-            inputs.niri.nixosModules.niri
-            inputs.dms.nixosModules.dank-material-shell
-            inputs.dms.nixosModules.greeter
-EOF2
-      ;;
-    niri-standalone)
-      cat <<'EOF2'
-            inputs.niri.nixosModules.niri
-EOF2
-      ;;
-    hyprland-standalone)
-      cat <<'EOF2'
-            inputs.hyprland.nixosModules.default
-EOF2
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
+system_drv="$(jq -r '.systemDrv' <<<"$json")"
+if [[ "$system_drv" != /nix/store/* ]]; then
+  report_fail "invalid system drv path for hyprland-standalone: ${system_drv}"
+  exit 1
+fi
 
-greeter_expr() {
-  case "$1" in
-    dms-on-niri)
-      cat <<'EOF2'
-        cfg.programs.dank-material-shell.greeter.compositor.name
-EOF2
-      ;;
-    niri-standalone)
-      cat <<'EOF2'
-        null
-EOF2
-      ;;
-    hyprland-standalone)
-      cat <<'EOF2'
-        (if cfg.programs.regreet.enable then true else false)
-EOF2
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
-
-# Expected composition-level parameters per composition.
-# Only composition parameterization is checked here (standalone, greeter).
-# Feature program enablement is verified by the predator full build gate.
-expected_feature_json() {
-  case "$1" in
-    dms-on-niri)
-      cat <<'EOF2'
-{"greeter":"niri"}
-EOF2
-      ;;
-    niri-standalone)
-      cat <<'EOF2'
-{"greeter":null}
-EOF2
-      ;;
-    hyprland-standalone)
-      cat <<'EOF2'
-{"greeter":true}
-EOF2
-      ;;
-    *)
-      report_fail "missing expected feature mapping for experience '$1'"
-      return 1
-      ;;
-  esac
-}
-
-check_experience() {
-  local experience="$1"
-  local module_name feature_modules compositor_modules greeter_expr_text expected_json json system_drv expected actual key
-
-  module_name="$(composition_module_name "$experience")" || {
-    report_fail "missing module name for experience '$experience'"
-    return 1
-  }
-  feature_modules="$(feature_module_expr "$experience")" || {
-    report_fail "missing feature module mapping for experience '$experience'"
-    return 1
-  }
-  compositor_modules="$(compositor_module_expr "$experience")" || {
-    report_fail "missing compositor module mapping for experience '$experience'"
-    return 1
-  }
-  greeter_expr_text="$(greeter_expr "$experience")" || {
-    report_fail "missing greeter expression for experience '$experience'"
-    return 1
-  }
-  expected_json="$(expected_feature_json "$experience")" || return 1
-
-  json="$(
-    nix_eval_json_expr "
-      let
-        flake = builtins.getFlake \"path:${repo_root}\";
-        inherit (flake.modules) nixos;
-        system = \"x86_64-linux\";
-        username = \"${username}\";
-        inputs = flake.inputs;
-        lib = flake.inputs.nixpkgs.lib;
-        composition = nixos.\"${module_name}\";
-        systemConfig = lib.nixosSystem {
-          inherit system;
-          modules = [
-            ${compositor_modules}
-            inputs.home-manager.nixosModules.home-manager
-            inputs.keyrs.nixosModules.default
-${feature_modules}
-            composition
-            {
-              nixpkgs.hostPlatform.system = system;
-              networking.hostName = \"desktop-matrix\";
-              system.stateVersion = \"26.05\";
-              users.users.\${username} = { isNormalUser = true; };
-              home-manager.users.\${username}.home.stateVersion = \"25.11\";
-              nixpkgs.config.allowUnfree = true;
-              boot.isContainer = true;
-              networking.useHostResolvConf = lib.mkForce false;
-              fileSystems.\"/\" = {
-                device = \"none\";
-                fsType = \"tmpfs\";
-              };
-            }
-          ];
-        };
-        cfg = systemConfig.config;
-      in
-      {
-        greeter = ${greeter_expr_text};
-        systemDrv = cfg.system.build.toplevel.drvPath;
-      }
-    "
-  )"
-
-  for key in greeter; do
-    expected="$(jq -r ".${key}" <<<"$expected_json")"
-    actual="$(jq -r ".${key}" <<<"$json")"
-    if [[ "$actual" != "$expected" ]]; then
-      report_fail "${experience} feature '${key}' expected '${expected}', got '${actual}'"
-      return 1
-    fi
-  done
-
-  system_drv="$(jq -r '.systemDrv' <<<"$json")"
-  if [[ "$system_drv" != /nix/store/* ]]; then
-    report_fail "invalid system drv path for ${experience}: ${system_drv}"
-    return 1
-  fi
-  echo "[desktop-matrix] ok: $experience (systemDrv/features)"
-}
-
-for experience in \
-  dms-on-niri \
-  niri-standalone \
-  hyprland-standalone; do
-  check_experience "$experience"
-done
-
-echo "[desktop-matrix] all concrete desktop experiences evaluated successfully"
+echo "[desktop-matrix] ok: hyprland-standalone (systemDrv/features)"
+echo "[desktop-matrix] hyprland-only desktop experience evaluated successfully"
