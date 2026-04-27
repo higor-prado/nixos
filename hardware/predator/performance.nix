@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   zramSwap.enable = true;
@@ -77,13 +77,39 @@
     enable = true;
     package = pkgs.ananicy-cpp;
     rulesProvider = pkgs.ananicy-rules-cachyos;
+
+    # Keep nice/ionice/oom tuning, but do not let rules set Linux scheduler class.
+    # With CachyOS rules, BG_CPUIO carries sched=idle (e.g. greetd/regreet), and that
+    # can leak SCHED_IDLE to the graphical session tree, hurting responsiveness under load.
+    settings.apply_sched = false;
+
+    # Override sensitive login/session bootstrap processes so they never inherit
+    # BG_CPUIO defaults from upstream rules.
     extraRules = [
+      {
+        name = "greetd";
+        type = "Service";
+      }
+      {
+        name = "regreet";
+        type = "Service";
+      }
+      {
+        name = "start-hyprland";
+        type = "LowLatency_RT";
+      }
       {
         name = "keyrs";
         type = "LowLatency_RT";
       }
     ];
   };
+
+  # Ensure ananicy daemon is restarted whenever its generated /etc payload changes.
+  # Without restart, stale runtime policy can survive switches.
+  systemd.services.ananicy-cpp.restartTriggers = [
+    config.environment.etc."ananicy.d".source
+  ];
 
   # ══════════════════════════════════════════════
   # CPU Frequency Scaling
