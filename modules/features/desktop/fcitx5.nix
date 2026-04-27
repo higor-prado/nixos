@@ -24,7 +24,7 @@
       };
 
     homeManager.fcitx5 =
-      { pkgs, ... }:
+      { ... }:
       {
         i18n.inputMethod = {
           enable = true;

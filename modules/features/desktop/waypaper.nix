@@ -4,7 +4,7 @@
     { lib, pkgs, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
-      waypaper = pkgs.waypaper.overrideAttrs (old: {
+      waypaper = pkgs.waypaper.overrideAttrs (_old: {
         version = "2.8";
         src = inputs.waypaper-src;
       });
