@@ -16,22 +16,30 @@
       };
 
     homeManager.desktop-hyprland-standalone =
-      { lib, ... }:
+      { lib, pkgs, ... }:
       let
         helpers = import ../../lib/_helpers.nix;
         mutableCopy = import ../../lib/mutable-copy.nix { inherit lib; };
       in
       {
+        # HM controls NIX_XDG_DESKTOP_PORTAL_DIR for user services. Include GTK backend
+        # explicitly so FileChooser/OpenURI/Settings are available alongside Hyprland portals.
+        xdg.portal = {
+          enable = true;
+          extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+          config.hyprland = {
+            default = [ "hyprland" "gtk" ];
+            "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+            "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          };
+        };
+
         xdg.configFile = helpers.portalPathOverrides // {
           "systemd/user/xdg-desktop-portal-hyprland.service.d/override.conf".text = ''
             [Service]
             Environment=PATH=${helpers.portalExecPath}
+            RestartSec=2
           '';
-        };
-
-        systemd.user.services.xdg-desktop-portal-gtk = {
-          Unit.PartOf = [ "xdg-desktop-portal.service" ];
-          Install.WantedBy = [ "xdg-desktop-portal.service" ];
         };
 
         home.activation.provisionHyprlandUserConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
