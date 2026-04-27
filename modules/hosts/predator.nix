@@ -79,35 +79,7 @@ in
         nixos.podman
         nixos.docker
       ];
-      nixosDesktopNiri = [
-        inputs.niri.nixosModules.niri
-        inputs.dms.nixosModules.dank-material-shell
-        inputs.dms.nixosModules.greeter
-        inputs.keyrs.nixosModules.default
-        nixos.desktop-dms-on-niri
-        nixos.dms
-        nixos.fcitx5
-        nixos.gaming
-        nixos.gnome-keyring
-        nixos.keyrs
-        nixos.nautilus
-        nixos.niri
-        nixos.xwayland
-      ];
-      nixosDesktopNoctalia = [
-        inputs.niri.nixosModules.niri
-        inputs.keyrs.nixosModules.default
-        nixos.desktop-noctalia-on-niri
-        nixos.noctalia
-        nixos.fcitx5
-        nixos.gaming
-        nixos.gnome-keyring
-        nixos.keyrs
-        nixos.nautilus
-        nixos.niri
-        nixos.xwayland
-      ];
-      nixosDesktopHyprland = [
+      nixosDesktop = [
         inputs.hyprland.nixosModules.default
         inputs.keyrs.nixosModules.default
         nixos.desktop-hyprland-standalone
@@ -149,42 +121,7 @@ in
         homeManager.terminals
         homeManager.tui-tools
       ];
-      hmDesktopNiri = [
-        homeManager.desktop-base
-        homeManager.desktop-apps
-        homeManager.desktop-viewers
-        homeManager.desktop-dms-on-niri
-        homeManager.dms
-        homeManager.dms-wallpaper
-        homeManager.fcitx5
-        homeManager.gaming
-        homeManager.media-cava
-        homeManager.media-tools
-        homeManager.music-client
-        homeManager.nautilus
-        homeManager.niri
-        homeManager.theme-base
-        homeManager.theme-zen
-        homeManager.wayland-tools
-      ];
-      hmDesktopNoctalia = [
-        homeManager.desktop-base
-        homeManager.desktop-apps
-        homeManager.desktop-viewers
-        homeManager.desktop-noctalia-on-niri
-        homeManager.fcitx5
-        homeManager.gaming
-        homeManager.media-cava
-        homeManager.media-tools
-        homeManager.music-client
-        homeManager.nautilus
-        homeManager.niri
-        homeManager.noctalia
-        homeManager.theme-base
-        homeManager.theme-zen
-        homeManager.wayland-tools
-      ];
-      hmDesktopHyprland = [
+      hmDesktop = [
         homeManager.desktop-base
         homeManager.desktop-apps
         homeManager.desktop-hyprland-standalone
@@ -248,8 +185,6 @@ in
       };
     in
     {
-      # predator.module = mkPredatorConfig nixosDesktopNiri hmDesktopNiri;
-      # predator.module = mkPredatorConfig nixosDesktopNoctalia hmDesktopNoctalia;
-      predator.module = mkPredatorConfig nixosDesktopHyprland hmDesktopHyprland;
+      predator.module = mkPredatorConfig nixosDesktop hmDesktop;
     };
 }
