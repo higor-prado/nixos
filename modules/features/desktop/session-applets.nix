@@ -17,5 +17,9 @@
       };
 
       services.wl-clip-persist.enable = true;
+
+      # Fix restart limits for session applets that race with Wayland compositor startup
+      systemd.user.services.cliphist.Service.RestartSec = "2";
+      systemd.user.services.wl-clip-persist.Service.RestartSec = "2";
     };
 }
