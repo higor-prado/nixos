@@ -1,4 +1,4 @@
-{ pkgs, flavor, accent }:
+{ pkgs, flavor, accent, accentHex }:
 
 pkgs.runCommand "papirus-tray-patched" { } ''
   mkdir -p $out
@@ -6,9 +6,9 @@ pkgs.runCommand "papirus-tray-patched" { } ''
   cp -r ${pkgs.catppuccin-papirus-folders.override { inherit flavor accent; }}/* $out/
   chmod -R +w $out
 
-  # Keep tray icons tinted to Catppuccin lavender in panel paths so Waybar does
-  # not fall back to unfocused hardcoded colors after GTK menu interactions.
-  LAVENDER="#b4befe"
+  # Keep tray icons tinted to the shared theme accent in panel paths so Waybar
+  # does not fall back to unfocused hardcoded colors after GTK menu interactions.
+  TRAY_TINT="${accentHex}"
   SRC="$out/share/icons/Papirus-Dark"
 
   declare -A SYMLINK_MAP=(
@@ -54,11 +54,14 @@ pkgs.runCommand "papirus-tray-patched" { } ''
 
           if [ -f "$real_src" ]; then
               mkdir -p "$SRC/''${size}/panel"
-              rm -f "$SRC/''${size}/panel/''${panel_name}.svg"
-              # Replace colors in SVG and save to the panel directory
-              sed -e "s/#dfdfdf/$LAVENDER/g" \
-                  -e "s/#444444/$LAVENDER/g" \
-                  "$real_src" > "$SRC/''${size}/panel/''${panel_name}.svg"
+              dst="$SRC/''${size}/panel/''${panel_name}.svg"
+              tmp=$(mktemp)
+              # Replace colors in SVG and save through a temp file so in-place
+              # panel icon patching does not truncate the source before sed reads it.
+              sed -e "s/#dfdfdf/$TRAY_TINT/g" \
+                  -e "s/#444444/$TRAY_TINT/g" \
+                  "$real_src" > "$tmp"
+              mv "$tmp" "$dst"
           fi
       done
   done

@@ -3,14 +3,15 @@
 let
   flavor = "mocha";
   accent = "lavender";
+  accentHex = "#b4befe";
   gtkSize = "standard";
   papirusTrayPatched = import ./_papirus-tray-patched.nix {
-    inherit pkgs flavor accent;
+    inherit pkgs flavor accent accentHex;
   };
 in
 {
   # Raw constants
-  inherit flavor accent gtkSize;
+  inherit flavor accent accentHex gtkSize;
 
   # Derived GTK theme
   gtkThemePackage = pkgs.catppuccin-gtk.override {
