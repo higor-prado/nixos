@@ -1,16 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-raw="$(hyprctl activewindow 2>/dev/null || true)"
-[ -n "$raw" ] || exit 0
-
-class="$(printf '%s\n' "$raw" | sed -n 's/^class: //p' | head -n 1)"
-title="$(printf '%s\n' "$raw" | sed -n 's/^title: //p' | head -n 1)"
-[ -n "$class" ] || exit 0
-
-lower_class="${class,,}"
-lower_title="${title,,}"
-
 trim() {
   printf '%s' "$1" | tr '\n' ' ' | sed 's/[[:space:]][[:space:]]*/ /g; s/^ //; s/ $//'
 }
@@ -47,146 +37,157 @@ strip_browser_title() {
     " - Vivaldi"
 }
 
-label=""
-icon=""
+render_label() {
+  local class="$1"
+  local title="$2"
+  local lower_class="${class,,}"
+  local lower_title="${title,,}"
+  local icon="󱂬"
+  local label="$(trim "${title:-$class}")"
 
-case "$lower_class" in
-  firefox*|zen*|floorp*|google-chrome|chromium|brave-browser|vivaldi|vivaldi-stable)
-    browser_label="$(strip_browser_title "$title")"
-    case "$lower_title" in
-      *github*)
-        icon="󰊤"
-        label="${browser_label:-GitHub}"
-        ;;
-      *youtube*)
-        icon="󰗃"
-        label="${browser_label:-YouTube}"
-        ;;
-      *gmail*|*inbox*)
-        icon="󰇮"
-        label="${browser_label:-Mail}"
-        ;;
-    esac
-    ;;
-esac
-
-if [ -z "$icon" ]; then
-  case "$lower_class" in
-    firefox*)
-      icon="󰈹"
+  case "$lower_title" in
+    *youtube*)
+      icon="󰗃"
       label="$(strip_browser_title "$title")"
-      label="${label:-Firefox}"
+      label="${label:-YouTube}"
       ;;
-    zen*)
-      icon="󰈹"
+    *github*|*gitlab*)
+      icon="󰊤"
       label="$(strip_browser_title "$title")"
-      label="${label:-Zen}"
       ;;
-    floorp*)
-      icon="󰈹"
+    *gmail*|*inbox*)
+      icon="󰇮"
       label="$(strip_browser_title "$title")"
-      label="${label:-Floorp}"
-      ;;
-    google-chrome|chromium)
-      icon=""
-      label="$(strip_browser_title "$title")"
-      label="${label:-Chrome}"
-      ;;
-    brave-browser)
-      icon=""
-      label="$(strip_browser_title "$title")"
-      label="${label:-Brave}"
-      ;;
-    vivaldi|vivaldi-stable)
-      icon=""
-      label="$(strip_browser_title "$title")"
-      label="${label:-Vivaldi}"
-      ;;
-    code|code-url-handler|codium|vscodium)
-      icon="󰨞"
-      label="$(strip_suffixes "$title" " - Visual Studio Code" " — Visual Studio Code" " - VSCodium" " — VSCodium")"
-      label="${label:-Code}"
-      ;;
-    cursor|cursor-url-handler)
-      icon="󰨞"
-      label="$(strip_suffixes "$title" " - Cursor" " — Cursor")"
-      label="${label:-Cursor}"
-      ;;
-    zeditor|zed)
-      icon="󰨞"
-      label="$(trim "$title")"
-      label="${label:-Zed}"
-      ;;
-    spotify)
-      icon="󰓇"
-      label="$(strip_suffixes "$title" " - Spotify Premium" " — Spotify Premium" " - Spotify" " — Spotify" "Spotify Premium" "Spotify Free" "Spotify")"
-      label="${label:-Spotify}"
-      ;;
-    steam)
-      icon="󰓓"
-      label="$(strip_suffixes "$title" " - Steam" " — Steam" "Steam")"
-      label="${label:-Steam}"
-      ;;
-    kitty)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Kitty}"
-      ;;
-    foot)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Foot}"
-      ;;
-    alacritty)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Alacritty}"
-      ;;
-    ghostty)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Ghostty}"
-      ;;
-    org.gnome.nautilus|nautilus)
-      icon="󰪶"
-      label="$(trim "$title")"
-      label="${label:-Files}"
-      ;;
-    obsidian)
-      icon="󱞁"
-      label="$(trim "$title")"
-      label="${label:-Obsidian}"
-      ;;
-    emacs)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Emacs}"
-      ;;
-    teams-for-linux)
-      icon="󰊻"
-      label="$(trim "$title")"
-      label="${label:-Teams}"
-      ;;
-    org.telegram.desktop|telegramdesktop)
-      icon=""
-      label="$(trim "$title")"
-      label="${label:-Telegram}"
-      ;;
-    org.pwmt.zathura|zathura)
-      icon="󰈦"
-      label="$(trim "$title")"
-      label="${label:-Zathura}"
-      ;;
-    mpv|vlc)
-      icon="󰕼"
-      label="$(trim "$title")"
-      label="${label:-Media}"
-      ;;
-    *)
-      icon="󱂬"
-      label="$(trim "${title:-$class}")"
+      label="${label:-Mail}"
       ;;
   esac
+
+  if [ "$icon" = "󱂬" ]; then
+    case "$lower_class" in
+      firefox*)
+        icon="󰈹"
+        label="$(strip_browser_title "$title")"
+        label="${label:-Firefox}"
+        ;;
+      zen*|floorp*)
+        icon="󰈹"
+        label="$(strip_browser_title "$title")"
+        label="${label:-Browser}"
+        ;;
+      chromium-browser|chromium*|google-chrome*|brave-browser*|vivaldi*)
+        icon=""
+        label="$(strip_browser_title "$title")"
+        label="${label:-Chromium}"
+        ;;
+      code|code-url-handler|codium|vscodium)
+        icon="󰨞"
+        label="$(strip_suffixes "$title" " - Visual Studio Code" " — Visual Studio Code" " - VSCodium" " — VSCodium")"
+        label="${label:-Code}"
+        ;;
+      dev.zed.zed|zed|zeditor)
+        icon="󰨞"
+        label="$(trim "$title")"
+        label="${label:-Zed}"
+        ;;
+      spotify)
+        icon="󰓇"
+        label="$(strip_suffixes "$title" "Spotify Premium" "Spotify Free" "Spotify" " - Spotify Premium" " — Spotify Premium" " - Spotify" " — Spotify")"
+        label="${label:-Spotify}"
+        ;;
+      kitty|foot|alacritty|ghostty)
+        icon=""
+        label="$(trim "$title")"
+        label="${label:-Terminal}"
+        ;;
+      nautilus|org.gnome.nautilus)
+        icon="󰪶"
+        label="$(trim "$title")"
+        label="${label:-Files}"
+        ;;
+      obsidian)
+        icon="󱞁"
+        label="$(trim "$title")"
+        label="${label:-Obsidian}"
+        ;;
+      emacs)
+        icon=""
+        label="$(trim "$title")"
+        label="${label:-Emacs}"
+        ;;
+      steam)
+        icon="󰓓"
+        label="$(strip_suffixes "$title" " - Steam" " — Steam" "Steam")"
+        label="${label:-Steam}"
+        ;;
+      electron)
+        if [[ "$lower_title" == *teams* ]]; then
+          icon="󰊻"
+          label="$(trim "$title")"
+          label="${label:-Teams}"
+        fi
+        ;;
+      teams-for-linux)
+        icon="󰊻"
+        label="$(trim "$title")"
+        label="${label:-Teams}"
+        ;;
+      telegramdesktop|org.telegram.desktop|telegram*)
+        icon=""
+        label="$(trim "$title")"
+        label="${label:-Telegram}"
+        ;;
+      zathura|org.pwmt.zathura)
+        icon="󰈦"
+        label="$(trim "$title")"
+        label="${label:-Zathura}"
+        ;;
+      mpv|vlc)
+        icon="󰕼"
+        label="$(trim "$title")"
+        label="${label:-Media}"
+        ;;
+    esac
+  fi
+
+  printf '%s  %s\n' "$icon" "$label"
+}
+
+render_active_window() {
+  local json class title
+  json="${ACTIVEWINDOW_JSON:-$(hyprctl activewindow -j 2>/dev/null || echo '{}')}"
+  class="$(printf '%s' "$json" | jq -r '.class // empty')"
+  title="$(printf '%s' "$json" | jq -r '.title // empty')"
+  [ -n "$class" ] || return 0
+  render_label "$class" "$title"
+}
+
+if [ "${1:-}" = "--render-json" ]; then
+  ACTIVEWINDOW_JSON="$(cat)"
+  render_active_window
+  exit 0
 fi
 
-printf '%s  %s\n' "$icon" "$label"
+socket_path="${XDG_RUNTIME_DIR:-/run/user/$UID}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:?}/.socket2.sock"
+current="$(render_active_window)"
+printf '%s\n' "$current"
+last="$current"
+
+while true; do
+  while IFS= read -r event; do
+    case "$event" in
+      activewindow*|activewindowv2*|openwindow*|closewindow*|movewindow*|workspace*|focusedmon*)
+        current="$(render_active_window)"
+        if [ "$current" != "$last" ]; then
+          printf '%s\n' "$current"
+          last="$current"
+        fi
+        ;;
+    esac
+  done < <(stdbuf -oL nc -U "$socket_path")
+  sleep 0.2
+  current="$(render_active_window)"
+  if [ "$current" != "$last" ]; then
+    printf '%s\n' "$current"
+    last="$current"
+  fi
+done
