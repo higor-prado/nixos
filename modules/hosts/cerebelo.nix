@@ -86,13 +86,13 @@ in
         imports = hmUserTools ++ hmShell ++ hmDev;
 
         programs.fish.shellAbbrs = {
-          ncu   = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
-          ncub  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
-          ncut  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
-          ncus  = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/nixos/result\"";
-          ncui  = "nh os info";
+          ncu = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+          ncub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-cerebelo\"";
+          ncut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-cerebelo\"";
+          ncus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-cerebelo\"";
+          ncui = "nh os info";
           ncust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
-          ncuc  = "nh clean all";
+          ncuc = "nh clean all";
           ncuct = "systemctl status nh-clean.timer --no-pager";
         };
       };
