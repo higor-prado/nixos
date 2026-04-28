@@ -23,7 +23,7 @@ in
 
   # Shared cursor theme (session + greeter)
   cursorTheme = {
-    name = "phinger-cursors";
+    name = "phinger-cursors-dark";
     package = pkgs.phinger-cursors;
   };
 
