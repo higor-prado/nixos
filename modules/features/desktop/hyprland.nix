@@ -17,7 +17,7 @@
       };
 
     homeManager.hyprland =
-      { lib, pkgs, ... }:
+      { pkgs, ... }:
       let
         sessionStart = pkgs.writeShellScript "hyprland-session-start" ''
           set -euo pipefail
@@ -54,7 +54,9 @@
             WAYLAND_DISPLAY \
             HYPRLAND_INSTANCE_SIGNATURE \
             XDG_CURRENT_DESKTOP \
+            XDG_SESSION_DESKTOP \
             XDG_SESSION_TYPE \
+            DESKTOP_SESSION \
             NIX_XDG_DESKTOP_PORTAL_DIR
 
           "$systemctl" --user start hyprland-session.target
@@ -64,21 +66,39 @@
         wayland.windowManager.hyprland = {
           enable = true;
           package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-          systemd = {
-            variables = [
-              "DISPLAY"
-              "HYPRLAND_INSTANCE_SIGNATURE"
-              "WAYLAND_DISPLAY"
-              "XDG_CURRENT_DESKTOP"
-              "XDG_SESSION_TYPE"
-              "NIX_XDG_DESKTOP_PORTAL_DIR"
-            ];
-            extraCommands = lib.mkForce [ "${sessionStart}" ];
-          };
-          # user.conf is provisioned by the desktop composition module (e.g. hyprland-standalone.nix)
-          extraConfig = "source = ~/.config/hypr/user.conf";
+          systemd.enable = false;
         };
 
+        systemd.user.targets.hyprland-session = {
+          Unit = {
+            Description = "Hyprland compositor session";
+            Documentation = [ "man:systemd.special(7)" ];
+            BindsTo = [ "graphical-session.target" ];
+            Wants = [
+              "graphical-session-pre.target"
+              "xdg-desktop-autostart.target"
+            ];
+            After = [ "graphical-session-pre.target" ];
+            Before = [ "xdg-desktop-autostart.target" ];
+          };
+        };
+
+        # Lua is the runtime entrypoint now. Keep the session bootstrap in a
+        # dedicated Lua module and require it from ~/.config/hypr/hyprland.lua.
+        xdg.configFile."hypr/session-bootstrap.lua".text = ''
+          hl.env("XDG_CURRENT_DESKTOP", "Hyprland", true)
+          hl.env("XDG_SESSION_DESKTOP", "Hyprland", true)
+          hl.env("XDG_SESSION_TYPE", "wayland", true)
+          hl.env("DESKTOP_SESSION", "hyprland", true)
+
+          hl.on("hyprland.start", function()
+              hl.timer(function()
+                  hl.exec_cmd("${sessionStart}")
+              end, { timeout = 250, type = "oneshot" })
+          end)
+
+          return true
+        '';
       };
   };
 }
