@@ -102,6 +102,18 @@
         name = "keyrs";
         type = "LowLatency_RT";
       }
+      {
+        # Nix derivations use bash/sh for builders. CachyOS rules map these to
+        # Doc-View (nice: -4), which completely destroys nix-daemon's idle scheduling
+        # and aggressively competes with UI processes like Zed editor during builds.
+        # Force them to background priority to fix the build lag.
+        name = "bash";
+        type = "BG_CPUIO";
+      }
+      {
+        name = "sh";
+        type = "BG_CPUIO";
+      }
     ];
   };
 
