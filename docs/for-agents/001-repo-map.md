@@ -121,6 +121,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
 ## config/apps/
 
+- `config/apps/git/` — tracked Git global ignore payload provisioned by `modules/features/shell/git-gh.nix`
 - `config/apps/nvim/` — tracked Neovim config payload
 - `config/apps/zen/sync-catppuccin-theme.sh` — tracked shell payload used by
   `modules/features/desktop/theme-zen.nix` to sync Catppuccin assets into the
