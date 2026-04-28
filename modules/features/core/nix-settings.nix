@@ -23,5 +23,13 @@
         clean.enable = true;
         clean.extraArgs = "--keep-since 4d --keep 3";
       };
+
+      # ══════════════════════════════════════════════
+      # Nix Daemon Scheduling
+      # ══════════════════════════════════════════════
+      # Run nix-daemon at idle CPU/IO priority so builds never preempt other processes.
+      # Strong guarantee that prevents compilation from freezing hosts.
+      nix.daemonCPUSchedPolicy = "idle";
+      nix.daemonIOSchedClass = "idle";
     };
 }

@@ -135,14 +135,6 @@
   ];
   powerManagement.cpuFreqGovernor = "powersave"; # intel_pstate HWP handles boost
 
-  # ══════════════════════════════════════════════
-  # Nix Daemon Scheduling
-  # ══════════════════════════════════════════════
-  # Run nix-daemon at idle CPU/IO priority so builds never preempt desktop processes.
-  # Stronger guarantee than ananicy-cpp niceness alone (uses systemd cgroup scheduling).
-  nix.daemonCPUSchedPolicy = "idle";
-  nix.daemonIOSchedClass = "idle";
-
   # Note: power-profiles-daemon is disabled in system.nix
   # Note: thermald is disabled in system.nix (conflicts with linuwu-sense)
 }
