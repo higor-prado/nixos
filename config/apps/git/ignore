@@ -1,0 +1,12 @@
+*.swp
+*.swo
+*~
+.DS_Store
+.envrc
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.direnv/
+result
+result-*
