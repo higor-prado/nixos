@@ -1,13 +1,11 @@
 { ... }:
 {
   flake.modules.homeManager.waybar =
-    { lib, pkgs, ... }:
+    { lib, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
     in
     {
-      home.packages = [ pkgs.imagemagick ];
-
       programs.waybar = {
         enable = true;
         systemd.enable = true;
@@ -62,6 +60,14 @@
         mutableCopy.mkCopyOnce {
           source = ../../../config/apps/waybar/scripts/clipboard-history.sh;
           target = "$HOME/.config/waybar/scripts/clipboard-history.sh";
+          mode = "0755";
+        }
+      );
+
+      home.activation.provisionWaybarClipboardPreviewScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/clipboard-preview.sh;
+          target = "$HOME/.config/waybar/scripts/clipboard-preview.sh";
           mode = "0755";
         }
       );
