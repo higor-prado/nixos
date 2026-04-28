@@ -13,7 +13,7 @@ in
       target="${target}"
       if [ ! -f "$target" ]; then
         $DRY_RUN_CMD mkdir -p "$(dirname "$target")"
-        $DRY_RUN_CMD cp ${escape (toString source)} "$target"
+        $DRY_RUN_CMD cp ${escape "${source}"} "$target"
         $DRY_RUN_CMD chmod ${escape mode} "$target"
       fi
     '';

@@ -37,7 +37,7 @@ in
 
       home.activation.provisionGitGlobalIgnore = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         target="$HOME/.config/git/ignore"
-        source=${lib.escapeShellArg (toString gitIgnoreSource)}
+        source=${lib.escapeShellArg "${gitIgnoreSource}"}
 
         $DRY_RUN_CMD mkdir -p "$(dirname "$target")"
 
