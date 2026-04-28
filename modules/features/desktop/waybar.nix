@@ -1,11 +1,13 @@
 { ... }:
 {
   flake.modules.homeManager.waybar =
-    { lib, ... }:
+    { lib, pkgs, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
     in
     {
+      home.packages = [ pkgs.imagemagick ];
+
       programs.waybar = {
         enable = true;
         systemd.enable = true;

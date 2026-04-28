@@ -3,79 +3,89 @@
   "position": "top",
   "height": 16,
   "spacing": 7,
-  "margin-left": 8,
-  "margin-right": 8,
-  "margin-top": 8,
-
-  "modules-left": ["group/hypr"],
-  "modules-center": ["clock"],
-  "modules-right": ["custom/waypaper", "group/hardware", "tray", "pulseaudio", "custom/mako", "custom/clipboard", "custom/powermenu"],
-
+  "margin-left": 20,
+  "margin-right": 20,
+  "margin-top": 2,
+  "modules-left": [
+    "group/hypr"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "custom/waypaper",
+    "group/hardware",
+    "tray",
+    "pulseaudio",
+    "custom/mako",
+    "custom/clipboard",
+    "custom/powermenu"
+  ],
   "group/hypr": {
     "orientation": "horizontal",
-    "modules": ["hyprland/workspaces", "custom/active-window"]
+    "modules": [
+      "hyprland/workspaces",
+      "custom/separator",
+      "custom/active-window"
+    ]
   },
-
   "hyprland/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "active": "",
-      "default": ""
+      "active": "\uf111",
+      "default": "\uf4aa"
     },
     "persistent-workspaces": {
       "*": 4
     }
   },
-
   "custom/active-window": {
     "exec": "bash ~/.config/waybar/scripts/active-window.sh",
     "restart-interval": 1,
-    "max-length": 25,
+    "max-length": 36,
     "tooltip": false,
     "exec-on-event": false,
     "align": 0
   },
-
   "cpu": {
     "interval": 10,
-    "format": "  {usage}%",
+    "format": "\uf2db  {usage}%",
     "max-length": 10
   },
-
   "memory": {
     "interval": 10,
-    "format": "  {}%"
+    "format": "\uefc5  {}%"
   },
-
   "temperature": {
     "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
     "input-filename": "temp1_input",
-    "format": " {temperatureC}°C",
+    "format": "\uf2c7 {temperatureC}\u00b0C",
     "on-click": "psensor"
   },
-
   "custom/separator": {
     "format": "|",
     "tooltip": false
   },
-
   "group/hardware": {
     "orientation": "horizontal",
-    "modules": ["cpu", "custom/separator", "memory", "custom/separator", "temperature"]
+    "modules": [
+      "cpu",
+      "custom/separator",
+      "memory",
+      "custom/separator",
+      "temperature"
+    ]
   },
-
   "custom/waypaper": {
-    "format": "󰸉",
+    "format": "\udb83\ude09",
     "tooltip-format": "Wallpaper",
     "on-click": "bash ~/.config/waybar/scripts/waypaper.sh"
   },
-
   "custom/clipboard": {
-    "format": "󰅌",
+    "format": "\udb80\udd4c",
     "tooltip-format": "Clipboard history",
     "on-click": "bash ~/.config/waybar/scripts/clipboard-history.sh"
   },
-
   "custom/mako": {
     "exec": "bash ~/.config/waybar/scripts/mako.sh",
     "format": "{}",
@@ -84,45 +94,46 @@
     "restart-interval": 1,
     "tooltip": false
   },
-
   "tray": {
     "spacing": 20,
     "icon-size": 16,
     "icons": {
       "blueman": "bluetooth-symbolic",
       "nm-applet": "network-wireless-symbolic",
-      "udiskie": "drive-removable-media-usb-symbolic"
+      "udiskie": "drive-removable-media-usb-symbolic",
+      "steam": "com.valvesoftware.Steam"
     }
   },
-
   "pulseaudio": {
     "format": "{icon}  {volume}%",
-    "format-bluetooth": "{icon} {volume}% {format_source}",
-    "format-bluetooth-muted": " {icon} {format_source}",
-    "format-muted": "婢",
+    "format-bluetooth": "{icon}\uf294 {volume}% {format_source}",
+    "format-bluetooth-muted": "\uf6a9 {icon}\uf294 {format_source}",
+    "format-muted": "\ufa80",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": ["", "", ""]
+      "headphone": "\uf025",
+      "hands-free": "\uf590",
+      "headset": "\uf590",
+      "phone": "\uf095",
+      "portable": "\uf095",
+      "car": "\uf1b9",
+      "default": [
+        "\uf026",
+        "\uf027",
+        "\uf028"
+      ]
     },
     "on-click-right": "pavucontrol",
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
-
   "clock": {
-    "format-alt": "<span> </span> {:%a %b %d}",
-    "format": "<span> </span> {:%H:%M}",
+    "format-alt": "<span>\uf073 </span> {:%a %b %d}",
+    "format": "<span>\uf017 </span> {:%H:%M}",
     "tooltip": false
   },
-
   "custom/powermenu": {
-    "format": "",
+    "format": "\uf011",
     "on-click": "bash ~/.config/rofi/powermenu/type-2/powermenu.sh",
     "tooltip": false
   }
