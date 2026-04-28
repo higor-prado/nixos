@@ -8,7 +8,6 @@
       services.hyprpolkitagent.enable = true;
 
       services.network-manager-applet.enable = true;
-      services.blueman-applet.enable = true;
       services.udiskie.enable = true;
 
       services.cliphist = {
@@ -30,18 +29,6 @@
         };
 
         network-manager-applet = {
-          Unit = {
-            ConditionEnvironment = "WAYLAND_DISPLAY";
-            Wants = [ "waybar.service" ];
-            After = [ "waybar.service" ];
-          };
-          Service = {
-            Restart = "on-failure";
-            RestartSec = "2";
-          };
-        };
-
-        blueman-applet = {
           Unit = {
             ConditionEnvironment = "WAYLAND_DISPLAY";
             Wants = [ "waybar.service" ];

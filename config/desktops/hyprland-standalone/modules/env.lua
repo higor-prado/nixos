@@ -4,26 +4,16 @@ hl.env("LIBVA_DRIVER_NAME", "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 hl.env("NVD_BACKEND", "direct")
 
-hl.env("QT_QPA_PLATFORM", "wayland")
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
-hl.env("QT_QPA_PLATFORMTHEME_QT6", "gtk3")
-
--- Required by scripts/apps launched from Hyprland (e.g. rofi powermenu logout path).
--- The third arg also imports the value into dbus/systemd user env.
-hl.env("XDG_CURRENT_DESKTOP", "Hyprland", true)
-hl.env("XDG_SESSION_DESKTOP", "Hyprland", true)
-hl.env("XDG_SESSION_TYPE", "wayland", true)
-hl.env("DESKTOP_SESSION", "hyprland", true)
-
-hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Classic")
-hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("XCURSOR_THEME", "phinger-cursors-dark")
--- The old config set XCURSOR_SIZE twice; the final effective value was 32.
-hl.env("XCURSOR_SIZE", "32")
+-- Let NixOS and Home Manager handle Qt, Gtk, and Cursor themes.
+-- Removed hardcoded QT_QPA_PLATFORMTHEME, XDG_CURRENT_DESKTOP, and XCURSOR_THEME 
+-- since they are properly exported by the Nix session bootstrap and theme modules.
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprctl setcursor phinger-cursors-dark 24")
+    -- Sync cursor to the actual Wayland runtime using hl.exec_cmd 
+    -- (Home Manager provides XCURSOR_THEME/SIZE but Hyprland may need an explicit setcursor)
+    local cursor_theme = os.getenv("XCURSOR_THEME") or "phinger-cursors-dark"
+    local cursor_size = os.getenv("XCURSOR_SIZE") or "24"
+    hl.exec_cmd("hyprctl setcursor " .. cursor_theme .. " " .. cursor_size)
 end)
 
 hl.config({
