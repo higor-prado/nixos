@@ -10,13 +10,13 @@ hl.config({
 })
 
 -- Application Launchers
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd([[pkill -x rofi || rofi -show drun -theme ~/.config/rofi/launchers/type-3/style-1.rasi]]))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"))
 hl.bind("SUPER + CTRL + T", hl.dsp.exec_cmd("kitty"))
 hl.bind("SUPER + CTRL + F", hl.dsp.exec_cmd("nautilus"))
 hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("firefox"))
 hl.bind("SUPER + CTRL + Z", hl.dsp.exec_cmd("zeditor"))
 hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("code"))
-hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("~/.config/waybar/scripts/clipboard-history.sh"))
+hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("walker --provider clipboard"))
 hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("obsidian"))
 hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd([=[emacsclient -c -a ""]=]))
 hl.bind("SUPER + CTRL + 7", hl.dsp.exec_cmd("zeditor"))
@@ -36,7 +36,7 @@ hl.bind("SUPER + period", actions.toggle_col_width)
 hl.bind("SUPER + KP_Insert", actions.toggle_col_width)
 
 -- Power menu
-hl.bind("SUPER + CTRL + Delete", hl.dsp.exec_cmd("~/.config/rofi/powermenu/type-2/powermenu.sh"))
+hl.bind("SUPER + CTRL + Delete", hl.dsp.exec_cmd("walker --provider menus:powermenu"))
 
 -- Scroll
 hl.bind("mouse_left", hl.dsp.layout("focus l"))
