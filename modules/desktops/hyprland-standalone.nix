@@ -95,6 +95,14 @@
           "modules/rules.lua"
           ../../config/desktops/hyprland-standalone/modules/rules.lua;
 
+        home.activation.provisionHyprlandScreenshotScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+          mutableCopy.mkCopyOnce {
+            source = ../../config/desktops/hyprland-standalone/scripts/screenshot.sh;
+            target = "$HOME/.config/hypr/scripts/screenshot.sh";
+            mode = "0755";
+          }
+        );
+
         home.activation.provisionHyprlandLuaStartup = provisionHyprlandLuaFile
           "modules/startup.lua"
           ../../config/desktops/hyprland-standalone/modules/startup.lua;

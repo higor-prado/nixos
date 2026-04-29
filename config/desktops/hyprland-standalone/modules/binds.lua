@@ -103,8 +103,8 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Screenshots
-hl.bind("SUPER + SHIFT + 4", hl.dsp.exec_cmd([=[grim -g "$(slurp)" - | wl-copy]=]))
-hl.bind("SUPER + SHIFT + 3", hl.dsp.exec_cmd("grim - | wl-copy"))
+hl.bind("SUPER + SHIFT + 4", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
+hl.bind("SUPER + SHIFT + 3", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh full"))
 
 -- Focus Navigation
 hl.bind("SUPER + left", hl.dsp.layout("focus l"))
