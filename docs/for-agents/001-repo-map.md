@@ -62,7 +62,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
-- `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie, cliphist, wl-clip-persist)
+- `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie, cliphist)
 - `desktop/satty.nix` — Satty screenshot annotation program
 - `desktop/wlogout.nix` — Wlogout logout/power menu with Catppuccin theming
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)

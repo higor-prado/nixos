@@ -41,7 +41,6 @@
             udiskie.service \
             cliphist.service \
             cliphist-images.service \
-            wl-clip-persist.service \
             fcitx5-daemon.service \
             hyprpolkitagent.service \
             awww-daemon.service \
