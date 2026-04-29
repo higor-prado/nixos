@@ -211,24 +211,46 @@ Commit:
 
 ### Slice 7 — Final validation and report
 
-Status: not started
+Status: completed
 
-Planned changes:
-- run full validation
-- optionally create final archived report after remediation is complete
+Changes made:
+- ran full final validation
+- created archived report `docs/for-agents/archive/reports/093-repo-cleanliness-drift-remediation-report.md`
+- prepared active plan/log for archive because remediation is complete
 
-Validation to record:
-- `nix flake metadata path:$PWD`
-- predator stateVersion evals
-- predator Home Manager build
-- predator system build
-- `./scripts/run-validation-gates.sh`
-- `./scripts/check-repo-public-safety.sh`
-- `git diff --check`
+Validation run:
+- `git status --short` checked before final report/archive changes
+- `nix flake metadata path:$PWD` ✅
+- `nix eval path:$PWD#nixosConfigurations.predator.config.system.stateVersion` ✅ `"25.11"`
+- `nix eval path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.stateVersion` ✅ `"25.11"`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
+- `git diff --check` ✅
+
+Diff result:
+- final report added
+- active 093 plan/log ready to move to archive
 
 Commit target:
-- optional report commit if requested
+- `chore(agents): archive repo cleanliness remediation`
 
 ## Final State
 
-Not reached. This log track currently records the planned remediation only.
+Completed.
+
+What is now true:
+- devenv template `.envrc` files are tracked and present in `git+file` template outputs
+- archived agent reports are no longer accidentally hidden by `.gitignore`
+- Hyprland live/repo drift is reduced to expected generated `session-bootstrap.lua`
+- Waybar live/repo drift is reduced to expected generated `catppuccin.css`
+- deprecated Hyprland `hyprland.conf` payload is removed
+- `predator-tui` source is pinned to an immutable revision
+- stale notification plan/log 089 is archived
+- full validation passes
+
+Remaining open:
+- optional future cleanup for Mako process ownership (`mako` process is live while `mako.service` is inactive)
+- optional future cleanup for selected style-only `statix` warnings
+- optional runtime smoke after next full `nh os switch` and relogin
