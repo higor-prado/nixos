@@ -39,7 +39,6 @@
             network-manager-applet.service \
             blueman-applet.service \
             udiskie.service \
-            nwg-dock-hyprland.service \
             vicinae.service \
             cliphist.service \
             cliphist-images.service \

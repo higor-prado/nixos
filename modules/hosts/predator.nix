@@ -126,7 +126,6 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
-        homeManager.nwg-dock
         homeManager.vicinae
         homeManager.mako
         homeManager.qt-theme
