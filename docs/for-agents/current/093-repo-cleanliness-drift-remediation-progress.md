@@ -184,20 +184,30 @@ Commit:
 
 ### Slice 6 — Notification remediation docs state
 
-Status: not started
+Status: completed
 
-Planned changes:
-- inspect current Mako runtime status
-- decide whether plan/log 089 remain active
-- update or archive active notification docs
-- remove absolute path link from active progress doc if it remains active
+Changes made:
+- inspected current Mako runtime:
+  - `mako.service` is inactive, but a live `mako` process is running
+  - `~/.config/mako/config` is now a Home Manager store symlink, not a writable live file
+  - `makoctl list -j` was empty at inspection time
+  - history contained normal screenshot notifications, not the old starship flood sample
+- confirmed repo behavior implements the plan's primary remediation:
+  - `modules/features/desktop/mako.nix` has a starship `Command finished` criterion with `history = false`
+  - Waybar has right-click clear-all via `config/apps/waybar/scripts/mako-clear.sh`
+- archived stale active 089 plan/log:
+  - `docs/for-agents/archive/plans/089-notification-daemon-remediation.md`
+  - `docs/for-agents/archive/log-tracks/089-notification-daemon-remediation-progress.md`
 
-Validation to record:
-- `./scripts/run-validation-gates.sh structure`
-- `./scripts/check-repo-public-safety.sh`
+Validation run:
+- `./scripts/run-validation-gates.sh structure` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
 
-Commit target:
-- `chore(docs): resolve notification remediation state`
+Diff result:
+- active stale notification docs moved to archive
+
+Commit:
+- pending: `chore(docs): resolve notification remediation state`
 
 ### Slice 7 — Final validation and report
 
