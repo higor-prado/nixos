@@ -56,22 +56,6 @@
         }
       );
 
-      home.activation.provisionWaybarClipboardScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
-          source = ../../../config/apps/waybar/scripts/clipboard-history.sh;
-          target = "$HOME/.config/waybar/scripts/clipboard-history.sh";
-          mode = "0755";
-        }
-      );
-
-      home.activation.provisionWaybarClipboardPreviewScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
-          source = ../../../config/apps/waybar/scripts/clipboard-preview.sh;
-          target = "$HOME/.config/waybar/scripts/clipboard-preview.sh";
-          mode = "0755";
-        }
-      );
-
       home.activation.provisionWaybarActiveWindowScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
           source = ../../../config/apps/waybar/scripts/active-window.sh;

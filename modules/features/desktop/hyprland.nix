@@ -39,9 +39,8 @@
             network-manager-applet.service \
             blueman-applet.service \
             udiskie.service \
-            vicinae.service \
-            cliphist.service \
-            cliphist-images.service \
+            elephant.service \
+            walker.service \
             fcitx5-daemon.service \
             hyprpolkitagent.service \
             awww-daemon.service \

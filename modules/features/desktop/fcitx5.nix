@@ -30,7 +30,7 @@
           enable = true;
           type = "fcitx5";
           fcitx5.waylandFrontend = true;
-          # Disable built-in clipboard addon — clipboard is managed by cliphist
+          # Disable built-in clipboard addon — clipboard is managed by Walker/Elephant.
           fcitx5.settings.addons = {
             clipboard.globalSection.Enabled = "False";
           };

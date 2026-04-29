@@ -10,11 +10,6 @@
       services.network-manager-applet.enable = true;
       services.udiskie.enable = true;
 
-      services.cliphist = {
-        enable = true;
-        allowImages = true;
-      };
-
       # Display-bound services must not start from a non-graphical user manager
       # (for example SSH/linger before Hyprland exports WAYLAND_DISPLAY).
       systemd.user.services = {
@@ -50,15 +45,6 @@
           };
         };
 
-        cliphist = {
-          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
-          Service.RestartSec = "2";
-        };
-
-        cliphist-images = {
-          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
-          Service.RestartSec = "2";
-        };
       };
     };
 }
