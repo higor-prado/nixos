@@ -55,19 +55,29 @@ Commit:
 
 ### Slice 1 — Feature owner and package install
 
-Status: not started
+Status: completed
 
-Planned changes:
-- add a narrow Home Manager feature module for NWG test tools
-- include `pkgs.nwg-dock-hyprland`, `pkgs.nwg-panel`, and `pkgs.nwg-clipman`
-- wire it explicitly into `predator` HM desktop imports
-- update repo map if needed
+Changes made:
+- added `modules/features/desktop/nwg-shell.nix`
+- installed manual-trial packages:
+  - `pkgs.nwg-dock-hyprland`
+  - `pkgs.nwg-panel`
+  - `pkgs.nwg-clipman`
+- wired `homeManager.nwg-shell` explicitly into `predator` HM desktop imports
+- updated `docs/for-agents/001-repo-map.md`
+- intentionally did not add autostart, services, keybinds, or replacement clipboard wiring
 
-Validation to record:
-- predator HM stateVersion eval
-- predator HM path build
-- structure gate
-- public safety gate
+Validation run:
+- `nix eval path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.stateVersion` ✅ `"25.11"`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
+
+Diff result:
+- one new feature module
+- one host import
+- repo map update
 
 Commit target:
 - `feat(desktop): add nwg trial tools`
