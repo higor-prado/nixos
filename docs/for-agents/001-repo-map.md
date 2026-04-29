@@ -62,12 +62,12 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
-- `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie, cliphist)
+- `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie)
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
 - `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
-- `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
-- `desktop/vicinae.nix` — Vicinae launcher installed for manual testing without replacing Rofi
+- `desktop/rofi.nix` — Rofi retained for the legacy powermenu while Walker owns launcher and clipboard flows
+- `desktop/walker.nix` — Walker launcher and clipboard stack with Elephant backend service, Catppuccin theme sync, and copy-once config
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
 - `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
@@ -135,6 +135,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `config/apps/mpd/` — tracked MPD config provisioned by copy-once
 - `config/apps/rmpc/` — tracked rmpc config provisioned by copy-once
 - `config/apps/waypaper/` — tracked Waypaper config template provisioned by copy-once
+- `config/apps/walker/` — tracked Walker config template and Catppuccin theme sync payload for the Walker/Elephant launcher and clipboard stack
+- `config/apps/elephant/` — tracked Elephant backend config and menu templates provisioned by copy-once
 
 ## docs/for-agents/archive/
 
@@ -154,7 +156,7 @@ and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by
   `modules/features/shell/starship.nix`
-- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/regreet.nix`, and `modules/features/desktop/theme-zen.nix`
+- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/regreet.nix`, `modules/features/desktop/theme-zen.nix`, and `modules/features/desktop/walker.nix`
 - `modules/features/desktop/_papirus-tray-patched.nix` — feature-private icon-theme derivation helper used by `modules/features/desktop/_theme-catalog.nix` to keep tray symbolic icons color-stable in Waybar
 
 ## hardware/predator/
