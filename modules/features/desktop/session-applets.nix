@@ -15,8 +15,6 @@
         allowImages = true;
       };
 
-      services.wl-clip-persist.enable = true;
-
       # Display-bound services must not start from a non-graphical user manager
       # (for example SSH/linger before Hyprland exports WAYLAND_DISPLAY).
       systemd.user.services = {
@@ -58,11 +56,6 @@
         };
 
         cliphist-images = {
-          Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
-          Service.RestartSec = "2";
-        };
-
-        wl-clip-persist = {
           Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
           Service.RestartSec = "2";
         };
