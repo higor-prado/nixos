@@ -85,20 +85,24 @@ Commit:
 
 ### Slice 2 — Archived report ignore fix
 
-Status: not started
+Status: completed
 
-Planned changes:
-- root-scope local `reports/` ignore so official archive reports are not hidden
-- decide whether currently ignored historical reports are tracked or removed
-- run public safety before adding any historical report
+Changes made:
+- changed `.gitignore` from broad `reports/` to root-scoped `/reports/`
+- kept root local `reports/` ignored
+- unhid and tracked the historical reports already present under `docs/for-agents/archive/reports/`
 
-Validation to record:
-- `git status --ignored --short docs/for-agents/archive/reports reports`
-- `./scripts/check-repo-public-safety.sh`
-- `./scripts/run-validation-gates.sh structure`
+Validation run:
+- `git status --ignored --short docs/for-agents/archive/reports reports` → archive reports visible, root `reports/` still ignored
+- `./scripts/check-repo-public-safety.sh` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
 
-Commit target:
-- `fix(docs): stop ignoring archived agent reports`
+Diff result:
+- `.gitignore` one-line scope fix
+- four archived report files added to Git tracking
+
+Commit:
+- pending: `fix(docs): stop ignoring archived agent reports`
 
 ### Slice 3 — Hyprland live/repo drift reconciliation
 

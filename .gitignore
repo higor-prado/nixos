@@ -1,6 +1,6 @@
 old/
 .migration-audit/
-reports/
+/reports/
 result
 result-*
 
