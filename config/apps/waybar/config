@@ -10,7 +10,7 @@
     "group/hypr",
   ],
   "modules-center": [
-      "group/audio",
+      "group/audiogroup",
   ],
   "modules-right": [
     "custom/waypaper",
@@ -53,7 +53,7 @@
   "custom/active-window": {
     "exec": "bash ~/.config/waybar/scripts/active-window.sh",
     "restart-interval": 1,
-    "max-length": 36,
+    "max-length": 40,
     "tooltip": false,
     "exec-on-event": false,
     "align": 0
@@ -77,7 +77,7 @@
     "format": "|",
     "tooltip": false
   },
-  "group/audio": {
+  "group/audiogroup": {
     "orientation": "horizontal",
     "modules": [
       "mpris",
@@ -124,7 +124,7 @@
     }
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{icon}  {volume}%",
     "format-bluetooth": "{icon}\uf294 {volume}% {format_source}",
     "format-bluetooth-muted": "\uf6a9 {icon}\uf294 {format_source}",
     "format-muted": "\ufa80",
@@ -161,7 +161,6 @@
   },
   "mpris": {
     "format": "{status_icon}",
-    "align": 0,
     "title-len": 20,
     "dynamic-len": 40,
     "player-icons": {

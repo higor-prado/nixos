@@ -36,7 +36,7 @@ wr({ name = "video-kick", match = { title = [=[.*Kick.*]=] }, opacity = "1.0 ove
 wr({ name = "video-pip", match = { title = [=[^Picture-in-Picture$]=] }, opacity = "1.0 override" })
 
 -- Layer rules
-lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.49, no_anim = true })
+lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.39, no_anim = true })
 lr({ name = "walker-blur", match = { namespace = [=[^walker$]=] }, blur = true, ignore_alpha = 0.9, no_anim = true })
 
 wk({ workspace = "special:scratchpad", on_created_empty = "kitty", })
