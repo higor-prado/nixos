@@ -65,20 +65,23 @@ Commit:
 
 ### Slice 1 — Devenv template `.envrc` tracking
 
-Status: not started
+Status: completed
 
-Planned changes:
-- add narrow ignore exception or equivalent tracked path strategy
-- track `config/devenv-templates/{go,javascript,lua,python,rust}/.envrc`
-- prove `git+file` template outputs include `.envrc`
+Changes made:
+- added narrow `.gitignore` exception for `config/devenv-templates/*/.envrc`
+- tracked `config/devenv-templates/{go,javascript,lua,python,rust}/.envrc`
+- each tracked template `.envrc` contains `use devenv`
 
-Validation to record:
-- `git check-ignore -v config/devenv-templates/python/.envrc || true`
-- `nix eval --raw git+file://$PWD#templates.<name>.path` for all template names
-- `./scripts/run-validation-gates.sh structure`
+Validation run:
+- `git check-ignore -v config/devenv-templates/python/.envrc || true` → repo exception now wins
+- `nix eval --raw git+file://$PWD#templates.<name>.path` for `python`, `go`, `javascript`, `lua`, and `rust` → each output contains `.envrc` and `devenv.nix`
+- `./scripts/run-validation-gates.sh structure` ✅
 
-Commit target:
-- `fix(dev): track devenv template envrc files`
+Diff result:
+- `.gitignore` exception and five tracked `.envrc` files
+
+Commit:
+- pending: `fix(dev): track devenv template envrc files`
 
 ### Slice 2 — Archived report ignore fix
 
