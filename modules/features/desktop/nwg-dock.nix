@@ -4,8 +4,10 @@
     { lib, pkgs, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
+      dockStyleSource = ../../../config/apps/nwg-dock/dock-catppuccin.css;
+      dockStyleTarget = "$HOME/.config/nwg-dock-hyprland/style.css";
       dockArgs = [
-        "-d"
+        "-r"
         "-nolauncher"
         "-i"
         "48"
@@ -40,10 +42,31 @@
 
       home.activation.provisionNwgDockStyle = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
-          source = ../../../config/apps/nwg-dock/dock-catppuccin.css;
-          target = "$HOME/.config/nwg-dock-hyprland/style.css";
+          source = dockStyleSource;
+          target = dockStyleTarget;
         }
       );
+
+      home.activation.ensureNwgDockStyleEditable = lib.hm.dag.entryAfter [ "provisionNwgDockStyle" ] ''
+        target="${dockStyleTarget}"
+        source=${lib.escapeShellArg "${dockStyleSource}"}
+
+        if [ -f "$target" ] && [ ! -w "$target" ]; then
+          $DRY_RUN_CMD mv "$target" "$target.before-nixos-readonly"
+          $DRY_RUN_CMD cp "$source" "$target"
+        fi
+
+        if [ -f "$target" ]; then
+          $DRY_RUN_CMD chmod u+rw "$target"
+        fi
+      '';
+
+      home.activation.removeNwgDockLiveHotfix = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        hotfix="$HOME/.config/systemd/user/nwg-dock-hyprland.service.d/live-resident-fix.conf"
+        if [ -e "$hotfix" ]; then
+          $DRY_RUN_CMD rm -f "$hotfix"
+        fi
+      '';
 
       systemd.user.services.nwg-dock-hyprland = {
         Unit = {
