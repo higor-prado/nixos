@@ -126,6 +126,7 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
+        homeManager.nwg-shell
         homeManager.mako
         homeManager.qt-theme
         homeManager.session-applets
