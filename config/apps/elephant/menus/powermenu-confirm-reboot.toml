@@ -1,0 +1,18 @@
+name = "powermenu-confirm-reboot"
+name_pretty = "Confirm Reboot"
+parent = "powermenu"
+icon = "system-reboot"
+fixed_order = true
+hide_from_providerlist = true
+
+[[entries]]
+text = "Yes, reboot"
+subtext = "Restart the machine now"
+icon = "dialog-ok"
+actions = { "menus:default" = "systemctl reboot" }
+
+[[entries]]
+text = "No, cancel"
+subtext = "Return without rebooting"
+icon = "dialog-cancel"
+actions = { "menus:default" = "true" }

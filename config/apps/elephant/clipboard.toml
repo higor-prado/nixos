@@ -1,0 +1,5 @@
+max_items = 200
+pinned_on_top = true
+command = "wl-copy"
+ignore_symbols = true
+auto_cleanup = 0
