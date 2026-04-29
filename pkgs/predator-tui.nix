@@ -7,7 +7,7 @@ buildGoModule {
   src = fetchFromGitHub {
     owner = "higorprado";
     repo = "predator-tui";
-    rev = "main";
+    rev = "8b3c88e15755404166c29b62afb789bcfb54d73a";
     sha256 = "sha256-luRM+nPfuYXtl4v3m4LAYZQEMuyR3lydaUBPBdlhWz0=";
   };
 
