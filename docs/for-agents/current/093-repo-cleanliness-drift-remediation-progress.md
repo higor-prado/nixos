@@ -106,24 +106,32 @@ Commit:
 
 ### Slice 3 — Hyprland live/repo drift reconciliation
 
-Status: not started
+Status: completed
 
-Planned changes:
-- inspect live diffs
-- sync live-correct Hyprland behavior to repo
-- handle `env.lua` as the explicit exception: repo/Nix session ownership wins over stale live env drift
-- remove deprecated `hyprland.conf` only after confirming no provisioning path uses it
+Changes made:
+- synced live-correct Hyprland behavior into repo for:
+  - `config/desktops/hyprland-standalone/hyprland.lua`
+  - `config/desktops/hyprland-standalone/modules/appearance.lua`
+  - `config/desktops/hyprland-standalone/modules/rules.lua`
+- applied the repo-clean `env.lua` to live first, preserving the explicit exception where repo/Nix session ownership wins over stale live env drift
+- synced corrected live `env.lua` back to repo; no repo diff remained for `env.lua`
+- removed deprecated `config/desktops/hyprland-standalone/hyprland.conf` after confirming no active non-archive references/provisioning path used it
 
-Validation to record:
-- `hyprctl reload`
-- `hyprctl configerrors`
-- `diff -qr ~/.config/hypr config/desktops/hyprland-standalone` with expected exclusions documented
-- Home Manager build for predator user
-- structure gate
+Validation run:
+- `hyprctl reload` initially failed from the agent shell because `HYPRLAND_INSTANCE_SIGNATURE` was not exported
+- retried with `XDG_RUNTIME_DIR=/run/user/1002` and the active socket signature from `/run/user/1002/hypr/...`; `hyprctl reload` ✅
+- `hyprctl configerrors` ✅ empty
+- `diff -qr ~/.config/hypr config/desktops/hyprland-standalone` → only expected live generated `session-bootstrap.lua` remained
+- `bash -n ~/.config/hypr/scripts/screenshot.sh config/desktops/hyprland-standalone/scripts/screenshot.sh` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
 
-Commit target:
-- `fix(hyprland): reconcile live lua config drift`
-- optional: `chore(hyprland): remove deprecated hyprland conf payload`
+Diff result:
+- live/repo Hyprland Lua drift reconciled
+- deprecated `hyprland.conf` removed
+
+Commit:
+- pending: `fix(hyprland): reconcile live lua config drift`
 
 ### Slice 4 — Waybar live/repo drift reconciliation
 

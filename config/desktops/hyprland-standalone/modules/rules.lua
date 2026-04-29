@@ -8,6 +8,10 @@ local function lr(spec)
     return hl.layer_rule(spec)
 end
 
+local function wk(spec)
+    return hl.workspace_rule(spec)
+end
+
 -- Floating utility windows
 wr({ name = "float-thunar", match = { class = [=[^thunar$]=] }, float = true })
 wr({ name = "float-nautilus", match = { class = [=[^org\.gnome\.Nautilus$]=] }, float = true })
@@ -35,9 +39,7 @@ wr({ name = "video-pip", match = { title = [=[^Picture-in-Picture$]=] }, opacity
 -- Layer rules
 lr({ name = "rofi-blur", match = { namespace = [=[^rofi$]=] }, blur = true, ignore_alpha = 0.49 })
 lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.49 })
-lr({ name = "hypr-dock-blur", match = { namespace = [=[hypr-dock]=] }, blur = true, ignore_alpha = 0 })
-lr({ name = "dock-popup-blur", match = { namespace = [=[dock-popup]=] }, blur = true, ignore_alpha = 0 })
 
-hl.workspace_rule({ workspace = "special:scratchpad", on_created_empty = "kitty" })
+wk({ workspace = "special:scratchpad", on_created_empty = "kitty", })
 
 return true
