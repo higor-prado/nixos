@@ -37,7 +37,6 @@
         force = true;
       };
       catppuccin.cava.enable = true;
-      catppuccin.rofi.enable = true;
       catppuccin.waybar.enable = true;
       catppuccin.mako.enable = true;
       catppuccin.tmux = {
