@@ -52,7 +52,6 @@
         (python3.withPackages (ps: [ ps.mutagen ]))
         mpd
         customPkgs.rmpc
-        customPkgs.spotatui
       ];
 
       xdg.configFile."mpd/mpd.conf".source = builtins.path {

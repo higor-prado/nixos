@@ -33,6 +33,7 @@ in
         nixos.desktop-hyprland-standalone
         nixos.regreet
         nixos.hyprland
+        nixos.nix-cache-settings
       ] ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
@@ -53,12 +54,10 @@ in
           homeManager.mako
           homeManager.qt-theme
           homeManager.rofi
-          homeManager.satty
           homeManager.session-applets
           homeManager.waybar
           homeManager.wayland-tools
           homeManager.waypaper
-          homeManager.wlogout
         ];
       };
     };

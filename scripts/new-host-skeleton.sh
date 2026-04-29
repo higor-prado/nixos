@@ -37,6 +37,7 @@ desktop_imports_for() {
         nixos.desktop-hyprland-standalone
         nixos.regreet
         nixos.hyprland
+        nixos.nix-cache-settings
 EOF2
       printf '\n'
       cat <<'EOF2'
@@ -49,12 +50,10 @@ EOF2
           homeManager.mako
           homeManager.qt-theme
           homeManager.rofi
-          homeManager.satty
           homeManager.session-applets
           homeManager.waybar
           homeManager.wayland-tools
           homeManager.waypaper
-          homeManager.wlogout
 EOF2
       ;;
     *)
