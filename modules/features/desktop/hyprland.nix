@@ -40,6 +40,7 @@
             blueman-applet.service \
             udiskie.service \
             nwg-dock-hyprland.service \
+            vicinae.service \
             cliphist.service \
             cliphist-images.service \
             fcitx5-daemon.service \

@@ -120,9 +120,38 @@ Final expected state after switch:
 - dock CSS is editable live at `~/.config/nwg-dock-hyprland/style.css`
 - `vicinae` is installed for manual testing, with Rofi still primary
 
+Runtime correction after first user smoke:
+- user reported dock appeared then disappeared and `vicinae toggle` failed with missing socket
+- confirmed dock service was running, but `-d` autohide made it appear to die
+- confirmed live style file was read-only and still default upstream CSS
+- confirmed `vicinae.service` existed but was disabled/inactive, so `vicinae toggle` had no socket
+
+Follow-up changes:
+- changed dock service from autohide `-d` to resident `-r`
+- made dock activation replace a read-only existing style with the repo template and chmod it writable
+- added cleanup for the temporary live service drop-in created during emergency runtime repair
+- added declarative `vicinae.service` bound to `hyprland-session.target`
+- added `vicinae-toggle`, which starts the service before toggling if needed
+- added `vicinae.service` to Hyprland session reset-failed cleanup
+
+Live hotfix applied:
+- replaced read-only live dock CSS with Catppuccin template and chmodded it writable
+- created temporary live systemd drop-in `live-resident-fix.conf` to run dock with `-r` immediately
+- restarted `nwg-dock-hyprland.service`; it is active in resident mode
+- manually started `vicinae.service`
+- `vicinae ping` ✅
+- `vicinae toggle` command returned successfully ✅
+
+Validation after follow-up changes:
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
+- `git diff --check` ✅
+
 Remaining user commands:
 - `nh os switch path:$HOME/nixos --out-link "$HOME/.cache/nh-result-predator"`
 - `systemctl --user status nwg-dock-hyprland.service`
 - `test -w ~/.config/nwg-dock-hyprland/style.css`
 - `nwg-dock-trial`
-- `vicinae --help`
+- `vicinae-toggle`
