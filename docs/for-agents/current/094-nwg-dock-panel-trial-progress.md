@@ -146,4 +146,33 @@ Commit target:
 
 ## Final State
 
-Not reached. This log currently records the planned trial only.
+Initial implementation is complete and still active for user runtime testing.
+
+Available after activation/switch:
+- packages:
+  - `nwg-dock-hyprland`
+  - `nwg-panel`
+  - `nwg-clipman`
+- manual wrappers:
+  - `nwg-dock-trial` — themed dock, autohide, no launcher button
+  - `nwg-panel-trial` — starts `nwg-panel` manually
+  - `nwg-clipman-trial` — starts `nwg-clipman --numbers` over the existing cliphist history
+
+Final validation run:
+- `nix flake metadata path:$PWD` ✅
+- `nix eval path:$PWD#nixosConfigurations.predator.config.system.stateVersion` ✅ `"25.11"`
+- `nix eval path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.stateVersion` ✅ `"25.11"`
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
+- `git diff --check` ✅
+
+Activation attempt:
+- `nh os switch path:$PWD --out-link "$HOME/.cache/nh-result-predator"` attempted
+- build completed, activation failed because `sudo` required a terminal/password in the agent environment
+- user still needs to run the switch interactively to make the tools available in the live profile
+
+Remaining open:
+- user runtime testing
+- decide whether to keep manual-only, add keybinds, add autostart/services, replace the current Rofi clipboard UI with `nwg-clipman`, or remove the trial tools
