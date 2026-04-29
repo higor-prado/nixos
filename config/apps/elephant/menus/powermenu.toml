@@ -1,0 +1,27 @@
+name = "powermenu"
+name_pretty = "Power Menu"
+description = "Session and power actions"
+icon = "system-shutdown"
+fixed_order = true
+search_name = true
+
+[[entries]]
+text = "Logout"
+subtext = "Exit Hyprland session"
+keywords = ["exit", "session", "hyprland"]
+icon = "system-log-out"
+submenu = "powermenu-confirm-logout"
+
+[[entries]]
+text = "Reboot"
+subtext = "Restart the machine"
+keywords = ["restart", "system"]
+icon = "system-reboot"
+submenu = "powermenu-confirm-reboot"
+
+[[entries]]
+text = "Shutdown"
+subtext = "Power off the machine"
+keywords = ["poweroff", "power", "off"]
+icon = "system-shutdown"
+submenu = "powermenu-confirm-shutdown"

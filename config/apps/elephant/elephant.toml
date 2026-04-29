@@ -1,0 +1,2 @@
+auto_detect_launch_prefix = true
+terminal_cmd = "kitty"
