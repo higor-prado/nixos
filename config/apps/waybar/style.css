@@ -39,7 +39,7 @@ window#waybar {
     background: @surface1-1;
 }
 
-#audio,
+#audiogroup,
 #hypr,
 #clockgroup,
 #custom-launcher,
@@ -49,7 +49,6 @@ window#waybar {
 #backlight,
 #network,
 #custom-mako,
-/*#custom-powermenu,*/
 #custom-waypaper,
 #custom-clipboard {
     padding: 2px 13px;
@@ -57,23 +56,16 @@ window#waybar {
     background-color: @mantle-1;
 }
 
+#mpris,
+#pulseaudio {
+    min-width: 56px;
+}
+
 #hypr {
     margin-left: 3px;
     border-radius: 14px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-}
-
-#hardware > widget {
-    margin: 0px 4px;
-}
-
-#hardware > widget:first-child {
-    margin-left: 0px;
-}
-
-#hardware > widget:last-child {
-    margin-right: 0px;
 }
 
 #custom-separator {

@@ -7,7 +7,7 @@ hl.config({
         kb_model = "pc105",
         kb_options = "numpad:microsoft",
         numlock_by_default = true,
-        follow_mouse = 1,
+        follow_mouse = 2,
         float_switch_override_focus = 1,
         mouse_refocus = false,
 

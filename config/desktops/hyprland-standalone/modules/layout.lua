@@ -9,6 +9,7 @@ hl.config({
         follow_min_visible = 0.5,
         wrap_focus = false,
         wrap_swapcol = false,
+
     },
 })
 
