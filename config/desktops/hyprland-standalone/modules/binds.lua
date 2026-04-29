@@ -67,7 +67,7 @@ hl.bind("XF86AudioMute", actions.toggle_col_width)
 
 hl.bind("SUPER + XF86AudioRaiseVolume", hl.dsp.focus({ workspace = "r+1" }))
 hl.bind("SUPER + XF86AudioLowerVolume", hl.dsp.focus({ workspace = "r-1" }))
-hl.bind("SUPER + XF86AudioMute", hl.dsp.layout("center"))
+hl.bind("ALT + XF86AudioMute", hl.dsp.layout("center"))
 
 hl.bind("ALT + XF86AudioRaiseVolume", hl.dsp.layout("focus r"))
 hl.bind("ALT + XF86AudioLowerVolume", hl.dsp.layout("focus l"))
@@ -138,10 +138,17 @@ hl.bind("SUPER + 1", hl.dsp.focus({ workspace = "1" }))
 hl.bind("SUPER + 2", hl.dsp.focus({ workspace = "2" }))
 hl.bind("SUPER + 3", hl.dsp.focus({ workspace = "3" }))
 hl.bind("SUPER + 4", hl.dsp.focus({ workspace = "4" }))
+hl.bind("SUPER + D", hl.dsp.workspace.toggle_special("scratchpad"))
+hl.bind("SUPER + XF86AudioMute", hl.dsp.workspace.toggle_special("scratchpad"))
+
+
 hl.bind("SUPER + CTRL + 1", hl.dsp.window.move({ workspace = "1" }))
 hl.bind("SUPER + CTRL + 2", hl.dsp.window.move({ workspace = "2" }))
 hl.bind("SUPER + CTRL + 3", hl.dsp.window.move({ workspace = "3" }))
 hl.bind("SUPER + CTRL + 4", hl.dsp.window.move({ workspace = "4" }))
+hl.bind("SUPER + CTRL + D", hl.dsp.window.move({ workspace = "special:scratchpad" }))
+hl.bind("SUPER + ALT + XF86AudioMute", hl.dsp.window.move({ workspace = "special:scratchpad" }))
+
 
 -- Column Sizing
 hl.bind("SUPER + bracketleft", hl.dsp.layout("colresize -0.1"))
