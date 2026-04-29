@@ -66,7 +66,6 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
 - `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
-- `desktop/rofi.nix` — Rofi retained for the legacy powermenu while Walker owns launcher and clipboard flows
 - `desktop/walker.nix` — Walker launcher and clipboard stack with Elephant backend service, Catppuccin theme sync, and copy-once config
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support

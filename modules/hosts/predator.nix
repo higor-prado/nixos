@@ -125,7 +125,6 @@ in
         homeManager.fcitx5
         homeManager.gaming
         homeManager.hyprland
-        homeManager.rofi
         homeManager.mako
         homeManager.qt-theme
         homeManager.walker
