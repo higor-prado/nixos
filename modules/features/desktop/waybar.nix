@@ -80,5 +80,13 @@
         }
       );
 
+      home.activation.provisionWaybarWaypaperScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        mutableCopy.mkCopyOnce {
+          source = ../../../config/apps/waybar/scripts/waypaper.sh;
+          target = "$HOME/.config/waybar/scripts/waypaper.sh";
+          mode = "0755";
+        }
+      );
+
     };
 }

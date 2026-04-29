@@ -13,6 +13,7 @@
     "clock"
   ],
   "modules-right": [
+    "mpris",
     "custom/waypaper",
     "group/hardware",
     "tray",
@@ -136,5 +137,18 @@
     "format": "\uf011",
     "on-click": "bash ~/.config/rofi/powermenu/type-2/powermenu.sh",
     "tooltip": false
+  },
+  "mpris": {
+    "format": "{status_icon}",
+    "align": 0,
+    "title-len": 20,
+    "dynamic-len": 40,
+    "player-icons": {
+      "default": "\uf04c ",
+    },
+    "status-icons": {
+      "paused": "\uf04b",
+      "default": "\uf04c"
+    },
   }
 }

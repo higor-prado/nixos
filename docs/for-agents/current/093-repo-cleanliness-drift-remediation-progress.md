@@ -135,24 +135,31 @@ Commit:
 
 ### Slice 4 — Waybar live/repo drift reconciliation
 
-Status: not started
+Status: completed
 
-Planned changes:
-- inspect live Waybar diffs
-- sync live-correct Waybar config/style/scripts into repo
-- decide whether live-only `waypaper.sh` belongs in repo
-- remove stale backup file `config.bak2` only if confirmed junk
-- keep generated/theme files out of repo unless they are source-owned
+Changes made:
+- synced live-correct Waybar files to repo:
+  - `config/apps/waybar/config`
+  - `config/apps/waybar/style.css`
+  - `config/apps/waybar/scripts/clipboard-history.sh`
+- added `config/apps/waybar/scripts/waypaper.sh` from live because both live and repo config reference it
+- added Home Manager copy-once provisioning for `waypaper.sh` in `modules/features/desktop/waybar.nix`
+- removed stale live backup `~/.config/waybar/config.bak2`
+- kept `~/.config/waybar/catppuccin.css` untracked because it is a Catppuccin/Home Manager generated symlink
 
-Validation to record:
-- `bash -n` on shell scripts
-- Waybar smoke/restart if safe
-- `diff -qr ~/.config/waybar config/apps/waybar` with expected exclusions documented
-- Home Manager build for predator user
-- structure gate
+Validation run:
+- `bash -n config/apps/waybar/scripts/*.sh ~/.config/waybar/scripts/*.sh` ✅
+- `diff -qr ~/.config/waybar config/apps/waybar` → only expected live generated `catppuccin.css` remained
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
 
-Commit target:
-- `fix(waybar): reconcile live mutable config drift`
+Diff result:
+- Waybar mutable config/style/script drift reconciled
+- missing `waypaper.sh` source/provisioning added
+- no tracked backup files
+
+Commit:
+- pending: `fix(waybar): reconcile live mutable config drift`
 
 ### Slice 5 — predator-tui immutable pin
 

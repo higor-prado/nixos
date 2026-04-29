@@ -2,8 +2,6 @@
 set -euo pipefail
 
 theme="$HOME/.config/rofi/launchers/type-3/style-1.rasi"
-preview_script="$HOME/.config/waybar/scripts/clipboard-preview.sh"
-
 theme_args=(
   -show-icons false
   -theme-str 'window { width: 700px; border-radius: 14px; }'
@@ -25,41 +23,15 @@ fi
 mapfile -t entries < <(cliphist list)
 [ "${#entries[@]}" -gt 0 ] || exit 0
 
-build_rofi_rows() {
-  local entry entry_id preview
-
-  for entry in "${entries[@]}"; do
-    entry_id="${entry%%$'\t'*}"
-    preview="${entry#*$'\t'}"
-    preview="${preview#"${preview%%[![:space:]]*}"}"
-    printf '%s\0info\x1f%s\n' "$preview" "$entry_id"
-  done
-}
-
-cleanup_preview() {
-  if [ -f "$preview_script" ]; then
-    bash "$preview_script" hide || true
-  fi
-}
-
-trap cleanup_preview EXIT
-cleanup_preview
-
-if [ -f "$preview_script" ]; then
-  first_id="${entries[0]%%$'\t'*}"
-  ROFI_INFO="$first_id" bash "$preview_script" select || true
-fi
+mapfile -t previews < <(
+  printf '%s\n' "${entries[@]}" \
+    | cut -f2- \
+    | sed 's/^[[:space:]]*//'
+)
 
 selected_index="$(
-  build_rofi_rows \
-    | rofi \
-        -dmenu \
-        -i \
-        -p 'Clipboard' \
-        -format 'i' \
-        -no-custom \
-        -on-selection-changed "bash $preview_script select" \
-        "${theme_args[@]}"
+  printf '%s\n' "${previews[@]}" \
+    | rofi -dmenu -i -p 'Clipboard' -format 'i' -no-custom "${theme_args[@]}"
 )"
 [ -n "${selected_index}" ] || exit 0
 

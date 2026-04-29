@@ -1,9 +1,8 @@
 @import "catppuccin.css";
 
-@define-color base-2 rgba(30, 30, 46, 0.5);
-@define-color base-3 rgba(30, 30, 46, 0.5);
-@define-color surface1-1 rgba(69, 71, 90, 0.4);
-@define-color lavender-1 rgba(180, 190, 254, 1);
+@define-color base-2 rgba(30, 30, 46, 0.4);
+@define-color mantle-1 rgba(24, 24, 37, 0.8);
+@define-color overlay0-1 rgba(108, 112, 134, 0.8);
 
 * {
     font-family: "JetBrains Mono Nerd Font";
@@ -18,34 +17,30 @@ window#waybar {
     color: @lavender;
 }
 
-#hypr,
-#group-hypr {
-    background-color: @base-3;
-    border-radius: 14px;
-}
-
 #custom-active-window {
-    background-color: @lavender-1;
-    margin: 2px 2px 2px 12px;
+    color: @lavender;
+    margin-left: 5px;
     padding: 0px 10px;
-    color: @base;
-    min-width: 250px;
     border-radius: 12px;
 }
 
 #workspaces {
     background-color: transparent;
+    margin-right: 10px;
 }
 
 #workspaces button {
     color: @lavender;
-    padding: 0px 9px 0px 4px;
+    padding: 0px 11px 0px 5px;
 }
 
 #workspaces button:hover {
+    border-radius: 8px;
     background: @surface1-1;
 }
 
+#mpris,
+#hypr,
 #clock,
 #custom-launcher,
 #tray,
@@ -60,7 +55,18 @@ window#waybar {
 #custom-clipboard {
     padding: 3px 13px;
     margin: 3px 0px;
-    background-color: @mantle;
+    background-color: @mantle-1;
+}
+
+#hypr {
+    margin-left: 3px;
+    border-radius: 14px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#hardware {
+    min-width: 233px;
 }
 
 #hardware > widget {
@@ -89,4 +95,5 @@ window#waybar {
 
 #custom-powermenu {
     color: @red;
+    margin-right: 3px;
 }
