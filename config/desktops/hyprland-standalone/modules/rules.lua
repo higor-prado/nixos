@@ -18,8 +18,7 @@ wr({ name = "float-nautilus", match = { class = [=[^org\.gnome\.Nautilus$]=] }, 
 wr({ name = "float-file-roller", match = { class = [=[^org.gnome.FileRoller$]=] }, float = true })
 wr({ name = "float-calculator", match = { class = [=[^gnome-calculator$]=] }, float = true })
 wr({ name = "float-blueman", match = { class = [=[^.blueman-manager-wrapped$]=] }, float = true })
-wr({ name = "float-waypaper", match = { class = [=[^waypaper$]=] }, float = true, size = "1100 750" })
-wr({ name = "clipboard-preview", match = { class = [=[^clipboard-preview$]=] }, float = true, center = true, size = "1200 900" })
+wr({ name = "float-waypaper", match = { class = [=[^waypaper$]=] }, float = true })
 wr({ name = "nemo-properties", match = { class = [=[^nemo$]=], title = [=[.*Properties]=] }, float = true })
 
 -- Focus opacity
@@ -37,8 +36,9 @@ wr({ name = "video-kick", match = { title = [=[.*Kick.*]=] }, opacity = "1.0 ove
 wr({ name = "video-pip", match = { title = [=[^Picture-in-Picture$]=] }, opacity = "1.0 override" })
 
 -- Layer rules
-lr({ name = "rofi-blur", match = { namespace = [=[^rofi$]=] }, blur = true, ignore_alpha = 0.49 })
-lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.49 })
+lr({ name = "rofi-blur", match = { namespace = [=[^rofi$]=] }, blur = true, ignore_alpha = 0.49, no_anim = true })
+lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.49, no_anim = true })
+lr({ name = "walker-blur", match = { namespace = [=[^walker$]=] }, blur = true, ignore_alpha = 0.9, no_anim = true })
 
 wk({ workspace = "special:scratchpad", on_created_empty = "kitty", })
 
