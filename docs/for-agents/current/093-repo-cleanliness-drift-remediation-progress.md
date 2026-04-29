@@ -163,20 +163,24 @@ Commit:
 
 ### Slice 5 — predator-tui immutable pin
 
-Status: not started
+Status: completed
 
-Planned changes:
-- resolve current `main` to a commit SHA
-- replace floating `rev = "main"`
-- update hash only if needed
+Changes made:
+- resolved upstream `main` for `higorprado/predator-tui` to `8b3c88e15755404166c29b62afb789bcfb54d73a`
+- replaced floating `rev = "main"` in `pkgs/predator-tui.nix`
+- hash did not need to change
 
-Validation to record:
-- Home Manager build for predator user
-- system build for predator
-- structure gate
+Validation run:
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `rg -n 'rev = "(main|master|HEAD)"|ref = "(main|master|HEAD)"' flake.nix pkgs modules hardware --glob '*.nix' || true` → no output
+- `./scripts/run-validation-gates.sh structure` ✅
 
-Commit target:
-- `fix(pkgs): pin predator-tui source revision`
+Diff result:
+- one-line immutable source revision pin
+
+Commit:
+- pending: `fix(pkgs): pin predator-tui source revision`
 
 ### Slice 6 — Notification remediation docs state
 
