@@ -6,7 +6,7 @@
 
 * {
     font-family: "JetBrains Mono Nerd Font";
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 8px;
     min-height: 0;
 }
@@ -20,7 +20,7 @@ window#waybar {
 #custom-active-window {
     color: @lavender;
     margin-left: 5px;
-    padding: 0px 10px;
+    padding: 2px 10px;
     border-radius: 12px;
 }
 
@@ -31,7 +31,7 @@ window#waybar {
 
 #workspaces button {
     color: @lavender;
-    padding: 0px 11px 0px 5px;
+    padding: 2px 11px 2px 5px;
 }
 
 #workspaces button:hover {
@@ -39,21 +39,20 @@ window#waybar {
     background: @surface1-1;
 }
 
-#mpris,
+#audio,
 #hypr,
-#clock,
+#clockgroup,
 #custom-launcher,
 #tray,
 #battery,
 #hardware,
 #backlight,
 #network,
-#pulseaudio,
 #custom-mako,
-#custom-powermenu,
+/*#custom-powermenu,*/
 #custom-waypaper,
 #custom-clipboard {
-    padding: 3px 13px;
+    padding: 2px 13px;
     margin: 3px 0px;
     background-color: @mantle-1;
 }
@@ -63,10 +62,6 @@ window#waybar {
     border-radius: 14px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-}
-
-#hardware {
-    min-width: 233px;
 }
 
 #hardware > widget {
@@ -90,10 +85,14 @@ window#waybar {
 #custom-mako,
 #custom-waypaper,
 #custom-clipboard {
-    padding-right: 16px;
+    padding-right: 15px;
 }
 
 #custom-powermenu {
+    margin-left: 3px;
     color: @red;
+}
+
+#clockgroup {
     margin-right: 3px;
 }
