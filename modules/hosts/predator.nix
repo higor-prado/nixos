@@ -56,7 +56,7 @@ in
         nixos.home-manager-settings
         nixos.nixpkgs-settings
         nixos.nix-settings
-        nixos.nix-settings-desktop
+        nixos.nix-cache-settings
         nixos.attic-publisher
       ];
       nixosCoreServices = [
