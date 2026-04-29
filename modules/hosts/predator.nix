@@ -126,9 +126,9 @@ in
         homeManager.gaming
         homeManager.hyprland
         homeManager.rofi
-        homeManager.vicinae
         homeManager.mako
         homeManager.qt-theme
+        homeManager.walker
         homeManager.session-applets
         homeManager.waypaper
         homeManager.media-cava
