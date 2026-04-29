@@ -84,40 +84,49 @@ Commit target:
 
 ### Slice 2 — Optional launch helpers
 
-Status: not started
+Status: completed
 
-Planned changes:
-- add small test launch scripts only if useful
-- avoid autostart
-- keep scripts shellchecked and obvious
+Changes made:
+- added manual trial wrappers through `pkgs.writeShellApplication` in `modules/features/desktop/nwg-shell.nix`:
+  - `nwg-dock-trial`
+  - `nwg-panel-trial`
+  - `nwg-clipman-trial`
+- wrappers are installed through Home Manager packages
+- avoided autostart, services, and keybinds
 
-Validation to record:
-- `bash -n`
-- `shellcheck -x` if available
-- HM build
-- structure gate
+Validation run:
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
+
+Manual commands after switch:
+- `nwg-dock-trial`
+- `nwg-panel-trial`
+- `nwg-clipman-trial`
 
 Commit target:
 - `feat(desktop): add nwg trial launch helpers`
 
 ### Slice 3 — Theme/config trial
 
-Status: not started
+Status: completed for initial dock theme helper
 
-Planned changes:
-- live-first NWG config/theme testing
-- sync to repo only after a useful live state is proven
-- derive theme colors from existing theme catalog where practical
+Changes made:
+- added `config/apps/nwg-shell/dock-catppuccin.css`
+- wired the CSS as `~/.config/nwg-shell/dock-catppuccin.css`
+- `nwg-dock-trial` launches `nwg-dock-hyprland` with the Catppuccin-compatible style
+- did not generate or own `~/.config/nwg-panel`; panel remains default/manual for first live test
+- did not replace the current Rofi/Waybar clipboard UI; `nwg-clipman-trial` is only an alternate manual UI over existing cliphist data
 
-Validation to record:
-- manual dock launch
-- manual panel launch
-- manual clipman launch
-- check Waybar/Rofi/current clipboard UI remain intact
-- HM build and structure gate if repo payloads are added
+Validation run:
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` ✅
+- `nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.toplevel` ✅
+- `./scripts/run-validation-gates.sh structure` ✅
+- `./scripts/check-repo-public-safety.sh` ✅
 
 Commit target:
-- `feat(desktop): add themed nwg trial config` if repo payloads are added
+- `feat(desktop): add themed nwg trial helpers`
 
 ### Slice 4 — Runtime acceptance and autostart decision
 
