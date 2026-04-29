@@ -2,7 +2,7 @@
 
 hl.config({
     general = {
-        gaps_in = 3,
+        gaps_in = 2.5,
         -- top, right, bottom, left
         gaps_out = { top = 100, right = 285, bottom = 220, left = 285 },
         border_size = 0,
@@ -42,14 +42,19 @@ hl.config({
         blur = {
             new_optimizations = true,
             enabled = true,
-            size = 4,
+            size = 5,
             passes = 3,
+            special = true,
+            popups = true,
+            popups_ignorealpha = 0.5
         },
+
     },
 
     animations = {
         enabled = true,
     },
+
 })
 
 hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "default", style = "slidevert" })
