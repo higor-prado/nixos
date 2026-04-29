@@ -17,7 +17,7 @@ private/            private overrides (gitignored)
 hardware/<name>/    machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
-config/             app config files and helper payloads (nvim, tmux, waybar, mako, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
+config/             app/desktop config files and helper payloads (hyprland-standalone, nvim, tmux, waybar, mako, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
 scripts/            validation gate scripts
 tests/              fixtures and test runners
 docs/for-agents/archive/ archived plans, log tracks, and reports
@@ -41,8 +41,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 **Core**
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
-- `core/nix-settings.nix` — nix daemon settings (universal: max-jobs, store optimization, numtide cache, nh)
-- `core/nix-settings-desktop.nix` — desktop-only substituters (catppuccin, zed-industries, devenv, nixpkgs-python)
+- `core/nix-settings.nix` — universal nix daemon settings (max-jobs, store optimization, nh, daemon scheduling)
+- `core/nix-cache-settings.nix` — centralized external binary caches for hosts that benefit from desktop/dev upstream caches (numtide, devenv, nixpkgs-python, catppuccin, zed-industries, hyprland)
 - `core/home-manager-settings.nix` — HM framework settings
 
 **Shell / Terminal**
@@ -63,8 +63,6 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
 - `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, blueman-applet, udiskie, cliphist)
-- `desktop/satty.nix` — Satty screenshot annotation program
-- `desktop/wlogout.nix` — Wlogout logout/power menu with Catppuccin theming
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
 - `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
@@ -119,6 +117,10 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 
 - `lib/_helpers.nix` — small generic helper set (`portalExecPath`, `portalPathOverrides`)
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
+## config/desktops/
+
+- `config/desktops/hyprland-standalone/` — tracked Hyprland Lua entrypoint, module tree, and helper scripts provisioned copy-once by `modules/desktops/hyprland-standalone.nix`
+
 ## config/apps/
 
 - `config/apps/git/` — tracked Git global ignore payload provisioned by `modules/features/shell/git-gh.nix`
