@@ -39,6 +39,7 @@
             network-manager-applet.service \
             blueman-applet.service \
             udiskie.service \
+            nwg-dock-hyprland.service \
             cliphist.service \
             cliphist-images.service \
             fcitx5-daemon.service \

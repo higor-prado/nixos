@@ -67,7 +67,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
 - `desktop/rofi.nix` — Rofi application launcher with drun, run, and window modes
-- `desktop/nwg-shell.nix` — manual-trial NWG shell tools (`nwg-dock-hyprland`, `nwg-panel`, `nwg-clipman`) plus trial wrappers/theme CSS without autostart
+- `desktop/nwg-dock.nix` — autostarted `nwg-dock-hyprland` dock with mutable Catppuccin-compatible CSS
+- `desktop/vicinae.nix` — Vicinae launcher installed for manual testing without replacing Rofi
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
 - `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
@@ -130,7 +131,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
   `modules/features/desktop/theme-zen.nix` to sync Catppuccin assets into the
   live Zen profile during HM activation
 - `config/apps/waybar/` — tracked Waybar config and style templates provisioned by copy-once
-- `config/apps/nwg-shell/` — tracked NWG trial helper payloads, including Catppuccin dock CSS
+- `config/apps/nwg-dock/` — tracked NWG dock style template provisioned copy-once for live editing
 - `config/apps/htop/` — tracked htoprc provisioned by copy-once
 - `config/apps/logid/` — tracked LogiOps config provisioned by copy-once
 - `config/apps/mpd/` — tracked MPD config provisioned by copy-once
