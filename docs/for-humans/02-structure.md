@@ -13,7 +13,7 @@ private/            private overrides
 lib/                generic helper functions reused by tracked modules
 hardware/<name>/    hardware, disko, boot, persistence/reset (host-specific)
 pkgs/               custom packages (linuwu-sense, etc.)
-config/             app config files and helper payloads (nvim, tmux, waybar, mako, logid, mpd, rmpc, waypaper, zen, devenv templates)
+config/             app/desktop config files and helper payloads (hyprland-standalone, nvim, tmux, waybar, mako, logid, mpd, rmpc, waypaper, zen, devenv templates)
 scripts/            validation gates
 tests/              fixtures and test runners
 ```
