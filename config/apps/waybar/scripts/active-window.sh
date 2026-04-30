@@ -153,19 +153,22 @@ render_label() {
 }
 
 render_active_window() {
-  local json class title
-  json="${ACTIVEWINDOW_JSON:-$(hyprctl activewindow -j 2>/dev/null || echo '{}')}"
-  class="$(printf '%s' "$json" | jq -r '.class // empty')"
-  title="$(printf '%s' "$json" | jq -r '.title // empty')"
+  local out class="" title=""
+  out="$(hyprctl activewindow 2>/dev/null || true)"
+  if [ -z "$out" ] || [[ "$out" == "Invalid" ]]; then
+    return 0
+  fi
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[[:blank:]]*class:[[:blank:]](.*)$ ]]; then
+      class="${BASH_REMATCH[1]}"
+    elif [[ "$line" =~ ^[[:blank:]]*title:[[:blank:]](.*)$ ]]; then
+      title="${BASH_REMATCH[1]}"
+    fi
+  done <<< "$out"
+
   [ -n "$class" ] || return 0
   render_label "$class" "$title"
 }
-
-if [ "${1:-}" = "--render-json" ]; then
-  ACTIVEWINDOW_JSON="$(cat)"
-  render_active_window
-  exit 0
-fi
 
 socket_path="${XDG_RUNTIME_DIR:-/run/user/$UID}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:?}/.socket2.sock"
 current="$(render_active_window)"
@@ -175,7 +178,21 @@ last="$current"
 while true; do
   while IFS= read -r event; do
     case "$event" in
-      activewindow*|activewindowv2*|openwindow*|closewindow*|movewindow*|workspace*|focusedmon*)
+      activewindowv2>>*)
+        payload="${event#activewindowv2>>}"
+        class="${payload%%,*}"
+        title="${payload#*,}"
+        if [ -n "$class" ]; then
+          current="$(render_label "$class" "$title")"
+        else
+          current=""
+        fi
+        if [ "$current" != "$last" ]; then
+          printf '%s\n' "$current"
+          last="$current"
+        fi
+        ;;
+      windowtitle*|activewindow>>*|openwindow*|closewindow*|movewindow*|workspace*|focusedmon*)
         current="$(render_active_window)"
         if [ "$current" != "$last" ]; then
           printf '%s\n' "$current"
