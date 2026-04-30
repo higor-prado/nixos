@@ -122,6 +122,7 @@ in
         homeManager.desktop-apps
         homeManager.desktop-hyprland-standalone
         homeManager.desktop-viewers
+        homeManager.mime-defaults
         homeManager.fcitx5
         homeManager.gaming
         homeManager.hyprland

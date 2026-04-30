@@ -58,6 +58,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 **Desktop**
 - `desktop/regreet.nix` — ReGreet greetd greeter with Catppuccin theming (Hyprland)
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
+- `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
 - `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
