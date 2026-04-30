@@ -35,7 +35,7 @@ desktop_imports_for() {
 
         inputs.hyprland.nixosModules.default
         nixos.desktop-hyprland-standalone
-        nixos.regreet
+        nixos.greetd
         nixos.hyprland
         nixos.fcitx5
         nixos.packages-fonts

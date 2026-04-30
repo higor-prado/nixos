@@ -36,7 +36,7 @@ json="$(
           inputs.home-manager.nixosModules.home-manager
           inputs.keyrs.nixosModules.default
           nixos.hyprland
-          nixos.regreet
+          nixos.greetd
           composition
           {
             nixpkgs.hostPlatform.system = system;
@@ -57,7 +57,7 @@ json="$(
       cfg = systemConfig.config;
     in
     {
-      greeter = if cfg.programs.regreet.enable then true else false;
+      greeter = if cfg.services.greetd.enable then true else false;
       systemDrv = cfg.system.build.toplevel.drvPath;
     }
   "

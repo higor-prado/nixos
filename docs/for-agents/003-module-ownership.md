@@ -58,7 +58,7 @@
 - `modules/features/system/networking-wireguard-client.nix` — machine VPN behavior
 - `modules/features/desktop/packages-fonts.nix` — machine-wide fonts
 - `modules/desktops/hyprland-standalone.nix` — Hyprland desktop composition substrate
-- `modules/features/desktop/regreet.nix` — ReGreet greetd greeter (Hyprland)
+- `modules/features/desktop/greetd.nix` — greetd display manager with tuigreet (Hyprland)
 
 ### Home Manager-owned examples
 

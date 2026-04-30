@@ -56,12 +56,12 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
-- `desktop/regreet.nix` — ReGreet greetd greeter with Catppuccin theming (Hyprland)
+- `desktop/greetd.nix` — greetd display manager with tuigreet terminal greeter
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
 - `desktop/packages-fonts.nix` — Nerd fonts
-- `desktop/media-cava.nix`, `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
+- `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
 - `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, udiskie)
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
@@ -163,7 +163,7 @@ and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by
   `modules/features/shell/starship.nix`
-- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/regreet.nix`, `modules/features/desktop/theme-zen.nix`, and `modules/features/desktop/walker.nix`
+- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/theme-zen.nix`, and `modules/features/desktop/walker.nix`
 - `modules/features/desktop/_papirus-tray-patched.nix` — feature-private icon-theme derivation helper used by `modules/features/desktop/_theme-catalog.nix` to keep tray symbolic icons color-stable in Waybar
 
 ## hardware/predator/
