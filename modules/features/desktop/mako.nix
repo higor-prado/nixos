@@ -2,16 +2,24 @@
 {
   flake.modules.homeManager.mako =
     { pkgs, ... }:
+    let
+      makoWithSystemdActivation = pkgs.mako.overrideAttrs (oldAttrs: {
+        postInstall = (oldAttrs.postInstall or "") + ''
+          rm -f "$out/share/dbus-1/services/fr.emersion.mako.service"
+          install -d "$out/share/dbus-1/services"
+          cat > "$out/share/dbus-1/services/org.freedesktop.Notifications.service" <<EOF
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec=$out/bin/mako
+SystemdService=mako.service
+EOF
+        '';
+      });
+    in
     {
-      xdg.dataFile."dbus-1/services/fr.emersion.mako.service".text = ''
-        [D-BUS Service]
-        Name=org.freedesktop.Notifications
-        Exec=${pkgs.mako}/bin/mako
-        SystemdService=mako.service
-      '';
-
       services.mako = {
         enable = true;
+        package = makoWithSystemdActivation;
         settings = {
           font = "JetBrains Mono Nerd Font 12";
           width = 500;
