@@ -93,6 +93,13 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `system/maintenance.nix` (fstrim, universal SSD trim), `system/maintenance-smartd.nix` (smartd health monitoring, desktop-only), `system/maintenance-disk-alert.nix` (root filesystem usage alert; aurelius only), `system/backup-service.nix`
 - `system/docker-health-check.nix` (unhealthy container logging timer; aurelius only)
 - `system/packages-system-tools.nix`, `system/packages-server-tools.nix`
+- `system/attic-client.nix` — Attic client HM package + substituter docs
+- `system/attic-publisher.nix` — Attic post-build-hook publisher (predator, cerebelo)
+- `system/forgejo.nix` — Forgejo Git service (aurelius only)
+- `system/grafana.nix` — Grafana dashboard (aurelius only)
+- `system/mosh.nix` — Mosh UDP firewall rules + user package
+- `system/node-exporter.nix` — Prometheus node exporter (aurelius only)
+- `system/prometheus.nix` — Prometheus server (aurelius only)
 
 ## modules/desktops/
 
@@ -129,8 +136,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
   `modules/features/desktop/theme-zen.nix` to sync Catppuccin assets into the
   live Zen profile during HM activation
 - `config/apps/waybar/` — tracked Waybar config and style templates provisioned by copy-once
-- `config/apps/htop/` — tracked htoprc provisioned by copy-once
-- `config/apps/logid/` — tracked LogiOps config provisioned by copy-once
+- `config/apps/htop/` — tracked htoprc provisioned via `builtins.path` to `xdg.configFile`
+- `config/apps/logid/` — tracked LogiOps config provisioned via `environment.etc`
 - `config/apps/mpd/` — tracked MPD config provisioned by copy-once
 - `config/apps/rmpc/` — tracked rmpc config provisioned by copy-once
 - `config/apps/waypaper/` — tracked Waypaper config template provisioned by copy-once
