@@ -20,11 +20,6 @@
     nvidia-vaapi-driver
   ];
 
-  boot.kernelParams = [
-    "nvidia-drm.modeset=1"
-    "nvidia-drm.fbdev=1"
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-  ];
 
   environment.sessionVariables = {
     QT_QPA_PLATFORM = "wayland";
