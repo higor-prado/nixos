@@ -47,19 +47,7 @@
       xdg.mimeApps = {
         defaultApplications =
           (mkMimeMap imageMimeTypes loupeDesktop)
-          // (mkMimeMap pdfMimeTypes papersDesktop)
-          // {
-            ".pdf" = [ papersDesktop ];
-            ".jpg" = [ loupeDesktop ];
-            ".jpeg" = [ loupeDesktop ];
-            ".png" = [ loupeDesktop ];
-            ".gif" = [ loupeDesktop ];
-            ".webp" = [ loupeDesktop ];
-            ".svg" = [ loupeDesktop ];
-            ".avif" = [ loupeDesktop ];
-            ".bmp" = [ loupeDesktop ];
-            ".tiff" = [ loupeDesktop ];
-          };
+          // (mkMimeMap pdfMimeTypes papersDesktop);
         associations.added =
           (mkMimeMap imageMimeTypes loupeDesktop)
           // (mkMimeMap pdfMimeTypes papersDesktop);
