@@ -7,7 +7,7 @@ _:
       services.resolved = {
         enable = true;
         settings.Resolve.DNSSEC = "no";
-        settings.Resolve.MulticastDNS = true;
+        settings.Resolve.MulticastDNS = false;
       };
     };
 }
