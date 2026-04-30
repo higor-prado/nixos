@@ -2,15 +2,6 @@
 {
   flake.modules.homeManager.desktop-apps =
     { pkgs, config, ... }:
-    let
-      # Browsers other than Firefox, used to remove them from MIME web handlers
-      nonFirefoxWebHandlers = [
-        "brave-browser.desktop"
-        "com.brave.Browser.desktop"
-        "chromium-browser.desktop"
-        "zen.desktop"
-      ];
-    in
     {
       programs.firefox = {
         configPath = "${config.xdg.configHome}/mozilla/firefox";
@@ -50,31 +41,5 @@
         pkgs.obsidian
         pkgs.super-productivity
       ];
-
-      xdg.mimeApps = {
-        defaultApplications = {
-          "text/html" = [ "firefox.desktop" ];
-          "application/xhtml+xml" = [ "firefox.desktop" ];
-          "x-scheme-handler/http" = [ "firefox.desktop" ];
-          "x-scheme-handler/https" = [ "firefox.desktop" ];
-          "x-scheme-handler/about" = [ "firefox.desktop" ];
-          "x-scheme-handler/unknown" = [ "firefox.desktop" ];
-          "application/json" = [ "code.desktop" ];
-        };
-        associations = {
-          added = {
-            "text/html" = [ "firefox.desktop" ];
-            "application/xhtml+xml" = [ "firefox.desktop" ];
-            "x-scheme-handler/http" = [ "firefox.desktop" ];
-            "x-scheme-handler/https" = [ "firefox.desktop" ];
-          };
-          removed = {
-            "text/html" = nonFirefoxWebHandlers;
-            "application/xhtml+xml" = nonFirefoxWebHandlers;
-            "x-scheme-handler/http" = nonFirefoxWebHandlers;
-            "x-scheme-handler/https" = nonFirefoxWebHandlers;
-          };
-        };
-      };
     };
 }
