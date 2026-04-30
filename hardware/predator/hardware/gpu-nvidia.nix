@@ -46,6 +46,13 @@
           {
             pattern = {
               feature = "procname";
+              matches = ".walker-wrapped";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
+          {
+            pattern = {
+              feature = "procname";
               matches = "code";
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";
