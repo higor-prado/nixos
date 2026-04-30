@@ -15,9 +15,11 @@ In scope:
   the DNS stub resolver.
 - Keep Avahi enabled as the single mDNS publisher for `predator.local`.
 - Replace the custom Home Manager `fr.emersion.mako.service` D-Bus file with a
-  package-level Mako override that installs a correctly named
-  `org.freedesktop.Notifications.service` file and removes the upstream
-  misnamed `fr.emersion.mako.service` file.
+  single canonical user D-Bus service file named
+  `org.freedesktop.Notifications.service`, while removing Mako D-Bus service
+  files from the package profile to avoid duplicate providers.
+- Clean up low-risk session warnings introduced by invalid local configuration:
+  Waybar's impossible height and Elephant's inherited nonexistent PATH entries.
 - Validate live DNS/mDNS behavior and user D-Bus activation after switch/login.
 
 Out of scope:
@@ -165,36 +167,40 @@ Targets:
 
 Changes:
 - Remove `xdg.dataFile."dbus-1/services/fr.emersion.mako.service"`.
-- Define a local package value, for example `makoWithSystemdActivation`, using
+- Define a local package value, for example `makoWithoutDbusActivation`, using
   `pkgs.mako.overrideAttrs`.
-- In the package override:
-  - remove `$out/share/dbus-1/services/fr.emersion.mako.service`
-  - install `$out/share/dbus-1/services/org.freedesktop.Notifications.service`
-  - file content:
-    ```ini
-    [D-BUS Service]
-    Name=org.freedesktop.Notifications
-    Exec=@mako@/bin/mako
-    SystemdService=mako.service
-    ```
-    where `@mako@` is the overridden package output path.
-- Set `services.mako.package = makoWithSystemdActivation`.
+- In the package override, remove both possible Mako D-Bus service files from
+  the package output:
+  - `$out/share/dbus-1/services/fr.emersion.mako.service`
+  - `$out/share/dbus-1/services/org.freedesktop.Notifications.service`
+- Add exactly one user-level D-Bus activation file via
+  `xdg.dataFile."dbus-1/services/org.freedesktop.Notifications.service"` with:
+  ```ini
+  [D-BUS Service]
+  Name=org.freedesktop.Notifications
+  Exec=@mako@/bin/mako
+  SystemdService=mako.service
+  ```
+  where `@mako@` is the overridden package output path.
+- Set `services.mako.package = makoWithoutDbusActivation`.
 
 Validation:
 - `nix build --no-link path:$PWD#nixosConfigurations.predator.config.home-manager.users.higorprado.home.path` succeeds.
-- The generated profile contains
+- The generated user data files contain
+  `.local/share/dbus-1/services/org.freedesktop.Notifications.service`.
+- The generated package profile does not contain either
+  `share/dbus-1/services/fr.emersion.mako.service` or
   `share/dbus-1/services/org.freedesktop.Notifications.service`.
-- The generated profile does not contain
-  `share/dbus-1/services/fr.emersion.mako.service` from Mako.
 - After switch/login by operator:
   - `$HOME/.local/share/dbus-1/services/fr.emersion.mako.service` is absent.
-  - `/etc/profiles/per-user/higorprado/share/dbus-1/services/org.freedesktop.Notifications.service` exists.
+  - `/etc/profiles/per-user/higorprado/share/dbus-1/services/org.freedesktop.Notifications.service` is absent.
   - dbus-broker no longer logs the Mako-specific wrong-name/duplicate warning.
   - `busctl --user status org.freedesktop.Notifications` reports `UserUnit=mako.service` after activation.
 
 Diff expectation:
-- Remove the current user-level D-Bus file declaration.
-- Add a package override and wire it through `services.mako.package`.
+- Remove the old wrong-name D-Bus file declaration.
+- Remove Mako D-Bus service files from the package used by Home Manager.
+- Add one canonical user-level D-Bus file with `SystemdService=mako.service`.
 - No Mako behavior/settings changes.
 
 Commit target:
@@ -212,7 +218,7 @@ Validation:
   conflict messages.
 
 Diff expectation:
-- Only the two target modules should change.
+- Only targeted networking/session modules and this plan should change.
 
 Commit target:
 - No separate commit unless documentation/report updates are added.
@@ -235,9 +241,9 @@ Commit target:
 - [ ] Avahi starts without detecting another local mDNS stack.
 - [ ] Avahi keeps the hostname as `predator.local` with no conflict rename.
 - [ ] `predator.local` resolves via Avahi/NSS after switch/reboot.
-- [ ] Mako profile exposes `org.freedesktop.Notifications.service` with
-      `SystemdService=mako.service`.
-- [ ] Mako profile no longer exposes `fr.emersion.mako.service`.
+- [ ] User D-Bus data exposes exactly one `org.freedesktop.Notifications.service`
+      with `SystemdService=mako.service`.
+- [ ] Mako package/profile exposes no notification D-Bus service file.
 - [ ] dbus-broker no longer reports the Mako-specific wrong-name/duplicate warning.
 - [ ] Mako D-Bus activation uses `mako.service`.
 - [ ] Build, validation gates, and public safety pass.
