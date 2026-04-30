@@ -35,7 +35,6 @@
       nonFirefoxWebHandlers = [
         braveDesktop
         "firefox.desktop"
-        "google-chrome.desktop"
       ];
     in
     {

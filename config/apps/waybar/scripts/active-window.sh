@@ -69,12 +69,12 @@ render_label() {
         label="$(strip_browser_title "$title")"
         label="${label:-Firefox}"
         ;;
-      zen*|floorp*)
+      zen*)
         icon="󰈹"
         label="$(strip_browser_title "$title")"
         label="${label:-Browser}"
         ;;
-      chromium-browser|chromium*|google-chrome*|brave-browser*|vivaldi*)
+      chromium-browser|chromium*|brave-browser*)
         icon=""
         label="$(strip_browser_title "$title")"
         label="${label:-Chromium}"
@@ -94,7 +94,7 @@ render_label() {
         label="$(strip_suffixes "$title" "Spotify Premium" "Spotify Free" "Spotify" " - Spotify Premium" " — Spotify Premium" " - Spotify" " — Spotify")"
         label="${label:-Spotify}"
         ;;
-      kitty|foot|alacritty|ghostty)
+      kitty|foot)
         icon=""
         label="$(trim "$title")"
         label="${label:-Terminal}"
