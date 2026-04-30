@@ -122,6 +122,7 @@
             Type = "simple";
             ExecStart = "${elephant}/bin/elephant";
             Restart = "on-failure";
+            Environment = "PATH=/run/wrappers/bin:${config.home.profileDirectory}/bin:/run/current-system/sw/bin";
             RestartSec = "2";
           };
 
