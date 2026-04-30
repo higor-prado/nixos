@@ -45,7 +45,7 @@ host_cfg_expr() {
 predator_hm_user="$(nix_eval_sole_hm_user_for_host "predator")"
 
 expect_equal "predator hyprland feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.programs.hyprland.enable")" "true"
-expect_equal "predator regreet feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.programs.regreet.enable")" "true"
+expect_equal "predator greetd feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.services.greetd.enable")" "true"
 expect_equal "predator hyprlock feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.programs.hyprlock.enable")" "false"
 expect_equal "predator fcitx5 feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.i18n.inputMethod.enable")" "true"
 expect_equal "predator gnome-keyring feature" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.services.gnome.gnome-keyring.enable")" "true"
@@ -55,7 +55,7 @@ expect_equal "predator waypaper feature" "$(host_cfg_expr "predator" "if builtin
 expect_equal "predator uinput support" "$(bool_eval "path:$PWD#nixosConfigurations.predator.config.hardware.uinput.enable")" "true"
 
 expect_equal "aurelius hyprland feature" "$(host_cfg_expr "aurelius" 'if builtins.hasAttr "hyprland" cfg.programs then cfg.programs.hyprland.enable else false')" "false"
-expect_equal "aurelius regreet feature" "$(host_cfg_expr "aurelius" 'if builtins.hasAttr "regreet" cfg.programs then cfg.programs.regreet.enable else false')" "false"
+expect_equal "aurelius greetd feature" "$(host_cfg_expr "aurelius" 'if builtins.hasAttr "greetd" cfg.services then cfg.services.greetd.enable else false')" "false"
 expect_equal "aurelius hyprlock feature" "$(host_cfg_expr "aurelius" 'if builtins.hasAttr "hyprlock" cfg.programs then cfg.programs.hyprlock.enable else false')" "false"
 expect_equal "aurelius fcitx5 feature" "$(bool_eval "path:$PWD#nixosConfigurations.aurelius.config.i18n.inputMethod.enable")" "false"
 expect_equal "aurelius gnome-keyring feature" "$(bool_eval "path:$PWD#nixosConfigurations.aurelius.config.services.gnome.gnome-keyring.enable")" "false"

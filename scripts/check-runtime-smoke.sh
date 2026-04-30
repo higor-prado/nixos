@@ -174,11 +174,11 @@ else
 fi
 
 hyprland_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprland.enable" | jq -r '.')"
-regreet_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.regreet.enable" | jq -r '.')"
+greetd_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.greetd.enable" | jq -r '.')"
 hyprlock_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprlock.enable" | jq -r '.')"
 keyrs_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.keyrs.enable" | jq -r '.')"
 
-ok "config host=${config_host} features: hyprland=${hyprland_enabled} regreet=${regreet_enabled} hyprlock=${hyprlock_enabled} keyrs=${keyrs_enabled}"
+ok "config host=${config_host} features: hyprland=${hyprland_enabled} greetd=${greetd_enabled} hyprlock=${hyprlock_enabled} keyrs=${keyrs_enabled}"
 
 if command -v gdbus >/dev/null 2>&1; then
   if gdbus call --session \

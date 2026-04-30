@@ -79,7 +79,7 @@ in
         inputs.hyprland.nixosModules.default
         inputs.keyrs.nixosModules.default
         nixos.desktop-hyprland-standalone
-        nixos.regreet
+        nixos.greetd
         nixos.fcitx5
         nixos.gaming
         nixos.gnome-keyring
@@ -131,7 +131,6 @@ in
         homeManager.walker
         homeManager.session-applets
         homeManager.waypaper
-        homeManager.media-cava
         homeManager.waybar
         homeManager.media-tools
         homeManager.music-client
