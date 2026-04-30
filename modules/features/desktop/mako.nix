@@ -1,8 +1,15 @@
 { ... }:
 {
   flake.modules.homeManager.mako =
-    { ... }:
+    { pkgs, ... }:
     {
+      xdg.dataFile."dbus-1/services/fr.emersion.mako.service".text = ''
+        [D-BUS Service]
+        Name=org.freedesktop.Notifications
+        Exec=${pkgs.mako}/bin/mako
+        SystemdService=mako.service
+      '';
+
       services.mako = {
         enable = true;
         settings = {
