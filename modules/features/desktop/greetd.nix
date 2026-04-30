@@ -10,7 +10,7 @@
         enable = true;
         settings = {
           default_session = {
-            command = "${tuigreet} --time --remember --remember-session --asterisks --cmd Hyprland";
+            command = "${tuigreet} --time --remember --remember-session --asterisks --cmd start-hyprland";
             user = "greeter";
           };
         };
