@@ -37,6 +37,8 @@ desktop_imports_for() {
         nixos.desktop-hyprland-standalone
         nixos.regreet
         nixos.hyprland
+        nixos.fcitx5
+        nixos.packages-fonts
         nixos.nix-cache-settings
 EOF2
       printf '\n'
@@ -47,10 +49,13 @@ EOF2
           homeManager.desktop-hyprland-standalone
           homeManager.desktop-viewers
           homeManager.hyprland
+          homeManager.fcitx5
           homeManager.mako
           homeManager.qt-theme
-          homeManager.rofi
+          homeManager.walker
           homeManager.session-applets
+          homeManager.theme-base
+          homeManager.theme-zen
           homeManager.waybar
           homeManager.wayland-tools
           homeManager.waypaper

@@ -25,16 +25,10 @@ strip_browser_title() {
     " - Firefox" \
     " — Zen Browser" \
     " - Zen Browser" \
-    " — Floorp" \
-    " - Floorp" \
-    " — Google Chrome" \
-    " - Google Chrome" \
     " — Chromium" \
     " - Chromium" \
     " — Brave" \
-    " - Brave" \
-    " — Vivaldi" \
-    " - Vivaldi"
+    " - Brave"
 }
 
 render_label() {
