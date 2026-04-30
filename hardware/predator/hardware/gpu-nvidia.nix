@@ -53,6 +53,20 @@
           {
             pattern = {
               feature = "procname";
+              matches = ".zed-editor-wrapped";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
+          {
+            pattern = {
+              feature = "procname";
+              matches = "firefox";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
+          {
+            pattern = {
+              feature = "procname";
               matches = "code";
             };
             profile = "Limit Free Buffer Pool On Wayland Compositors";
