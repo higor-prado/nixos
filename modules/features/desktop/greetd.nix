@@ -10,7 +10,7 @@
         enable = true;
         settings = {
           default_session = {
-            command = "${tuigreet} --time --remember --remember-session --asterisks --cmd start-hyprland";
+            command = "${tuigreet} --time --remember --remember-session --asterisks --cmd \"uwsm start -F -- Hyprland\"";
             user = "greeter";
           };
         };

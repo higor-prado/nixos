@@ -114,8 +114,8 @@
             Description = "Elephant data provider service for Walker";
             Documentation = [ "https://github.com/abenz1267/elephant" ];
             ConditionEnvironment = "WAYLAND_DISPLAY";
-            PartOf = [ "hyprland-session.target" ];
-            After = [ "hyprland-session.target" ];
+            PartOf = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
           };
 
           Service = {
@@ -126,7 +126,7 @@
             RestartSec = "2";
           };
 
-          Install.WantedBy = [ "hyprland-session.target" ];
+          Install.WantedBy = [ "graphical-session.target" ];
         };
 
         walker = {
@@ -136,10 +136,10 @@
             ConditionEnvironment = "WAYLAND_DISPLAY";
             Wants = [ "elephant.service" ];
             After = [
-              "hyprland-session.target"
+              "graphical-session.target"
               "elephant.service"
             ];
-            PartOf = [ "hyprland-session.target" ];
+            PartOf = [ "graphical-session.target" ];
           };
 
           Service = {
@@ -149,7 +149,7 @@
             RestartSec = "2";
           };
 
-          Install.WantedBy = [ "hyprland-session.target" ];
+          Install.WantedBy = [ "graphical-session.target" ];
         };
       };
     };
