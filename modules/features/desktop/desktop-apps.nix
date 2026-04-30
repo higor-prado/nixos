@@ -8,10 +8,6 @@
         "brave-browser.desktop"
         "com.brave.Browser.desktop"
         "chromium-browser.desktop"
-        "com.google.Chrome.desktop"
-        "google-chrome.desktop"
-        "vivaldi-stable.desktop"
-        "floorp.desktop"
         "zen.desktop"
       ];
     in
@@ -46,40 +42,9 @@
           "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
         ];
       };
-      programs.floorp = {
-        enable = true;
-        policies = {
-          DisableTelemetry = true;
-        };
-        profiles.default = {
-          id = 0;
-          isDefault = true;
-          extensions.force = true;
-        };
-      };
-
-      programs.vivaldi = {
-        enable = true;
-        package = pkgs.vivaldi.override {
-          proprietaryCodecs = true;
-          enableWidevine = true;
-        };
-        commandLineArgs = [
-          "--ozone-platform-hint=auto"
-          "--ozone-platform=wayland"
-          "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
-        ];
-      };
 
       home.packages = [
         inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-        (pkgs.google-chrome.override {
-          commandLineArgs = [
-            "--ozone-platform-hint=auto"
-            "--ozone-platform=wayland"
-            "--enable-features=WaylandWindowDecorations,VaapiVideoDecoder,VaapiVideoEncoder"
-          ];
-        })
         pkgs.teams-for-linux
         pkgs.meld
         pkgs.obsidian
