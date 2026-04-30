@@ -31,5 +31,21 @@
         };
       };
 
+      programs.kitty = {
+        enable = true;
+        font = {
+          name = "JetBrainsMono Nerd Font Mono";
+          size = 12;
+        };
+        settings = {
+          term = "xterm-256color";
+          scrollback_lines = 10000;
+          enable_audio_bell = false;
+          background_opacity = "1.0";
+          cursor_blink_interval = 0.5;
+          tab_bar_style = "powerline";
+          window_padding_width = 8;
+        };
+      };
     };
 }
