@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.packages-toolchains =
+  flake.modules.homeManager.toolchains =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

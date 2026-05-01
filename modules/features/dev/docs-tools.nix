@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.packages-docs-tools =
+  flake.modules.homeManager.docs-tools =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.editor-emacs =
+  flake.modules.homeManager.editors-emacs =
     { config, pkgs, ... }:
     {
       programs.emacs = {
