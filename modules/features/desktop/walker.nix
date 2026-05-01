@@ -1,3 +1,6 @@
+# Walker is the Wayland launcher (app runner, calculator, web search).
+# Elephant is its clipboard/data backend — it has no purpose without Walker.
+# They share this module because Elephant only exists to serve Walker.
 { ... }:
 {
   flake.modules.homeManager.walker =
@@ -9,6 +12,8 @@
     }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
+
+      # ── Catppuccin theme sync ──────────────────────────────────────
       theme = import ./_theme-catalog.nix { inherit pkgs; };
       walkerThemeName = "catppuccin-${theme.flavor}-${theme.accent}";
       syncWalkerCatppuccinTheme = pkgs.writeShellScript "sync-walker-catppuccin-theme" ''
@@ -21,6 +26,8 @@
 
         ${builtins.readFile ../../../config/apps/walker/sync-catppuccin-theme.sh}
       '';
+
+      # ── Elephant package (clipboard/data backend for Walker) ──────
       elephant = pkgs.elephant.override {
         enabledProviders = [
           "bluetooth"
@@ -48,6 +55,8 @@
         elephant
         pkgs.walker
       ];
+
+      # ── Config provisioning (copy-once, mutable at runtime) ───────
 
       home.activation.provisionWalkerConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
@@ -108,6 +117,7 @@
             }
           );
 
+      # ── Systemd user services (display-bound) ────────────────────
       systemd.user.services = {
         elephant = {
           Unit = {
