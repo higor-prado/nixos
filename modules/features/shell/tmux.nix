@@ -7,7 +7,7 @@
         enable = true;
         mouse = true;
         terminal = "tmux-256color";
-        extraConfig = builtins.readFile ../../../config/tmux/tmux.conf;
+        extraConfig = builtins.readFile ../../../config/apps/tmux/tmux.conf;
       };
 
       xdg.configFile."tmux/plugins/tmux-plugins".source = pkgs.runCommandLocal "tmux-plugins-dir" { } ''
