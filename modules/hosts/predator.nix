@@ -114,7 +114,7 @@ in
         homeManager.fish
         homeManager.mosh
         homeManager.starship
-        homeManager.terminal-tmux
+        homeManager.tmux
         homeManager.terminals
         homeManager.tui-tools
       ];
