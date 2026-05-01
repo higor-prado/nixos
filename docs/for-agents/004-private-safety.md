@@ -9,7 +9,10 @@
 
 These are gitignored and contain real usernames, SSH keys, and personal paths.
 
-## Before committing: run the safety check
+## Before committing: the safety check runs automatically
+
+The public safety check is part of `run-validation-gates.sh structure` (rule 4).
+It can also be run standalone:
 
 ```bash
 ./scripts/check-repo-public-safety.sh
@@ -24,6 +27,7 @@ In this personal repo, the tracked runtime uses the canonical `username` fact
 for the shared tracked user.
 
 Tracked runtime consumers should reference that fact directly:
+
 ```nix
 let userName = config.username; in ...
 ```
