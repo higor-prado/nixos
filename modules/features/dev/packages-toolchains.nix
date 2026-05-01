@@ -6,12 +6,14 @@
       home.packages = with pkgs; [
         gcc
         nodejs
+        bun
         sqlite
         tree-sitter
         binutils
         gnumake
         cmake
         libtool
+        uv
       ];
 
       programs.fish.interactiveShellInit = ''
