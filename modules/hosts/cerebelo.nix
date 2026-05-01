@@ -39,7 +39,7 @@ in
       ];
       nixosUserTools = [
         nixos.higorprado
-        nixos.editor-neovim
+        nixos.editors-neovim
         nixos.packages-server-tools
         nixos.packages-system-tools
       ];
@@ -60,8 +60,8 @@ in
         homeManager.tui-tools
       ];
       hmDev = [
-        homeManager.dev-tools
-        homeManager.editor-neovim
+        homeManager.editors-neovim
+        homeManager.linters
       ];
     in
     {
