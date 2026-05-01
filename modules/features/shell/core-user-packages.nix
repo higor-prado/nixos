@@ -4,11 +4,6 @@
     { pkgs, ... }:
     {
       programs.bat.enable = true;
-      programs.btop = {
-        enable = true;
-        package = pkgs.btop-cuda;
-      };
-      programs.bottom.enable = true;
       programs.eza = {
         enable = true;
         enableFishIntegration = false;
@@ -23,7 +18,6 @@
         git
         unzip
         file
-        htop
         rsync
         restic
         openssh
@@ -31,8 +25,6 @@
         jq
         ripgrep
         sd
-        fastfetch
-        smartmontools
         tree
       ];
     };
