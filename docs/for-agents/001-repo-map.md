@@ -53,9 +53,9 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `shell/terminal-tmux.nix` — tmux with tmux-cpu plugin
 - `shell/terminals.nix` — foot, kitty; sets TERMINAL=kitty
 - `shell/git-gh.nix` — git + gh CLI config
-- `shell/core-user-packages.nix` — essential CLI tools (fzf, btop, vim, curl, ripgrep, etc.)
+- `shell/core-user-packages.nix` — essential CLI tools (bat, eza, fzf, vim, curl, ripgrep, fd, jq, etc.)
 - `shell/tui-tools.nix` — bundled TUI ergonomics (lazygit, lazydocker, yazi, zellij)
-- `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
+- `shell/monitoring-tools.nix` — system monitoring (htop, btop, bottom, fastfetch, smartmontools + htop config)
 
 **Desktop**
 
