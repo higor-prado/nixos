@@ -56,5 +56,9 @@
           };
         };
       };
+
+      programs.fish.shellAbbrs = {
+        code = "uwsm-app code";
+      };
     };
 }
