@@ -25,6 +25,7 @@ let
     ga = "git add";
     gc = "git commit";
     gb = "git branch";
+    zed = "uwsm-app zeditor";
   };
 in
 {

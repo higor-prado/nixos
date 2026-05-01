@@ -45,15 +45,6 @@
         enable = true;
         gtk4.enable = true;
         gtk4.theme = config.gtk.theme;
-        gtk2.extraConfig = ''
-          gtk-im-module="fcitx"
-        '';
-        gtk3.extraConfig = {
-          gtk-im-module = "fcitx";
-        };
-        gtk4.extraConfig = {
-          gtk-im-module = "fcitx";
-        };
         iconTheme = {
           name = theme.iconTheme.name;
           package = theme.iconTheme.package;
