@@ -89,7 +89,7 @@ in
       ];
 
       nixosUserTools = [
-        nixos.editor-neovim
+        nixos.editors-neovim
         nixos.fish
         nixos.higorprado
         nixos.packages-fonts
@@ -141,15 +141,15 @@ in
       ];
 
       hmDev = [
-        homeManager.dev-devenv
-        homeManager.dev-tools
-        homeManager.editor-emacs
-        homeManager.editor-neovim
-        homeManager.editor-vscode
-        homeManager.editor-zed
+        homeManager.devenv
+        homeManager.editors-emacs
+        homeManager.editors-neovim
+        homeManager.editors-vscode
+        homeManager.editors-zed
         homeManager.llm-agents
-        homeManager.packages-docs-tools
-        homeManager.packages-toolchains
+        homeManager.toolchains
+        homeManager.linters
+        homeManager.docs-tools
       ];
       mkPredatorConfig = nixosDesktop: hmDesktop: {
         imports =
