@@ -42,6 +42,7 @@
       };
 
       xdg.configFile = helpers.portalPathOverrides // {
+        "hypr/hyprland.lua".source = ../../config/desktops/hyprland-standalone/hyprland.lua;
         "systemd/user/xdg-desktop-portal-gtk.service.d/override.conf".text = ''
           [Unit]
           ConditionEnvironment=WAYLAND_DISPLAY
@@ -57,10 +58,6 @@
           RestartSec=2
         '';
       };
-
-      home.activation.provisionHyprlandLuaEntrypoint = provisionHyprlandLuaFile
-        "hyprland.lua"
-        ../../config/desktops/hyprland-standalone/hyprland.lua;
 
       home.activation.provisionHyprlandLuaActions = provisionHyprlandLuaFile
         "modules/actions.lua"
