@@ -43,6 +43,7 @@ let
     ncuc = "ssh cerebelo 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
     ncuct = "ssh cerebelo 'systemctl status nh-clean.timer --no-pager'";
     zed = "uwsm-app zeditor";
+    nv = "uwsm-app nvim";
   };
 in
 {
