@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.dev-devenv =
+  flake.modules.homeManager.devenv =
     { pkgs, ... }:
     let
       devenvTemplatesFlake = pkgs.runCommandLocal "devc-templates-flake" { } ''

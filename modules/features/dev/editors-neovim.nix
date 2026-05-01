@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.editor-neovim =
+  flake.modules.nixos.editors-neovim =
     { ... }:
     {
       # Fix Neovim server socket permissions: increase systemd user session limits.
@@ -9,14 +9,24 @@
       security.pam.services.systemd-user = {
         limits = [
           # Increase file descriptor limit (default 1024 is too low for LSP servers)
-          { domain = "*"; item = "nofile"; type = "-"; value = "65536"; }
+          {
+            domain = "*";
+            item = "nofile";
+            type = "-";
+            value = "65536";
+          }
           # Increase process limit (prevents fork failures)
-          { domain = "*"; item = "nproc"; type = "-"; value = "4096"; }
+          {
+            domain = "*";
+            item = "nproc";
+            type = "-";
+            value = "4096";
+          }
         ];
       };
     };
 
-  flake.modules.homeManager.editor-neovim =
+  flake.modules.homeManager.editors-neovim =
     { lib, pkgs, ... }:
     let
       nvimRuntimeCleanup = pkgs.writeShellScript "nvim-runtime-cleanup" ''
