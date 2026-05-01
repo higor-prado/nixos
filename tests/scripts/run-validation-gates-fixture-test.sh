@@ -20,44 +20,45 @@ mkdir -p "$fixtures_scripts_dir" "$fixtures_tests_dir" "$fixtures_bin_dir"
 touch "$log_file"
 
 make_stub_check() {
-  local name="$1"
-  local target_dir="$2"
-  cat >"${target_dir}/${name}" <<'EOF2'
+	local name="$1"
+	local target_dir="$2"
+	cat >"${target_dir}/${name}" <<'EOF2'
 #!/usr/bin/env bash
 set -euo pipefail
 printf '%s\n' "$(basename "$0")" >>"${INVOCATION_LOG}"
 EOF2
-  chmod +x "${target_dir}/${name}"
+	chmod +x "${target_dir}/${name}"
 }
 
 check_scripts=(
-  check-bare-host-in-includes.sh
-  check-feature-legacy-role-conditionals.sh
-  check-flake-inputs-used.sh
-  check-desktop-capability-usage.sh
-  check-option-declaration-boundary.sh
-  check-flake-pattern.sh
-  check-extension-contracts.sh
-  check-feature-publisher-name-match.sh
-  check-validation-source-of-truth.sh
-  check-docs-drift.sh
-  check-config-contracts.sh
-  check-desktop-composition-matrix.sh
+	check-bare-host-in-includes.sh
+	check-feature-legacy-role-conditionals.sh
+	check-flake-inputs-used.sh
+	check-desktop-capability-usage.sh
+	check-option-declaration-boundary.sh
+	check-flake-pattern.sh
+	check-extension-contracts.sh
+	check-feature-publisher-name-match.sh
+	check-validation-source-of-truth.sh
+	check-docs-drift.sh
+	check-repo-public-safety.sh
+	check-config-contracts.sh
+	check-desktop-composition-matrix.sh
 )
 
 for script_name in "${check_scripts[@]}"; do
-  make_stub_check "$script_name" "$fixtures_scripts_dir"
+	make_stub_check "$script_name" "$fixtures_scripts_dir"
 done
 
 test_scripts=(
-  run-validation-gates-fixture-test.sh
-  new-host-skeleton-fixture-test.sh
-  report-persistence-candidates-test.sh
-  runtime-warning-budget-lib-test.sh
+	run-validation-gates-fixture-test.sh
+	new-host-skeleton-fixture-test.sh
+	report-persistence-candidates-test.sh
+	runtime-warning-budget-lib-test.sh
 )
 
 for script_name in "${test_scripts[@]}"; do
-  make_stub_check "$script_name" "$fixtures_tests_dir"
+	make_stub_check "$script_name" "$fixtures_tests_dir"
 done
 
 cat >"${fixtures_bin_dir}/nix" <<'EOF2'
@@ -74,23 +75,23 @@ EOF2
 chmod +x "${fixtures_bin_dir}/nix"
 
 assert_logged() {
-  local expected="$1"
-  if ! rg -Fxq "$expected" "$log_file"; then
-    log_fail "$scope" "missing expected invocation: $expected"
-    log_warn "$scope" "captured invocations:"
-    sed -n '1,200p' "$log_file" >&2 || true
-    exit 1
-  fi
+	local expected="$1"
+	if ! rg -Fxq "$expected" "$log_file"; then
+		log_fail "$scope" "missing expected invocation: $expected"
+		log_warn "$scope" "captured invocations:"
+		sed -n '1,200p' "$log_file" >&2 || true
+		exit 1
+	fi
 }
 
 run_stage() {
-  local stage="$1"
-  : >"$log_file"
-  PATH="${fixtures_bin_dir}:$PATH" \
-    INVOCATION_LOG="$log_file" \
-    VALIDATION_GATES_SCRIPTS_DIR="$fixtures_scripts_dir" \
-    VALIDATION_GATES_TESTS_DIR="$fixtures_tests_dir" \
-    ./scripts/run-validation-gates.sh "$stage" >/dev/null
+	local stage="$1"
+	: >"$log_file"
+	PATH="${fixtures_bin_dir}:$PATH" \
+		INVOCATION_LOG="$log_file" \
+		VALIDATION_GATES_SCRIPTS_DIR="$fixtures_scripts_dir" \
+		VALIDATION_GATES_TESTS_DIR="$fixtures_tests_dir" \
+		./scripts/run-validation-gates.sh "$stage" >/dev/null
 }
 
 run_stage "structure"
@@ -104,6 +105,7 @@ assert_logged "check-extension-contracts.sh"
 assert_logged "check-feature-publisher-name-match.sh"
 assert_logged "check-validation-source-of-truth.sh"
 assert_logged "check-docs-drift.sh"
+assert_logged "check-repo-public-safety.sh"
 assert_logged "run-validation-gates-fixture-test.sh"
 assert_logged "new-host-skeleton-fixture-test.sh"
 assert_logged "report-persistence-candidates-test.sh"
