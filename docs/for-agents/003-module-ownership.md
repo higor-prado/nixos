@@ -2,17 +2,17 @@
 
 ## Who owns what
 
-| Location | Owns |
-|----------|------|
-| `modules/features/**/*.nix` | Feature behavior, published lower-level NixOS/HM modules, option declarations |
-| `modules/desktops/*.nix` | Desktop composition lower-level modules |
-| `modules/hosts/*.nix` | Host owner files, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements |
-| `modules/nixos.nix` | Top-level structural NixOS runtime surface |
-| `modules/flake-parts.nix` | Enables the `flake.modules.*` surface |
-| `hardware/<name>/` | Machine-specific hardware, boot, disks, persistence/reset |
-| `modules/features/core/home-manager-settings.nix` | HM framework settings |
-| `modules/users/<user>.nix` | User account (nixos), base HM config (homeManager), repo-wide primary-user semantics, and user-owned facts such as `username` when they are truly that user's identity |
-| `private/users/higorprado/default.nix.example` | Tracked example for the gitignored local user override entry point imported by the user runtime module |
+| Location                                          | Owns                                                                                                                                                                   |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `modules/features/**/*.nix`                       | Feature behavior, published lower-level NixOS/HM modules, option declarations                                                                                          |
+| `modules/desktops/*.nix`                          | Desktop composition lower-level modules                                                                                                                                |
+| `modules/hosts/*.nix`                             | Host owner files, concrete configuration declarations, machine-specific operator wiring, and host-only user entitlements                                               |
+| `modules/nixos.nix`                               | Top-level structural NixOS runtime surface                                                                                                                             |
+| `modules/flake-parts.nix`                         | Enables the `flake.modules.*` surface                                                                                                                                  |
+| `hardware/<name>/`                                | Machine-specific hardware, boot, disks, persistence/reset                                                                                                              |
+| `modules/features/core/home-manager-settings.nix` | HM framework settings                                                                                                                                                  |
+| `modules/users/<user>.nix`                        | User account (nixos), base HM config (homeManager), repo-wide primary-user semantics, and user-owned facts such as `username` when they are truly that user's identity |
+| `private/users/higorprado/default.nix.example`    | Tracked example for the gitignored local user override entry point imported by the user runtime module                                                                 |
 
 ## Boundary rules
 
@@ -64,7 +64,7 @@
 
 - `modules/features/shell/core-user-packages.nix` — user CLI tool set
 - `modules/features/desktop/desktop-apps.nix` — user desktop app choices
-- `modules/features/dev/dev-tools.nix` — user development workflow tools
+- `modules/features/dev/linters.nix` — user language linters and formatters
 - `modules/features/desktop/theme-base.nix` — user theme and UI preferences
 
 ### Split ownership examples
@@ -72,11 +72,12 @@
 - `modules/features/shell/fish.nix` — NixOS owns base shell availability; HM owns user UX
 - `modules/features/system/ssh.nix` — NixOS owns the daemon; HM owns client config
 - `modules/features/desktop/hyprland.nix` — NixOS owns compositor/runtime pieces and UWSM integration; HM owns compositor user config only
-- `modules/features/dev/editor-neovim.nix` — NixOS owns PAM/session limits; HM owns editor package and user config
+- `modules/features/dev/editors-neovim.nix` — NixOS owns PAM/session limits; HM owns editor package and user config
 
 ## Feature module checklist
 
 When creating a new feature module:
+
 - [ ] File is in `modules/features/<category>/`
 - [ ] NixOS config is published in `flake.modules.nixos.<name> = ...` when needed
 - [ ] Home Manager config is published in `flake.modules.homeManager.<name> = ...` when needed

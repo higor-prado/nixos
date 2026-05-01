@@ -39,6 +39,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 ## modules/features/ — category layout
 
 **Core**
+
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — universal nix daemon settings (max-jobs, store optimization, nh, daemon scheduling)
@@ -46,6 +47,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `core/home-manager-settings.nix` — HM framework settings
 
 **Shell / Terminal**
+
 - `shell/fish.nix` — fish shell + zoxide + abbreviations
 - `shell/starship.nix` — starship prompt
 - `shell/terminal-tmux.nix` — tmux with tmux-cpu plugin
@@ -56,6 +58,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
+
 - `desktop/greetd.nix` — greetd display manager with tuigreet terminal greeter; launches Hyprland via `uwsm start hyprland.desktop`
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
@@ -78,18 +81,21 @@ replacing the previous custom `hyprland-session-start` script and
 configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprland.nix`.
 
 **Dev / Editors / LLM**
-- `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
-- `dev/editor-neovim.nix` — Neovim + LSP packages + nvim config sync; nixos block sets PAM fd/process limits for LSP socket creation
-- `dev/editor-vscode.nix` — VS Code with extensions
-- `dev/editor-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon
-- `dev/editor-zed.nix` — Zed editor
-- `dev/dev-tools.nix`, `dev/dev-devenv.nix`
-- `dev/packages-toolchains.nix`, `dev/packages-docs-tools.nix`
 
+- `dev/devenv.nix` — devenv + cachix + devc wrapper + direnv
+- `dev/editors-neovim.nix` — Neovim + LSP packages + nvim config sync; nixos block sets PAM fd/process limits for LSP socket creation
+- `dev/editors-vscode.nix` — VS Code with extensions
+- `dev/editors-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon
+- `dev/editors-zed.nix` — Zed editor
+- `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
+- `dev/toolchains.nix` — compilers, runtimes, build systems, package managers
+- `dev/linters.nix` — language linters and formatters
+- `dev/docs-tools.nix` — documentation generation tools
 
 **Media**
+
 - `media/aiostreams.nix` — AIOStreams Stremio addon aggregator (Docker container)
-**System**
+  **System**
 - `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
 - `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
 - `system/aurelius-attic-server.nix`, `system/aurelius-attic-local-publisher.nix`, `system/aurelius-github-runner.nix`
@@ -109,8 +115,8 @@ configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprl
 
 ## modules/desktops/
 
-| File | Published lower-level modules | Composites |
-|------|-------------------------------|-----------|
+| File                      | Published lower-level modules                                                                              | Composites                                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | `hyprland-standalone.nix` | `flake.modules.nixos.desktop-hyprland-standalone`, `flake.modules.homeManager.desktop-hyprland-standalone` | hyprland standalone session (current predator selection) |
 
 ## modules/users/
@@ -130,6 +136,7 @@ configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprl
 
 - `lib/_helpers.nix` — small generic helper set (`portalExecPath`, `portalPathOverrides`)
 - `lib/mutable-copy.nix` — helper for copy-once mutable config provisioning in HM activations
+
 ## config/desktops/
 
 - `config/desktops/hyprland-standalone/` — tracked Hyprland Lua entrypoint, module tree, and helper scripts provisioned copy-once by `modules/desktops/hyprland-standalone.nix`
