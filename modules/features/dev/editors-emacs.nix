@@ -21,8 +21,8 @@
       };
 
       programs.fish.shellAbbrs = {
-        emacs = "emacsclient -c -a ''";
-        e = "emacsclient -c -a ''";
+        emacs = "uwsm-app -- emacsclient -c -a ''";
+        e = "uwsm-app -- emacsclient -c -a ''";
       };
 
       programs.fish.interactiveShellInit = ''
