@@ -3,12 +3,17 @@
   flake.modules.homeManager.core-user-packages =
     { pkgs, ... }:
     {
-      programs.fzf.enable = true;
+      programs.bat.enable = true;
       programs.btop = {
         enable = true;
         package = pkgs.btop-cuda;
       };
       programs.bottom.enable = true;
+      programs.eza = {
+        enable = true;
+        enableFishIntegration = false;
+      };
+      programs.fzf.enable = true;
 
       home.packages = with pkgs; [
         vim
@@ -22,9 +27,13 @@
         rsync
         restic
         openssh
+        fd
+        jq
         ripgrep
+        sd
         fastfetch
         smartmontools
+        tree
       ];
     };
 }
