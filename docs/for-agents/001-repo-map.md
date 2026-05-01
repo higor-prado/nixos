@@ -63,7 +63,8 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
-- `desktop/packages-fonts.nix` — Nerd fonts
+- `desktop/fonts.nix` — system fonts (noto, fira, jetbrains, nerd-fonts)
+- `desktop/browsers.nix` — browsers (Firefox, Chromium, Brave, Zen)
 - `desktop/media-tools.nix`, `desktop/music-client.nix`, `desktop/nautilus.nix`
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
 - `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, udiskie)

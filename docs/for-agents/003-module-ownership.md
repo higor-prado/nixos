@@ -56,7 +56,7 @@
 
 - `modules/features/system/audio.nix` — PipeWire and realtime audio support
 - `modules/features/system/networking-wireguard-client.nix` — machine VPN behavior
-- `modules/features/desktop/packages-fonts.nix` — machine-wide fonts
+- `modules/features/desktop/fonts.nix` — machine-wide fonts
 - `modules/desktops/hyprland-standalone.nix` — Hyprland desktop composition substrate
 - `modules/features/desktop/greetd.nix` — greetd display manager with tuigreet (Hyprland)
 
