@@ -15,6 +15,7 @@
         llmAgentsPkgs.copilot-cli
         llmAgentsPkgs.omp
         llmAgentsPkgs.pi
+        llmAgentsPkgs.gemini-cli
       ];
     };
 }
