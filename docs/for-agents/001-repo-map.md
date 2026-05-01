@@ -56,7 +56,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `shell/monitoring-tools.nix` — htop, btop, bottom, fastfetch
 
 **Desktop**
-- `desktop/greetd.nix` — greetd display manager with tuigreet terminal greeter
+- `desktop/greetd.nix` — greetd display manager with tuigreet terminal greeter; launches Hyprland via `uwsm start hyprland.desktop`
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
@@ -65,12 +65,17 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `desktop/wayland-tools.nix`, `desktop/fcitx5.nix`
 - `desktop/session-applets.nix` — Hyprland user session agents/applets (hyprpolkitagent, nm-applet, udiskie)
 - `desktop/qt-theme.nix` — Qt theming stack (qt5ct/qt6ct + kvantum + Catppuccin)
-- `desktop/hyprland.nix` — Hyprland Wayland compositor without automatic idle lock/DPMS
+- `desktop/hyprland.nix` — Hyprland Wayland compositor with UWSM session management
 - `desktop/waybar.nix` — Waybar status bar with copy-once config and catppuccin theming
 - `desktop/walker.nix` — Walker launcher and clipboard stack with Elephant backend service, Catppuccin theme sync, and copy-once config
 - `desktop/mako.nix` — Mako notification daemon with catppuccin theming
 - `desktop/gaming.nix` — Steam gaming with Proton, Gamemode, and NVIDIA NGX/DLSS support
 - `desktop/waypaper.nix` — Waypaper GUI wallpaper manager with awww backend and copy-once config
+
+UWSM (`programs.hyprland.withUWSM`) manages the compositor session lifecycle,
+replacing the previous custom `hyprland-session-start` script and
+`hyprland-session.target`. Compositor launch uses `uwsm start hyprland.desktop`
+configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprland.nix`.
 
 **Dev / Editors / LLM**
 - `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
@@ -183,6 +188,15 @@ performance.nix          OOM, sysctl, ananicy, CPU governor, nix daemon scheduli
 impermanence.nix         persistent machine state for predator
 persisted-paths.nix      declared persisted directories/files for predator
 root-reset.nix           initrd root-subvolume reset for predator
+```
+
+## hardware/aurelius/
+
+```
+default.nix              thin entry: imports hardware-configuration.nix, disko.nix, performance.nix, and private override
+hardware-configuration.nix  nixos-generate-config output (QEMU guest profile)
+disko.nix                disk layout
+performance.nix          zram, sysctl tweaks for ARM server
 ```
 
 ## hardware/cerebelo/

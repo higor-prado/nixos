@@ -71,7 +71,7 @@
 
 - `modules/features/shell/fish.nix` — NixOS owns base shell availability; HM owns user UX
 - `modules/features/system/ssh.nix` — NixOS owns the daemon; HM owns client config
-- `modules/features/desktop/hyprland.nix` — NixOS owns compositor/runtime pieces; HM owns session bootstrap and user config materialization
+- `modules/features/desktop/hyprland.nix` — NixOS owns compositor/runtime pieces and UWSM integration; HM owns compositor user config only
 - `modules/features/dev/editor-neovim.nix` — NixOS owns PAM/session limits; HM owns editor package and user config
 
 ## Feature module checklist
