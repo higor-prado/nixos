@@ -15,7 +15,6 @@
         nano
         wget
         curl
-        git
         unzip
         file
         rsync
