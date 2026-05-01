@@ -42,6 +42,7 @@ let
     ncust = "ssh cerebelo 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
     ncuc = "ssh cerebelo 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
     ncuct = "ssh cerebelo 'systemctl status nh-clean.timer --no-pager'";
+    zed = "uwsm-app zeditor";
   };
 in
 {
