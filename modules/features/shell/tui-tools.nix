@@ -9,7 +9,7 @@
       programs.yazi = {
         enable = true;
         shellWrapperName = "yy";
-        };
-        programs.zellij.enable = true;
       };
+      programs.zellij.enable = true;
+    };
 }
