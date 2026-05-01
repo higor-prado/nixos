@@ -26,11 +26,11 @@ in
         nixos.tailscale
         nixos.higorprado
         nixos.nix-settings
-        nixos.packages-server-tools
-        nixos.packages-system-tools
+        nixos.server-tools
         nixos.fish
         nixos.ssh
-      ] ++ hardwareImports;
+      ]
+      ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
