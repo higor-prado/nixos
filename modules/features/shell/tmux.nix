@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.terminal-tmux =
+  flake.modules.homeManager.tmux =
     { pkgs, ... }:
     {
       programs.tmux = {

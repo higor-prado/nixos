@@ -50,7 +50,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 
 - `shell/fish.nix` — fish shell + zoxide + abbreviations
 - `shell/starship.nix` — starship prompt
-- `shell/terminal-tmux.nix` — tmux with tmux-cpu plugin
+- `shell/tmux.nix` — tmux with tmux-cpu plugin
 - `shell/terminals.nix` — foot, kitty; sets TERMINAL=kitty
 - `shell/git-gh.nix` — git + gh CLI config
 - `shell/core-user-packages.nix` — essential CLI tools (bat, eza, fzf, vim, curl, ripgrep, fd, jq, etc.)

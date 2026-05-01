@@ -55,7 +55,7 @@ in
       hmShell = [
         homeManager.fish
         homeManager.starship
-        homeManager.terminal-tmux
+        homeManager.tmux
         homeManager.tui-tools
       ];
       hmDev = [
