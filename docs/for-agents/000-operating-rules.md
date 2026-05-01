@@ -6,7 +6,7 @@ Hard constraints. Follow these exactly.
 
 Files under `private/users/*/` and `private/hosts/*/` are gitignored.
 Do not read, create, or reference them in tracked files.
-Run `./scripts/check-repo-public-safety.sh` before committing.
+The public safety check runs as part of `run-validation-gates.sh` (rule 4).
 
 ## 2. Options belong in feature owners, top-level facts, or the narrow tracked user owner only
 
@@ -25,11 +25,13 @@ lower-level state, never by hardcoding real usernames in tracked files.
 ## 4. Validation gates must pass
 
 Before committing, run:
+
 ```bash
 ./scripts/run-validation-gates.sh
 ```
 
 For structural changes, also run:
+
 ```bash
 nix eval .#nixosConfigurations.predator.config.system.build.toplevel.drvPath
 ```
@@ -38,6 +40,7 @@ nix eval .#nixosConfigurations.predator.config.system.build.toplevel.drvPath
 
 All new feature modules must remain top-level dendritic modules. Publish
 lower-level NixOS/Home Manager modules under `flake.modules.*`:
+
 ```nix
 { ... }: { flake.modules.nixos.my-feature = { config, lib, ... }: { ... }; }
 ```
@@ -64,6 +67,7 @@ is reusable across hosts, promote it to a published lower-level module in
 ## 8. Keep commits focused
 
 One logical change per commit. Use the commit strategy:
+
 - `fix(scope): description` for bug fixes
 - `feat(scope): description` for new features
 - `refactor(scope): description` for reorganization
