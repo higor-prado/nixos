@@ -29,7 +29,8 @@ in
         nixos.server-tools
         nixos.fish
         nixos.ssh
-      ] ++ hardwareImports;
+      ]
+      ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
