@@ -104,7 +104,7 @@ configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprl
 - `system/keyboard.nix`, `system/upower.nix`
 - `system/maintenance.nix` (fstrim, universal SSD trim), `system/maintenance-smartd.nix` (smartd health monitoring, desktop-only), `system/maintenance-disk-alert.nix` (root filesystem usage alert; aurelius only), `system/backup-service.nix`
 - `system/docker-health-check.nix` (unhealthy container logging timer; aurelius only)
-- `system/packages-system-tools.nix`, `system/packages-server-tools.nix`
+- `system/server-tools.nix` — server and system admin tools (lsof, strace, btrfs-progs, etc.; split NixOS/HM)
 - `system/attic-client.nix` — Attic client HM package + substituter docs
 - `system/attic-publisher.nix` — Attic post-build-hook publisher (predator, cerebelo)
 - `system/forgejo.nix` — Forgejo Git service (aurelius only)
