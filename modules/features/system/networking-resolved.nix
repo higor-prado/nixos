@@ -1,7 +1,7 @@
-_:
+{ ... }:
 {
   flake.modules.nixos.networking-resolved =
-    _:
+    { ... }:
     {
       networking.networkmanager.dns = "systemd-resolved";
       services.resolved = {
