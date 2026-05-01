@@ -93,7 +93,7 @@ in
         nixos.editors-neovim
         nixos.fish
         nixos.higorprado
-        nixos.packages-fonts
+        nixos.fonts
         nixos.server-tools
         nixos.ssh
       ];
@@ -119,6 +119,7 @@ in
         homeManager.tui-tools
       ];
       hmDesktop = [
+        homeManager.browsers
         homeManager.desktop-base
         homeManager.desktop-apps
         homeManager.desktop-hyprland-standalone
