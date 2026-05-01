@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.packages-server-tools =
+  flake.modules.nixos.server-tools =
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
@@ -14,7 +14,7 @@
       ];
     };
 
-  flake.modules.homeManager.packages-server-tools =
+  flake.modules.homeManager.server-tools =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
