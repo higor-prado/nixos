@@ -70,6 +70,7 @@ in
         nixos.maintenance-smartd
         nixos.tailscale
         nixos.audio
+        nixos.ollama
         nixos.bluetooth
         nixos.upower
         nixos.podman
@@ -106,6 +107,7 @@ in
         homeManager.docker
         homeManager.git-gh
         homeManager.monitoring-tools
+        homeManager.ollama
         homeManager.podman
         homeManager.ssh
       ];
