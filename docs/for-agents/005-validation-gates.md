@@ -27,21 +27,22 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 
 ## Individual gate scripts
 
-| Script | Checks |
-|--------|--------|
-| `check-desktop-capability-usage.sh` | Legacy desktop selector references stay out of active Nix code |
-| `check-option-declaration-boundary.sh` | Options declared only in feature owners, `modules/nixos.nix`, or the narrow tracked user owner |
-| `check-flake-pattern.sh` | Flake input naming and wiring policy |
-| `check-config-contracts.sh` | Concrete feature and selected-user invariants |
-| `check-extension-contracts.sh` | Host source-tree contracts and onboarding shape |
-| `check-desktop-composition-matrix.sh` | Desktop compositions eval correctly |
-| `check-feature-publisher-name-match.sh` | Feature file names match at least one published lower-level module name |
-| `check-validation-source-of-truth.sh` | Shared script registry and CI/stage routing contracts |
-| `check-docs-drift.sh` | Living docs only reference paths that still exist |
-| `tests/scripts/run-validation-gates-fixture-test.sh` | Fixture-based structure-stage orchestration contract |
-| `tests/scripts/new-host-skeleton-fixture-test.sh` | Fixture-based host generator contract |
-| `tests/scripts/report-persistence-candidates-test.sh` | Fixture coverage for the persistence report helper |
-| `tests/scripts/runtime-warning-budget-lib-test.sh` | Library contract for runtime warning budgeting |
+| Script                                                | Checks                                                                                         |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `check-desktop-capability-usage.sh`                   | Legacy desktop selector references stay out of active Nix code                                 |
+| `check-option-declaration-boundary.sh`                | Options declared only in feature owners, `modules/nixos.nix`, or the narrow tracked user owner |
+| `check-flake-pattern.sh`                              | Flake input naming and wiring policy                                                           |
+| `check-config-contracts.sh`                           | Concrete feature and selected-user invariants                                                  |
+| `check-extension-contracts.sh`                        | Host source-tree contracts and onboarding shape                                                |
+| `check-desktop-composition-matrix.sh`                 | Desktop compositions eval correctly                                                            |
+| `check-feature-publisher-name-match.sh`               | Feature file names match at least one published lower-level module name                        |
+| `check-validation-source-of-truth.sh`                 | Shared script registry and CI/stage routing contracts                                          |
+| `check-docs-drift.sh`                                 | Living docs only reference paths that still exist                                              |
+| `check-repo-public-safety.sh`                         | No private data (real usernames, SSH keys, emails, IPs) in tracked files                       |
+| `tests/scripts/run-validation-gates-fixture-test.sh`  | Fixture-based structure-stage orchestration contract                                           |
+| `tests/scripts/new-host-skeleton-fixture-test.sh`     | Fixture-based host generator contract                                                          |
+| `tests/scripts/report-persistence-candidates-test.sh` | Fixture coverage for the persistence report helper                                             |
+| `tests/scripts/runtime-warning-budget-lib-test.sh`    | Library contract for runtime warning budgeting                                                 |
 
 ## Shared Script Boundary
 
@@ -69,7 +70,7 @@ scripts/lib/validation_host_topology.sh
 Current documented shared auxiliary tools:
 
 - `audit-system-up-to-date.sh`
-  - optional local audit/report generator; uses audit-only leaf checks such as `check-declarative-paths.sh`, `check-flake-tracked.sh`, `check-nix-deprecations.sh`, and `check-repo-public-safety.sh`
+  - optional local audit/report generator; uses audit-only leaf checks from `scripts/lib/` such as `audit_declarative_paths.sh`, `audit_flake_tracked.sh`, `audit_nix_deprecations.sh`, and `check-repo-public-safety.sh` (the latter also runs in the structure gate)
 - `new-host-skeleton.sh`
   - shared host onboarding generator; validated by extension contracts and fixture tests
 - `report-maintainability-kpis.sh`
@@ -87,11 +88,11 @@ Current documented shared auxiliary tools:
 
 ## Validation layers
 
-| Layer | Budget | Runs |
-|-------|--------|------|
-| A | 120s | On every PR: structural/static checks |
-| B | 900s | On feature changes: nix eval/build matrix |
-| C | 1500s | Optional local runtime smoke outside the canonical gate runner |
+| Layer | Budget | Runs                                                           |
+| ----- | ------ | -------------------------------------------------------------- |
+| A     | 120s   | On every PR: structural/static checks                          |
+| B     | 900s   | On feature changes: nix eval/build matrix                      |
+| C     | 1500s  | Optional local runtime smoke outside the canonical gate runner |
 
 `check-runtime-smoke.sh` is intentionally a predator-scoped local desktop-session
 check. It is retained as a tracked auxiliary tool, not as a stage of
