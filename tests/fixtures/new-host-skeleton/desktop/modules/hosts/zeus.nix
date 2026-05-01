@@ -26,7 +26,7 @@ in
         nixos.tailscale
         nixos.higorprado
         nixos.nix-settings
-        nixos.packages-system-tools
+        nixos.server-tools
         nixos.fish
         nixos.ssh
         inputs.hyprland.nixosModules.default
@@ -34,9 +34,10 @@ in
         nixos.greetd
         nixos.hyprland
         nixos.fcitx5
-        nixos.packages-fonts
+        nixos.fonts
         nixos.nix-cache-settings
-      ] ++ hardwareImports;
+      ]
+      ++ hardwareImports;
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
