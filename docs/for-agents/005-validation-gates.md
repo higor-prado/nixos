@@ -70,7 +70,7 @@ scripts/lib/validation_host_topology.sh
 Current documented shared auxiliary tools:
 
 - `audit-system-up-to-date.sh`
-  - optional local audit/report generator; uses audit-only leaf checks from `scripts/lib/` such as `audit_declarative_paths.sh`, `audit_flake_tracked.sh`, `audit_nix_deprecations.sh`, and `check-repo-public-safety.sh` (the latter also runs in the structure gate)
+  - optional local audit/report generator; uses audit-only leaf checks from `scripts/lib/` such as `scripts/lib/audit_declarative_paths.sh`, `scripts/lib/audit_flake_tracked.sh`, `scripts/lib/audit_nix_deprecations.sh`, and `check-repo-public-safety.sh` (the latter also runs in the structure gate)
 - `new-host-skeleton.sh`
   - shared host onboarding generator; validated by extension contracts and fixture tests
 - `report-maintainability-kpis.sh`
