@@ -93,7 +93,7 @@ in
         nixos.fish
         nixos.higorprado
         nixos.packages-fonts
-        nixos.packages-system-tools
+        nixos.server-tools
         nixos.ssh
       ];
 

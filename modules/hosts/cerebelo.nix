@@ -40,8 +40,7 @@ in
       nixosUserTools = [
         nixos.higorprado
         nixos.editors-neovim
-        nixos.packages-server-tools
-        nixos.packages-system-tools
+        nixos.server-tools
       ];
 
       hmUserTools = [
@@ -49,7 +48,7 @@ in
         homeManager.higorprado
         homeManager.core-user-packages
         homeManager.git-gh
-        homeManager.packages-server-tools
+        homeManager.server-tools
         homeManager.podman
         homeManager.ssh
       ];
