@@ -26,7 +26,7 @@ in
         nixos.tailscale
         nixos.higorprado
         nixos.nix-settings
-        nixos.packages-system-tools
+        nixos.server-tools
         nixos.fish
         nixos.ssh__NIXOS_DESKTOP_IMPORTS__
       ] ++ hardwareImports;
