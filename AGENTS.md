@@ -48,7 +48,7 @@ nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.t
 
 ## Docs organization
 1. Root `docs/for-agents/` — only critical operating docs (000–009 and 999).
-2. Agent docs use three-digit prefix `NNN-name.md`. Keep numbering stable.
+2. Agent docs use three-digit prefix NNN-name.md. Keep numbering stable.
 3. Active plans → `docs/for-agents/plans/`, active logs → `docs/for-agents/current/`.
 4. Completed work → `docs/for-agents/archive/{plans,log-tracks,reports}/`.
 
