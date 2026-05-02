@@ -103,7 +103,7 @@
       };
 
       xdg.configFile."direnv/direnvrc".source = (
-        pkgs.runCommand "devenv-direnvrc" { buildInputs = [ pkgs.devenv ]; } ''
+        pkgs.runCommand "devenv-direnvrc" { nativeBuildInputs = [ pkgs.devenv ]; } ''
           devenv direnvrc > $out
         ''
       );
