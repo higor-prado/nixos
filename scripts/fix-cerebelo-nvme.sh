@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+trap 'sudo umount /tmp/nvme-root 2>/dev/null || true' EXIT
 
 # Mount NVMe root
 mkdir -p /tmp/nvme-root
