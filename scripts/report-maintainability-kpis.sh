@@ -131,7 +131,7 @@ else
 fi
 
 for_agents_root_count="$(count_markdown_files docs/for-agents)"
-for_agents_historical_count="$(count_markdown_files docs/for-agents/historical)"
+for_agents_historical_count="$(count_markdown_files docs/for-agents/archive)"
 for_humans_root_count="$(count_markdown_files docs/for-humans)"
 
 {
