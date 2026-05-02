@@ -148,6 +148,7 @@ in
         homeManager.editors-vscode
         homeManager.editors-zed
         homeManager.llm-agents
+        homeManager.llm-paseo
         homeManager.toolchains
         homeManager.linters
         homeManager.docs-tools
