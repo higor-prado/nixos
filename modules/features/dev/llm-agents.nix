@@ -17,5 +17,7 @@
         llmAgentsPkgs.pi
         llmAgentsPkgs.gemini-cli
       ];
+
+      home.sessionVariables.POWERLINE_NERD_FONTS = "1";
     };
 }
