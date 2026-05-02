@@ -6,7 +6,7 @@
         "mcp-nixos"
       ],
       "lifecycle": "lazy",
-      "directTools": true
+      "directTools": false
     }
   }
 }
