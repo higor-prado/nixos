@@ -16,6 +16,7 @@ Three Copilot LSP instances (~800MB each) were running simultaneously (one per o
 ## Evidence
 
 From `Zed.log.old`:
+
 ```
 [auth] tokenRefresh: HttpTimeoutError
 Request to <https://api.github.com/copilot_internal/v2/token>
@@ -27,9 +28,11 @@ Completions were succeeding (12× 200 OK, 300-1000ms) — only the auth layer wa
 ## Secondary Issues Found
 
 ### Fixed: package-version-server dynamic linking
+
 The `package-version-server` binary downloaded by Zed is dynamically linked and couldn't run on NixOS. Enabled `programs.nix-ld` with basic libraries. Resolved.
 
 ### Not actionable (harmless):
+
 - `fs_watcher` errors on `.devenv/state/venv/` Nix store symlinks
 - `window not found` GPUI race conditions
 - `Unable to deserialize editor` persistence state mismatches
