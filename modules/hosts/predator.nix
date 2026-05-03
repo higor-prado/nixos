@@ -90,6 +90,7 @@ in
 
       nixosUserTools = [
         nixos.editors-neovim
+        nixos.editors-zed
         nixos.fish
         nixos.higorprado
         nixos.fonts
