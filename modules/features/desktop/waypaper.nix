@@ -38,10 +38,14 @@
           ];
           Restart = "on-failure";
           RestartSec = 2;
+          StartLimitBurst = 5;
+          StartLimitIntervalSec = 60;
           StandardOutput = "journal";
           StandardError = "journal";
         };
-        Install.WantedBy = [ "graphical-session.target" ];
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
       };
     };
 }

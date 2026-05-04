@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 {
-  services.lact.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
