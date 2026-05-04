@@ -7,7 +7,6 @@
         teams-for-linux
         meld
         obsidian
-        super-productivity
       ];
     };
 }
