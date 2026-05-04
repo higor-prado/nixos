@@ -17,7 +17,7 @@
         ports = [ "127.0.0.1:${toString port}:3000" ];
         environment = {
           PORT = "3000";
-          DATABASE_URI = "sqlite:///data/db.sqlite";
+          DATABASE_URI = "sqlite:///app/data/db.sqlite";
         };
         environmentFiles = [ envFile ];
         volumes = [ "${dataDir}:/app/data" ];
