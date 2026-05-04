@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.waybar =
-    { lib, ... }:
+    { pkgs, lib, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
     in
@@ -9,6 +9,7 @@
       programs.waybar = {
         enable = true;
         systemd.enable = true;
+        package = inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar;
       };
 
       catppuccin.waybar.mode = "createLink";
