@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 34,
+  "height": 36,
   "spacing": 7,
   "margin-left": 20,
   "margin-right": 20,
@@ -14,9 +14,9 @@
   ],
   "modules-right": [
     "custom/waypaper",
+    "custom/mako",
     "group/hardware",
     "tray",
-    "custom/mako",
     "custom/clipboard",
     "group/clockgroup"
   ],
@@ -48,7 +48,8 @@
 
     "persistent-workspaces": {
       "*": 4
-    }
+    },
+    "enable-bar-scroll": true
   },
   "custom/active-window": {
     "exec": "bash ~/.config/waybar/scripts/active-window.sh",
@@ -117,9 +118,6 @@
     "spacing": 20,
     "icon-size": 16,
     "icons": {
-      "blueman": "bluetooth-symbolic",
-      "nm-applet": "network-wireless-symbolic",
-      "udiskie": "drive-removable-media-usb-symbolic",
       "steam": "com.valvesoftware.Steam"
     }
   },
