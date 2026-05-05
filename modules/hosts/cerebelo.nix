@@ -36,6 +36,7 @@ in
         nixos.mosh
         nixos.podman
         nixos.aiostreams
+        nixos.aiostreams-tailscale-serve
       ];
       nixosUserTools = [
         nixos.higorprado
@@ -63,7 +64,7 @@ in
         homeManager.linters
       ];
     in
-    { pkgs, ... }:
+    { ... }:
     {
       imports = nixosInfrastructure ++ nixosCoreServices ++ nixosUserTools ++ hardwareImports;
 
@@ -97,22 +98,5 @@ in
         };
       };
 
-      # Tailscale Serve: expose aiostreams as HTTPS on the machine's tailnet
-      # domain.
-      systemd.services.tailscale-serve-cerebelo = {
-        description = "Tailscale Serve: cerebelo HTTPS proxy";
-        after = [ "tailscaled.service" ];
-        wants = [ "tailscaled.service" ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-        };
-        path = [ pkgs.tailscale ];
-        script = ''
-          tailscale serve reset
-          tailscale serve --bg --yes http://127.0.0.1:3002
-        '';
-      };
     };
 }

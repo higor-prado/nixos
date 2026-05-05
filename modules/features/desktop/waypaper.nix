@@ -28,6 +28,8 @@
           After = [ "graphical-session.target" ];
           PartOf = [ "graphical-session.target" ];
           ConditionEnvironment = "WAYLAND_DISPLAY";
+          StartLimitBurst = 5;
+          StartLimitIntervalSec = 60;
         };
         Service = {
           Type = "simple";
@@ -38,8 +40,6 @@
           ];
           Restart = "on-failure";
           RestartSec = 2;
-          StartLimitBurst = 5;
-          StartLimitIntervalSec = 60;
           StandardOutput = "journal";
           StandardError = "journal";
         };

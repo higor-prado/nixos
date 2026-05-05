@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.aiostreams =
-    { pkgs, ... }:
+    { ... }:
     let
       dataDir = "/var/lib/aiostreams";
       envFile = "/etc/aiostreams/aiostreams.env";

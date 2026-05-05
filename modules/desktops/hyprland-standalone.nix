@@ -5,10 +5,19 @@
     {
       xdg.portal = {
         enable = true;
-        extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
+        extraPortals = lib.mkDefault [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.gnome-keyring
+        ];
         config.hyprland = {
-          default = [ "hyprland" "gtk" ];
+          default = [
+            "hyprland"
+            "gtk"
+          ];
+          "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
           "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Print" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
           "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
         };
       };
@@ -29,16 +38,24 @@
         );
     in
     {
-      # HM controls NIX_XDG_DESKTOP_PORTAL_DIR for user services. Include GTK backend
-      # explicitly so FileChooser/OpenURI/Settings are available alongside Hyprland portals.
+      # HM controls NIX_XDG_DESKTOP_PORTAL_DIR for user services. Include GTK and
+      # gnome-keyring backends explicitly so the configured portal implementations
+      # are present in the per-user portal backend directory.
       xdg.portal = {
         enable = true;
-        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.gnome-keyring
+        ];
         config.hyprland = {
-          default = [ "hyprland" ];
-          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          default = [
+            "hyprland"
+            "gtk"
+          ];
           "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
           "org.freedesktop.impl.portal.Print" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
           "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
         };
       };
@@ -61,37 +78,21 @@
         '';
       };
 
-      home.activation.provisionHyprlandLuaActions = provisionHyprlandLuaFile
-        "modules/actions.lua"
-        ../../config/desktops/hyprland-standalone/modules/actions.lua;
+      home.activation.provisionHyprlandLuaActions = provisionHyprlandLuaFile "modules/actions.lua" ../../config/desktops/hyprland-standalone/modules/actions.lua;
 
-      home.activation.provisionHyprlandLuaAppearance = provisionHyprlandLuaFile
-        "modules/appearance.lua"
-        ../../config/desktops/hyprland-standalone/modules/appearance.lua;
+      home.activation.provisionHyprlandLuaAppearance = provisionHyprlandLuaFile "modules/appearance.lua" ../../config/desktops/hyprland-standalone/modules/appearance.lua;
 
-      home.activation.provisionHyprlandLuaBinds = provisionHyprlandLuaFile
-        "modules/binds.lua"
-        ../../config/desktops/hyprland-standalone/modules/binds.lua;
+      home.activation.provisionHyprlandLuaBinds = provisionHyprlandLuaFile "modules/binds.lua" ../../config/desktops/hyprland-standalone/modules/binds.lua;
 
-      home.activation.provisionHyprlandLuaEnv = provisionHyprlandLuaFile
-        "modules/env.lua"
-        ../../config/desktops/hyprland-standalone/modules/env.lua;
+      home.activation.provisionHyprlandLuaEnv = provisionHyprlandLuaFile "modules/env.lua" ../../config/desktops/hyprland-standalone/modules/env.lua;
 
-      home.activation.provisionHyprlandLuaInput = provisionHyprlandLuaFile
-        "modules/input.lua"
-        ../../config/desktops/hyprland-standalone/modules/input.lua;
+      home.activation.provisionHyprlandLuaInput = provisionHyprlandLuaFile "modules/input.lua" ../../config/desktops/hyprland-standalone/modules/input.lua;
 
-      home.activation.provisionHyprlandLuaLayout = provisionHyprlandLuaFile
-        "modules/layout.lua"
-        ../../config/desktops/hyprland-standalone/modules/layout.lua;
+      home.activation.provisionHyprlandLuaLayout = provisionHyprlandLuaFile "modules/layout.lua" ../../config/desktops/hyprland-standalone/modules/layout.lua;
 
-      home.activation.provisionHyprlandLuaMonitors = provisionHyprlandLuaFile
-        "modules/monitors.lua"
-        ../../config/desktops/hyprland-standalone/modules/monitors.lua;
+      home.activation.provisionHyprlandLuaMonitors = provisionHyprlandLuaFile "modules/monitors.lua" ../../config/desktops/hyprland-standalone/modules/monitors.lua;
 
-      home.activation.provisionHyprlandLuaRules = provisionHyprlandLuaFile
-        "modules/rules.lua"
-        ../../config/desktops/hyprland-standalone/modules/rules.lua;
+      home.activation.provisionHyprlandLuaRules = provisionHyprlandLuaFile "modules/rules.lua" ../../config/desktops/hyprland-standalone/modules/rules.lua;
 
       home.activation.provisionHyprlandScreenshotScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
@@ -101,9 +102,7 @@
         }
       );
 
-      home.activation.provisionHyprlandLuaStartup = provisionHyprlandLuaFile
-        "modules/startup.lua"
-        ../../config/desktops/hyprland-standalone/modules/startup.lua;
+      home.activation.provisionHyprlandLuaStartup = provisionHyprlandLuaFile "modules/startup.lua" ../../config/desktops/hyprland-standalone/modules/startup.lua;
 
     };
 }
