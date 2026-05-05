@@ -941,11 +941,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777920629,
-        "narHash": "sha256-sovd7rAVnlw6pOuKjHIgNAN8e+CmmMlKjKyMNJEpwQU=",
+        "lastModified": 1778005887,
+        "narHash": "sha256-FEkTFdLwXcqUnjVuOJ7SrW5h0sGZ61I+HoAoVMQ4ylo=",
         "owner": "mierak",
         "repo": "rmpc",
-        "rev": "bd9bdbdc40b02c8c8ed3fe26d7643cde37ac937c",
+        "rev": "d49853635acbf5317e94c4f368155146550e979e",
         "type": "github"
       },
       "original": {

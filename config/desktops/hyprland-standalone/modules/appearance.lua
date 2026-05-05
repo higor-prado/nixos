@@ -2,7 +2,7 @@
 
 hl.config({
     general = {
-        gaps_in = 2.5,
+        gaps_in = 2,
         -- top, right, bottom, left
         gaps_out = { top = 100, right = 285, bottom = 220, left = 285 },
         border_size = 0,
@@ -32,18 +32,21 @@ hl.config({
     decoration = {
         rounding = 12,
 
+        active_opacity = 0.93,
+        inactive_opacity = 0.95,
+
         shadow = {
             enabled = true,
             range = 10,
             render_power = 3,
-            color = "0xddb4befe",
+            color = "0xDDb4befe",
         },
 
         blur = {
             new_optimizations = true,
             enabled = true,
-            size = 5,
-            passes = 3,
+            size = 4,
+            passes = 4,
             special = true,
             popups = true,
             popups_ignorealpha = 0.5

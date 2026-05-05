@@ -49,7 +49,6 @@
     "persistent-workspaces": {
       "*": 4
     },
-    "enable-bar-scroll": true
   },
   "custom/active-window": {
     "exec": "bash ~/.config/waybar/scripts/active-window.sh",

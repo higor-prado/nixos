@@ -23,10 +23,10 @@
         enable = true;
         package = makoWithoutDbusActivation;
         settings = {
-          font = "JetBrains Mono Nerd Font 12";
+          font = "DejaVu Sans";
           width = 500;
           height = 300;
-          margin = 12;
+          margin = "12,20";
           padding = 15;
           border-size = 2;
           border-radius = 15;

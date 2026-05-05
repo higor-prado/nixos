@@ -1,3 +1,3 @@
--- Startup commands. Session/bootstrap is handled by UWSM.
+-- Startup commands. Session/bootstrap is handled by session-bootstrap.lua.
 
 return true

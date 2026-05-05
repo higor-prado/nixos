@@ -6,7 +6,7 @@
 
 * {
     font-family: "JetBrains Mono Nerd Font";
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 8px;
     min-height: 0;
 }
@@ -60,6 +60,9 @@ window#waybar {
 #pulseaudio {
     min-width: 56px;
 }
+#custom-mako {
+    min-width: 50px;
+}
 
 #hypr {
     margin-left: 3px;
@@ -80,11 +83,12 @@ window#waybar {
     padding-right: 15px;
 }
 
-#custom-powermenu {
-    margin-left: 3px;
-    color: @red;
+#clockgroup {
+    margin-right: 2px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
-#clockgroup {
-    margin-right: 3px;
+#hypr {
+    margin-left: 2px;
 }

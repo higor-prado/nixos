@@ -6,13 +6,13 @@ function M.focus_or_workspace_down()
     local before = hl.get_active_window()
     local beforeY = before and before.at and before.at.y or nil
 
-    hl.dsp.focus({ direction = "down" })()
+    hl.dispatch(hl.dsp.focus({ direction = "down" }))
 
     local after = hl.get_active_window()
     local afterY = after and after.at and after.at.y or nil
 
     if afterY == nil or beforeY == nil or afterY <= beforeY then
-        hl.dsp.focus({ workspace = "r+1" })()
+        hl.dispatch(hl.dsp.focus({ workspace = "r+1" }))
     end
 end
 
@@ -20,13 +20,13 @@ function M.focus_or_workspace_up()
     local before = hl.get_active_window()
     local beforeY = before and before.at and before.at.y or nil
 
-    hl.dsp.focus({ direction = "up" })()
+    hl.dispatch(hl.dsp.focus({ direction = "up" }))
 
     local after = hl.get_active_window()
     local afterY = after and after.at and after.at.y or nil
 
     if afterY == nil or beforeY == nil or afterY >= beforeY then
-        hl.dsp.focus({ workspace = "r-1" })()
+        hl.dispatch(hl.dsp.focus({ workspace = "r-1" }))
     end
 end
 
@@ -44,9 +44,9 @@ function M.toggle_col_width()
     local threshold = (mon.width / mon.scale) * 0.60
 
     if win.size.x > threshold then
-        hl.dsp.layout("colresize 0.5")()
+        hl.dispatch(hl.dsp.layout("colresize 0.5"))
     else
-        hl.dsp.layout("colresize 1.0")()
+        hl.dispatch(hl.dsp.layout("colresize 1.0"))
     end
 end
 

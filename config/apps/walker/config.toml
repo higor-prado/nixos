@@ -51,7 +51,7 @@ show_actions = ["alt j"]
 default = [
   "desktopapplications",
   "calc",
-  # "runner",
+  #"runner",
   "websearch",
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty

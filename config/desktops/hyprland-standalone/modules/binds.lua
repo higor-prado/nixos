@@ -10,19 +10,19 @@ hl.config({
 })
 
 -- Application Launchers
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"))
-hl.bind("SUPER + CTRL + T", hl.dsp.exec_cmd("kitty"))
-hl.bind("SUPER + CTRL + F", hl.dsp.exec_cmd("nautilus"))
-hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("firefox"))
-hl.bind("SUPER + CTRL + Z", hl.dsp.exec_cmd("zeditor"))
-hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("code"))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("nc -U /run/user/1002/walker/walker.sock"))
+hl.bind("SUPER + CTRL + T", hl.dsp.exec_cmd("uwsm-app kitty"))
+hl.bind("SUPER + CTRL + F", hl.dsp.exec_cmd("uwsm-app nautilus"))
+hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("uwsm-app firefox"))
+hl.bind("SUPER + CTRL + Z", hl.dsp.exec_cmd("uwsm-app zeditor"))
+hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("uwsm-app code"))
 hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("walker --provider clipboard"))
-hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("obsidian"))
-hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd("uwsm-app emacsclient -c -a ''"))
-hl.bind("SUPER + CTRL + 7", hl.dsp.exec_cmd("zeditor"))
-hl.bind("SUPER + CTRL + 8", hl.dsp.exec_cmd("teams-for-linux"))
-hl.bind("SUPER + CTRL + 9", hl.dsp.exec_cmd("steam"))
-hl.bind("SUPER + CTRL + 0", hl.dsp.exec_cmd("spotify"))
+hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("uwsm-app obsidian"))
+hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd([=[emacsclient -c -a ""]=]))
+hl.bind("SUPER + CTRL + 7", hl.dsp.exec_cmd("uwsm-app zeditor"))
+hl.bind("SUPER + CTRL + 8", hl.dsp.exec_cmd("uwsm-app teams-for-linux"))
+hl.bind("SUPER + CTRL + 9", hl.dsp.exec_cmd("uwsm-app steam"))
+hl.bind("SUPER + CTRL + 0", hl.dsp.exec_cmd("uwsm-app spotify"))
 hl.bind("ALT + F4", hl.dsp.window.close())
 
 -- Window Management
@@ -86,15 +86,19 @@ hl.bind("SUPER + SHIFT + XF86AudioLowerVolume", hl.dsp.layout("colresize -0.1"))
 hl.bind("SUPER + SHIFT + XF86AudioMute", hl.dsp.layout("colresize 0.5"))
 
 -- Audio (Ctrl + Knob)
-hl.bind("CTRL + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true })
+hl.bind("CTRL + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"),
+    { locked = true })
 hl.bind("CTRL + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true })
 hl.bind("CTRL + XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
 
 -- Audio (keyboard backup)
-hl.bind("SUPER + CTRL + ALT + SHIFT + equal", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true })
-hl.bind("SUPER + CTRL + ALT + SHIFT + minus", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true })
-hl.bind("SUPER + CTRL + ALT + SHIFT + M", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+hl.bind("SUPER + CTRL + ALT + SHIFT + equal", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"),
+    { locked = true })
+hl.bind("SUPER + CTRL + ALT + SHIFT + minus", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+    { locked = true })
+hl.bind("SUPER + CTRL + ALT + SHIFT + M", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true })
 
 -- Media Controls
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
@@ -159,6 +163,7 @@ hl.bind("SUPER + SHIFT + Return", hl.dsp.layout("colresize 0.5"))
 
 -- ALT + LMB: move a window by dragging more than drag_threshold.
 hl.bind("ALT + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind("ALT + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind("SUPER + E", hl.dsp.window.float({ action = "toggle" }))
 
 return true

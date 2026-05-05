@@ -22,8 +22,7 @@ wr({ name = "float-waypaper", match = { class = [=[^waypaper$]=] }, float = true
 wr({ name = "nemo-properties", match = { class = [=[^nemo$]=], title = [=[.*Properties]=] }, float = true })
 
 -- Focus opacity
-wr({ name = "focused-opacity", match = { focus = true }, opacity = "0.93" })
-wr({ name = "unfocused-opacity", match = { focus = false }, opacity = "0.95", no_shadow = true })
+wr({ name = "unfocused-shadow", match = { focus = false }, no_shadow = true })
 
 -- Video/content rules
 wr({ name = "video-youtube", match = { title = [=[.*YouTube.*]=] }, opacity = "1.0 override" })
