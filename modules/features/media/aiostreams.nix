@@ -22,29 +22,11 @@
         environmentFiles = [ envFile ];
         volumes = [ "${dataDir}:/app/data" ];
         autoStart = true;
+        extraOptions = [
+          "--dns=1.1.1.1"
+          "--dns=8.8.8.8"
+        ];
       };
 
-      # Tailscale Serve: expose aiostreams as HTTPS on the machine's tailnet domain.
-      # The NixOS tailscale-serve module uses 'set-config' which only manages
-      # subdomains (svc:name) that don't resolve in MagicDNS. Path-based serve
-      # on the main device domain requires 'tailscale serve' run as root.
-      systemd.services.tailscale-serve-aiostreams = {
-        description = "Tailscale Serve: aiostreams HTTPS proxy";
-        after = [ "tailscaled.service" ];
-        wants = [ "tailscaled.service" ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-        };
-        path = [ pkgs.tailscale ];
-        script = ''
-          # This repo currently tracks a single tailscale serve route owner on
-          # cerebelo (aiostreams). Reset keeps the serve config deterministic
-          # before we apply the intended route.
-          tailscale serve reset
-          tailscale serve --bg --yes http://127.0.0.1:${toString port}
-        '';
-      };
     };
 }
