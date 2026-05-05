@@ -35,8 +35,10 @@
         enable = true;
         extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
         config.hyprland = {
-          default = [ "hyprland" "gtk" ];
+          default = [ "hyprland" ];
           "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Print" = [ "gtk" ];
           "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
         };
       };
