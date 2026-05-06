@@ -1,6 +1,7 @@
 @import "catppuccin.css";
 
 @define-color base-2 rgba(30, 30, 46, 0.4);
+@define-color base-3 rgba(30, 30, 46, 0.3);
 @define-color mantle-1 rgba(24, 24, 37, 0.8);
 @define-color overlay0-1 rgba(108, 112, 134, 0.8);
 
@@ -9,6 +10,19 @@
     font-size: 16px;
     border-radius: 8px;
     min-height: 0;
+}
+
+window#waybar.bottom {
+    background-color: transparent;
+    padding: 0;
+}
+
+#custom-bottom-bar {
+    border-top: 0.5px solid @lavender;
+    margin: 0;
+    min-width: 2520px;
+    background-color: transparent;
+    border-radius: 0;
 }
 
 window#waybar {

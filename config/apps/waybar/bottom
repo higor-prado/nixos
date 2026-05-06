@@ -1,0 +1,23 @@
+{
+  "layer": "top",
+  "name": "bottom",
+  "position": "bottom",
+  "exclusive": false,
+  "height": 200,
+  "spacing": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "margin-top": 2,
+
+  "modules-center": [
+      "custom/bottom-bar",
+  ],
+
+  "custom/bottom-bar": {
+    "format": " ",
+    "hide-emtpy-text": false,
+    "tooltip": false,
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.layout(\"focus l\")'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.layout(\"focus r\")'",
+  },
+}

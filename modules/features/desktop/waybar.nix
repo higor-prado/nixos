@@ -65,13 +65,37 @@
         }
       );
 
-      home.activation.provisionWaybarWaypaperScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      home.activation.provisionWaybarBottomConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
         mutableCopy.mkCopyOnce {
-          source = ../../../config/apps/waybar/scripts/waypaper.sh;
-          target = "$HOME/.config/waybar/scripts/waypaper.sh";
-          mode = "0755";
+          source = ../../../config/apps/waybar/bottom;
+          target = "$HOME/.config/waybar/bottom";
         }
       );
+
+      systemd.user.services.waybar-bottom = {
+        Unit = {
+          Description = "Waybar bottom bar";
+          Documentation = "https://github.com/Alexays/Waybar/wiki";
+          After = [ "graphical-session.target" ];
+          PartOf = [
+            "tray.target"
+            "graphical-session.target"
+          ];
+          ConditionEnvironment = "WAYLAND_DISPLAY";
+        };
+        Service = {
+          ExecStart = "${
+            lib.getExe inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar
+          } -c %h/.config/waybar/bottom";
+          Restart = "on-failure";
+          RestartSec = "2";
+          KillMode = "mixed";
+        };
+        Install.WantedBy = [
+          "tray.target"
+          "graphical-session.target"
+        ];
+      };
 
     };
 }
