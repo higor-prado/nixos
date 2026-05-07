@@ -51,6 +51,7 @@
 46. Symbolic SVGs in GTK icon themes use `fill:currentColor` and are tinted by the widget's CSS `color` property. Non-symbolic (colored) SVGs in `panel/` directories are NOT affected by CSS color. Always map to `-symbolic` variants for CSS tinting.
 47. Do not assume a feature works because a user says it does. Verify the mechanism independently. In the tray icon case, the bluetooth mapping appeared to work but was actually matching by `Id` (`blueman`), not by `IconName` (`blueman-active`). Understanding the actual mechanism was required to replicate success on other items.
 48. When a StatusNotifierItem advertises an app-local `IconThemePath`, Waybar may bypass the GTK icon theme entirely and open the app-shipped asset from that path. In that case, theme-side SVG alias patching is dead code; keep the remediation with the app owner, and prove it with `strace -e trace=openat` before changing theme or tray mappings.
+49. For GDM + Hyprland + UWSM, keep GDM's session packages limited to a single UWSM session. Do not add `programs.uwsm.waylandCompositors.hyprland` on top of Hyprland's own UWSM desktop entry; duplicate sessions can let GDM launch direct Hyprland.
 
 ---
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
