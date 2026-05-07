@@ -88,7 +88,8 @@ configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprl
 - `dev/editors-vscode.nix` — VS Code with extensions
 - `dev/editors-emacs.nix` — Emacs (pgtk) + Doom env + socket daemon
 - `dev/editors-zed.nix` — Zed editor
-- `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode)
+- `dev/llm-agents.nix` — operator LLM agent CLIs (Claude Code, Codex, Crush, Kilocode, Opencode, Copilot CLI, OMP, Pi, Gemini CLI)
+- `dev/llm-paseo.nix` — Paseo LLM agent (getpaseo/paseo)
 - `dev/toolchains.nix` — compilers, runtimes, build systems, package managers
 - `dev/linters.nix` — language linters and formatters
 - `dev/docs-tools.nix` — documentation generation tools
@@ -96,8 +97,15 @@ configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprl
 **Media**
 
 - `media/aiostreams.nix` — AIOStreams Stremio addon aggregator (Docker container)
+- `media/aiostreams-tailscale-serve.nix` — Tailscale Serve HTTPS proxy para AIOStreams (cerebelo only)
+
   **System**
-- `system/networking*.nix`, `system/security.nix`, `system/ssh.nix`
+
+- `system/networking.nix` — NetworkManager base (todos os hosts)
+- `system/networking-avahi.nix` — mDNS/Avahi (predator only)
+- `system/networking-resolved.nix` — systemd-resolved DNS (predator, cerebelo)
+- `system/security.nix` — firewall + SSH port + sudo policy
+- `system/ssh.nix` — OpenSSH daemon + client config
 - `system/audio.nix`, `system/bluetooth.nix`, `system/tailscale.nix`
 - `system/aurelius-attic-server.nix`, `system/aurelius-attic-local-publisher.nix`, `system/aurelius-github-runner.nix`
 - `system/networking-wireguard-client.nix`, `system/networking-wireguard-server.nix`
