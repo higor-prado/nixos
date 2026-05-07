@@ -148,7 +148,7 @@ case "${boot}" in
     ;;
 esac
 
-require_system_unit_active "greetd.service"
+require_system_unit_active "gdm.service"
 
 if [ "$allow_non_graphical" -eq 0 ]; then
   case "${XDG_SESSION_TYPE:-}" in
@@ -174,11 +174,11 @@ else
 fi
 
 hyprland_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprland.enable" | jq -r '.')"
-greetd_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.greetd.enable" | jq -r '.')"
+greetd_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.displayManager.gdm.enable" | jq -r '.')"
 hyprlock_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.programs.hyprlock.enable" | jq -r '.')"
 keyrs_enabled="$(nix eval --json "path:$PWD#nixosConfigurations.${config_host}.config.services.keyrs.enable" | jq -r '.')"
 
-ok "config host=${config_host} features: hyprland=${hyprland_enabled} greetd=${greetd_enabled} hyprlock=${hyprlock_enabled} keyrs=${keyrs_enabled}"
+ok "config host=${config_host} features: hyprland=${hyprland_enabled} gdm=${greetd_enabled} hyprlock=${hyprlock_enabled} keyrs=${keyrs_enabled}"
 
 if command -v gdbus >/dev/null 2>&1; then
   if gdbus call --session \

@@ -83,7 +83,7 @@
     rulesProvider = pkgs.ananicy-rules-cachyos;
 
     # Keep nice/ionice/oom tuning, but do not let rules set Linux scheduler class.
-    # With CachyOS rules, BG_CPUIO carries sched=idle (e.g. greetd), and that
+    # With CachyOS rules, BG_CPUIO carries sched=idle, and that
     # can leak SCHED_IDLE to the graphical session tree, hurting responsiveness under load.
     settings.apply_sched = false;
 
@@ -91,7 +91,7 @@
     # BG_CPUIO defaults from upstream rules.
     extraRules = [
       {
-        name = "greetd";
+        name = "gdm";
         type = "Service";
       }
       {

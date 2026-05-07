@@ -59,7 +59,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 
 **Desktop**
 
-- `desktop/greetd.nix` — greetd display manager with tuigreet terminal greeter; launches Hyprland via `uwsm start hyprland.desktop`
+- `desktop/gdm.nix` — GDM display manager; launches Hyprland via `hyprland-uwsm.desktop`
 - `desktop/desktop-base.nix`, `desktop/desktop-apps.nix`, `desktop/desktop-viewers.nix`, `desktop/gnome-keyring.nix`
 - `desktop/mime-defaults.nix` — canonical owner of all `xdg.mimeApps` defaults (web, image, PDF, JSON)
 - `desktop/theme-base.nix`, `desktop/theme-zen.nix` — internal theme ownership split
@@ -79,7 +79,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 UWSM (`programs.hyprland.withUWSM`) manages the compositor session lifecycle,
 replacing the previous custom `hyprland-session-start` script and
 `hyprland-session.target`. Compositor launch uses `uwsm start hyprland.desktop`
-configured via `desktop/greetd.nix`. See `desktop/greetd.nix` and `desktop/hyprland.nix`.
+configured via `desktop/gdm.nix`. See `desktop/gdm.nix` and `desktop/hyprland.nix`.
 
 **Dev / Editors / LLM**
 

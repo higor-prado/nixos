@@ -79,7 +79,7 @@ in
         inputs.hyprland.nixosModules.default
         inputs.keyrs.nixosModules.default
         nixos.desktop-hyprland-standalone
-        nixos.greetd
+        nixos.gdm
         nixos.fcitx5
         nixos.gaming
         nixos.gnome-keyring
