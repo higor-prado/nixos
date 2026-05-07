@@ -75,6 +75,7 @@
           [Service]
           Environment=PATH=${helpers.portalExecPath}
           RestartSec=2
+          LimitCORE=0
         '';
       };
 

@@ -12,6 +12,19 @@
     }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
+      provisionCopyOnce =
+        {
+          name,
+          source,
+          targetPrefix,
+          mode ? "0644",
+        }:
+        lib.hm.dag.entryAfter [ "writeBoundary" ] (
+          mutableCopy.mkCopyOnce {
+            inherit source mode;
+            target = "$HOME/.config/" + targetPrefix + "/" + name;
+          }
+        );
 
       # ── Catppuccin theme sync ──────────────────────────────────────
       theme = import ./_theme-catalog.nix { inherit pkgs; };
@@ -58,64 +71,46 @@
 
       # ── Config provisioning (copy-once, mutable at runtime) ───────
 
-      home.activation.provisionWalkerConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+      home.activation = {
+        provisionWalkerConfig = provisionCopyOnce {
+          name = "config.toml";
           source = ../../../config/apps/walker/config.toml;
-          target = "$HOME/.config/walker/config.toml";
-        }
-      );
-
-      home.activation.syncWalkerCatppuccinTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        ${syncWalkerCatppuccinTheme}
-      '';
-
-      home.activation.provisionElephantConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+          targetPrefix = "walker";
+        };
+        syncWalkerCatppuccinTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          ${syncWalkerCatppuccinTheme}
+        '';
+        provisionElephantConfig = provisionCopyOnce {
+          name = "elephant.toml";
           source = ../../../config/apps/elephant/elephant.toml;
-          target = "$HOME/.config/elephant/elephant.toml";
-        }
-      );
-
-      home.activation.provisionElephantClipboardConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+          targetPrefix = "elephant";
+        };
+        provisionElephantClipboardConfig = provisionCopyOnce {
+          name = "clipboard.toml";
           source = ../../../config/apps/elephant/clipboard.toml;
-          target = "$HOME/.config/elephant/clipboard.toml";
-        }
-      );
-
-      home.activation.provisionElephantPowerMenu = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+          targetPrefix = "elephant";
+        };
+        provisionElephantPowerMenu = provisionCopyOnce {
+          name = "menus/powermenu.toml";
           source = ../../../config/apps/elephant/menus/powermenu.toml;
-          target = "$HOME/.config/elephant/menus/powermenu.toml";
-        }
-      );
-
-      home.activation.provisionElephantPowerMenuConfirmLogout =
-        lib.hm.dag.entryAfter [ "writeBoundary" ]
-          (
-            mutableCopy.mkCopyOnce {
-              source = ../../../config/apps/elephant/menus/powermenu-confirm-logout.toml;
-              target = "$HOME/.config/elephant/menus/powermenu-confirm-logout.toml";
-            }
-          );
-
-      home.activation.provisionElephantPowerMenuConfirmReboot =
-        lib.hm.dag.entryAfter [ "writeBoundary" ]
-          (
-            mutableCopy.mkCopyOnce {
-              source = ../../../config/apps/elephant/menus/powermenu-confirm-reboot.toml;
-              target = "$HOME/.config/elephant/menus/powermenu-confirm-reboot.toml";
-            }
-          );
-
-      home.activation.provisionElephantPowerMenuConfirmShutdown =
-        lib.hm.dag.entryAfter [ "writeBoundary" ]
-          (
-            mutableCopy.mkCopyOnce {
-              source = ../../../config/apps/elephant/menus/powermenu-confirm-shutdown.toml;
-              target = "$HOME/.config/elephant/menus/powermenu-confirm-shutdown.toml";
-            }
-          );
+          targetPrefix = "elephant";
+        };
+        provisionElephantPowerMenuConfirmLogout = provisionCopyOnce {
+          name = "menus/powermenu-confirm-logout.toml";
+          source = ../../../config/apps/elephant/menus/powermenu-confirm-logout.toml;
+          targetPrefix = "elephant";
+        };
+        provisionElephantPowerMenuConfirmReboot = provisionCopyOnce {
+          name = "menus/powermenu-confirm-reboot.toml";
+          source = ../../../config/apps/elephant/menus/powermenu-confirm-reboot.toml;
+          targetPrefix = "elephant";
+        };
+        provisionElephantPowerMenuConfirmShutdown = provisionCopyOnce {
+          name = "menus/powermenu-confirm-shutdown.toml";
+          source = ../../../config/apps/elephant/menus/powermenu-confirm-shutdown.toml;
+          targetPrefix = "elephant";
+        };
+      };
 
       # ── Systemd user services (display-bound) ────────────────────
       systemd.user.services = {
