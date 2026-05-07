@@ -23,7 +23,7 @@
   boot.kernel.sysctl = {
     # ── Memory management ──
     "vm.swappiness" = 100; # Balanced for high-RAM desktop with ZRAM (180 is for low-RAM)
-    "vm.vfs_cache_pressure" = 50;
+    "vm.vfs_cache_pressure" = 40;
     "vm.dirty_ratio" = 10;
     "vm.dirty_background_ratio" = 5;
     # Compaction proactiveness (reduces latency from memory fragmentation)
@@ -58,6 +58,10 @@
     "net.ipv4.tcp_slow_start_after_idle" = 0;
     # PMTUD probing — avoids MTU blackholes on WiFi and upstream routers
     "net.ipv4.tcp_mtu_probing" = 1;
+    # Larger backlog + budget — prevents NIC rx drops under broadcast bursts
+    "net.core.netdev_max_backlog" = 4096;
+    "net.core.netdev_budget" = 2048;
+    "net.core.rps_sock_flow_entries" = 32768;
 
     # ── inotify limits (critical for dev tools) ──
     # neovim, vscode, webpack, vite, etc. all need high limits
@@ -110,14 +114,33 @@
   # ══════════════════════════════════════════════
   # CPU Frequency Scaling
   # ══════════════════════════════════════════════
-  # CachyOS uses intel_pstate with powersave governor (HWP handles boost).
-  # NixOS default is ondemand via acpi-cpufreq. Force intel_pstate to match.
+  # intel_pstate with performance governor reduces ramp latency for burst
+  # workloads (compilation, dev tools). HWP still drops frequency at idle.
   boot.kernelParams = [
     "intel_pstate=active"
-    # THP only for apps that explicitly request them — JVM and app gains without always-mode latency cost
     "transparent_hugepage=madvise"
   ];
-  powerManagement.cpuFreqGovernor = "powersave"; # intel_pstate HWP handles boost
+  powerManagement.cpuFreqGovernor = "performance";
+
+  # RPS — distribute NIC rx processing across all CPUs.
+  # udev ATTR races with kernel creating queues/rx-0/rps_cpus → use oneshot.
+  systemd.services.set-rps = {
+    description = "Enable RPS on Ethernet interfaces";
+    after = [ "systemd-udev-settle.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    path = with pkgs; [ coreutils ];
+    script = ''
+      for attempt in $(seq 1 50); do
+        rps=/sys/class/net/enp111s0/queues/rx-0/rps_cpus
+        if [ -f "$rps" ] && [ -w "$rps" ]; then
+          echo fffff > "$rps" && exit 0
+        fi
+        sleep 0.1
+      done
+      echo "RPS: enp111s0 rps_cpus not ready after 5s" >&2
+    '';
+  };
 
   # Note: power-profiles-daemon is disabled in system.nix
   # Note: thermald is disabled in system.nix (conflicts with linuwu-sense)

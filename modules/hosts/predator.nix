@@ -161,7 +161,10 @@ in
         nixpkgs.hostPlatform = system;
         networking.hostName = hostName;
 
-        environment.systemPackages = [ inputs.nixpkgs.legacyPackages.${system}.tpm2-tools ];
+        environment.systemPackages = [
+          inputs.nixpkgs.legacyPackages.${system}.tpm2-tools
+          inputs.nixpkgs.legacyPackages.${system}.ethtool
+        ];
 
         users.users.${userName}.extraGroups = predatorUserExtraGroups;
 
