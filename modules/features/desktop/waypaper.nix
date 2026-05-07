@@ -42,6 +42,7 @@
           RestartSec = 2;
           StandardOutput = "journal";
           StandardError = "journal";
+          LimitCORE = "0";
         };
         Install = {
           WantedBy = [ "graphical-session.target" ];

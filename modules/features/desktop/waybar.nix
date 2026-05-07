@@ -4,6 +4,18 @@
     { pkgs, lib, ... }:
     let
       mutableCopy = import ../../../lib/mutable-copy.nix { inherit lib; };
+      provisionCopyOnce =
+        {
+          name,
+          source,
+          mode ? "0644",
+        }:
+        lib.hm.dag.entryAfter [ "writeBoundary" ] (
+          mutableCopy.mkCopyOnce {
+            inherit source mode;
+            target = "$HOME/.config/waybar/" + name;
+          }
+        );
     in
     {
       programs.waybar = {
@@ -16,61 +28,46 @@
 
       systemd.user.services.waybar = {
         Unit.ConditionEnvironment = "WAYLAND_DISPLAY";
-        Service.RestartSec = "2";
+        Service = {
+          RestartSec = "2";
+          LimitCORE = "0";
+        };
       };
 
-      home.activation.provisionWaybarConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+      home.activation = {
+        provisionWaybarConfig = provisionCopyOnce {
+          name = "config";
           source = ../../../config/apps/waybar/config;
-          target = "$HOME/.config/waybar/config";
-        }
-      );
-
-      home.activation.provisionWaybarStyle = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarStyle = provisionCopyOnce {
+          name = "style.css";
           source = ../../../config/apps/waybar/style.css;
-          target = "$HOME/.config/waybar/style.css";
-        }
-      );
-
-      home.activation.provisionWaybarMakoScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarMakoScript = provisionCopyOnce {
+          name = "scripts/mako.sh";
           source = ../../../config/apps/waybar/scripts/mako.sh;
-          target = "$HOME/.config/waybar/scripts/mako.sh";
           mode = "0755";
-        }
-      );
-
-      home.activation.provisionWaybarMakoDndScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarMakoDndScript = provisionCopyOnce {
+          name = "scripts/mako-dnd.sh";
           source = ../../../config/apps/waybar/scripts/mako-dnd.sh;
-          target = "$HOME/.config/waybar/scripts/mako-dnd.sh";
           mode = "0755";
-        }
-      );
-
-      home.activation.provisionWaybarMakoClearScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarMakoClearScript = provisionCopyOnce {
+          name = "scripts/mako-clear.sh";
           source = ../../../config/apps/waybar/scripts/mako-clear.sh;
-          target = "$HOME/.config/waybar/scripts/mako-clear.sh";
           mode = "0755";
-        }
-      );
-
-      home.activation.provisionWaybarActiveWindowScript = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarActiveWindowScript = provisionCopyOnce {
+          name = "scripts/active-window.sh";
           source = ../../../config/apps/waybar/scripts/active-window.sh;
-          target = "$HOME/.config/waybar/scripts/active-window.sh";
           mode = "0755";
-        }
-      );
-
-      home.activation.provisionWaybarBottomConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        mutableCopy.mkCopyOnce {
+        };
+        provisionWaybarBottomConfig = provisionCopyOnce {
+          name = "bottom";
           source = ../../../config/apps/waybar/bottom;
-          target = "$HOME/.config/waybar/bottom";
-        }
-      );
+        };
+      };
 
       systemd.user.services.waybar-bottom = {
         Unit = {
@@ -90,6 +87,7 @@
           Restart = "on-failure";
           RestartSec = "2";
           KillMode = "mixed";
+          LimitCORE = "0";
         };
         Install.WantedBy = [
           "tray.target"
