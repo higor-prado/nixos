@@ -19,6 +19,7 @@ lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
 config/             app/desktop config files and helper payloads (hyprland-standalone, nvim, tmux, waybar, mako, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
 scripts/            validation gate scripts
+templates/          host skeleton templates for scripts/new-host-skeleton.sh
 tests/              fixtures and test runners
 docs/for-agents/archive/ archived plans, log tracks, and reports
 ```
@@ -171,6 +172,12 @@ configured via `desktop/gdm.nix`. See `desktop/gdm.nix` and `desktop/hyprland.ni
 - `archive/plans/` — completed execution plans no longer needed as active guides
 - `archive/log-tracks/` — completed progress logs kept only as historical record
 - `archive/reports/` — audit and diagnostic reports
+
+## templates/
+
+- `templates/new-host-skeleton/` — scaffold templates used by `scripts/new-host-skeleton.sh` to generate new host files:
+  - `desktop-hardware.nix.tpl` / `desktop-module.nix.tpl` — desktop host templates
+  - `server-hardware.nix.tpl` / `server-module.nix.tpl` — server host templates
 
 ## docs/for-agents active work
 
