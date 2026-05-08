@@ -61,7 +61,8 @@ nix build --no-link path:$PWD#nixosConfigurations.predator.config.system.build.t
 `fix(scope):`, `feat(scope):`, `refactor(scope):`, `chore:`
 
 ## Mutable copy-once configs
-Files like `waybar`, `waypaper`, `walker`, `rmpc`, `mpd` configs are provisioned as mutable copy-once. Parity checks can fail when local runtime files intentionally diverge from templates.
+Files like `waybar`, `waypaper`, `walker` configs are provisioned as mutable copy-once. Parity checks can fail when local runtime files intentionally diverge from templates.
+Note: `rmpc` and `mpd` configs are provisioned declaratively via `xdg.configFile` (not copy-once).
 
 ## ⚠ RULE 999 — you own the whole repo
 When a validation gate, test, or eval fails — even if the failure predates your task — do **not** label it "pre-existing" and move on. You are responsible for the entire repository, not only the change you are currently making.

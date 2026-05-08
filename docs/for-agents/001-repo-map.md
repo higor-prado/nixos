@@ -160,8 +160,8 @@ configured via `desktop/gdm.nix`. See `desktop/gdm.nix` and `desktop/hyprland.ni
 - `config/apps/waybar/` — tracked Waybar config and style templates provisioned by copy-once
 - `config/apps/htop/` — tracked htoprc provisioned via `builtins.path` to `xdg.configFile`
 - `config/apps/logid/` — tracked LogiOps config provisioned via `environment.etc`
-- `config/apps/mpd/` — tracked MPD config provisioned by copy-once
-- `config/apps/rmpc/` — tracked rmpc config provisioned by copy-once
+- `config/apps/mpd/` — tracked MPD config provisioned declaratively via `xdg.configFile`
+- `config/apps/rmpc/` — tracked rmpc config provisioned declaratively via `xdg.configFile`
 - `config/apps/waypaper/` — tracked Waypaper config template provisioned by copy-once
 - `config/apps/walker/` — tracked Walker config template and Catppuccin theme sync payload for the Walker/Elephant launcher and clipboard stack
 - `config/apps/elephant/` — tracked Elephant backend config and menu templates provisioned by copy-once
