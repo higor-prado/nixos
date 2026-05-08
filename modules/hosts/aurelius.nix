@@ -49,6 +49,7 @@ in
       ];
 
       hmUserTools = [
+        homeManager.attic-client
         homeManager.higorprado
         homeManager.core-user-packages
         homeManager.docker
