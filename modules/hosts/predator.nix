@@ -17,35 +17,9 @@ let
     "uinput"
     "linuwu_sense"
   ];
-  operatorFishAbbrs = {
-    npu = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
-    npub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
-    nput = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
-    npus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
-    npui = "nh os info";
-    npust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
-    npuc = "nh clean all";
-    npuct = "systemctl status nh-clean.timer --no-pager";
-    naub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
-    naut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
-    naus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
-    adev = "ssh -t aurelius 'tmux new -As dev'";
-    naui = "ssh aurelius 'nh os info'";
-    naust = "ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
-    nauc = "ssh aurelius 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
-    nauct = "ssh aurelius 'systemctl status nh-clean.timer --no-pager'";
-    ncub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
-    ncut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
-    ncus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
-    cdev = "ssh -t cerebelo 'tmux new -As dev'";
-    ncui = "ssh cerebelo 'nh os info'";
-    ncust = "ssh cerebelo 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
-    ncuc = "ssh cerebelo 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
-    ncuct = "ssh cerebelo 'systemctl status nh-clean.timer --no-pager'";
-  };
 in
 {
-  configurations.nixos =
+  configurations.nixos.predator.module =
     let
       inherit (config.flake.modules) homeManager nixos;
       userName = config.username;
@@ -154,40 +128,62 @@ in
         homeManager.linters
         homeManager.docs-tools
       ];
-      mkPredatorConfig = nixosDesktop: hmDesktop: {
-        imports =
-          nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
-
-        nixpkgs.hostPlatform = system;
-        networking.hostName = hostName;
-
-        environment.systemPackages = [
-          inputs.nixpkgs.legacyPackages.${system}.tpm2-tools
-          inputs.nixpkgs.legacyPackages.${system}.ethtool
-        ];
-
-        users.users.${userName}.extraGroups = predatorUserExtraGroups;
-
-        home-manager = {
-          users.${userName} =
-            { pkgs, ... }:
-            let
-              customPkgs = import ../../pkgs { inherit pkgs inputs; };
-            in
-            {
-              imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
-
-              home.packages = [
-                customPkgs.predator-tui
-                pkgs.nvtopPackages.nvidia
-              ];
-
-              programs.fish.shellAbbrs = operatorFishAbbrs;
-            };
-        };
-      };
     in
     {
-      predator.module = mkPredatorConfig nixosDesktop hmDesktop;
+      imports =
+        nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
+
+      nixpkgs.hostPlatform = system;
+      networking.hostName = hostName;
+
+      environment.systemPackages = [
+        inputs.nixpkgs.legacyPackages.${system}.tpm2-tools
+        inputs.nixpkgs.legacyPackages.${system}.ethtool
+      ];
+
+      users.users.${userName}.extraGroups = predatorUserExtraGroups;
+
+      home-manager = {
+        users.${userName} =
+          { pkgs, ... }:
+          let
+            customPkgs = import ../../pkgs { inherit pkgs inputs; };
+          in
+          {
+            imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
+
+            home.packages = [
+              customPkgs.predator-tui
+              pkgs.nvtopPackages.nvidia
+            ];
+
+            programs.fish.shellAbbrs = {
+              npu = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock";
+              npub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
+              nput = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
+              npus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos --out-link \"$HOME/.cache/nh-result-predator\"";
+              npui = "nh os info";
+              npust = "nixos-version --json; systemctl --failed --no-pager --legend=0 || true";
+              npuc = "nh clean all";
+              npuct = "systemctl status nh-clean.timer --no-pager";
+              naub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
+              naut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
+              naus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#aurelius --target-host aurelius --build-host aurelius --out-link \"$HOME/.cache/nh-result-aurelius\" -e passwordless";
+              adev = "ssh -t aurelius 'tmux new -As dev'";
+              naui = "ssh aurelius 'nh os info'";
+              naust = "ssh aurelius 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
+              nauc = "ssh aurelius 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
+              nauct = "ssh aurelius 'systemctl status nh-clean.timer --no-pager'";
+              ncub = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os build path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
+              ncut = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os test path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
+              ncus = "nix flake update --flake path:$HOME/nixos && git -C \"$HOME/nixos\" diff flake.lock && nh os switch path:$HOME/nixos#cerebelo --target-host cerebelo --build-host cerebelo --out-link \"$HOME/.cache/nh-result-cerebelo\" -e passwordless";
+              cdev = "ssh -t cerebelo 'tmux new -As dev'";
+              ncui = "ssh cerebelo 'nh os info'";
+              ncust = "ssh cerebelo 'nixos-version --json; systemctl --failed --no-pager --legend=0 || true'";
+              ncuc = "ssh cerebelo 'sudo -n /run/current-system/sw/bin/nh clean all -e none'";
+              ncuct = "ssh cerebelo 'systemctl status nh-clean.timer --no-pager'";
+            };
+          };
+      };
     };
 }
