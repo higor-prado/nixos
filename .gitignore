@@ -35,7 +35,7 @@ private/**/*.nix
 .nvimlog
 **/.claude/
 .codex/
-
+opencode.json
 
 # Nix store cache (stray directory)
 nix/
