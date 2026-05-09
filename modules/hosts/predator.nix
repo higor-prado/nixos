@@ -136,6 +136,8 @@ in
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
 
+      environment.etc."xdg/monitors.xml".source = ../../config/desktops/gdm/predator-monitors.xml;
+
       environment.systemPackages = [
         inputs.nixpkgs.legacyPackages.${system}.tpm2-tools
         inputs.nixpkgs.legacyPackages.${system}.ethtool

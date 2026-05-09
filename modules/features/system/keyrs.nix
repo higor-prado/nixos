@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  userName = config.username;
+in
 {
   flake.modules.nixos.keyrs =
     { lib, ... }:
@@ -15,7 +18,10 @@
         wants = lib.mkForce [ ];
         after = lib.mkForce [ "graphical-session.target" ];
         partOf = [ "graphical-session.target" ];
-        unitConfig.ConditionEnvironment = "WAYLAND_DISPLAY";
+        unitConfig = {
+          ConditionEnvironment = "WAYLAND_DISPLAY";
+          ConditionUser = userName;
+        };
       };
     };
 }

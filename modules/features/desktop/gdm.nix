@@ -1,7 +1,12 @@
 { ... }:
 {
   flake.modules.nixos.gdm =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       uwsm = lib.getExe config.programs.uwsm.package;
       hyprlandDesktop = "${config.programs.hyprland.package}/share/wayland-sessions/hyprland.desktop";
@@ -21,6 +26,16 @@
       };
     in
     {
+      nixpkgs.overlays = [
+        (_final: prev: {
+          gnome-shell = prev.gnome-shell.overrideAttrs (oldAttrs: {
+            patches = (oldAttrs.patches or [ ]) ++ [
+              ../../../config/desktops/gdm/gnome-shell-gdm-login-dialog-largest-monitor.patch
+            ];
+          });
+        })
+      ];
+
       services.displayManager.gdm.enable = true;
       services.displayManager.defaultSession = "hyprland-uwsm";
       # Keep the direct Hyprland session out of GDM so persisted session

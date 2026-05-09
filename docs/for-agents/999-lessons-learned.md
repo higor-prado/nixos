@@ -1,6 +1,7 @@
 # Lessons Learned
 
 ## Rules
+
 0. Write important lessons you learned in `999-lessons-learned.md`.
 1. Keep lessons short and direct.
 2. Never modify private override files unless explicitly asked.
@@ -52,12 +53,16 @@
 47. Do not assume a feature works because a user says it does. Verify the mechanism independently. In the tray icon case, the bluetooth mapping appeared to work but was actually matching by `Id` (`blueman`), not by `IconName` (`blueman-active`). Understanding the actual mechanism was required to replicate success on other items.
 48. When a StatusNotifierItem advertises an app-local `IconThemePath`, Waybar may bypass the GTK icon theme entirely and open the app-shipped asset from that path. In that case, theme-side SVG alias patching is dead code; keep the remediation with the app owner, and prove it with `strace -e trace=openat` before changing theme or tray mappings.
 49. For GDM + Hyprland + UWSM, keep GDM's session packages limited to a single UWSM session. Do not add `programs.uwsm.waylandCompositors.hyprland` on top of Hyprland's own UWSM desktop entry; duplicate sessions can let GDM launch direct Hyprland.
+50. GDM greeter login dialog placement on multi-monitor setups: Mutter's `monitors.xml` alone may not control which monitor shows the login prompt — Mutter selects the GPU primary from builtin panel presence regardless. Patch `js/gdm/loginDialog.js` `vfunc_allocate` to constrain the dialog box to the largest logical monitor. Combine with a system-level `monitors.xml` (EDID-derived specs, not Hyprland strings) for defense-in-depth. The patch guard (`isGreeter && monitors.length > 1`) makes it safe for single-monitor hosts.
 
 ---
+
 > ### ⚠ RULE 999 — AGENT OWNS THE WHOLE REPO
+>
 > **The agent is responsible for the whole repo, not only the changes it is currently making.**
 > When a validation gate, test, or eval reveals a failure — even one that predates the current
 > task — do **NOT** silently label it "pre-existing" and proceed.
 > **Stop. Surface it to the human. Ask: "I found this failure — is it known? Fix it now or track it separately?"**
 > Wait for explicit direction. Do not fix it unilaterally (out-of-scope), but do not pretend it is not there either.
+
 ---

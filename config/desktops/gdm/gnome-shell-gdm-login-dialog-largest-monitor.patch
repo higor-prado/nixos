@@ -1,0 +1,40 @@
+--- a/js/gdm/loginDialog.js
++++ b/js/gdm/loginDialog.js
+@@ -750,6 +750,37 @@
+     }
+ 
+     vfunc_allocate(dialogBox) {
++        // Upstream allocates the login dialog over the whole stage. On a
++        // multi-monitor greeter that means the authentication UI can be
++        // centered on the wrong output even when both outputs render
++        // backgrounds correctly. Keep the greeter UI on the largest logical
++        // monitor, which is the external display for this standalone GDM host.
++        if (Main.sessionMode.isGreeter && Main.layoutManager.monitors.length > 1) {
++            const targetMonitor = Main.layoutManager.monitors.reduce((best, monitor) => {
++                if (best === null)
++                    return monitor;
++
++                const bestArea = best.width * best.height;
++                const area = monitor.width * monitor.height;
++
++                if (area > bestArea)
++                    return monitor;
++
++                if (area === bestArea && monitor.x < best.x)
++                    return monitor;
++
++                return best;
++            }, null);
++
++            if (targetMonitor !== null) {
++                dialogBox = new Clutter.ActorBox();
++                dialogBox.x1 = targetMonitor.x;
++                dialogBox.y1 = targetMonitor.y;
++                dialogBox.x2 = targetMonitor.x + targetMonitor.width;
++                dialogBox.y2 = targetMonitor.y + targetMonitor.height;
++            }
++        }
++
+         this.set_allocation(dialogBox);
+ 
+         let themeNode = this.get_theme_node();
