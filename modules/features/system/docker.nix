@@ -11,7 +11,6 @@
           dates = "weekly";
         };
       };
-
     };
 
   flake.modules.homeManager.docker =

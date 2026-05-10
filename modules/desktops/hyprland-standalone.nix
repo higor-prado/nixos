@@ -104,6 +104,5 @@
       );
 
       home.activation.provisionHyprlandLuaStartup = provisionHyprlandLuaFile "modules/startup.lua" ../../config/desktops/hyprland-standalone/modules/startup.lua;
-
     };
 }

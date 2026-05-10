@@ -7,6 +7,5 @@
         enable = true;
         interval = "weekly";
       };
-
     };
 }

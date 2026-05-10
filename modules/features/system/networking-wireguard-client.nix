@@ -5,7 +5,6 @@
     {
       environment.systemPackages = [ pkgs.wireguard-tools ];
 
-      boot.extraModulePackages = [ ];
       networking.firewall.checkReversePath = "loose";
 
       # Disable IPv6 globally while any WireGuard tunnel is active via NM,

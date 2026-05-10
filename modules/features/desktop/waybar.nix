@@ -94,6 +94,5 @@
           "graphical-session.target"
         ];
       };
-
     };
 }
