@@ -30,9 +30,9 @@
           tar -czf "$BACKUP_DIR/gnupg.tar.gz" -C "$HOME" .gnupg
         fi
 
-        if ${pkgs.glib}/bin/gsettings list-keys org.gnome.desktop.interface &>/dev/null; then
+        if command -v gsettings &>/dev/null && gsettings list-keys org.gnome.desktop.interface &>/dev/null; then
           echo "Backing up dconf settings..."
-          ${pkgs.glib}/bin/dconf dump / > "$BACKUP_DIR/dconf-full.ini" 2>/dev/null || echo "  No dconf settings"
+          dconf dump / > "$BACKUP_DIR/dconf-full.ini" 2>/dev/null || echo "  No dconf settings"
         fi
 
         echo "Creating manifest..."
