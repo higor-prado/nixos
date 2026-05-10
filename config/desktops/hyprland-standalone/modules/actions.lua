@@ -30,6 +30,22 @@ function M.focus_or_workspace_up()
     end
 end
 
+--- Focus an existing window matching a query, or launch the app.
+---@param query table hl.get_windows filter (e.g. { class = "spotify" })
+---@param focus_selector string window selector for hl.dsp.focus (e.g. "class:spotify")
+---@param cmd string command to launch if no window is found
+function M.focus_or_launch(query, focus_selector, cmd)
+    return function()
+        local windows = hl.get_windows(query)
+
+        if windows and #windows > 0 then
+            hl.dispatch(hl.dsp.focus({ window = focus_selector }))
+        else
+            hl.dispatch(hl.dsp.exec_cmd(cmd))
+        end
+    end
+end
+
 function M.toggle_col_width()
     local win = hl.get_active_window()
     if not win or not win.size or not win.size.x then

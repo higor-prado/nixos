@@ -12,17 +12,17 @@ hl.config({
 -- Application Launchers
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("nc -U /run/user/1002/walker/walker.sock"))
 hl.bind("SUPER + CTRL + T", hl.dsp.exec_cmd("uwsm-app kitty"))
-hl.bind("SUPER + CTRL + F", hl.dsp.exec_cmd("uwsm-app nautilus"))
+hl.bind("SUPER + CTRL + F", actions.focus_or_launch({ class = "org.gnome.Nautilus" }, "class:org.gnome.Nautilus", "uwsm-app nautilus"))
 hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("uwsm-app firefox"))
 hl.bind("SUPER + CTRL + Z", hl.dsp.exec_cmd("uwsm-app zeditor"))
 hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("uwsm-app code"))
 hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("walker --provider clipboard"))
-hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("uwsm-app obsidian"))
-hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd([=[emacsclient -c -a ""]=]))
+hl.bind("SUPER + CTRL + O", actions.focus_or_launch({ class = "obsidian" }, "class:obsidian", "uwsm-app obsidian"))
+hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd("uwsm-app -- emacsclient -c -a \"\""))
 hl.bind("SUPER + CTRL + 7", hl.dsp.exec_cmd("uwsm-app zeditor"))
-hl.bind("SUPER + CTRL + 8", hl.dsp.exec_cmd("uwsm-app teams-for-linux"))
-hl.bind("SUPER + CTRL + 9", hl.dsp.exec_cmd("uwsm-app steam"))
-hl.bind("SUPER + CTRL + 0", hl.dsp.exec_cmd("uwsm-app spotify"))
+hl.bind("SUPER + CTRL + 8", actions.focus_or_launch({ class = "electron" }, "title:.*Microsoft Teams.*", "uwsm-app teams-for-linux"))
+hl.bind("SUPER + CTRL + 9", actions.focus_or_launch({ class = "steam" }, "class:steam", "uwsm-app steam"))
+hl.bind("SUPER + CTRL + 0", actions.focus_or_launch({ class = "spotify" }, "class:spotify", "uwsm-app spotify"))
 hl.bind("ALT + F4", hl.dsp.window.close())
 
 -- Window Management
@@ -124,8 +124,14 @@ hl.bind("SUPER + K", actions.focus_or_workspace_up)
 -- Move Windows
 hl.bind("SUPER + ALT + left", hl.dsp.layout("swapcol l"))
 hl.bind("SUPER + ALT + right", hl.dsp.layout("swapcol r"))
+hl.bind("SUPER + CTRL + left", hl.dsp.layout("consume_or_expel prev"))
+hl.bind("SUPER + CTRL + right", hl.dsp.layout("consume_or_expel next"))
+
 hl.bind("SUPER + ALT + H", hl.dsp.layout("swapcol l"))
 hl.bind("SUPER + ALT + L", hl.dsp.layout("swapcol r"))
+hl.bind("SUPER + CTRL + H", hl.dsp.layout("consume_or_expel prev"))
+hl.bind("SUPER + CTRL + L", hl.dsp.layout("consume_or_expel next"))
+
 hl.bind("SUPER + ALT + down", hl.dsp.window.move({ direction = "down" }))
 hl.bind("SUPER + ALT + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + ALT + J", hl.dsp.window.move({ direction = "down" }))

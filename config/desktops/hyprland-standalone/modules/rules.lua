@@ -13,13 +13,9 @@ local function wk(spec)
 end
 
 -- Floating utility windows
-wr({ name = "float-thunar", match = { class = [=[^thunar$]=] }, float = true })
-wr({ name = "float-nautilus", match = { class = [=[^org\.gnome\.Nautilus$]=] }, float = true })
-wr({ name = "float-file-roller", match = { class = [=[^org.gnome.FileRoller$]=] }, float = true })
 wr({ name = "float-calculator", match = { class = [=[^gnome-calculator$]=] }, float = true })
 wr({ name = "float-blueman", match = { class = [=[^.blueman-manager-wrapped$]=] }, float = true })
 wr({ name = "float-waypaper", match = { class = [=[^waypaper$]=] }, float = true })
-wr({ name = "nemo-properties", match = { class = [=[^nemo$]=], title = [=[.*Properties]=] }, float = true })
 
 -- Focus opacity
 wr({ name = "unfocused-shadow", match = { focus = false }, no_shadow = true })
@@ -37,6 +33,8 @@ wr({ name = "video-pip", match = { title = [=[^Picture-in-Picture$]=] }, opacity
 -- Layer rules
 lr({ name = "waybar-blur", match = { namespace = [=[^waybar$]=] }, blur = true, ignore_alpha = 0.39, no_anim = true })
 lr({ name = "walker-blur", match = { namespace = [=[^walker$]=] }, blur = true, ignore_alpha = 0.9, no_anim = true })
+
+lr({ name = "bottom-shadow", match = { namespace = [=[^bottom$]=] }, dim_around = false, no_anim = true })
 
 wk({ workspace = "special:scratchpad", on_created_empty = "kitty", })
 

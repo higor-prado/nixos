@@ -5,6 +5,10 @@
     {
       services.gvfs.enable = true;
       programs.dconf.enable = true;
+      # programs.nautilus-open-any-terminal = {
+      #   enable = true;
+      #   terminal = "kitty";
+      # };
     };
 
   flake.modules.homeManager.nautilus =
@@ -12,6 +16,7 @@
     {
       home.packages = with pkgs; [
         nautilus
+
         tumbler
         ffmpegthumbnailer
         p7zip
