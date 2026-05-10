@@ -53,6 +53,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Track Zed's official nightly branch because upstream caches this channel.
+    zed = {
+      url = "github:zed-industries/zed/nightly";
+    };
+
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";

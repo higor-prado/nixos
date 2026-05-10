@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.editors-zed =
     { pkgs, ... }:
@@ -13,8 +13,11 @@
 
   flake.modules.homeManager.editors-zed =
     { pkgs, ... }:
+    let
+      zedPackage = inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    in
     {
-      home.packages = [ pkgs.zed-editor ];
+      home.packages = [ zedPackage ];
 
       programs.fish.shellAbbrs = {
         zed = "uwsm-app zeditor";

@@ -44,7 +44,7 @@ docs/for-agents/archive/ archived plans, log tracks, and reports
 - `core/system-base.nix` — base NixOS system config
 - `core/nixpkgs-settings.nix` — `nixpkgs.config.allowUnfree` and future nixpkgs settings
 - `core/nix-settings.nix` — universal nix daemon settings (max-jobs, store optimization, nh, daemon scheduling)
-- `core/nix-cache-settings.nix` — centralized external binary caches for hosts that benefit from desktop/dev upstream caches (numtide, devenv, nixpkgs-python, catppuccin, zed-industries, hyprland)
+- `core/nix-cache-settings.nix` — centralized external binary caches for hosts that benefit from desktop/dev upstream caches (numtide, devenv, nixpkgs-python, catppuccin, Zed official, garnix, hyprland)
 - `core/home-manager-settings.nix` — HM framework settings
 
 **Shell / Terminal**
