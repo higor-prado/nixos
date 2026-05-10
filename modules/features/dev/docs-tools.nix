@@ -6,7 +6,6 @@
       home.packages = with pkgs; [
         ghostscript
         tectonic
-        mermaid-cli
         pandoc
       ];
     };
