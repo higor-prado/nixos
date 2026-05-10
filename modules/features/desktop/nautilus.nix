@@ -5,10 +5,6 @@
     {
       services.gvfs.enable = true;
       programs.dconf.enable = true;
-      # programs.nautilus-open-any-terminal = {
-      #   enable = true;
-      #   terminal = "kitty";
-      # };
     };
 
   flake.modules.homeManager.nautilus =
