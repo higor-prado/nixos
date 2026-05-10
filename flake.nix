@@ -88,8 +88,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # TODO: switch back to github:getpaseo/paseo once upstream merges npmDepsHash fix
     paseo = {
-      url = "github:getpaseo/paseo";
+      url = "github:higorprado/paseo";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
