@@ -18,6 +18,7 @@ hardware/<name>/    machine-specific: hardware, disko, boot, persistence/reset
 lib/                generic helper functions (_helpers.nix, mutable-copy.nix)
 pkgs/               custom packages
 config/             app/desktop config files and helper payloads (hyprland-standalone, nvim, tmux, waybar, mako, htop, logid, mpd, rmpc, zen, waypaper, devenv templates)
+config/validation/  runtime validation data (warning budgets)
 scripts/            validation gate scripts
 templates/          host skeleton templates for scripts/new-host-skeleton.sh
 tests/              fixtures and test runners
@@ -139,7 +140,12 @@ configured via `desktop/gdm.nix`. See `desktop/gdm.nix` and `desktop/hyprland.ni
 - `private/users/higorprado/*.nix.example` (tracked) — shapes for modular user-private config (env, git, paths, ssh, theme-paths)
 - `private/hosts/predator/default.nix.example` (tracked) — shape for the predator host-private entry point at the same path without `.example`
 - `private/hosts/predator/auth.nix.example` (tracked) — shape for the predator host-private auth override
+- `private/hosts/predator/hardware-local.nix.example` (tracked) — shape for predator host-private hardware details
+- `private/hosts/predator/networking.nix.example` (tracked) — shape for predator host-private networking config
+- `private/hosts/predator/services.nix.example` (tracked) — shape for predator host-private services config
 - `private/hosts/aurelius/default.nix.example` (tracked) — shape for the aurelius host-private entry point at the same path without `.example`
+- `private/hosts/aurelius/networking.nix.example` (tracked) — shape for aurelius host-private networking config
+- `private/hosts/aurelius/services.nix.example` (tracked) — shape for aurelius host-private services config
 - `private/hosts/cerebelo/default.nix.example` (tracked) — shape for the cerebelo host-private entry point at the same path without `.example`
 
 ## lib/
@@ -191,7 +197,7 @@ and are owned by the adjacent feature. Current example:
 
 - `modules/features/shell/_starship-settings.nix` — starship config data used only by
   `modules/features/shell/starship.nix`
-- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/theme-zen.nix`, and `modules/features/desktop/walker.nix`
+- `modules/features/desktop/_theme-catalog.nix` — shared catppuccin theme constants/catalog values (flavor, accent, GTK theme, cursor, icon, font) used by `modules/features/desktop/theme-base.nix`, `modules/features/desktop/theme-zen.nix`, `modules/features/desktop/gaming.nix`, and `modules/features/desktop/walker.nix`
 - `modules/features/desktop/_papirus-tray-patched.nix` — feature-private icon-theme derivation helper used by `modules/features/desktop/_theme-catalog.nix` to keep tray symbolic icons color-stable in Waybar
 
 ## hardware/predator/

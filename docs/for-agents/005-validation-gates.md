@@ -29,6 +29,9 @@ nix run nixpkgs#nvd -- diff /tmp/predator-baseline /tmp/predator-new
 
 | Script                                                | Checks                                                                                         |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `check-bare-host-in-includes.sh`                     | Host files import only published feature modules, not bare hardware paths                      |
+| `check-feature-legacy-role-conditionals.sh`          | No legacy role-based conditionals remain in active Nix code                                    |
+| `check-flake-inputs-used.sh`                          | All declared flake inputs are actually referenced in Nix code                                  |
 | `check-desktop-capability-usage.sh`                   | Legacy desktop selector references stay out of active Nix code                                 |
 | `check-option-declaration-boundary.sh`                | Options declared only in feature owners, `modules/nixos.nix`, or the narrow tracked user owner |
 | `check-flake-pattern.sh`                              | Flake input naming and wiring policy                                                           |
