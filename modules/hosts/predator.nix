@@ -81,6 +81,7 @@ in
         homeManager.docker
         homeManager.git-gh
         homeManager.monitoring-tools
+        homeManager.server-tools
         homeManager.podman
         homeManager.ssh
       ];
@@ -129,6 +130,7 @@ in
         homeManager.docs-tools
       ];
     in
+    { pkgs, ... }:
     {
       imports =
         nixosInfrastructure ++ nixosCoreServices ++ nixosDesktop ++ nixosUserTools ++ hardwareImports;
@@ -139,8 +141,8 @@ in
       environment.etc."xdg/monitors.xml".source = ../../config/desktops/gdm/predator-monitors.xml;
 
       environment.systemPackages = [
-        inputs.nixpkgs.legacyPackages.${system}.tpm2-tools
-        inputs.nixpkgs.legacyPackages.${system}.ethtool
+        pkgs.tpm2-tools
+        pkgs.ethtool
       ];
 
       users.users.${userName}.extraGroups = predatorUserExtraGroups;
@@ -152,7 +154,13 @@ in
             customPkgs = import ../../pkgs { inherit pkgs inputs; };
           in
           {
-            imports = hmUserTools ++ hmShell ++ hmDesktop ++ hmDev;
+            imports = [
+              inputs.spicetify-nix.homeManagerModules.spicetify
+            ]
+            ++ hmUserTools
+            ++ hmShell
+            ++ hmDesktop
+            ++ hmDev;
 
             home.packages = [
               customPkgs.predator-tui

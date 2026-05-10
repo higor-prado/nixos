@@ -7,10 +7,6 @@
       spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in
     {
-      # music-client owns the full Spotify/Spicetify capability, including the
-      # upstream spicetify HM module import used by this feature.
-      imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
-
       programs.spicetify = {
         enable = true;
         enabledExtensions = with spicePkgs.extensions; [
