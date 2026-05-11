@@ -101,6 +101,7 @@ in
         homeManager.desktop-viewers
         homeManager.mime-defaults
         homeManager.fcitx5
+        homeManager.gnome-keyring
         homeManager.gaming
         homeManager.hyprland
         homeManager.mako
