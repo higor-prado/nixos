@@ -11,8 +11,8 @@
         package = inputs.hyprland.packages.${system}.hyprland;
         xwayland.enable = true;
         withUWSM = true;
+      };
     };
-  };
 
   flake.modules.homeManager.hyprland =
     { pkgs, ... }:
