@@ -18,6 +18,9 @@
         llmAgentsPkgs.gemini-cli
       ];
 
-      home.sessionVariables.POWERLINE_NERD_FONTS = "1";
+      home.sessionVariables = {
+        POWERLINE_NERD_FONTS = "1";
+        OPENCODE_EXPERIMENTAL_PLAN_MODE = "1";
+      };
     };
 }
