@@ -1,4 +1,7 @@
 { config, ... }:
+let
+  userName = config.username;
+in
 {
   flake.modules.nixos.nix-settings =
     { lib, ... }:
@@ -11,7 +14,7 @@
         ];
         auto-optimise-store = true;
         narinfo-cache-negative-ttl = 1;
-        trusted-users = lib.mkForce ([ "root" ] ++ [ config.username ]);
+        trusted-users = lib.mkForce ([ "root" ] ++ [ userName ]);
       };
 
       programs.nh = {
