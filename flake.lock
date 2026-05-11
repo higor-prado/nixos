@@ -78,11 +78,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777369708,
-        "narHash": "sha256-1xW7cRZNsFNPQD+cE0fwnLVStnDth0HSoASEIFeT7uI=",
+        "lastModified": 1778445566,
+        "narHash": "sha256-oQvcadh2BCkrog+SGrG6YffKJrveYpjj3TdQJWaKhaM=",
         "owner": "nix-community",
         "repo": "bun2nix",
-        "rev": "e659e1cc4b8e1b21d0aa85f1c481f9db61ecfa98",
+        "rev": "2499dedd70744dba1815875b854818a3019e9e4c",
         "type": "github"
       },
       "original": {
@@ -350,11 +350,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778365864,
-        "narHash": "sha256-ImoT/wqmgMImf2dAC+E0MverAdA4QXsedOeES9B7Ezw=",
+        "lastModified": 1778444552,
+        "narHash": "sha256-f18pIiR9q/p1vHY93gmAum7aHhQOG49oGvAB9+lptRo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2f419037039a152448c5f4ae9494154753d1b399",
+        "rev": "dcebe66f958673729896eec2de4abfd86ef22d21",
         "type": "github"
       },
       "original": {
@@ -774,11 +774,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1778438712,
-        "narHash": "sha256-J6+/wNUyJKN46YYi6ZJJHYm1IGGWQxfupePZfPlObjg=",
+        "lastModified": 1778449082,
+        "narHash": "sha256-Biy8xXtPVPa3UrjKwNO2Xa0QEZUst0vuw/BisFgrkZA=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "78ca26374de60045477164c0b9795cd6c3edc127",
+        "rev": "558ea74880161eb23a74cb4f7f89236f0e4df723",
         "type": "github"
       },
       "original": {
@@ -946,15 +946,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1778428687,
-        "narHash": "sha256-zWOsnMRmJ7rjzrICpdMkcYwyEP5OAY5p9z+zOQ0BQCs=",
-        "owner": "getpaseo",
+        "lastModified": 1778438610,
+        "narHash": "sha256-dF41k0f299AMEWMA5ikz4vRl5sONSE8EKt2hIY5dSzI=",
+        "owner": "higorprado",
         "repo": "paseo",
-        "rev": "4141c7625801470eaaac2f8d74f146ecdfe2cc7a",
+        "rev": "f32784e64ed4775d99ec66ca84d6323068e9e556",
         "type": "github"
       },
       "original": {
-        "owner": "getpaseo",
+        "owner": "higorprado",
         "repo": "paseo",
         "type": "github"
       }
@@ -991,11 +991,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778280408,
-        "narHash": "sha256-umUUyxZ0d2oIlYqsZoD0504NOrcJwlHNojJpCQ4Fclk=",
+        "lastModified": 1778454699,
+        "narHash": "sha256-XEIrho3M9ecAJCWBz1sh6ZT/i+8ZQ8+bihCIDMiAtNM=",
         "owner": "mierak",
         "repo": "rmpc",
-        "rev": "d46009d09bbea78896d053f71ca6a7dc3545897e",
+        "rev": "5a8e36e25e6fed1a1cc7ff42d7704c82127530a3",
         "type": "github"
       },
       "original": {
