@@ -22,7 +22,7 @@
         }
       );
 
-      systemd.user.services.awww-daemon = lib.mkDefault {
+      systemd.user.services.awww-daemon = {
         Unit = {
           Description = "swww wallpaper daemon (awww-daemon)";
           After = [ "graphical-session.target" ];
