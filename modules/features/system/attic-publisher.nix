@@ -24,13 +24,11 @@
       '';
     in
     {
-      config = {
-        systemd.tmpfiles.rules = [
-          "d /var/lib/attic-publisher 0700 root root -"
-          "d /var/lib/attic-publisher/.config 0700 root root -"
-        ];
+      systemd.tmpfiles.rules = [
+        "d /var/lib/attic-publisher 0700 root root -"
+        "d /var/lib/attic-publisher/.config 0700 root root -"
+      ];
 
-        nix.settings.post-build-hook = postBuildHookScript;
-      };
+      nix.settings.post-build-hook = postBuildHookScript;
     };
 }

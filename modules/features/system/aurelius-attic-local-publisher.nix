@@ -24,7 +24,7 @@
       '';
     in
     {
-      config.systemd.services.attic-watch-store = {
+      systemd.services.attic-watch-store = {
         description = "Watch the Nix store and push new paths to the aurelius Attic cache";
         after = [
           "atticd.service"

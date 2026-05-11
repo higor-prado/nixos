@@ -28,36 +28,34 @@
       '';
     in
     {
-      config = {
-        networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
+      networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
 
-        services.atticd = {
-          enable = true;
-          inherit environmentFile;
-          settings = {
-            listen = "0.0.0.0:8080";
-            database.url = "sqlite:///var/lib/atticd/server.db?mode=rwc";
-            storage = {
-              type = "local";
-              path = "/var/lib/atticd/storage";
-            };
+      services.atticd = {
+        enable = true;
+        inherit environmentFile;
+        settings = {
+          listen = "0.0.0.0:8080";
+          database.url = "sqlite:///var/lib/atticd/server.db?mode=rwc";
+          storage = {
+            type = "local";
+            path = "/var/lib/atticd/storage";
           };
         };
+      };
 
-        systemd.services.attic-cache-bootstrap = {
-          description = "Bootstrap the aurelius Attic cache";
-          after = [
-            "atticd.service"
-            "network-online.target"
-          ];
-          wants = [ "network-online.target" ];
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            Type = "oneshot";
-            EnvironmentFile = environmentFile;
-            ExecStart = bootstrapScript;
-            StateDirectory = "attic-publisher";
-          };
+      systemd.services.attic-cache-bootstrap = {
+        description = "Bootstrap the aurelius Attic cache";
+        after = [
+          "atticd.service"
+          "network-online.target"
+        ];
+        wants = [ "network-online.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          EnvironmentFile = environmentFile;
+          ExecStart = bootstrapScript;
+          StateDirectory = "attic-publisher";
         };
       };
     };

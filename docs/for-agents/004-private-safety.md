@@ -51,3 +51,18 @@ Current state:
 
 If a new tracked hardcoded home path is ever reintroduced, document the reason
 explicitly here and make the public-safety allowlist change intentional.
+
+## Known limitation: `builtins.pathExists` + gitignored files in flake eval
+
+The private override pattern (`hardware/<name>/default.nix`, `modules/users/<user>.nix`)
+imports gitignored files via `builtins.pathExists`. During `nix eval .#...` or
+`nix build .#...`, Nix copies only git-tracked files to the store, so
+`pathExists` returns `false` and the override is silently skipped.
+
+**Consequence:** if a tracked module `enable = true`s an option only defined in a
+private override, `nix eval .#...` fails with "The option `...` was accessed but
+has no value defined." This is a false positive — `nixos-rebuild` on the target
+machine works because it evaluates from the local filesystem.
+
+**Workaround:** accept the eval error for hosts with private-only bindings.
+`nixos-rebuild` on the target machine is the correct validation.
