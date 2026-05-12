@@ -64,7 +64,6 @@ in
 
       nixosUserTools = [
         nixos.editors-neovim
-        nixos.editors-zed
         nixos.fish
         nixos.higorprado
         nixos.fonts
@@ -138,6 +137,38 @@ in
 
       nixpkgs.hostPlatform = system;
       networking.hostName = hostName;
+
+      # ═══════════════════════════════════════════════════════════════
+      # nix-ld — FHS compatibility layer for precompiled binaries
+      # ═══════════════════════════════════════════════════════════════
+      #
+      # nix-ld creates /lib64/ld-linux-x86-64.so.2, o link loader
+      # padrão do Linux que NixOS propositalmente não tem. Binários
+      # pré-compilados (extensões do Zed, npm/pip globais, etc.) que
+      # têm esse caminho hardcoded passam a executar normalmente.
+      #
+      # Library list: usa o default do nixpkgs (14 libs comuns:
+      # zlib, zstd, stdenv.cc.cc, curl, openssl, attr, libssh,
+      # bzip2, libxml2, acl, libsodium, util-linux, xz, systemd).
+      #
+      # ╔══════════════════════════════════════════════════════════╗
+      # ║  RISCOS (tradeoffs aceitos para conveniência desktop)    ║
+      # ╠══════════════════════════════════════════════════════════╣
+      # ║ 1. Segurança: binários baixados fora do Nix (curl wget  ║
+      # ║    npm pip) agora executam. NixOS default os rejeita.   ║
+      # ║                                                         ║
+      # ║ 2. Incompatibilidade: versão das libs do Nix pode       ║
+      # ║    diferir do que o binário espera → crash silencioso.  ║
+      # ║    Debug: rode o binário com NIX_LD_LOG=debug.          ║
+      # ║                                                         ║
+      # ║ 3. Anti-declarativo: binários não estão no flake.lock,  ║
+      # ║    não passam por CI, não têm hash verificável.         ║
+      # ║    Prefira empacotar via Nix sempre que possível.       ║
+      # ║                                                         ║
+      # ║ 4. Auditoria: rode scripts/audit-nix-ld-usage.sh para   ║
+      # ║    auditar os bins instalados que usam nix-ld.          ║
+      # ╚══════════════════════════════════════════════════════════╝
+      programs.nix-ld.enable = true;
 
       environment.etc."xdg/monitors.xml".source = ../../config/desktops/gdm/predator-monitors.xml;
 

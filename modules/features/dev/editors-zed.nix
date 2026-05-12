@@ -1,16 +1,5 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.editors-zed =
-    { pkgs, ... }:
-    {
-      programs.nix-ld.enable = true;
-      programs.nix-ld.libraries = with pkgs; [
-        stdenv.cc.cc.lib
-        zlib
-        openssl
-      ];
-    };
-
   flake.modules.homeManager.editors-zed =
     { pkgs, ... }:
     let
