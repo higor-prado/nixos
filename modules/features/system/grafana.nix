@@ -1,3 +1,4 @@
+# Concrete Aurelius owner: Grafana dashboard.
 { ... }:
 {
   flake.modules.nixos.grafana =

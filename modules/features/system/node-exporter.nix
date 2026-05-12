@@ -1,3 +1,4 @@
+# Concrete Aurelius owner: Prometheus node exporter.
 { ... }:
 {
   flake.modules.nixos.node-exporter =

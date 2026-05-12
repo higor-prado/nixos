@@ -24,6 +24,8 @@
         network-manager-applet = {
           Unit = {
             ConditionEnvironment = "WAYLAND_DISPLAY";
+            # Ordering: start after waybar so tray icons land on an already-running bar.
+            # This creates an implicit dependency on the waybar feature module.
             Wants = [ "waybar.service" ];
             After = [ "waybar.service" ];
           };
@@ -36,6 +38,8 @@
         udiskie = {
           Unit = {
             ConditionEnvironment = "WAYLAND_DISPLAY";
+            # Ordering: start after waybar so tray icons land on an already-running bar.
+            # This creates an implicit dependency on the waybar feature module.
             Wants = [ "waybar.service" ];
             After = [ "waybar.service" ];
           };

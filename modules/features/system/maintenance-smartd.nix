@@ -1,3 +1,4 @@
+# Concrete Predator owner: smartd health monitoring (desktop-only).
 { ... }:
 {
   flake.modules.nixos.maintenance-smartd =

@@ -20,6 +20,12 @@
   ];
 
 
+  # ── Session and driver environment ──
+  # NVIDIA-specific vars (GBM_BACKEND, __GLX_VENDOR_LIBRARY_NAME, NVD_BACKEND,
+  # LIBVA_DRIVER_NAME) are hardware/driver surface.
+  # Wayland/Electron/Qt vars (QT_QPA_PLATFORM, ELECTRON_OZONE_PLATFORM_HINT,
+  # NIXOS_OZONE_WL) are desktop session policy kept here for cohesion with the
+  # NVIDIA driver integration.
   environment.sessionVariables = {
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "gtk3";

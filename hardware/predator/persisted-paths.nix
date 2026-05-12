@@ -6,6 +6,7 @@
     "/var/lib/docker"
     "/var/lib/containers/storage"
     "/var/lib/nixos"
+    "/var/lib/gdm"
   ];
 
   files = [
