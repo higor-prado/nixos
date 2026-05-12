@@ -37,6 +37,7 @@ private/audit-nix-ld-usage-ignored.txt
 **/.claude/
 .codex/
 opencode.json
+.opencode/
 
 # Nix store cache (stray directory)
 nix/
