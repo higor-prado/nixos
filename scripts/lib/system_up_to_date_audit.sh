@@ -10,6 +10,7 @@ scripts/lib/audit_declarative_paths.sh  rg
 scripts/lib/audit_flake_tracked.sh  git rg cut
 scripts/lib/audit_nix_deprecations.sh  rg
 scripts/check-repo-public-safety.sh  rg grep mkdir mktemp wc cp id
+scripts/audit-nix-ld-usage.sh  ps readelf readlink tr
 EOF
 }
 

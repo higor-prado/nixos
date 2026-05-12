@@ -40,6 +40,7 @@ run_structure_gates() {
   run_check_script "check-repo-public-safety.sh"
   run_test_script "run-validation-gates-fixture-test.sh"
   run_test_script "new-host-skeleton-fixture-test.sh"
+  run_test_script "audit-nix-ld-usage-fixture-test.sh"
   run_test_script "report-persistence-candidates-test.sh"
   run_test_script "runtime-warning-budget-lib-test.sh"
 }

@@ -54,6 +54,15 @@
 48. When a StatusNotifierItem advertises an app-local `IconThemePath`, Waybar may bypass the GTK icon theme entirely and open the app-shipped asset from that path. In that case, theme-side SVG alias patching is dead code; keep the remediation with the app owner, and prove it with `strace -e trace=openat` before changing theme or tray mappings.
 49. For GDM + Hyprland + UWSM, keep GDM's session packages limited to a single UWSM session. Do not add `programs.uwsm.waylandCompositors.hyprland` on top of Hyprland's own UWSM desktop entry; duplicate sessions can let GDM launch direct Hyprland.
 50. GDM greeter login dialog placement on multi-monitor setups: Mutter's `monitors.xml` alone may not control which monitor shows the login prompt — Mutter selects the GPU primary from builtin panel presence regardless. Patch `js/gdm/loginDialog.js` `vfunc_allocate` to constrain the dialog box to the largest logical monitor. Combine with a system-level `monitors.xml` (EDID-derived specs, not Hyprland strings) for defense-in-depth. The patch guard (`isGreeter && monitors.length > 1`) makes it safe for single-monitor hosts.
+51. nix-ld (`programs.nix-ld.enable`) é um tradeoff consciente neste repo: ativado
+    apenas em predator para suportar extensões do Zed e binários pré-compilados.
+    Os riscos (segurança — qualquer binário executa; incompatibilidade — version
+    skew causa crash silencioso; anti-declarativo — binário fora do flake.lock)
+    estão documentados no bloco de config em `modules/hosts/predator.nix`. Use
+    `scripts/audit-nix-ld-usage.sh` para auditar processos vivos que estão usando
+    o shim; varrer disco não prova uso nem necessidade. Se um dia outro host
+    precisar, a decisão deve ser explícita na composição daquele host, não num
+    módulo compartilhado.
 
 ---
 

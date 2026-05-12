@@ -1,0 +1,12 @@
+# audit-nix-ld-usage.sh — path ignore list
+#
+# Lines starting with # are comments. Empty lines are ignored.
+# Any binary whose absolute path starts with one of these prefixes
+# is skipped entirely — not even stat-checked.
+#
+# Use ~ to refer to your home directory (expanded automatically).
+#
+# Examples:
+#   ~/.local/share/Steam
+#   ~/.local/share/flatpak
+#   ~/.local/share/containers

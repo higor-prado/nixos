@@ -88,6 +88,8 @@ Current documented shared auxiliary tools:
   - cerebelo one-shot helper: mounts NVMe root for inspection and recovery during bootstrap
 - `flash-cerebelo-sd.sh`
   - cerebelo one-shot helper: flashes vanilla nixos-rk3588 SD image to recover from a non-bootable cerebelo
+- `audit-nix-ld-usage.sh`
+  - read-only diagnostic: audits live host processes currently using the nix-ld FHS shim (`/lib64/ld-linux-x86-64.so.2`); it does not scan files on disk or infer historical usage after a process exits; also registered in the system-up-to-date audit inventory
 
 ## Validation layers
 
@@ -121,6 +123,7 @@ contracts:
 ```bash
 bash tests/scripts/run-validation-gates-fixture-test.sh
 bash tests/scripts/new-host-skeleton-fixture-test.sh
+bash tests/scripts/audit-nix-ld-usage-fixture-test.sh
 bash tests/scripts/report-persistence-candidates-test.sh
 bash tests/scripts/runtime-warning-budget-lib-test.sh
 ```
