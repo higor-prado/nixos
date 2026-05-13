@@ -27,13 +27,13 @@
     "vm.dirty_ratio" = 10;
     "vm.dirty_background_ratio" = 5;
     # Compaction proactiveness (reduces latency from memory fragmentation)
-    "vm.compaction_proactiveness" = 20;
+    "vm.compaction_proactiveness" = 40;
     # Transparent hugepages — better for dev workloads
     "vm.page-cluster" = 0; # Don't read-ahead swap pages (ZRAM is random-access)
     # Proton/Wine requires ≥524288; VSCode, Electron, JVM apps also benefit
     "vm.max_map_count" = 2097152;
-    # Suppress kswapd boost after reclaim (unnecessary overhead with ZRAM)
-    "vm.watermark_boost_factor" = 0;
+    # Preserve kernel anti-fragmentation reclaim boost for high-order allocations.
+    "vm.watermark_boost_factor" = 15000;
     # Reserve 512 MB so the kernel can always run OOM killer and handle interrupts
     "vm.min_free_kbytes" = 524288;
     # Kill the task that triggered the OOM condition, not a random victim
@@ -121,6 +121,14 @@
     "transparent_hugepage=madvise"
   ];
   powerManagement.cpuFreqGovernor = "performance";
+
+  # THP remains opt-in via madvise, but direct defrag on THP faults can stall
+  # interactive desktop allocations when memory is fragmented.
+  # systemd-tmpfiles applies these rules on boot and on nixos-rebuild switch.
+  systemd.tmpfiles.settings."10-thp-defrag-policy" = {
+    "/sys/kernel/mm/transparent_hugepage/defrag".w.argument = "never";
+    "/sys/kernel/mm/transparent_hugepage/khugepaged/defrag".w.argument = "0";
+  };
 
   # RPS — distribute NIC rx processing across all CPUs.
   # udev ATTR races with kernel creating queues/rx-0/rps_cpus → use oneshot.
