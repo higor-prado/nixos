@@ -20,9 +20,9 @@ hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("walker --provider clipboard"))
 hl.bind("SUPER + CTRL + O", actions.focus_or_launch({ class = "obsidian" }, "class:obsidian", "uwsm-app obsidian"))
 hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd("uwsm-app -- emacsclient -c -a \"\""))
 hl.bind("SUPER + CTRL + 7", hl.dsp.exec_cmd("uwsm-app zeditor"))
-hl.bind("SUPER + CTRL + 8", actions.focus_or_launch({ class = "electron" }, "title:.*Microsoft Teams.*", "uwsm-app teams-for-linux"))
+hl.bind("SUPER + CTRL + 8", actions.focus_or_launch({ class = "electron" }, "title:.*Microsoft Teams.*", "uwsm-app teams-for-linux", "2"))
 hl.bind("SUPER + CTRL + 9", actions.focus_or_launch({ class = "steam" }, "class:steam", "uwsm-app steam"))
-hl.bind("SUPER + CTRL + 0", actions.focus_or_launch({ class = "spotify" }, "class:spotify", "uwsm-app spotify"))
+hl.bind("SUPER + CTRL + 0", actions.focus_or_launch({ class = "spotify" }, "class:spotify", "uwsm-app spotify", "2"))
 hl.bind("ALT + F4", hl.dsp.window.close())
 
 -- Window Management

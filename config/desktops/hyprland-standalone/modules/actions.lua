@@ -34,13 +34,17 @@ end
 ---@param query table hl.get_windows filter (e.g. { class = "spotify" })
 ---@param focus_selector string window selector for hl.dsp.focus (e.g. "class:spotify")
 ---@param cmd string command to launch if no window is found
-function M.focus_or_launch(query, focus_selector, cmd)
+---@param launch_workspace string? optional workspace to switch to before launching
+function M.focus_or_launch(query, focus_selector, cmd, launch_workspace)
     return function()
         local windows = hl.get_windows(query)
 
         if windows and #windows > 0 then
             hl.dispatch(hl.dsp.focus({ window = focus_selector }))
         else
+            if launch_workspace then
+                hl.dispatch(hl.dsp.focus({ workspace = launch_workspace }))
+            end
             hl.dispatch(hl.dsp.exec_cmd(cmd))
         end
     end
