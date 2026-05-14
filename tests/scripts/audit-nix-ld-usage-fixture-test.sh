@@ -67,6 +67,15 @@ if [[ -z "$compiler" ]]; then
   exit 0
 fi
 
+# Create a fake interpreter symlink that satisfies is_host_nix_ld():
+#   - symlink exists at $fake_interp
+#   - readlink -f resolves to a path containing "nix-ld"
+fake_interp_dir="$tmpdir/nix-ld"
+mkdir -p "$fake_interp_dir"
+touch "$fake_interp_dir/ld-linux-x86-64.so.2"
+fake_interp="$tmpdir/fake-ld-linux"
+ln -s "$fake_interp_dir/ld-linux-x86-64.so.2" "$fake_interp"
+
 source_file="$tmpdir/minimal.c"
 cat >"$source_file" <<'EOF'
 int main(void) { return 0; }
@@ -78,7 +87,7 @@ mkdir -p "$fixture_home"
 matching_bin="$fixture_home/.local/share/matching/bin/matching"
 negative_bin="$fixture_home/.local/share/neg/bin/not-matching"
 mkdir -p "$(dirname "$matching_bin")" "$(dirname "$negative_bin")"
-"$compiler" "$source_file" -Wl,--dynamic-linker=/lib64/ld-linux-x86-64.so.2 -o "$matching_bin"
+"$compiler" "$source_file" -Wl,--dynamic-linker="$fake_interp" -o "$matching_bin"
 "$compiler" "$source_file" -Wl,--dynamic-linker=/not-the-nix-ld-fixture -o "$negative_bin"
 
 # Test 1: matching binary is found
@@ -87,6 +96,7 @@ HOME="$fixture_home" \
   XDG_DATA_HOME="$fixture_home/.local/share" \
   XDG_CONFIG_HOME="$fixture_home/.config" \
   XDG_CACHE_HOME="$fixture_home/.cache" \
+  AUDIT_NIX_LD_INTERPRETER="$fake_interp" \
   run_expect 0 "$scan_out"
 # Path is shortened to ~ because it's under $HOME
 assert_contains "~/.local/share/matching/bin/matching" "$scan_out"
@@ -105,6 +115,7 @@ printf '%s\n' "$fixture_home/.local/share/matching" > "$ignore_file"
 ignore_out="$tmpdir/ignore.out"
 HOME="$fixture_home" \
   XDG_DATA_HOME="$fixture_home/.local/share" \
+  AUDIT_NIX_LD_INTERPRETER="$fake_interp" \
   run_expect 0 "$ignore_out"
 assert_not_contains "~/.local/share/matching" "$ignore_out"
 

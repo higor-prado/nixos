@@ -10,7 +10,7 @@ scope="nix-ld-usage"
 original_pwd="$PWD"
 enter_repo_root "${BASH_SOURCE[0]}"
 
-interpreter="/lib64/ld-linux-x86-64.so.2"
+interpreter="${AUDIT_NIX_LD_INTERPRETER:-/lib64/ld-linux-x86-64.so.2}"
 max_depth=6
 max_files=15000
 diff_mode=0
