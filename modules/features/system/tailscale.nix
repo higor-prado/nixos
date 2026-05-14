@@ -7,7 +7,8 @@
         enable = true;
         openFirewall = true;
         extraSetFlags = [ "--accept-dns=true" ];
-        package = inputs.nixpkgs-tailscale-1_96_5.legacyPackages.${pkgs.stdenv.hostPlatform.system}.tailscale;
+        package =
+          inputs.nixpkgs-tailscale-1-96-5.legacyPackages.${pkgs.stdenv.hostPlatform.system}.tailscale;
       };
     };
 }
