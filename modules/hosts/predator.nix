@@ -142,31 +142,32 @@ in
       # nix-ld — FHS compatibility layer for precompiled binaries
       # ═══════════════════════════════════════════════════════════════
       #
-      # nix-ld creates /lib64/ld-linux-x86-64.so.2, o link loader
-      # padrão do Linux que NixOS propositalmente não tem. Binários
-      # pré-compilados (extensões do Zed, npm/pip globais, etc.) que
-      # têm esse caminho hardcoded passam a executar normalmente.
+      # nix-ld creates /lib64/ld-linux-x86-64.so.2, the default Linux
+      # dynamic linker that NixOS deliberately omits. Precompiled binaries
+      # (Zed extensions, global npm/pip packages, etc.) that have this path
+      # hardcoded will now execute normally.
       #
-      # Library list: usa o default do nixpkgs (14 libs comuns:
+      # Library list: uses the nixpkgs default (14 common libs:
       # zlib, zstd, stdenv.cc.cc, curl, openssl, attr, libssh,
       # bzip2, libxml2, acl, libsodium, util-linux, xz, systemd).
       #
       # ╔══════════════════════════════════════════════════════════╗
-      # ║  RISCOS (tradeoffs aceitos para conveniência desktop)    ║
+      # ║  RISKS (tradeoffs accepted for desktop convenience)     ║
       # ╠══════════════════════════════════════════════════════════╣
-      # ║ 1. Segurança: binários baixados fora do Nix (curl wget  ║
-      # ║    npm pip) agora executam. NixOS default os rejeita.   ║
+      # ║ 1. Security: binaries downloaded outside Nix (curl,    ║
+      # ║    wget, npm, pip) now execute. NixOS default rejects  ║
+      # ║    them.                                                ║
       # ║                                                         ║
-      # ║ 2. Incompatibilidade: versão das libs do Nix pode       ║
-      # ║    diferir do que o binário espera → crash silencioso.  ║
-      # ║    Debug: rode o binário com NIX_LD_LOG=debug.          ║
+      # ║ 2. Incompatibility: Nix lib versions may differ from   ║
+      # ║    what the binary expects → silent crashes.           ║
+      # ║    Debug: run the binary with NIX_LD_LOG=debug.        ║
       # ║                                                         ║
-      # ║ 3. Anti-declarativo: binários não estão no flake.lock,  ║
-      # ║    não passam por CI, não têm hash verificável.         ║
-      # ║    Prefira empacotar via Nix sempre que possível.       ║
+      # ║ 3. Non-declarative: binaries are not in flake.lock,    ║
+      # ║    not CI-tested, no verifiable hash.                  ║
+      # ║    Prefer packaging via Nix whenever possible.         ║
       # ║                                                         ║
-      # ║ 4. Auditoria: rode scripts/audit-nix-ld-usage.sh para   ║
-      # ║    auditar os bins instalados que usam nix-ld.          ║
+      # ║ 4. Auditing: run scripts/audit-nix-ld-usage.sh to      ║
+      # ║    audit installed binaries that use nix-ld.           ║
       # ╚══════════════════════════════════════════════════════════╝
       programs.nix-ld.enable = true;
 

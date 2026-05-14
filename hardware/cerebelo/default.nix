@@ -10,8 +10,8 @@ in
   ] ++ lib.optional (builtins.pathExists ../../private/hosts/cerebelo/default.nix)
        ../../private/hosts/cerebelo/default.nix;
 
-  # O stack oficial do Orange Pi 5 acrescenta a parte RK3588/vendor;
-  # aqui só sobrescrevemos o root UUID para o NVMe já provisionado.
+  # The official Orange Pi 5 stack adds the RK3588/vendor support;
+  # here we only override the root UUID for the already-provisioned NVMe.
   boot.kernelParams = lib.mkForce [
     "console=ttyS0,115200n8"
     "console=ttyAMA0,115200n8"
