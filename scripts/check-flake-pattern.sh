@@ -29,10 +29,10 @@ awk '
     closes = gsub(/\}/, "}")
     if (depth == 1) {
       # Short-form: key.something = "value"
-      if (match($0, /^[[:space:]]*([A-Za-z0-9-]+)\.[a-zA-Z]+[[:space:]]*=/, m)) {
+      if (match($0, /^[[:space:]]*([A-Za-z0-9_-]+)\.[a-zA-Z]+[[:space:]]*=/, m)) {
         print m[1]
       # Block-form: key = {
-      } else if (match($0, /^[[:space:]]*([A-Za-z0-9-]+)[[:space:]]*=[[:space:]]*\{/, m)) {
+      } else if (match($0, /^[[:space:]]*([A-Za-z0-9_-]+)[[:space:]]*=[[:space:]]*\{/, m)) {
         print m[1]
       }
     }
