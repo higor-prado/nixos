@@ -59,6 +59,117 @@
             -mtime +14 -delete
         fi
       '';
+
+      nvimStaleProcessCleanup = pkgs.writeShellScript "nvim-stale-process-cleanup" ''
+        set -euo pipefail
+
+        ${pkgs.python3}/bin/python3 - <<'PY'
+        import os
+        import signal
+        import time
+
+        def read_text(path):
+            try:
+                with open(path, "r", encoding="utf-8", errors="replace") as f:
+                    return f.read()
+            except OSError:
+                return ""
+
+        def cmdline(pid):
+            try:
+                return open(f"/proc/{pid}/cmdline", "rb").read().replace(b"\0", b" ").decode("utf-8", "replace").strip()
+            except OSError:
+                return ""
+
+        def comm(pid):
+            return read_text(f"/proc/{pid}/comm").strip()
+
+        def ppid(pid):
+            try:
+                return int(read_text(f"/proc/{pid}/stat").split()[3])
+            except (OSError, IndexError, ValueError):
+                return 0
+
+        def has_deleted_tty(pid):
+            for fd in ("0", "1", "2"):
+                try:
+                    target = os.readlink(f"/proc/{pid}/fd/{fd}")
+                except OSError:
+                    continue
+                if target.startswith("/dev/pts/") and target.endswith(" (deleted)"):
+                    return True
+            return False
+
+        def user_systemd(pid):
+            return comm(pid) == "systemd" and " --user " in f" {cmdline(pid)} "
+
+        def environ(pid):
+            try:
+                return open(f"/proc/{pid}/environ", "rb").read().split(b"\0")
+            except OSError:
+                return []
+
+        def from_kitty_graphical_scope(pid):
+            cgroup = read_text(f"/proc/{pid}/cgroup")
+            if "/app-graphical.slice/kitty-" not in cgroup:
+                return False
+
+            env = environ(pid)
+            return any(item.startswith(b"KITTY_PID=") for item in env) and any(
+                item.startswith(b"KITTY_WINDOW_ID=") for item in env
+            )
+
+        processes = []
+        children = {}
+        for name in os.listdir("/proc"):
+            if not name.isdigit():
+                continue
+            pid = int(name)
+            parent = ppid(pid)
+            processes.append(pid)
+            children.setdefault(parent, []).append(pid)
+
+        def descendants(pid):
+            pending = list(children.get(pid, []))
+            result = []
+            while pending:
+                child = pending.pop()
+                result.append(child)
+                pending.extend(children.get(child, []))
+            return result
+
+        stale_roots = []
+        for pid in processes:
+            command = cmdline(pid)
+            if comm(pid) != "nvim":
+                continue
+            if " --embed" not in f" {command} ":
+                continue
+            if not from_kitty_graphical_scope(pid):
+                continue
+            if not has_deleted_tty(pid):
+                continue
+            if not user_systemd(ppid(pid)):
+                continue
+            stale_roots.append(pid)
+
+        targets = []
+        for root in stale_roots:
+            targets.extend(descendants(root))
+            targets.append(root)
+
+        for sig in (signal.SIGTERM, signal.SIGKILL):
+            for pid in targets:
+                try:
+                    os.kill(pid, sig)
+                except ProcessLookupError:
+                    pass
+                except PermissionError:
+                    pass
+            if sig == signal.SIGTERM:
+                time.sleep(2)
+        PY
+      '';
     in
     {
       programs.neovim = {
@@ -114,6 +225,24 @@
           OnCalendar = "weekly";
           Persistent = true;
           Unit = "nvim-runtime-cleanup.service";
+        };
+        Install.WantedBy = [ "timers.target" ];
+      };
+
+      systemd.user.services.nvim-stale-process-cleanup = {
+        Unit.Description = "Neovim stale embedded process cleanup";
+        Service = {
+          Type = "oneshot";
+          ExecStart = nvimStaleProcessCleanup;
+        };
+      };
+
+      systemd.user.timers.nvim-stale-process-cleanup = {
+        Unit.Description = "Periodic Neovim stale embedded process cleanup";
+        Timer = {
+          OnBootSec = "2min";
+          OnUnitActiveSec = "2min";
+          Unit = "nvim-stale-process-cleanup.service";
         };
         Install.WantedBy = [ "timers.target" ];
       };
