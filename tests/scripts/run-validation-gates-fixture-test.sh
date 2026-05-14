@@ -54,6 +54,7 @@ test_scripts=(
 	run-validation-gates-fixture-test.sh
 	new-host-skeleton-fixture-test.sh
 	audit-nix-ld-usage-fixture-test.sh
+	check-flake-pattern-fixture-test.sh
 	report-persistence-candidates-test.sh
 	runtime-warning-budget-lib-test.sh
 )
@@ -110,6 +111,7 @@ assert_logged "check-repo-public-safety.sh"
 assert_logged "run-validation-gates-fixture-test.sh"
 assert_logged "new-host-skeleton-fixture-test.sh"
 assert_logged "audit-nix-ld-usage-fixture-test.sh"
+assert_logged "check-flake-pattern-fixture-test.sh"
 assert_logged "report-persistence-candidates-test.sh"
 assert_logged "runtime-warning-budget-lib-test.sh"
 

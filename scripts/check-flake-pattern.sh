@@ -19,15 +19,22 @@ trap 'rm -rf "$tmp_dir"' EXIT
 inputs_file="$tmp_dir/inputs.txt"
 source_inputs_file="$tmp_dir/source-inputs.txt"
 
-# Collect top-level input keys from flake.nix (ignore dotted nested assignments).
+# Collect top-level input keys from flake.nix.
+# Short-form:   my-input.url = "..."  → capture "my-input"
+# Block-form:   my-input = { ... }    → capture "my-input"
 awk '
   /inputs = \{/ { in_inputs = 1; depth = 1; next }
   in_inputs {
     opens = gsub(/\{/, "{")
     closes = gsub(/\}/, "}")
-    if (depth == 1 && match($0, /^[[:space:]]*([A-Za-z0-9._-]+)[[:space:]]*=/, m)) {
-      key = m[1]
-      if (index(key, ".") == 0) print key
+    if (depth == 1) {
+      # Short-form: key.something = "value"
+      if (match($0, /^[[:space:]]*([A-Za-z0-9-]+)\.[a-zA-Z]+[[:space:]]*=/, m)) {
+        print m[1]
+      # Block-form: key = {
+      } else if (match($0, /^[[:space:]]*([A-Za-z0-9-]+)[[:space:]]*=[[:space:]]*\{/, m)) {
+        print m[1]
+      }
     }
     depth += opens - closes
     if (depth == 0) exit

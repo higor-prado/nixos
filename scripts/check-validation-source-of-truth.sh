@@ -77,6 +77,11 @@ while IFS=$'\t' read -r script_path category _; do
         report_fail "shared-aux is not documented in ${validation_doc}: $script_name"
       fi
       ;;
+    test-fixture)
+      if ! rg -q --fixed-strings "\"${script_name}\"" "$gate_runner_file"; then
+        report_fail "test-fixture is not referenced by ${gate_runner_file}: $script_name"
+      fi
+      ;;
     *)
       report_fail "registry entry has unknown category '${category}': $script_path"
       ;;

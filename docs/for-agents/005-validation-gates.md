@@ -124,6 +124,7 @@ contracts:
 bash tests/scripts/run-validation-gates-fixture-test.sh
 bash tests/scripts/new-host-skeleton-fixture-test.sh
 bash tests/scripts/audit-nix-ld-usage-fixture-test.sh
+bash tests/scripts/check-flake-pattern-fixture-test.sh
 bash tests/scripts/report-persistence-candidates-test.sh
 bash tests/scripts/runtime-warning-budget-lib-test.sh
 ```
