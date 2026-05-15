@@ -222,9 +222,10 @@ root-reset.nix           initrd root-subvolume reset for predator
 ## hardware/aurelius/
 
 ```
-default.nix              thin entry: imports hardware-configuration.nix, disko.nix, performance.nix, and private override
+default.nix              thin entry: imports hardware-configuration.nix, disko.nix, boot.nix, performance.nix, and private override
 hardware-configuration.nix  nixos-generate-config output (QEMU guest profile)
 disko.nix                disk layout
+boot.nix                 systemd-boot + EFI config
 performance.nix          zram, sysctl tweaks for ARM server
 ```
 
