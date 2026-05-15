@@ -1,4 +1,4 @@
-# Concrete Aurelius owner: Prometheus server.
+# Currently imported only by aurelius: Prometheus server.
 { ... }:
 {
   flake.modules.nixos.prometheus =

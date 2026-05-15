@@ -1,4 +1,4 @@
-# Concrete Aurelius owner: root filesystem usage alert.
+# Currently imported only by aurelius: root filesystem usage alert.
 { ... }:
 {
   flake.modules.nixos.maintenance-disk-alert =

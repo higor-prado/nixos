@@ -1,4 +1,4 @@
-# Concrete Aurelius owner: Grafana dashboard.
+# Currently imported only by aurelius: Grafana dashboard.
 { ... }:
 {
   flake.modules.nixos.grafana =

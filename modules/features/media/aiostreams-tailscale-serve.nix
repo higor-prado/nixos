@@ -1,4 +1,4 @@
-# Concrete Cerebelo owner: Tailscale Serve HTTPS proxy for AIOStreams.
+# Currently imported only by cerebelo: Tailscale Serve HTTPS proxy for AIOStreams.
 { ... }:
 {
   flake.modules.nixos.aiostreams-tailscale-serve =

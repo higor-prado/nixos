@@ -1,4 +1,4 @@
-# Concrete Aurelius owner: unhealthy container logging timer.
+# Currently imported only by aurelius: unhealthy container logging timer.
 { ... }:
 {
   flake.modules.nixos.docker-health-check =

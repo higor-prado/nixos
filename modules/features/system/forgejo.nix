@@ -1,4 +1,4 @@
-# Concrete Aurelius owner: Forgejo Git service.
+# Currently imported only by aurelius: Forgejo Git service.
 { ... }:
 {
   flake.modules.nixos.forgejo =
